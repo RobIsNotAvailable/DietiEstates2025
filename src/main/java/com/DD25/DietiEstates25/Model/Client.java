@@ -18,6 +18,9 @@ public class Client
     @Column(name = "hash_password")
     private String hashPassword;
 
+    // Default constructor (required by JPA)
+    public Client() {}
+
     public Client(String email, String firstName, String lastName, String hashPassword)
     {
         this.email = email;
