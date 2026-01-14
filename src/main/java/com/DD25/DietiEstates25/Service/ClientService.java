@@ -46,7 +46,7 @@ public class ClientService
         if (clientOptional.isPresent())
         {
             Client client = clientOptional.get();
-            if (!encoder.matches(rawPassword, client.getHashPassword()))
+            if (!encoder.matches(rawPassword, client.getPasswordHash()))
             {
                 throw new SecurityException("Invalid credentials");
             }
