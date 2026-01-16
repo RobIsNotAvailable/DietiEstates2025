@@ -28,7 +28,7 @@ CREATE TABLE company_account
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     company_name VARCHAR(255) NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
+    hash_password VARCHAR(255) NOT NULL,
     security_level security_level NOT NULL,
 
     CONSTRAINT valid_email CHECK

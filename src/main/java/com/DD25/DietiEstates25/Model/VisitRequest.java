@@ -34,7 +34,8 @@ public class VisitRequest
 
 
     // Constructors
-    public VisitRequest() {}
+
+    protected VisitRequest() {}
 
     public VisitRequest(OffsetDateTime visitDate, Status status, Integer listingId, String clientEmail, String agentEmail) 
     {

@@ -23,7 +23,9 @@ public class SorroundingInfo
     private String shoppingCenters;
 
     // Constructors
-    public SorroundingInfo() {}
+
+    protected SorroundingInfo() {}
+
 
     public SorroundingInfo(Integer listingId, String nearbySchools, String publicTransport, String shoppingCenters) 
     {

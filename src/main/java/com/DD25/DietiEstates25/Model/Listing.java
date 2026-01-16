@@ -4,6 +4,8 @@ import com.DD25.DietiEstates25.Model.Enums.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -15,6 +17,7 @@ public class Listing
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private Status status;
 
@@ -25,7 +28,8 @@ public class Listing
     private String agentEmail;
 
     //constructors
-    public Listing() {}
+
+    protected Listing() {}
 
     public Listing(Long id, Status status, Integer nViews, String agentEmail) 
     {

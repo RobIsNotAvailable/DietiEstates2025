@@ -7,6 +7,8 @@ import com.DD25.DietiEstates25.Model.Enums.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
@@ -30,6 +32,7 @@ public class Offer {
     @Column(name = "notes", nullable = false, length = 255)
     private String notes;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private Status status = Status.ACTIVE;
 
@@ -44,7 +47,8 @@ public class Offer {
 
 
     // Constructors
-    public Offer() {}
+
+    protected Offer() {}
 
     public Offer(BigDecimal proposedPrice, LocalDate expirationDate, String notes, Status status, Integer listingId, String clientEmail, String agentEmail) 
     {

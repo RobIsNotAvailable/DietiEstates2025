@@ -5,6 +5,8 @@ import com.DD25.DietiEstates25.Model.Enums.SecurityLevel;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -22,18 +24,20 @@ public class CompanyAccount
     @Column(name = "last_name", nullable = false, length = 30)
     private String lastName;
 
-    @Column(name = "password_hash", nullable = false, length = 255)
+    @Column(name = "hash_password", nullable = false, length = 255)
     private String passwordHash;
 
     @Column(name = "company_name", nullable = false, length = 255)
     private String companyName;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "security_level", nullable = false)
     private SecurityLevel security;
 
 
     //constructors
-    public CompanyAccount() {}
+
+    protected CompanyAccount() {}
 
     public CompanyAccount(String email, String firstName, String lastName, String passwordHash, String companyName, SecurityLevel security) 
     {

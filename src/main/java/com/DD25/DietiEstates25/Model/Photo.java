@@ -23,8 +23,9 @@ public class Photo
     @Column(name = "listing_id", nullable = false)
     private int listingId;
 
-    // Constructors
-    public Photo() {}   
+    // Constructors 
+    
+    protected Photo() {}
     
     public Photo(String filepath, String description, int position, int listingId) 
     {

@@ -19,12 +19,13 @@ public class Client
     @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
 
-    @Column(name = "password_hash", nullable = false, length = 255)
+    @Column(name = "hash_password", nullable = false, length = 255)
     private String passwordHash;
 
 
     //constructors
-    public Client() {}
+
+    protected Client() {}
 
     public Client(String email, String firstName, String lastName, String passwordHash) 
     {

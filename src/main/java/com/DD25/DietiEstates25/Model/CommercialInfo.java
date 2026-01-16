@@ -20,7 +20,8 @@ public class CommercialInfo
     private Integer area;
 
     // Constructors
-    public CommercialInfo() {}
+
+    protected CommercialInfo() {}
 
     public CommercialInfo(Integer listingId, String type, Integer area) 
     {
