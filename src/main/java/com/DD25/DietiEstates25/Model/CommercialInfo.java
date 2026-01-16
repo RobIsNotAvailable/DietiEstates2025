@@ -1,7 +1,13 @@
 package com.DD25.DietiEstates25.Model;
 
+import java.math.BigDecimal;
+
+import com.DD25.DietiEstates25.Model.Enums.ListingType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -13,30 +19,31 @@ public class CommercialInfo
     @Column(name = "listing_id")
     private Integer listingId;
 
-    @Column(name = "type", nullable = false)
-    private String type;
+    @Column(name = "price", nullable = false)
+    private BigDecimal price;
 
-    @Column(name = "area", nullable = false)
-    private Integer area;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "listing_type", nullable = false)
+    private ListingType listingType;
 
     // Constructors
 
     protected CommercialInfo() {}
 
-    public CommercialInfo(Integer listingId, String type, Integer area) 
+    public CommercialInfo(Integer listingId, BigDecimal price, ListingType listingType) 
     {
         this.listingId = listingId;
-        this.type = type;
-        this.area = area;
+        this.price = price;
+        this.listingType = listingType;
     }
 
     // Getters
     public Integer getListingId() { return listingId; }
-    public String getType() { return type; }
-    public Integer getArea() { return area; }
+    public BigDecimal getPrice() { return price; }
+    public ListingType getListingType() { return listingType; }
 
     // Setters
     public void setListingId(Integer listingId) { this.listingId = listingId; }
-    public void setType(String type) { this.type = type; }
-    public void setArea(Integer area) { this.area = area; }
+    public void setPrice(BigDecimal price) { this.price = price; }
+    public void setListingType(ListingType listingType) { this.listingType = listingType; }
 }

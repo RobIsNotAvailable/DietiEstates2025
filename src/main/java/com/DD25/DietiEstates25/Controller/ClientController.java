@@ -35,8 +35,7 @@ public class ClientController
     @PatchMapping("/change-password")
     public ResponseEntity<String> changePassword(@RequestParam @NonNull String email, @RequestBody ChangePasswordRequest request) 
     {
-        
         service.changePassword(email, request.oldPassword(), request.newPassword());
-        return ResponseEntity.ok("Password aggiornata con successo");
+        return ResponseEntity.ok("Password succesfully updated");
     }
 }

@@ -2,6 +2,8 @@ package com.DD25.DietiEstates25.Model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -10,18 +12,19 @@ import java.time.OffsetDateTime;
 import com.DD25.DietiEstates25.Model.Enums.Status;
 
 @Entity
-@Table(name = "visit_requests")
+@Table(name = "visit_request")
 public class VisitRequest 
 {
     @Id
     @Column(name = "id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "visit_date", nullable = false)
     private OffsetDateTime visitDate;
     
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private Status status=Status.ACTIVE;
+    private Status status = Status.ACTIVE;
     
     @Column(name = "listing_id", nullable = false)
     private Integer listingId;
@@ -47,7 +50,7 @@ public class VisitRequest
     }
 
     // Getters
-    public Long getId() { return id; }
+    public Integer getId() { return id; }
     public OffsetDateTime getVisitDate() { return visitDate; }
     public Status getStatus() { return status; }
     public Integer getListingId() { return listingId; }
@@ -55,7 +58,7 @@ public class VisitRequest
     public String getAgentEmail() { return agentEmail; }
 
     // Setters
-    public void setId(Long id) { this.id = id; }
+    public void setId(Integer id) { this.id = id; }
     public void setVisitDate(OffsetDateTime visitDate) { this.visitDate = visitDate; }
     public void setStatus(Status status) { this.status = status; }
     public void setListingId(Integer listingId) { this.listingId = listingId; }

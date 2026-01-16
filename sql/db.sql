@@ -88,31 +88,31 @@ CREATE TABLE photo
 
 CREATE TABLE house_info
 (
+    listing_id INT REFERENCES listing(id) PRIMARY KEY,
     description VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,
     intern INT NOT NULL,
-    square_meters INT NOT NULL,
-    n_rooms INT NOT NULL,
     floor INT NOT NULL,
     has_elevator BOOLEAN NOT NULL,
-    other_services VARCHAR(255) NOT NULL,
+    square_meters INT NOT NULL,
+    n_rooms INT NOT NULL,
     energy_class VARCHAR(5) NOT NULL,
-    listing_id INT REFERENCES listing(id)
+    other_services VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE surrounding_info
 (
+    listing_id INT REFERENCES listing(id) PRIMARY KEY,
     has_stops BOOLEAN NOT NULL,
     has_parks BOOLEAN NOT NULL,
-    has_schools BOOLEAN NOT NULL,
-    listing_id INT REFERENCES listing(id)
+    has_schools BOOLEAN NOT NULL
 );
 
 CREATE TABLE commercial_info
 (
+    listing_id INT REFERENCES listing(id) PRIMARY KEY,
     price NUMERIC NOT NULL,
-    listing_type listing_type NOT NULL,
-    listing_id INT REFERENCES listing(id)
+    listing_type listing_type NOT NULL
 )
 
 

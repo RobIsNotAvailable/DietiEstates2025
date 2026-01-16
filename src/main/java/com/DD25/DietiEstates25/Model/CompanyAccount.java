@@ -18,17 +18,17 @@ public class CompanyAccount
     @Column(name = "email", nullable = false, length = 255)
     private String email;
 
-    @Column(name = "first_name", nullable = false, length = 30)
+    @Column(name = "first_name", nullable = false, length = 100)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false, length = 30)
+    @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
-
-    @Column(name = "hash_password", nullable = false, length = 255)
-    private String passwordHash;
 
     @Column(name = "company_name", nullable = false, length = 255)
     private String companyName;
+
+    @Column(name = "hash_password", nullable = false, length = 255)
+    private String hashPassword;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "security_level", nullable = false)
@@ -39,13 +39,13 @@ public class CompanyAccount
 
     protected CompanyAccount() {}
 
-    public CompanyAccount(String email, String firstName, String lastName, String passwordHash, String companyName, SecurityLevel security) 
+    public CompanyAccount(String email, String firstName, String lastName, String companyName, String hashPassword, SecurityLevel security) 
     {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.passwordHash = passwordHash;
         this.companyName = companyName;
+        this.hashPassword = hashPassword;
         this.security = security;
     }
 
@@ -53,8 +53,8 @@ public class CompanyAccount
     public String getEmail() { return email; }
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
-    public String getPasswordHash() { return passwordHash; }
     public String getCompanyName() { return companyName; }
+    public String getHashPassword() { return hashPassword; }
     public SecurityLevel getSecurity() { return security; }
 
     
@@ -62,7 +62,7 @@ public class CompanyAccount
     public void setEmail(String email) { this.email = email; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
     public void setLastName(String lastName) { this.lastName = lastName; }
-    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
     public void setCompanyName(String companyName) { this.companyName = companyName; }
+    public void setHashPassword(String hashPassword) { this.hashPassword = hashPassword; }
     public void setSecurity(SecurityLevel security) { this.security = security; }
 }

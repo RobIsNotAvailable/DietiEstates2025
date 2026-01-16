@@ -1,6 +1,7 @@
 package com.DD25.DietiEstates25.Model.Enums;
 
-public enum Status 
+public enum ListingType 
 {
-    ACTIVE, ENDED, CANCELLED
+    SALE,
+    RENT
 }

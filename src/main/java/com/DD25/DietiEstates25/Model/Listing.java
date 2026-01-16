@@ -15,7 +15,7 @@ public class Listing
 {
     @Id
     @Column(name = "id", nullable = false)
-    private Long id;
+    private Integer id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -31,7 +31,7 @@ public class Listing
 
     protected Listing() {}
 
-    public Listing(Long id, Status status, Integer nViews, String agentEmail) 
+    public Listing(Integer id, Status status, Integer nViews, String agentEmail) 
     {
         this.id = id;
         this.status = status;
@@ -40,13 +40,13 @@ public class Listing
     }
 
     // Getters
-    public Long getId() { return id; }
+    public Integer getId() { return id; }
     public Status getStatus() { return status; }
     public Integer getNViews() { return nViews; }
     public String getAgentEmail() { return agentEmail; }
 
     // Setters
-    public void setId(Long id) { this.id = id; }
+    public void setId(Integer id) { this.id = id; }
     public void setStatus(Status status) { this.status = status; }
     public void setNViews(Integer nViews) { this.nViews = nViews; }
     public void setAgentEmail(String agentEmail) { this.agentEmail = agentEmail; }
