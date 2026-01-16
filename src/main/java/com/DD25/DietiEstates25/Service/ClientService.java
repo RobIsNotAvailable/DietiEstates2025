@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.DD25.DietiEstates25.Model.Client;
 import com.DD25.DietiEstates25.Repository.ClientRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ClientService 
 {
@@ -54,6 +56,37 @@ public class ClientService
         else
         {
             throw new SecurityException("Invalid credentials");
+        }
+    }
+
+    @Transactional
+    public void changePassword(@NonNull String email, String oldRawPassword, String newRawPassword)
+    {
+        Optional<Client> clientOptional = repo.findById(email);
+
+        if (clientOptional.isPresent())
+        {
+            Client client = clientOptional.get();
+            if (!encoder.matches(oldRawPassword, client.getPasswordHash()))
+            {
+                throw new SecurityException("Old password is incorrect");
+            }
+
+            if (!newRawPassword.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"))
+            {
+                throw new IllegalArgumentException("New password must be at least 8 characters long and contain both letters and numbers");
+            }
+
+            if (encoder.matches(newRawPassword, client.getPasswordHash()))
+            {
+                throw new IllegalArgumentException("New password must be different from the old password");
+            }
+
+            client.setPasswordHash(encoder.encode(newRawPassword));
+        }
+        else
+        {
+            throw new SecurityException("Client not found");
         }
     }
 }
