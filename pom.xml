@@ -9,9 +9,9 @@
 		<relativePath/>
 	</parent>
 	<groupId>com.DD25</groupId>
-	<artifactId>DietiEstates25</artifactId>
+	<artifactId>Dietiestates</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>DietiEstates25</name>
+	<name>Dietiestates</name>
 	<description>Real estate portal</description>
 	<url/>
 	<licenses>
@@ -28,6 +28,9 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<sonar.host.url>http://localhost:9000</sonar.host.url>
+		<sonar.projectKey>Dietiestates</sonar.projectKey>
+		<sonar.token>${env.SONAR_TOKEN}</sonar.token> 
 	</properties>
 	<dependencies>
 		<dependency>
@@ -87,6 +90,12 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.11.0.3922</version>
 			</plugin>
 		</plugins>
 	</build>

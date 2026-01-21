@@ -1,4 +1,4 @@
-package com.DD25.DietiEstates25.Service;
+package com.dd25.dietiestates25.service;
 
 import java.util.Optional;
 
@@ -7,8 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.DD25.DietiEstates25.Model.Client;
-import com.DD25.DietiEstates25.Repository.ClientRepository;
+import com.dd25.dietiestates25.model.Client;
+import com.dd25.dietiestates25.repository.ClientRepository;
 
 import jakarta.transaction.Transactional;
 

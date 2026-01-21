@@ -1,4 +1,9 @@
-package com.DD25.DietiEstates25.Model;
+package com.dd25.dietiestates25.model;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+import com.dd25.dietiestates25.model.Enums.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -6,43 +11,50 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 
-import java.time.OffsetDateTime;
-
-import com.DD25.DietiEstates25.Model.Enums.Status;
 
 @Entity
-@Table(name = "visit_request")
-public class VisitRequest 
-{
+@Table(name = "offer")
+public class Offer {
+
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "visit_date", nullable = false)
-    private OffsetDateTime visitDate;
-    
+    @Column(name = "proposed_price", nullable = false)
+    private BigDecimal proposedPrice;
+
+    @Column(name = "expiration_date", nullable = false)
+    private LocalDate expirationDate;
+
+    @Column(name = "notes", nullable = false, length = 255)
+    private String notes;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private Status status = Status.ACTIVE;
-    
+
     @Column(name = "listing_id", nullable = false)
     private Integer listingId;
-    
-    @Column(name = "client_email", nullable = false)
+
+    @Column(name = "client_email", nullable = false, length = 255)
     private String clientEmail;
-    
+
     @Column(name = "agent_email", nullable = false, length = 255)
     private String agentEmail;
 
 
     // Constructors
 
-    protected VisitRequest() {}
+    protected Offer() {}
 
-    public VisitRequest(OffsetDateTime visitDate, Status status, Integer listingId, String clientEmail, String agentEmail) 
+    public Offer(BigDecimal proposedPrice, LocalDate expirationDate, String notes, Status status, Integer listingId, String clientEmail, String agentEmail) 
     {
-        this.visitDate = visitDate;
+        this.proposedPrice = proposedPrice;
+        this.expirationDate = expirationDate;
+        this.notes = notes;
         this.status = status;
         this.listingId = listingId;
         this.clientEmail = clientEmail;
@@ -51,7 +63,9 @@ public class VisitRequest
 
     // Getters
     public Integer getId() { return id; }
-    public OffsetDateTime getVisitDate() { return visitDate; }
+    public BigDecimal getProposedPrice() { return proposedPrice; }
+    public LocalDate getExpirationDate() { return expirationDate; }
+    public String getNotes() { return notes; }
     public Status getStatus() { return status; }
     public Integer getListingId() { return listingId; }
     public String getClientEmail() { return clientEmail; }
@@ -59,7 +73,9 @@ public class VisitRequest
 
     // Setters
     public void setId(Integer id) { this.id = id; }
-    public void setVisitDate(OffsetDateTime visitDate) { this.visitDate = visitDate; }
+    public void setProposedPrice(BigDecimal proposedPrice) { this.proposedPrice = proposedPrice; }
+    public void setExpirationDate(LocalDate expirationDate) { this.expirationDate = expirationDate; }
+    public void setNotes(String notes) { this.notes = notes; }
     public void setStatus(Status status) { this.status = status; }
     public void setListingId(Integer listingId) { this.listingId = listingId; }
     public void setClientEmail(String clientEmail) { this.clientEmail = clientEmail; }

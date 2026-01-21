@@ -1,6 +1,6 @@
-package com.DD25.DietiEstates25.Model;
+package com.dd25.dietiestates25.model;
 
-import com.DD25.DietiEstates25.Model.Enums.Status;
+import com.dd25.dietiestates25.model.Enums.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.DD25.DietiEstates25;
+package com.dd25.dietiestates25;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

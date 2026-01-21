@@ -1,4 +1,4 @@
-package com.DD25.DietiEstates25.Model;
+package com.dd25.dietiestates25.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

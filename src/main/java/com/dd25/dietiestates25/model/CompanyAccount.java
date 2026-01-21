@@ -1,7 +1,7 @@
-package com.DD25.DietiEstates25.Model;
+package com.dd25.dietiestates25.model;
 
 
-import com.DD25.DietiEstates25.Model.Enums.SecurityLevel;
+import com.dd25.dietiestates25.model.Enums.SecurityLevel;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,6 +34,8 @@ public class CompanyAccount
     @Column(name = "security_level", nullable = false)
     private SecurityLevel security;
 
+    @Column(name = "must_change_password", nullable = false)
+    private boolean mustChangePassword = true;
 
     //constructors
 
@@ -55,7 +57,7 @@ public class CompanyAccount
     public String getLastName() { return lastName; }
     public String getCompanyName() { return companyName; }
     public String getHashPassword() { return hashPassword; }
-    public SecurityLevel getSecurity() { return security; }
+    public SecurityLevel getSecurityLevel() { return security; }
 
     
     //setters
@@ -65,4 +67,6 @@ public class CompanyAccount
     public void setCompanyName(String companyName) { this.companyName = companyName; }
     public void setHashPassword(String hashPassword) { this.hashPassword = hashPassword; }
     public void setSecurity(SecurityLevel security) { this.security = security; }
+
+    public void setMustChangePassword(boolean mustChangePassword) { this.mustChangePassword = mustChangePassword; }
 }

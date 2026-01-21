@@ -1,11 +1,11 @@
-package com.DD25.DietiEstates25.Model;
+package com.dd25.dietiestates25.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 
 @Embeddable
-public class LocationInfo
+public class BuildingInfo
 {
     @Column(name = "address", nullable = false)
     private String address;
@@ -21,9 +21,9 @@ public class LocationInfo
 
     //constructor
 
-    protected LocationInfo() {}
+    protected BuildingInfo() {}
 
-    public LocationInfo(String address, Integer intern, Integer floor, Boolean hasElevator)
+    public BuildingInfo(String address, Integer intern, Integer floor, Boolean hasElevator)
     {
         this.address = address;
         this.intern = intern;

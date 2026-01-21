@@ -1,8 +1,8 @@
-package com.DD25.DietiEstates25.Model;
+package com.dd25.dietiestates25.model;
 
 import java.math.BigDecimal;
 
-import com.DD25.DietiEstates25.Model.Enums.ListingType;
+import com.dd25.dietiestates25.model.Enums.ListingType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

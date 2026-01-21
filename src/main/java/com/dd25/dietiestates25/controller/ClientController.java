@@ -1,10 +1,10 @@
-package com.DD25.DietiEstates25.Controller;
+package com.dd25.dietiestates25.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
-import org.springframework.web.bind.annotation.*; 
+import org.springframework.web.bind.annotation.*;
 
-import com.DD25.DietiEstates25.Service.ClientService;
+import com.dd25.dietiestates25.service.ClientService;
 
 record ChangePasswordRequest(String oldPassword, String newPassword) {} // might be moved elsewhere later
 

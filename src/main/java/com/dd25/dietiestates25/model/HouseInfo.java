@@ -1,4 +1,4 @@
-package com.DD25.DietiEstates25.Model;
+package com.dd25.dietiestates25.model;
 
 
 import jakarta.persistence.Column;
@@ -19,7 +19,7 @@ public class HouseInfo
     private String description;
 
     @Embedded
-    private LocationInfo locationInfo;
+    private BuildingInfo locationInfo;
 
     @Embedded
     private HouseDetails houseDetails;
@@ -29,7 +29,7 @@ public class HouseInfo
 
     protected HouseInfo() {}
 
-    public HouseInfo(Integer listingId, String description, LocationInfo locationInfo, HouseDetails houseDetails)
+    public HouseInfo(Integer listingId, String description, BuildingInfo locationInfo, HouseDetails houseDetails)
     {
         this.listingId = listingId;
         this.description = description;
@@ -41,7 +41,7 @@ public class HouseInfo
     // Getters and Setters
     public Integer getListingId() { return listingId; }
     public String getDescription() { return description; }
-    public LocationInfo getLocationInfo() { return locationInfo; }
+    public BuildingInfo getLocationInfo() { return locationInfo; }
     public HouseDetails getHouseDetails() { return houseDetails; }
 
     public void setListingId(Integer listingId) { this.listingId = listingId; }

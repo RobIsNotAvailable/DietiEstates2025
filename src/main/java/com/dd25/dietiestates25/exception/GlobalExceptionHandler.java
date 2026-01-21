@@ -1,4 +1,4 @@
-package com.DD25.DietiEstates25.Exception;
+package com.dd25.dietiestates25.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
