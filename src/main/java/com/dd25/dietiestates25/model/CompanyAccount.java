@@ -1,7 +1,7 @@
 package com.dd25.dietiestates25.model;
 
 
-import com.dd25.dietiestates25.model.Enums.SecurityLevel;
+import com.dd25.dietiestates25.model.enums.SecurityLevel;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 
 import java.time.OffsetDateTime;
 
-import com.dd25.dietiestates25.model.Enums.Status;
+import com.dd25.dietiestates25.model.enums.Status;
 
 @Entity
 @Table(name = "visit_request")

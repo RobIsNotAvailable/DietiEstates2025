@@ -6,7 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.dd25.dietiestates25.model.CompanyAccount;
-import com.dd25.dietiestates25.model.Enums.SecurityLevel;
+import com.dd25.dietiestates25.model.enums.SecurityLevel;
 import com.dd25.dietiestates25.repository.CompanyAccountRepository;
 
 import jakarta.transaction.Transactional;
@@ -21,7 +21,7 @@ public class CompanyAccountService
         this.repo = repo;
     }
 
-    public void CreateCompanyAccount(@NonNull String email, String firstName, String lastName, String companyName, SecurityLevel securityLevel)
+    public void createCompanyAccount(@NonNull String email, String firstName, String lastName, String companyName, SecurityLevel securityLevel)
     {
         String defaultPassword = "ChangeMe123";
 

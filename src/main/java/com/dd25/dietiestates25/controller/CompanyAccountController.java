@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
-import com.dd25.dietiestates25.model.Enums.SecurityLevel;
+import com.dd25.dietiestates25.model.enums.SecurityLevel;
 import com.dd25.dietiestates25.service.CompanyAccountService;
 
 @RestController
@@ -36,10 +36,9 @@ public class CompanyAccountController
         boolean isAuthorized = service.canManageRole(requesterEmail, securityLevel);
         
         if (!isAuthorized) 
-            return ResponseEntity.status(403).body("Denied: Insufficient permissions to create support account.");
+            return ResponseEntity.status(403).body("Denied: Insufficient permissions to create account with the specified security level.");
         
-
-        service.CreateCompanyAccount(email, firstName, lastName, companyName, securityLevel);
+        service.createCompanyAccount(email, firstName, lastName, companyName, securityLevel);
         
         return ResponseEntity.ok("account created successfully");
     }

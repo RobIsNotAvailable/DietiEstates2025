@@ -1,4 +1,4 @@
-package com.dd25.dietiestates25.model.Enums;
+package com.dd25.dietiestates25.model.enums;
 
 public enum Status 
 {

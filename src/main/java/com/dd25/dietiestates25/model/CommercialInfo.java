@@ -2,7 +2,7 @@ package com.dd25.dietiestates25.model;
 
 import java.math.BigDecimal;
 
-import com.dd25.dietiestates25.model.Enums.ListingType;
+import com.dd25.dietiestates25.model.enums.ListingType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
