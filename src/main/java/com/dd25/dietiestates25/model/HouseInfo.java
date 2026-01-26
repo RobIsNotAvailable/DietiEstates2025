@@ -19,7 +19,7 @@ public class HouseInfo
     private String description;
 
     @Embedded
-    private BuildingInfo locationInfo;
+    private BuildingDetails buildingDetails;
 
     @Embedded
     private HouseDetails houseDetails;
@@ -29,11 +29,11 @@ public class HouseInfo
 
     protected HouseInfo() {}
 
-    public HouseInfo(Integer listingId, String description, BuildingInfo locationInfo, HouseDetails houseDetails)
+    public HouseInfo(Integer listingId, String description, BuildingDetails buildingDetails, HouseDetails houseDetails)
     {
         this.listingId = listingId;
         this.description = description;
-        this.locationInfo = locationInfo;
+        this.buildingDetails = buildingDetails;
         this.houseDetails = houseDetails;
     }
 
@@ -41,7 +41,7 @@ public class HouseInfo
     // Getters and Setters
     public Integer getListingId() { return listingId; }
     public String getDescription() { return description; }
-    public BuildingInfo getLocationInfo() { return locationInfo; }
+    public BuildingDetails getBuildingDetails() { return buildingDetails; }
     public HouseDetails getHouseDetails() { return houseDetails; }
 
     public void setListingId(Integer listingId) { this.listingId = listingId; }

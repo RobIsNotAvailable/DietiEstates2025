@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,16 +29,26 @@ public class Listing
     @Column(name = "agent_email", nullable = false, length = 255)
     private String agentEmail;
 
+    @OneToOne
+    @JoinColumn(name = "id", referencedColumnName = "listing_id")
+    private CommercialInfo commercialInfo;
+
+    @OneToOne
+    @JoinColumn(name = "id", referencedColumnName = "listing_id")
+    private HouseInfo houseInfo;
+    
     //constructors
 
     protected Listing() {}
 
-    public Listing(Integer id, Status status, Integer nViews, String agentEmail) 
+    public Listing(Integer id, Status status, Integer nViews, String agentEmail, CommercialInfo commercialInfo, HouseInfo houseInfo) 
     {
         this.id = id;
         this.status = status;
         this.nViews = nViews;
         this.agentEmail = agentEmail;
+        this.commercialInfo = commercialInfo;
+        this.houseInfo = houseInfo;
     }
 
     // Getters

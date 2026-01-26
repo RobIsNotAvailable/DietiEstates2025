@@ -5,7 +5,7 @@ import jakarta.persistence.Embeddable;
 
 
 @Embeddable
-public class BuildingInfo
+public class BuildingDetails
 {
     @Column(name = "address", nullable = false)
     private String address;
@@ -21,9 +21,9 @@ public class BuildingInfo
 
     //constructor
 
-    protected BuildingInfo() {}
+    protected BuildingDetails() {}
 
-    public BuildingInfo(String address, Integer intern, Integer floor, Boolean hasElevator)
+    public BuildingDetails(String address, Integer intern, Integer floor, Boolean hasElevator)
     {
         this.address = address;
         this.intern = intern;
