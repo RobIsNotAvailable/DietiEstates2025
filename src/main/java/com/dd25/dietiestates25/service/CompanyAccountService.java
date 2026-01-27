@@ -1,6 +1,5 @@
 package com.dd25.dietiestates25.service;
 
-import java.util.Optional;
 import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,71 +20,61 @@ public class CompanyAccountService
         this.repo = repo;
     }
 
-    public void createCompanyAccount(@NonNull String email, String firstName, String lastName, String companyName, SecurityLevel securityLevel)
+    public void createCompanyAccount(@NonNull String requesterEmail, @NonNull String email, String firstName, String lastName, SecurityLevel securityLevel)
     {
+        CompanyAccount requester = repo.findById(requesterEmail).orElseThrow(() -> 
+            new IllegalArgumentException("Account not found"));
+        
+        checkRolePermission(requesterEmail, securityLevel);
+
         String defaultPassword = "ChangeMe123";
 
-        CompanyAccount company = new CompanyAccount(email, firstName, lastName, companyName, defaultPassword, securityLevel);
+        CompanyAccount newAccount = new CompanyAccount(email, firstName, lastName, requester.getCompanyName(), defaultPassword, securityLevel);
         
         if (repo.findById(email).isPresent())
-        {
             throw new IllegalStateException("Email already registered");
-        }
 
-        repo.save(company);
+        repo.save(newAccount);
     }
 
-    public boolean canManageRole(@NonNull String requesterEmail, SecurityLevel targetLevel) 
+    public void checkRolePermission(@NonNull String requesterEmail, SecurityLevel targetLevel) 
     {
-        Optional<CompanyAccount> requesterOpt = repo.findById(requesterEmail);
-
-        if (requesterOpt.isEmpty()) 
-            return false;
+        CompanyAccount requester = repo.findById(requesterEmail).orElseThrow(() -> 
+            new IllegalArgumentException("Account not found"));
         
+        SecurityLevel requesterLevel = requester.getSecurityLevel();
 
-        SecurityLevel requesterLevel = requesterOpt.get().getSecurityLevel();
+        boolean isAllowed = false;
 
         if (requesterLevel == SecurityLevel.ADMIN)
-            return true; 
+            isAllowed = true;
+        else if (requesterLevel == SecurityLevel.SUPPORT)
+            isAllowed = (targetLevel == SecurityLevel.AGENT);
 
-        if (requesterLevel == SecurityLevel.SUPPORT) 
-            return targetLevel == SecurityLevel.AGENT;
-
-        return false;
+        if (!isAllowed)
+            throw new SecurityException("Insufficient permissions to manage role: " + targetLevel);
     }
 
 
     @Transactional
-    public void changePassword(@NonNull String email, String oldRawPassword, String newRawPassword)
+    public void changePassword(@NonNull String requesterEmail, String oldRawPassword, String newRawPassword)
     {
-        Optional<CompanyAccount> companyAccountOptional = repo.findById(email);
-        
-        if (companyAccountOptional.isPresent())
-        {
-            CompanyAccount companyAccount = companyAccountOptional.get();
-            if (!encoder.matches(oldRawPassword, companyAccount.getHashPassword()))
-            {
-                throw new SecurityException("Old password is incorrect");
-            }
+        CompanyAccount requester = repo.findById(requesterEmail).orElseThrow(() -> 
+            new IllegalArgumentException("Account not found"));;
 
-            if (!newRawPassword.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"))
-            {
-                throw new IllegalArgumentException("New password must be at least 8 characters long and contain both letters and numbers");
-            }
+        if (!encoder.matches(oldRawPassword, requester.getHashPassword()))
+            throw new SecurityException("Old password is incorrect");
 
-            if (encoder.matches(newRawPassword, companyAccount.getHashPassword()))
-            {
-                throw new IllegalArgumentException("New password must be different from the old password");
-            }
+        if (!newRawPassword.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"))
+            throw new IllegalArgumentException("New password must be at least 8 characters long and contain both letters and numbers");
 
-            companyAccount.setHashPassword(encoder.encode(newRawPassword));
+        if (encoder.matches(newRawPassword, requester.getHashPassword()))
+            throw new IllegalArgumentException("New password must be different from the old password");
 
-            companyAccount.setMustChangePassword(false);
-        }
-        else
-        {
-            throw new SecurityException("Company account not found");
-        }
+        requester.setHashPassword(encoder.encode(newRawPassword));
+
+        requester.setMustChangePassword(false);
+
     }
 }
 

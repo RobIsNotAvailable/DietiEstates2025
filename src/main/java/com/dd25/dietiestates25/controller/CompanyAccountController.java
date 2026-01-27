@@ -21,24 +21,17 @@ public class CompanyAccountController
     @PostMapping("/create_support_account")
     public ResponseEntity<String> createSupportAccount
     (
-        @RequestHeader("Requester_Email") String requesterEmail, 
-        @RequestParam @NonNull String email, 
-        @RequestParam String firstName, 
-        @RequestParam String lastName, 
-        @RequestParam String companyName, 
-        @RequestParam String password,
+        @RequestHeader("Requester_Email") String requesterEmail,
+        @RequestParam @NonNull String email,
+        @RequestParam String firstName,
+        @RequestParam String lastName,
         @RequestParam SecurityLevel securityLevel
     ) 
     {
         if(requesterEmail == null || requesterEmail.isEmpty()) 
             return ResponseEntity.status(400).body("Bad Request: Requester email is required.");
-
-        boolean isAuthorized = service.canManageRole(requesterEmail, securityLevel);
         
-        if (!isAuthorized) 
-            return ResponseEntity.status(403).body("Denied: Insufficient permissions to create account with the specified security level.");
-        
-        service.createCompanyAccount(email, firstName, lastName, companyName, securityLevel);
+        service.createCompanyAccount(requesterEmail, email, firstName, lastName, securityLevel);
         
         return ResponseEntity.ok("Account created successfully");
     }
