@@ -8,7 +8,7 @@ import com.dd25.dietiestates25.model.enums.SecurityLevel;
 import com.dd25.dietiestates25.service.CompanyAccountService;
 
 @RestController
-@RequestMapping("/api/company-accounts")
+@RequestMapping("/api/company_accounts")
 public class CompanyAccountController 
 {
     private final CompanyAccountService service;
@@ -18,10 +18,10 @@ public class CompanyAccountController
         this.service = service;
     }
 
-    @PostMapping("/create-support-account")
+    @PostMapping("/create_support_account")
     public ResponseEntity<String> createSupportAccount
     (
-        @RequestHeader("Requester-Email") String requesterEmail, 
+        @RequestHeader("Requester_Email") String requesterEmail, 
         @RequestParam @NonNull String email, 
         @RequestParam String firstName, 
         @RequestParam String lastName, 
@@ -40,6 +40,6 @@ public class CompanyAccountController
         
         service.createCompanyAccount(email, firstName, lastName, companyName, securityLevel);
         
-        return ResponseEntity.ok("account created successfully");
+        return ResponseEntity.ok("Account created successfully");
     }
 }
