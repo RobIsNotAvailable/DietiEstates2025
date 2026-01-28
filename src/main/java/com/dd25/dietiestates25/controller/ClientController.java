@@ -6,7 +6,11 @@ import org.springframework.web.bind.annotation.*;
 
 import com.dd25.dietiestates25.service.ClientService;
 
-record ChangePasswordRequest(String oldPassword, String newPassword) {} // might be moved elsewhere later
+import jakarta.validation.Valid;
+
+import com.dd25.dietiestates25.dto.AccountRegisterRequest;
+import com.dd25.dietiestates25.dto.ChangePasswordRequest;
+import com.dd25.dietiestates25.dto.LoginRequest;
 
 @RestController
 @RequestMapping("/api/clients")
@@ -14,28 +18,29 @@ public class ClientController
 {
     private final ClientService service;
 
-    public ClientController(ClientService service) {
+    public ClientController(ClientService service)
+    {
         this.service = service;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestParam @NonNull String email, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String password) 
-    {
-        service.registerClient(email, firstName, lastName, password);
+    public ResponseEntity<String> register(@RequestHeader("Requester-Email") @NonNull String requesterEmail, @RequestBody @Valid AccountRegisterRequest request) 
+    {    
+        service.registerClient(requesterEmail, request.firstName(), request.lastName(), request.password());
         return ResponseEntity.ok("Registration successful");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam @NonNull String email, @RequestParam String password) 
+    public ResponseEntity<String> login(@RequestBody @Valid LoginRequest request) 
     {
-        service.login(email, password);
+        service.login(request.email(), request.password());
         return ResponseEntity.ok("Login successful");
     }
 
-    @PatchMapping("/change-password")
-    public ResponseEntity<String> changePassword(@RequestParam @NonNull String email, @RequestBody ChangePasswordRequest request) 
+    @PatchMapping("/change_password")
+    public ResponseEntity<String> changePassword(@RequestHeader("Requester-Email") @NonNull String requesterEmail, @RequestBody @Valid ChangePasswordRequest request) 
     {
-        service.changePassword(email, request.oldPassword(), request.newPassword());
+        service.changePassword(requesterEmail, request.oldPassword(), request.newPassword());
         return ResponseEntity.ok("Password succesfully updated");
     }
 }

@@ -27,8 +27,7 @@ public class ClientService
         if (repo.findById(email).isPresent())
             throw new IllegalStateException("Email already registered");
 
-        if (!rawPassword.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"))
-            throw new IllegalArgumentException("Password must be at least 8 characters long and contain both letters and numbers");
+        validatePassword(rawPassword);
 
         Client client = new Client(email, firstName, lastName, encoder.encode(rawPassword));
 
@@ -40,7 +39,7 @@ public class ClientService
         Client client = repo.findById(email).orElseThrow(() -> 
             new SecurityException("Invalid credentials"));
         
-        if (!encoder.matches(rawPassword, client.getPasswordHash()))
+        if (!encoder.matches(rawPassword, client.getHashPassword()))
             throw new SecurityException("Invalid credentials");
     }
 
@@ -50,15 +49,20 @@ public class ClientService
         Client requester = repo.findById(requesterEmail).orElseThrow(() -> 
             new SecurityException("Account not found"));
         
-        if (!encoder.matches(oldRawPassword, requester.getPasswordHash()))
+        if (!encoder.matches(oldRawPassword, requester.getHashPassword()))
             throw new SecurityException("Old password is incorrect");
 
         if (oldRawPassword.equals(newRawPassword))
             throw new IllegalStateException("New password must be different from the old password");
 
-        if (!newRawPassword.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"))
-            throw new IllegalArgumentException("New password must be at least 8 characters long and contain both letters and numbers");
+        validatePassword(newRawPassword);
 
-        requester.setPasswordHash(encoder.encode(newRawPassword));
+        requester.setHashPassword(encoder.encode(newRawPassword));
+    }
+
+    private void validatePassword(String password)
+    {
+        if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"))
+            throw new IllegalArgumentException("Password must be at least 8 characters long and contain both letters and numbers");
     }
 }

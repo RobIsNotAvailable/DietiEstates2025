@@ -60,21 +60,26 @@ public class CompanyAccountService
     public void changePassword(@NonNull String requesterEmail, String oldRawPassword, String newRawPassword)
     {
         CompanyAccount requester = repo.findById(requesterEmail).orElseThrow(() -> 
-            new IllegalArgumentException("Account not found"));;
+            new IllegalArgumentException("Account not found"));
 
         if (!encoder.matches(oldRawPassword, requester.getHashPassword()))
             throw new SecurityException("Old password is incorrect");
 
-        if (!newRawPassword.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"))
-            throw new IllegalArgumentException("New password must be at least 8 characters long and contain both letters and numbers");
-
         if (encoder.matches(newRawPassword, requester.getHashPassword()))
             throw new IllegalArgumentException("New password must be different from the old password");
-
+        
+        validatePassword(newRawPassword);
+        
         requester.setHashPassword(encoder.encode(newRawPassword));
 
-        requester.setMustChangePassword(false);
+        requester.setChangedPassword(false);
 
+    }
+
+    private void validatePassword(String password)
+    {
+        if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"))
+            throw new IllegalArgumentException("Password must be at least 8 characters long and contain both letters and numbers");
     }
 }
 
