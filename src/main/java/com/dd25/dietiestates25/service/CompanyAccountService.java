@@ -3,6 +3,7 @@ package com.dd25.dietiestates25.service;
 import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.dd25.dietiestates25.model.CompanyAccount;
 import com.dd25.dietiestates25.model.enums.SecurityLevel;
@@ -10,6 +11,7 @@ import com.dd25.dietiestates25.repository.CompanyAccountRepository;
 
 import jakarta.transaction.Transactional;
 
+@Service
 public class CompanyAccountService 
 {
     private final CompanyAccountRepository repo;

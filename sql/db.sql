@@ -30,6 +30,7 @@ CREATE TABLE company_account
     company_name VARCHAR(255) NOT NULL,
     hash_password VARCHAR(255) NOT NULL,
     security_level security_level NOT NULL,
+    changed_password BOOLEAN NOT NULL DEFAULT FALSE,
 
     CONSTRAINT valid_email CHECK
     (
