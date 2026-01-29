@@ -21,7 +21,7 @@ public class CompanyAccountController
 
     @PostMapping("/create_company_account")
     public ResponseEntity<String> createCompanyAccount
-    (@RequestHeader("Requester_Email") @NonNull String requesterEmail, @RequestBody @Valid CreateCompanyAccountRequest request) 
+    (@RequestHeader("Requester-Email") @NonNull String requesterEmail, @RequestBody @Valid CreateCompanyAccountRequest request) 
     {
         service.createCompanyAccount(requesterEmail, request.email(), request.firstName(), request.lastName(), request.securityLevel());
         return ResponseEntity.ok("Account created successfully");
