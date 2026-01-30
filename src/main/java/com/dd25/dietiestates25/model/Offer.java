@@ -25,15 +25,12 @@ public class Offer extends AbstractProposal
 
     protected Offer() {}
 
-    public Offer(BigDecimal proposedPrice, LocalDate expirationDate, String notes, Status status, Integer listingId, String clientEmail, String agentEmail) 
+    public Offer(BigDecimal proposedPrice, LocalDate expirationDate, String notes, Status status, Listing listing, Client client, CompanyAccount agent) 
     {
+        super(status, listing, client, agent);
         this.proposedPrice = proposedPrice;
         this.expirationDate = expirationDate;
         this.notes = notes;
-        this.status = status;
-        this.listingId = listingId;
-        this.clientEmail = clientEmail;
-        this.agentEmail = agentEmail;
     }
 
     // Getters

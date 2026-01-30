@@ -2,12 +2,12 @@ package com.dd25.dietiestates25.model;
 
 import com.dd25.dietiestates25.model.enums.Status;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -29,12 +29,10 @@ public class Listing
     @Column(name = "agent_email", nullable = false, length = 255)
     private String agentEmail;
 
-    @OneToOne
-    @JoinColumn(name = "id", referencedColumnName = "listing_id")
+    @OneToOne(mappedBy = "listing", cascade = CascadeType.ALL)
     private CommercialInfo commercialInfo;
 
-    @OneToOne
-    @JoinColumn(name = "id", referencedColumnName = "listing_id")
+    @OneToOne(mappedBy = "listing", cascade = CascadeType.ALL)
     private HouseInfo houseInfo;
     
     //constructors

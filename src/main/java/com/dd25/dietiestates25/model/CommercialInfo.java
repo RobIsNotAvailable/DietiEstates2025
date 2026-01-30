@@ -8,7 +8,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,8 +20,12 @@ import jakarta.persistence.Table;
 public class CommercialInfo 
 {
     @Id
-    @Column(name = "listing_id")
-    private Integer listingId;
+    private Integer id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "listing_id")
+    private Listing listing;
 
     @Column(name = "price", nullable = false)
     private BigDecimal price;
@@ -30,20 +38,20 @@ public class CommercialInfo
 
     protected CommercialInfo() {}
 
-    public CommercialInfo(Integer listingId, BigDecimal price, ListingType listingType) 
+    public CommercialInfo(Listing listing, BigDecimal price, ListingType listingType) 
     {
-        this.listingId = listingId;
+        this.listing = listing;
         this.price = price;
         this.listingType = listingType;
     }
 
     // Getters
-    public Integer getListingId() { return listingId; }
+    public Listing getListing() { return listing; }
     public BigDecimal getPrice() { return price; }
     public ListingType getListingType() { return listingType; }
 
     // Setters
-    public void setListingId(Integer listingId) { this.listingId = listingId; }
+    public void setListing(Listing listing) { this.listing = listing; }
     public void setPrice(BigDecimal price) { this.price = price; }
     public void setListingType(ListingType listingType) { this.listingType = listingType; }
 }

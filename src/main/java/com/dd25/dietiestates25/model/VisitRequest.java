@@ -19,13 +19,10 @@ public class VisitRequest extends AbstractProposal
 
     protected VisitRequest() {}
 
-    public VisitRequest(OffsetDateTime visitDate, Status status, Integer listingId, String clientEmail, String agentEmail) 
+    public VisitRequest(OffsetDateTime visitDate, Status status, Listing listing, Client client, CompanyAccount agent) 
     {
+        super(status, listing, client, agent);
         this.visitDate = visitDate;
-        this.status = status;
-        this.listingId = listingId;
-        this.clientEmail = clientEmail;
-        this.agentEmail = agentEmail;
     }
 
     // Getters
