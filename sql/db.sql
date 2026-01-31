@@ -27,7 +27,6 @@ CREATE TABLE company_account
     email VARCHAR(255) PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
-    company_name VARCHAR(255) NOT NULL,
     hash_password VARCHAR(255) NOT NULL,
     security_level security_level NOT NULL,
     changed_password BOOLEAN NOT NULL DEFAULT FALSE,
