@@ -1,8 +1,6 @@
 package com.dd25.dietiestates25.model;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 
@@ -10,7 +8,6 @@ import jakarta.persistence.MappedSuperclass;
 public abstract class AbstractAccount 
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "email", nullable = false, length = 255)
     protected String email;
 

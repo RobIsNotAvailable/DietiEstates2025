@@ -33,7 +33,7 @@ public class CompanyAccountService
 
         String defaultPassword = "ChangeMe123";
 
-        CompanyAccount newAccount = new CompanyAccount(request.email(), request.firstName(), request.lastName(), defaultPassword, request.securityLevel());
+        CompanyAccount newAccount = new CompanyAccount(request.email(), request.firstName(), request.lastName(), encoder.encode(defaultPassword), request.securityLevel());
         
         if (repo.findById(request.email()).isPresent())
             throw new IllegalStateException("Email already registered");

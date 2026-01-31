@@ -65,7 +65,7 @@ public class ClientService
 
     private void validatePassword(String password)
     {
-        if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"))
+        if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d).{8,}$"))
             throw new IllegalArgumentException("Password must be at least 8 characters long and contain both letters and numbers");
     }
 }

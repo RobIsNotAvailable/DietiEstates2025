@@ -5,6 +5,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
+import com.dd25.dietiestates25.dto.ChangePasswordRequest;
 import com.dd25.dietiestates25.dto.CreateCompanyAccountRequest;
 import com.dd25.dietiestates25.service.CompanyAccountService;
 
@@ -25,5 +26,12 @@ public class CompanyAccountController
     {
         service.createCompanyAccount(requesterEmail, request);
         return ResponseEntity.ok("Account created successfully");
+    }
+
+    @PatchMapping("/change_password")
+    public ResponseEntity<String> changePassword(@RequestHeader("Requester-Email") @NonNull String requesterEmail, @RequestBody @Valid ChangePasswordRequest request) 
+    {
+        service.changePassword(requesterEmail, request);
+        return ResponseEntity.ok("Password succesfully updated");
     }
 }
