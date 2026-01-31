@@ -7,7 +7,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -16,6 +21,7 @@ import jakarta.persistence.Table;
 public class Listing 
 {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -26,8 +32,9 @@ public class Listing
     @Column(name = "n_views", nullable = false)
     private Integer nViews;
 
-    @Column(name = "agent_email", nullable = false, length = 255)
-    private String agentEmail;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "agent_email", nullable = false)
+    private CompanyAccount agent;
 
     @OneToOne(mappedBy = "listing", cascade = CascadeType.ALL)
     private CommercialInfo commercialInfo;
@@ -39,25 +46,37 @@ public class Listing
 
     protected Listing() {}
 
-    public Listing(Integer id, Status status, Integer nViews, String agentEmail, CommercialInfo commercialInfo, HouseInfo houseInfo) 
+    public Listing(CompanyAccount agent, CommercialInfo commercialInfo, HouseInfo houseInfo) 
     {
-        this.id = id;
-        this.status = status;
-        this.nViews = nViews;
-        this.agentEmail = agentEmail;
-        this.commercialInfo = commercialInfo;
-        this.houseInfo = houseInfo;
+        this.status = Status.ACTIVE;
+        this.nViews = 0;
+        this.agent = agent;
+        setCommercialInfo(commercialInfo);
+        setHouseInfo(houseInfo);
     }
 
     // Getters
     public Integer getId() { return id; }
     public Status getStatus() { return status; }
     public Integer getNViews() { return nViews; }
-    public String getAgentEmail() { return agentEmail; }
+    public CompanyAccount getAgent() { return agent; }
+    public CommercialInfo getCommercialInfo() { return commercialInfo; }
+    public HouseInfo getHouseInfo() { return houseInfo; }
 
     // Setters
     public void setId(Integer id) { this.id = id; }
     public void setStatus(Status status) { this.status = status; }
     public void setNViews(Integer nViews) { this.nViews = nViews; }
-    public void setAgentEmail(String agentEmail) { this.agentEmail = agentEmail; }
+    public void setAgent(CompanyAccount agent) { this.agent = agent; }
+    public void setCommercialInfo(CommercialInfo commercialInfo)
+    {
+        commercialInfo.setListing(this);
+        this.commercialInfo = commercialInfo;
+    }
+
+    public void setHouseInfo(HouseInfo houseInfo)
+    {
+        houseInfo.setListing(this);
+        this.houseInfo = houseInfo;
+    }
 }

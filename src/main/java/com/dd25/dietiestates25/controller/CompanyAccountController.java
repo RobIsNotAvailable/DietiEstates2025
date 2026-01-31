@@ -23,7 +23,7 @@ public class CompanyAccountController
     public ResponseEntity<String> createCompanyAccount
     (@RequestHeader("Requester-Email") @NonNull String requesterEmail, @RequestBody @Valid CreateCompanyAccountRequest request) 
     {
-        service.createCompanyAccount(requesterEmail, request.email(), request.firstName(), request.lastName(), request.securityLevel());
+        service.createCompanyAccount(requesterEmail, request);
         return ResponseEntity.ok("Account created successfully");
     }
 }

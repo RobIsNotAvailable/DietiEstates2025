@@ -33,7 +33,6 @@ public abstract class AbstractProposal
     @JoinColumn(name = "client_email", nullable = false)
     protected Client client;
     
-    @Column(name = "agent_email", nullable = false, length = 255)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "agent_email", nullable = false)
     protected CompanyAccount agent;

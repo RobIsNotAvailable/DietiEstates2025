@@ -2,7 +2,11 @@ package com.dd25.dietiestates25.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -10,8 +14,12 @@ import jakarta.persistence.Table;
 public class SurroundingInfo 
 {
     @Id
-    @Column(name = "listing_id")
-    private Integer listingId;
+    private Integer id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "listing_id")
+    private Listing listing;
 
     @Column(name = "has_stops", nullable = false)
     private boolean hasStops;
@@ -27,22 +35,22 @@ public class SurroundingInfo
     protected SurroundingInfo() {}
 
 
-    public SurroundingInfo(Integer listingId, boolean hasStops, boolean hasParks, boolean hasSchools) 
+    public SurroundingInfo(Listing listing, boolean hasStops, boolean hasParks, boolean hasSchools) 
     {
-        this.listingId = listingId;
+        this.listing = listing;
         this.hasStops = hasStops;
         this.hasParks = hasParks;
         this.hasSchools = hasSchools;
     }
 
     // Getters
-    public Integer getListingId() { return listingId; }
+    public Listing getListing() { return listing; }
     public boolean isHasStops() { return hasStops; }
     public boolean isHasParks() { return hasParks; }
     public boolean isHasSchools() { return hasSchools; }
 
     // Setters
-    public void setListingId(Integer listingId) { this.listingId = listingId; }
+    public void setListing(Listing listing) { this.listing = listing; }
     public void setHasStops(boolean hasStops) { this.hasStops = hasStops; }
     public void setHasParks(boolean hasParks) { this.hasParks = hasParks; }
     public void setHasSchools(boolean hasSchools) { this.hasSchools = hasSchools; }

@@ -26,21 +26,21 @@ public class ClientController
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestHeader("Requester-Email") @NonNull String requesterEmail, @RequestBody @Valid AccountRegisterRequest request) 
     {    
-        service.registerClient(requesterEmail, request.firstName(), request.lastName(), request.password());
+        service.registerClient(requesterEmail, request);
         return ResponseEntity.ok("Registration successful");
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Valid LoginRequest request) 
     {
-        service.login(request.email(), request.password());
+        service.login(request);
         return ResponseEntity.ok("Login successful");
     }
 
     @PatchMapping("/change_password")
     public ResponseEntity<String> changePassword(@RequestHeader("Requester-Email") @NonNull String requesterEmail, @RequestBody @Valid ChangePasswordRequest request) 
     {
-        service.changePassword(requesterEmail, request.oldPassword(), request.newPassword());
+        service.changePassword(requesterEmail, request);
         return ResponseEntity.ok("Password succesfully updated");
     }
 }

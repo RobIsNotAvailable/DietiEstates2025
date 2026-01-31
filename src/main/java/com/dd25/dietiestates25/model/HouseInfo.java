@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 public class HouseInfo 
 {
     @Id
-    private Listing id;
+    private Integer id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
@@ -36,6 +36,13 @@ public class HouseInfo
     // Constructors
 
     protected HouseInfo() {}
+
+    public HouseInfo(String description, BuildingDetails buildingDetails, HouseDetails houseDetails)
+    {
+        this.description = description;
+        this.buildingDetails = buildingDetails;
+        this.houseDetails = houseDetails;
+    }
 
     public HouseInfo(Listing listing, String description, BuildingDetails buildingDetails, HouseDetails houseDetails)
     {

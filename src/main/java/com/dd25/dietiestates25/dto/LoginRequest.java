@@ -12,5 +12,5 @@ public record LoginRequest(
     String email,
 
     @NotBlank (message = "Password field cannot be blank")
-    String password
+    String rawPassword
 ) {}

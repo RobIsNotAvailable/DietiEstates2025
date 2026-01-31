@@ -16,7 +16,6 @@ public class VisitRequest extends AbstractProposal
     private OffsetDateTime visitDate;
     
     // Constructors
-
     protected VisitRequest() {}
 
     public VisitRequest(OffsetDateTime visitDate, Status status, Listing listing, Client client, CompanyAccount agent) 

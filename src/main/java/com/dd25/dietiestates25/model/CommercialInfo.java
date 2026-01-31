@@ -38,9 +38,8 @@ public class CommercialInfo
 
     protected CommercialInfo() {}
 
-    public CommercialInfo(Listing listing, BigDecimal price, ListingType listingType) 
+    public CommercialInfo(BigDecimal price, ListingType listingType) 
     {
-        this.listing = listing;
         this.price = price;
         this.listingType = listingType;
     }

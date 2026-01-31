@@ -5,6 +5,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.dd25.dietiestates25.dto.AccountRegisterRequest;
+import com.dd25.dietiestates25.dto.ChangePasswordRequest;
+import com.dd25.dietiestates25.dto.LoginRequest;
 import com.dd25.dietiestates25.model.Client;
 import com.dd25.dietiestates25.repository.ClientRepository;
 
@@ -22,42 +25,42 @@ public class ClientService
         this.repo = repo;
     }
 
-    public void registerClient(@NonNull String email, String firstName, String lastName, String rawPassword)
+    public void registerClient(@NonNull String email, AccountRegisterRequest request)
     {
         if (repo.findById(email).isPresent())
             throw new IllegalStateException("Email already registered");
 
-        validatePassword(rawPassword);
+        validatePassword(request.rawPassword());
 
-        Client client = new Client(email, firstName, lastName, encoder.encode(rawPassword));
+        Client client = new Client(email, request.firstName(), request.lastName(), encoder.encode(request.rawPassword()));
 
         repo.save(client);
     }
 
-    public void login(@NonNull String email, String rawPassword)
+    public void login(LoginRequest request)
     {
-        Client client = repo.findById(email).orElseThrow(() -> 
+        Client client = repo.findById(request.email()).orElseThrow(() -> 
             new SecurityException("Invalid credentials"));
         
-        if (!encoder.matches(rawPassword, client.getHashPassword()))
+        if (!encoder.matches(request.rawPassword(), client.getHashPassword()))
             throw new SecurityException("Invalid credentials");
     }
 
     @Transactional
-    public void changePassword(@NonNull String requesterEmail, String oldRawPassword, String newRawPassword)
+    public void changePassword(@NonNull String requesterEmail, ChangePasswordRequest request)
     {
         Client requester = repo.findById(requesterEmail).orElseThrow(() -> 
             new SecurityException("Account not found"));
         
-        if (!encoder.matches(oldRawPassword, requester.getHashPassword()))
+        if (!encoder.matches(request.oldPassword(), requester.getHashPassword()))
             throw new SecurityException("Old password is incorrect");
 
-        if (oldRawPassword.equals(newRawPassword))
+        if (request.oldPassword().equals(request.newPassword()))
             throw new IllegalStateException("New password must be different from the old password");
 
-        validatePassword(newRawPassword);
+        validatePassword(request.newPassword());
 
-        requester.setHashPassword(encoder.encode(newRawPassword));
+        requester.setHashPassword(encoder.encode(request.newPassword()));
     }
 
     private void validatePassword(String password)

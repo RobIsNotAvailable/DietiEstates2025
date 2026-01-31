@@ -10,5 +10,5 @@ public record AccountRegisterRequest(
     String lastName,
 
     @NotBlank (message = "Password field cannot be blank")
-    String password
+    String rawPassword
 ) {}
