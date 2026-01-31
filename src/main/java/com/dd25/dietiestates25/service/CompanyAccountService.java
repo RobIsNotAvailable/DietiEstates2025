@@ -29,11 +29,11 @@ public class CompanyAccountService
         CompanyAccount requester = repo.findById(requesterEmail).orElseThrow(() -> 
             new IllegalArgumentException("Account not found"));
         
-        checkRolePermission(requesterEmail, request.securityLevel());
+        checkRolePermission(requester, request.securityLevel());
 
         String defaultPassword = "ChangeMe123";
 
-        CompanyAccount newAccount = new CompanyAccount(request.email(), request.firstName(), request.lastName(), requester.getCompanyName(), defaultPassword, request.securityLevel());
+        CompanyAccount newAccount = new CompanyAccount(request.email(), request.firstName(), request.lastName(), defaultPassword, request.securityLevel());
         
         if (repo.findById(request.email()).isPresent())
             throw new IllegalStateException("Email already registered");
@@ -62,11 +62,8 @@ public class CompanyAccountService
 
     }
 
-    private void checkRolePermission(@NonNull String requesterEmail, SecurityLevel targetLevel) 
+    private void checkRolePermission(CompanyAccount requester, SecurityLevel targetLevel) 
     {
-        CompanyAccount requester = repo.findById(requesterEmail).orElseThrow(() -> 
-            new IllegalArgumentException("Account not found"));
-        
         SecurityLevel requesterLevel = requester.getSecurityLevel();
 
         boolean isAllowed = false;
