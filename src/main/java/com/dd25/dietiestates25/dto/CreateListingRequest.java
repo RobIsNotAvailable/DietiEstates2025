@@ -9,10 +9,8 @@ import jakarta.validation.constraints.NotBlank;
 
 
 public record CreateListingRequest(
-    @NotBlank(message = "Price field cannot be blank")
     BigDecimal price,
 
-    @NotBlank(message = "Listing type cannot be blank")
     ListingType listingType,
     
     @NotBlank(message = "Description cannot be blank")
@@ -21,21 +19,16 @@ public record CreateListingRequest(
     @NotBlank(message = "Address cannot be blank")
     String address,
     
-    @NotBlank(message = "Intern cannot be blank")
     @Min(value = 1, message = "Intern must be at least 1")
     Integer intern,
     
-    @NotBlank(message = "Floor cannot be blank")
     Integer floor,
     
-    @NotBlank(message = "Elevator information cannot be blank")
     Boolean hasElevator,
     
-    @NotBlank(message = "Square meters cannot be blank")
     @Min(value = 1, message = "Square meters must be at least 1")
     Integer squareMeters,
     
-    @NotBlank(message = "Number of rooms cannot be blank")
     @Min(value = 1, message = "Number of rooms must be at least 1")
     Integer numberOfRooms,
     

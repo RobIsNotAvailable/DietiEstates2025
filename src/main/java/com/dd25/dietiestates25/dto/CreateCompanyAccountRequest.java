@@ -19,6 +19,5 @@ public record CreateCompanyAccountRequest(
     @NotBlank (message = "Last name field cannot be blank")
     String lastName,
 
-    @NotBlank (message = "Security level field cannot be blank")
     SecurityLevel securityLevel
 ) {}
