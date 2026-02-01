@@ -56,7 +56,6 @@ public class Listing
     }
 
     // Getters
-    public Integer getId() { return id; }
     public Status getStatus() { return status; }
     public Integer getNViews() { return nViews; }
     public CompanyAccount getAgent() { return agent; }
@@ -64,7 +63,6 @@ public class Listing
     public HouseInfo getHouseInfo() { return houseInfo; }
 
     // Setters
-    public void setId(Integer id) { this.id = id; }
     public void setStatus(Status status) { this.status = status; }
     public void setNViews(Integer nViews) { this.nViews = nViews; }
     public void setAgent(CompanyAccount agent) { this.agent = agent; }

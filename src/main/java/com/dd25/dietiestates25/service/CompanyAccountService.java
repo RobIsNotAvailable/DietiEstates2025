@@ -58,8 +58,7 @@ public class CompanyAccountService
         
         requester.setHashPassword(encoder.encode(request.newPassword()));
 
-        requester.setChangedPassword(false);
-
+        requester.setPasswordChanged(false);
     }
 
     private void checkRolePermission(CompanyAccount requester, SecurityLevel targetLevel) 

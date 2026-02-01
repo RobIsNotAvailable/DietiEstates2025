@@ -17,8 +17,8 @@ public class CompanyAccount extends AbstractAccount
     @Column(name = "security_level", nullable = false)
     private SecurityLevel securityLevel;
 
-    @Column(name = "changed_password", nullable = false)
-    private boolean changedPassword = true;
+    @Column(name = "password_changed", nullable = false)
+    private boolean passwordChanged = true;
 
     //constructors
 
@@ -26,19 +26,16 @@ public class CompanyAccount extends AbstractAccount
 
     public CompanyAccount(String email, String firstName, String lastName, String hashPassword, SecurityLevel securityLevel) 
     {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.hashPassword = hashPassword;
+        super(email, firstName, lastName, hashPassword);
         this.securityLevel = securityLevel;
     }
 
     //getters
     public SecurityLevel getSecurityLevel() { return securityLevel; }
-    public boolean isChangedPassword() { return changedPassword; }
+    public boolean isPasswordChanged() { return passwordChanged; }
 
     
     //setters
     public void setSecurityLevel(SecurityLevel securityLevel) { this.securityLevel = securityLevel; }
-    public void setChangedPassword(boolean changedPassword) { this.changedPassword = changedPassword; }
+    public void setPasswordChanged(boolean passwordChanged) { this.passwordChanged = passwordChanged; }
 }

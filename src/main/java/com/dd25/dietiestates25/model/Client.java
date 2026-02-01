@@ -7,13 +7,12 @@ import jakarta.persistence.Table;
 @Table(name = "client")
 public class Client extends AbstractAccount
 {
-    //constructor
+    //constructors
+
+    protected Client() {}
 
     public Client(String email, String firstName, String lastName, String hashPassword) 
     {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.hashPassword = hashPassword;
+        super(email, firstName, lastName, hashPassword);
     }
 }

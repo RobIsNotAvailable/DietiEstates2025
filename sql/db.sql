@@ -29,7 +29,7 @@ CREATE TABLE company_account
     last_name VARCHAR(100) NOT NULL,
     hash_password VARCHAR(255) NOT NULL,
     security_level security_level NOT NULL,
-    changed_password BOOLEAN NOT NULL DEFAULT FALSE,
+    password_changed BOOLEAN NOT NULL DEFAULT FALSE,
 
     CONSTRAINT valid_email CHECK
     (
@@ -93,7 +93,7 @@ CREATE TABLE house_info
     address VARCHAR(255) NOT NULL,
     intern INT NOT NULL,
     floor INT NOT NULL,
-    has_elevator BOOLEAN NOT NULL,
+    elevator BOOLEAN NOT NULL,
     square_meters INT NOT NULL,
     n_rooms INT NOT NULL,
     energy_class VARCHAR(5) NOT NULL,
@@ -103,9 +103,9 @@ CREATE TABLE house_info
 CREATE TABLE surrounding_info
 (
     listing_id INT REFERENCES listing(id) PRIMARY KEY,
-    has_stops BOOLEAN NOT NULL,
-    has_parks BOOLEAN NOT NULL,
-    has_schools BOOLEAN NOT NULL
+    near_stops BOOLEAN NOT NULL,
+    near_parks BOOLEAN NOT NULL,
+    near_schools BOOLEAN NOT NULL
 );
 
 CREATE TABLE commercial_info

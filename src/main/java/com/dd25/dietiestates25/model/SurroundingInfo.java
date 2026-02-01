@@ -21,37 +21,37 @@ public class SurroundingInfo
     @JoinColumn(name = "listing_id")
     private Listing listing;
 
-    @Column(name = "has_stops", nullable = false)
-    private boolean hasStops;
+    @Column(name = "near_stops", nullable = false)
+    private boolean nearStops;
 
-    @Column(name = "has_parks", nullable = false)
-    private boolean hasParks;
+    @Column(name = "near_parks", nullable = false)
+    private boolean nearParks;
 
-    @Column(name = "has_schools", nullable = false)
-    private boolean hasSchools;
+    @Column(name = "near_schools", nullable = false)
+    private boolean nearSchools;
 
     // Constructors
 
     protected SurroundingInfo() {}
 
 
-    public SurroundingInfo(Listing listing, boolean hasStops, boolean hasParks, boolean hasSchools) 
+    public SurroundingInfo(Listing listing, boolean nearStops, boolean nearParks, boolean nearSchools) 
     {
         this.listing = listing;
-        this.hasStops = hasStops;
-        this.hasParks = hasParks;
-        this.hasSchools = hasSchools;
+        this.nearStops = nearStops;
+        this.nearParks = nearParks;
+        this.nearSchools = nearSchools;
     }
 
     // Getters
     public Listing getListing() { return listing; }
-    public boolean isHasStops() { return hasStops; }
-    public boolean isHasParks() { return hasParks; }
-    public boolean isHasSchools() { return hasSchools; }
+    public boolean isNearStops() { return nearStops; }
+    public boolean isNearParks() { return nearParks; }
+    public boolean isNearSchools() { return nearSchools; }
 
     // Setters
     public void setListing(Listing listing) { this.listing = listing; }
-    public void setHasStops(boolean hasStops) { this.hasStops = hasStops; }
-    public void setHasParks(boolean hasParks) { this.hasParks = hasParks; }
-    public void setHasSchools(boolean hasSchools) { this.hasSchools = hasSchools; }
+    public void setNearStops(boolean nearStops) { this.nearStops = nearStops; }
+    public void setNearParks(boolean nearParks) { this.nearParks = nearParks; }
+    public void setNearSchools(boolean nearSchools) { this.nearSchools = nearSchools; }
 }

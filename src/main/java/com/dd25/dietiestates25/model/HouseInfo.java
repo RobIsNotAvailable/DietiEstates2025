@@ -44,21 +44,13 @@ public class HouseInfo
         this.houseDetails = houseDetails;
     }
 
-    public HouseInfo(Listing listing, String description, BuildingDetails buildingDetails, HouseDetails houseDetails)
-    {
-        this.listing = listing;
-        this.description = description;
-        this.buildingDetails = buildingDetails;
-        this.houseDetails = houseDetails;
-    }
-
-
-    // Getters and Setters
+    // Getters
     public Listing getListing() { return listing; }
     public String getDescription() { return description; }
     public BuildingDetails getBuildingDetails() { return buildingDetails; }
     public HouseDetails getHouseDetails() { return houseDetails; }
 
+    // Setters
     public void setListing(Listing listing) { this.listing = listing; }
     public void setDescription(String description) { this.description = description; }
 }

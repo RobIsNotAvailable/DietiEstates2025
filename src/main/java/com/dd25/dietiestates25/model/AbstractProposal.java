@@ -55,9 +55,8 @@ public abstract class AbstractProposal
     public CompanyAccount getAgent() { return agent; }
 
     // setters
-    public void setId(Integer id) { this.id = id; }
     public void setStatus(Status status) { this.status = status; }
-    public void setListingId(Listing listing) { this.listing = listing; }
+    public void setListing(Listing listing) { this.listing = listing; }
     public void setClient(Client client) { this.client = client; }
     public void setAgent(CompanyAccount agent) { this.agent = agent; }
 }

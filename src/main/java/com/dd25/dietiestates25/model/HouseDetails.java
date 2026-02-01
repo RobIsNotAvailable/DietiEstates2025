@@ -28,8 +28,15 @@ public class HouseDetails
         this.otherServices = otherServices;
     }
 
+    //getters
     public Integer getSquareMeters() { return squareMeters; }
     public Integer getNumberOfRooms() { return numberOfRooms; }
     public String getEnergyClass() { return energyClass; }
     public String getOtherServices() { return otherServices; }
+
+    //setters
+    public void setSquareMeters(Integer squareMeters) { this.squareMeters = squareMeters; }
+    public void setNumberOfRooms(Integer numberOfRooms) { this.numberOfRooms = numberOfRooms; }
+    public void setEnergyClass(String energyClass) { this.energyClass = energyClass; }
+    public void setOtherServices(String otherServices) { this.otherServices = otherServices; }
 }

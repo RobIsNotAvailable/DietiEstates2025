@@ -22,6 +22,14 @@ public abstract class AbstractAccount
 
     protected AbstractAccount() {}
 
+    public AbstractAccount(String email, String firstName, String lastName, String hashPassword) 
+    {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.hashPassword = hashPassword;
+    }
+
     // getters
     public String getEmail() { return email; }
     public String getFirstName() { return firstName; }

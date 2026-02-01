@@ -16,19 +16,19 @@ public class BuildingDetails
     @Column(name = "floor", nullable = false)
     private Integer floor;
 
-    @Column(name = "has_elevator", nullable = false)
-    private Boolean hasElevator;
+    @Column(name = "elevator", nullable = false)
+    private Boolean elevator;
 
     //constructor
 
     protected BuildingDetails() {}
 
-    public BuildingDetails(String address, Integer intern, Integer floor, Boolean hasElevator)
+    public BuildingDetails(String address, Integer intern, Integer floor, Boolean elevator)
     {
         this.address = address;
         this.intern = intern;
         this.floor = floor;
-        this.hasElevator = hasElevator;
+        this.elevator = elevator;
     }
 
 
@@ -36,5 +36,11 @@ public class BuildingDetails
     public String getAddress() { return address; }
     public Integer getIntern() { return intern; }
     public Integer getFloor() { return floor; }
-    public Boolean getHasElevator() { return hasElevator; }
+    public Boolean isElevator() { return elevator; }
+
+    //setters
+    public void setAddress(String address) { this.address = address; }
+    public void setIntern(Integer intern) { this.intern = intern; }
+    public void setFloor(Integer floor) { this.floor = floor; }
+    public void setElevator(Boolean elevator) { this.elevator = elevator; }
 }
