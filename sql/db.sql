@@ -90,7 +90,7 @@ CREATE TABLE house_info
 (
     listing_id INT REFERENCES listing(id) PRIMARY KEY,
     description VARCHAR(255) NOT NULL,
-    address VARCHAR(255) NOT NULL,
+    address_id INT REFERENCES address(id) NOT NULL,
     intern INT NOT NULL,
     floor INT NOT NULL,
     elevator BOOLEAN NOT NULL,
@@ -98,6 +98,21 @@ CREATE TABLE house_info
     n_rooms INT NOT NULL,
     energy_class VARCHAR(5) NOT NULL,
     other_services VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE address
+(
+    id SERIAL PRIMARY KEY,
+    city VARCHAR(50) NOT NULL,
+    street VARCHAR(100) NOT NULL,
+    house_number VARCHAR(10) NOT NULL,
+    province VARCHAR(50) NOT NULL,
+    zip_code VARCHAR(20) NOT NULL,
+    country VARCHAR(100) NOT NULL, 
+    latitude NUMERIC NOT NULL,
+    longitude NUMERIC NOT NULL,
+    place_id VARCHAR(255),
+    formatted_address VARCHAR(255)
 );
 
 CREATE TABLE surrounding_info

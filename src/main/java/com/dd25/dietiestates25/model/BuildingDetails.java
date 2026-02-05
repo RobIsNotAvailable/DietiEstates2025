@@ -2,13 +2,18 @@ package com.dd25.dietiestates25.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+
 
 
 @Embeddable
 public class BuildingDetails
 {
-    @Column(name = "address", nullable = false)
-    private String address;
+    
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     @Column(name = "intern", nullable = false)
     private Integer intern;
@@ -23,7 +28,7 @@ public class BuildingDetails
 
     protected BuildingDetails() {}
 
-    public BuildingDetails(String address, Integer intern, Integer floor, Boolean elevator)
+    public BuildingDetails(Address address, Integer intern, Integer floor, Boolean elevator)
     {
         this.address = address;
         this.intern = intern;
@@ -33,13 +38,13 @@ public class BuildingDetails
 
 
     //getters
-    public String getAddress() { return address; }
+    public Address getAddress() { return address; }
     public Integer getIntern() { return intern; }
     public Integer getFloor() { return floor; }
     public Boolean isElevator() { return elevator; }
 
     //setters
-    public void setAddress(String address) { this.address = address; }
+    public void setAddress(Address address) { this.address = address; }
     public void setIntern(Integer intern) { this.intern = intern; }
     public void setFloor(Integer floor) { this.floor = floor; }
     public void setElevator(Boolean elevator) { this.elevator = elevator; }

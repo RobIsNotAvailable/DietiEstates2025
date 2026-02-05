@@ -14,8 +14,8 @@ import com.dd25.dietiestates25.repository.CompanyAccountRepository;
 public class DataInitializer implements CommandLineRunner
 {
 
-    @Value("${ADMIN_PWD}")
-    private String adminPwd;
+    @Value("${ADMIN_PW}")
+    private String adminPw;
     private final PasswordEncoder encoder = new BCryptPasswordEncoder();
 
     private final CompanyAccountRepository accountRepo;
@@ -41,7 +41,7 @@ public class DataInitializer implements CommandLineRunner
                 "admin@dietiestates.it", 
                 "admin", 
                 "admin", 
-                encoder.encode(adminPwd),
+                encoder.encode(adminPw),
                 SecurityLevel.ADMIN);
             accountRepo.save(admin);
         }
