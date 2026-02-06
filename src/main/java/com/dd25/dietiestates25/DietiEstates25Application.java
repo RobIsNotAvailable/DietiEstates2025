@@ -10,6 +10,5 @@ public class DietiEstates25Application
 	public static void main(String[] args)
 	{
 		SpringApplication.run(DietiEstates25Application.class, args);
-	}
-
+	}	
 }

@@ -47,7 +47,7 @@ public class Address
     private String formattedAddress; // A complete, human-readable address (given by geoapify and ready to use in UI)
 
     // Constructors
-    protected Address() {}
+    public Address() {}
 
     public Address(String city, String street, String houseNumber, String province, String zipCode, String country,
                    Double latitude, Double longitude, String placeId, String formattedAddress) 
