@@ -2,7 +2,6 @@ package com.dd25.dietiestates25.dto;
 
 import java.math.BigDecimal;
 
-import com.dd25.dietiestates25.model.Address;
 import com.dd25.dietiestates25.model.enums.ListingType;
 
 import jakarta.validation.constraints.Min;
@@ -18,7 +17,7 @@ public record CreateListingRequest(
     String description,
     
     @NotBlank(message = "Address cannot be blank")
-    Address address,
+    String rawAddress,
     
     @Min(value = 1, message = "Intern must be at least 1")
     Integer intern,

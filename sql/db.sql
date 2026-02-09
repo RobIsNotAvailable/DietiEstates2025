@@ -115,19 +115,14 @@ CREATE TABLE address
     formatted_address VARCHAR(255)
 );
 
-CREATE TABLE surrounding_info
-(
-    listing_id INT REFERENCES listing(id) PRIMARY KEY,
-    near_stops BOOLEAN NOT NULL,
-    near_parks BOOLEAN NOT NULL,
-    near_schools BOOLEAN NOT NULL
-);
-
 CREATE TABLE commercial_info
 (
     listing_id INT REFERENCES listing(id) PRIMARY KEY,
     price NUMERIC NOT NULL,
-    listing_type listing_type NOT NULL
+    listing_type listing_type NOT NULL,
+        near_stops BOOLEAN NOT NULL,
+    near_parks BOOLEAN NOT NULL,
+    near_schools BOOLEAN NOT NULL
 )
 
 

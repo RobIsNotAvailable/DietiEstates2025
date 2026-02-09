@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import com.dd25.dietiestates25.model.enums.ListingType;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -34,23 +35,29 @@ public class CommercialInfo
     @Column(name = "listing_type", nullable = false)
     private ListingType listingType;
 
+    @Embedded
+    private SurroundingInfo surroundingInfo;
+
     // Constructors
 
     protected CommercialInfo() {}
 
-    public CommercialInfo(BigDecimal price, ListingType listingType) 
+    public CommercialInfo(BigDecimal price, ListingType listingType, SurroundingInfo surroundingInfo) 
     {
         this.price = price;
         this.listingType = listingType;
+        this.surroundingInfo = surroundingInfo;
     }
 
     // Getters
     public Listing getListing() { return listing; }
     public BigDecimal getPrice() { return price; }
     public ListingType getListingType() { return listingType; }
+    public SurroundingInfo getSurroundingInfo() { return surroundingInfo; }
 
     // Setters
     public void setListing(Listing listing) { this.listing = listing; }
     public void setPrice(BigDecimal price) { this.price = price; }
     public void setListingType(ListingType listingType) { this.listingType = listingType; }
+    public void setSurroundingInfo(SurroundingInfo surroundingInfo) { this.surroundingInfo = surroundingInfo; }
 }
