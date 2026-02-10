@@ -38,10 +38,9 @@ public class GeoapifyService
 
         GeoapifyResponse response = restTemplate.getForObject(url, GeoapifyResponse.class);
 
-        if (response == null || response.getFeatures() == null || response.getFeatures().isEmpty()) {
-            throw new RuntimeException("Indirizzo non trovato o risposta non valida");
-        }
-
+        if (response == null || response.getFeatures() == null || response.getFeatures().isEmpty()) 
+            throw new RuntimeException("invalid response from given address: " + rawAddress);
+        
         GeoapifyProperties props = response.getFeatures().get(0).getProperties();
 
         return mapToAddress(props);
@@ -67,22 +66,17 @@ public class GeoapifyService
 
     public SurroundingInfo fetchSurroundingInfo(double lat, double lon) 
     {
-        String schoolUrl = buildUrl(lat, lon, "education.school,building.school,building.kindergarten", 10);
+        String url = buildUrl(lat, lon, "education.school,building.school,building.kindergarten,leisure.park,public_transport", 50);
+        
+        if(url == null || url.isEmpty()) 
+            throw new RuntimeException("Error during URL construction");
 
-        if(schoolUrl == null || schoolUrl.isEmpty()) 
-            throw new RuntimeException("Error during URL construction for schools");
+        GeoapifyResponse response = restTemplate.getForObject(url, GeoapifyResponse.class);
+        
+        boolean nearSchools = isCategoryPresent(response, "school") || isCategoryPresent(response, "kindergarten");
+        boolean nearParks = isCategoryPresent(response, "park");
+        boolean nearStops = isCategoryPresent(response, "transport");
 
-        GeoapifyResponse schoolRes = restTemplate.getForObject(schoolUrl, GeoapifyResponse.class);
-        boolean nearSchools = isCategoryPresent(schoolRes, "school");
-
-        String othersUrl = buildUrl(lat, lon, "leisure.park,public_transport", 50);
-
-        if(othersUrl == null || othersUrl.isEmpty()) 
-            throw new RuntimeException("Error during URL construction for parks and transport");
-
-        GeoapifyResponse othersRes = restTemplate.getForObject(othersUrl, GeoapifyResponse.class);
-        boolean nearParks = isCategoryPresent(othersRes, "park");
-        boolean nearStops = isCategoryPresent(othersRes, "transport");
 
         return new SurroundingInfo(nearStops, nearParks, nearSchools);
     }

@@ -41,16 +41,20 @@ public class Listing
 
     @OneToOne(mappedBy = "listing", cascade = CascadeType.ALL)
     private HouseInfo houseInfo;
+
+    @OneToOne(mappedBy = "listing", cascade = CascadeType.ALL)
+    private SurroundingInfo surroundingInfo;
     
     //constructors
-
     protected Listing() {}
 
-    public Listing(CompanyAccount agent, CommercialInfo commercialInfo, HouseInfo houseInfo) 
+    public Listing(CompanyAccount agent, CommercialInfo commercialInfo, HouseInfo houseInfo, SurroundingInfo surroundingInfo) 
     {
         this.status = Status.ACTIVE;
         this.nViews = 0;
         this.agent = agent;
+        this.surroundingInfo = surroundingInfo;
+
         setCommercialInfo(commercialInfo);
         setHouseInfo(houseInfo);
     }
@@ -61,11 +65,15 @@ public class Listing
     public CompanyAccount getAgent() { return agent; }
     public CommercialInfo getCommercialInfo() { return commercialInfo; }
     public HouseInfo getHouseInfo() { return houseInfo; }
+    public SurroundingInfo getSurroundingInfo() { return surroundingInfo; }
+
 
     // Setters
     public void setStatus(Status status) { this.status = status; }
     public void setNViews(Integer nViews) { this.nViews = nViews; }
     public void setAgent(CompanyAccount agent) { this.agent = agent; }
+    public void setSurroundingInfo(SurroundingInfo surroundingInfo) { this.surroundingInfo = surroundingInfo; }
+
     public void setCommercialInfo(CommercialInfo commercialInfo)
     {
         commercialInfo.setListing(this);
@@ -77,4 +85,5 @@ public class Listing
         houseInfo.setListing(this);
         this.houseInfo = houseInfo;
     }
+
 }

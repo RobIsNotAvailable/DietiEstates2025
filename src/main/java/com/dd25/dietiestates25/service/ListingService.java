@@ -44,29 +44,15 @@ public class ListingService
         
         SurroundingInfo surroundingInfo = geoapifyService.fetchSurroundingInfo(normalizedAddress.getLatitude(), normalizedAddress.getLongitude());
 
-        CommercialInfo commercialInfo = new CommercialInfo(
-            request.price(), 
-            request.listingType(), 
-            surroundingInfo 
-        );
+        CommercialInfo commercialInfo = new CommercialInfo(request.price(), request.listingType());
         
-        BuildingDetails buildingDetails = new BuildingDetails(
-            normalizedAddress, 
-            request.intern(), 
-            request.floor(), 
-            request.hasElevator()
-        );
+        BuildingDetails buildingDetails = new BuildingDetails(normalizedAddress, request.intern(), request.floor(), request.hasElevator());
         
-        HouseDetails houseDetails = new HouseDetails(
-            request.squareMeters(), 
-            request.numberOfRooms(), 
-            request.energyClass(), 
-            request.otherServices()
-        );
+        HouseDetails houseDetails = new HouseDetails(request.squareMeters(), request.numberOfRooms(), request.energyClass(), request.otherServices());
         
         HouseInfo houseInfo = new HouseInfo(request.description(), buildingDetails, houseDetails);
         
-        Listing listing = new Listing(agent, commercialInfo, houseInfo);
+        Listing listing = new Listing(agent, commercialInfo, houseInfo, surroundingInfo);
 
         repo.save(listing);
     }

@@ -42,7 +42,7 @@ CREATE TABLE listing
     id SERIAL PRIMARY KEY,
     status status NOT NULL DEFAULT 'active',
     n_views INT NOT NULL DEFAULT 0,
-    agent_email VARCHAR(255) REFERENCES company_account(email) ON UPDATE CASCADE
+    agent_email VARCHAR(255) REFERENCES company_account(email) ON UPDATE CASCADE,
 );
 
 CREATE TABLE offer
@@ -120,9 +120,13 @@ CREATE TABLE commercial_info
     listing_id INT REFERENCES listing(id) PRIMARY KEY,
     price NUMERIC NOT NULL,
     listing_type listing_type NOT NULL,
-        near_stops BOOLEAN NOT NULL,
+)
+
+CREATE TABLE surrounding_info
+(
+    listing_id INT REFERENCES listing(id) PRIMARY KEY,
+    near_stops BOOLEAN NOT NULL,
     near_parks BOOLEAN NOT NULL,
     near_schools BOOLEAN NOT NULL
 )
-
 
