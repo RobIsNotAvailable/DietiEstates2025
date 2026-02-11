@@ -22,7 +22,7 @@ public abstract class AbstractAccount
 
     protected AbstractAccount() {}
 
-    public AbstractAccount(String email, String firstName, String lastName, String hashPassword) 
+    protected AbstractAccount(String email, String firstName, String lastName, String hashPassword) 
     {
         this.email = email;
         this.firstName = firstName;

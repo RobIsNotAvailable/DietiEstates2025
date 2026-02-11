@@ -30,8 +30,6 @@ public class DataInitializer implements CommandLineRunner
     public void run(String... args)
     {
         createAdminIfMissing();
-
-        //seedDemoData();
     }
 
     private void createAdminIfMissing() {
@@ -46,9 +44,4 @@ public class DataInitializer implements CommandLineRunner
             accountRepo.save(admin);
         }
     }
-
-    // private void seedDemoData()
-    // {
-    //     popolare database 
-    // }
 }

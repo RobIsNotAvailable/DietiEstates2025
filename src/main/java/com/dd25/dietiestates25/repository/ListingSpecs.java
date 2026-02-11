@@ -8,8 +8,16 @@ import org.springframework.data.jpa.domain.Specification;
 import com.dd25.dietiestates25.model.Listing;
 import com.dd25.dietiestates25.model.enums.ListingType;
 
+import jakarta.persistence.criteria.Path;
+
 public class ListingSpecs 
 {
+
+    private ListingSpecs()  // prevent instantiation
+    {
+        throw new IllegalStateException("Utility class");
+    }
+    
     public static Specification<Listing> hasCity(String city) 
     {
         return (root, query, cb) -> 
@@ -25,9 +33,11 @@ public class ListingSpecs
     {
         return (root, query, cb) -> 
         {
-            if (min != null && max != null) return cb.between(root.get("price"), min, max);
-            if (min != null) return cb.greaterThanOrEqualTo(root.get("price"), min);
-            if (max != null) return cb.lessThanOrEqualTo(root.get("price"), max);
+            Path<BigDecimal> pricePath = root.get("price");
+            
+            if (min != null && max != null) return cb.between(pricePath, min, max);
+            if (min != null) return cb.greaterThanOrEqualTo(pricePath, min);
+            if (max != null) return cb.lessThanOrEqualTo(pricePath, max);
             return cb.conjunction();
         };
     }
