@@ -24,9 +24,9 @@ public class ClientController
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestHeader("Requester-Email") @NonNull String requesterEmail, @RequestBody @Valid AccountRegisterRequest request) 
+    public ResponseEntity<String> register(@RequestBody @Valid AccountRegisterRequest request) 
     {    
-        service.registerClient(requesterEmail, request);
+        service.registerClient(request);
         return ResponseEntity.ok("Registration successful");
     }
 

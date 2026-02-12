@@ -8,7 +8,6 @@ import jakarta.persistence.Table;
 public class Client extends AbstractAccount
 {
     //constructors
-
     protected Client() {}
 
     public Client(String email, String firstName, String lastName, String hashPassword) 

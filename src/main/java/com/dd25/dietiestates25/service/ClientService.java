@@ -1,5 +1,7 @@
 package com.dd25.dietiestates25.service;
 
+import java.util.Objects;
+
 import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +12,8 @@ import com.dd25.dietiestates25.dto.ChangePasswordRequest;
 import com.dd25.dietiestates25.dto.LoginRequest;
 import com.dd25.dietiestates25.model.Client;
 import com.dd25.dietiestates25.repository.ClientRepository;
+
+
 
 import jakarta.transaction.Transactional;
 
@@ -25,16 +29,15 @@ public class ClientService
         this.repo = repo;
     }
 
-    public void registerClient(@NonNull String email, AccountRegisterRequest request)
+    public void registerClient(AccountRegisterRequest request)
     {
-        if (repo.findById(email).isPresent())
-            throw new IllegalStateException("Email already registered");
+        repo.findById(Objects.requireNonNull(request.email())).ifPresent(client -> 
+            {throw new SecurityException("Email already registered");});
 
         validatePassword(request.rawPassword());
 
-        Client client = new Client(email, request.firstName(), request.lastName(), encoder.encode(request.rawPassword()));
-
-        repo.save(client);
+        Client client = new Client(request.email(), request.firstName(), request.lastName(), encoder.encode(request.rawPassword()));
+        repo.save(client);  
     }
 
     public void login(LoginRequest request)
