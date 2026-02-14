@@ -1,15 +1,15 @@
 package com.dd25.dietiestates25.service;
 
-import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dd25.dietiestates25.dto.GeoapifyProperties;
 import com.dd25.dietiestates25.dto.GeoapifyResponse;
-import com.dd25.dietiestates25.dto.GeoapifyResponse.GeoapifyFeature;
 import com.dd25.dietiestates25.model.Address;
 import com.dd25.dietiestates25.model.SurroundingInfo;
 
@@ -29,7 +29,6 @@ public class GeoapifyService
 
     public Address normalizeAddress(String rawAddress) 
     {
-        
         String url = UriComponentsBuilder
                 .fromUriString("https://api.geoapify.com/v1/geocode/search")
                 .queryParam("text", rawAddress)
@@ -39,10 +38,9 @@ public class GeoapifyService
 
         GeoapifyResponse response = restTemplate.getForObject(url, GeoapifyResponse.class);
 
-        if (response == null || response.getFeatures() == null || response.getFeatures().isEmpty()) 
-            throw new IllegalArgumentException("invalid response from given address: " + rawAddress);
-        
-        GeoapifyProperties props = response.getFeatures().get(0).getProperties();
+        GeoapifyProperties props = Optional.ofNullable(response)
+            .map(res -> res.properties().get(0))
+            .orElseThrow(() -> new IllegalArgumentException("Address not found"));
 
         return mapToAddress(props);
     }
@@ -51,16 +49,16 @@ public class GeoapifyService
     {
         Address address = new Address();
 
-        address.setCity(props.getCity());
-        address.setStreet(props.getStreet());
-        address.setHouseNumber(props.getHousenumber());
-        address.setProvince(props.getState());
-        address.setZipCode(props.getPostcode());
-        address.setCountry(props.getCountry());
-        address.setPlaceId(props.getPlaceId());
-        address.setFormattedAddress(props.getFormatted());
-        address.setLatitude(props.getLat());
-        address.setLongitude(props.getLon());        
+        address.setCity(props.city());
+        address.setStreet(props.street());
+        address.setHouseNumber(props.houseNumber());
+        address.setProvince(props.state());
+        address.setZipCode(props.postcode());
+        address.setCountry(props.country());
+        address.setPlaceId(props.placeId());
+        address.setFormattedAddress(props.formatted());
+        address.setLatitude(props.lat());
+        address.setLongitude(props.lon());        
         
         return address;
     }
@@ -69,12 +67,8 @@ public class GeoapifyService
     {
         String url = buildUrl(lat, lon, "education.school,building.school,building.kindergarten,leisure.park,public_transport", 50);
         
-        Objects.requireNonNull(url, "URL cannot be null");
-
-        if (url.isEmpty()) 
-            throw new IllegalArgumentException("URL cannot be empty");
-
-        GeoapifyResponse response = restTemplate.getForObject(url, GeoapifyResponse.class);
+        GeoapifyResponse response = Optional.ofNullable(restTemplate.getForObject(url, GeoapifyResponse.class))
+            .orElseThrow(() -> new IllegalArgumentException("Address not found"));
         
         boolean nearSchools = isCategoryPresent(response, "school") || isCategoryPresent(response, "kindergarten");
         boolean nearParks = isCategoryPresent(response, "park");
@@ -83,7 +77,7 @@ public class GeoapifyService
         return new SurroundingInfo(nearStops, nearParks, nearSchools);
     }
 
-    private String buildUrl(double lat, double lon, String categories, int limit) 
+    private @NonNull String buildUrl(double lat, double lon, String categories, int limit) 
     {
         return UriComponentsBuilder
                 .fromUriString("https://api.geoapify.com/v2/places")
@@ -97,20 +91,11 @@ public class GeoapifyService
 
     private boolean isCategoryPresent(GeoapifyResponse res, String keyword) 
     {
-        if (res == null || res.getFeatures() == null) 
-            return false;
-
         String lowerKeyword = keyword.toLowerCase();
 
-        return res.getFeatures().stream()
-                .filter(Objects::nonNull)
-                .map(GeoapifyFeature::getProperties) 
-                .filter(Objects::nonNull)
-                .map(GeoapifyProperties::getCategories) 
-                .filter(Objects::nonNull)
-                .anyMatch(categories -> categories.stream()
-                        .filter(Objects::nonNull)
-                        .anyMatch(c -> c.toLowerCase().contains(lowerKeyword)));
+        return res.properties().stream()
+                    .flatMap(prop -> prop.categories().stream())
+                    .anyMatch(category -> category.toLowerCase().contains(lowerKeyword));
     }
 }
 

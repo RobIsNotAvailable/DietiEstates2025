@@ -36,7 +36,7 @@ class ClientServiceTest
     private ClientService clientService;
 
     @Test
-    void testRegisterClient_Success_TC1() 
+    void testRegisterClientSuccessTC1() 
     {
         String firstName = "John";
         String lastName = "Doe";
@@ -91,7 +91,7 @@ class ClientServiceTest
     }
 
     @Test
-    void testRegisterClientWeakPassword_TC4() 
+    void testRegisterClientWeakPasswordTC4() 
     {
         String email = "john.doe@example.com";
         AccountRegisterRequest request = new AccountRegisterRequest(email, "John", "Doe", "weakpass");
@@ -129,7 +129,7 @@ class ClientServiceTest
 
 
     @Test  
-    void testLogin_Success_TC1() 
+    void testLoginSuccessTC1() 
     {
         String email = "john.doe@example.com";
         String password = "Password123!";
@@ -189,10 +189,26 @@ class ClientServiceTest
         Mockito.verify(repo).findById(email);
     }
 
+    @Test
+    void testLoginInvalidEmailTC4()
+    {
+        String email = "nonexistent@example.com";
+        String password = "Password123!";
+        
+        LoginRequest request = new LoginRequest(email, password);
+        
+        Mockito.when(repo.findById(email)).thenReturn(java.util.Optional.empty());
 
+        assertThrows(RuntimeException.class, () -> 
+        {
+            clientService.login(request);
+        });
+
+        Mockito.verify(repo).findById(email);
+    }
 
     @Test
-    void testChangePassword_Success_TC1()
+    void testChangePasswordSuccessTC1()
     {
         String email = "john.doe@example.com";
         String oldPassword = "OldPassword123!";

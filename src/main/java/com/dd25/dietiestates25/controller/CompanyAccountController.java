@@ -29,7 +29,8 @@ public class CompanyAccountController
     }
 
     @PatchMapping("/change_password")
-    public ResponseEntity<String> changePassword(@RequestHeader("Requester-Email") @NonNull String requesterEmail, @RequestBody @Valid ChangePasswordRequest request) 
+    public ResponseEntity<String> changePassword
+    (@RequestHeader("Requester-Email") @NonNull String requesterEmail, @RequestBody @Valid ChangePasswordRequest request) 
     {
         service.changePassword(requesterEmail, request);
         return ResponseEntity.ok("Password succesfully updated");

@@ -53,9 +53,6 @@ public class CompanyAccountService
         if (request.oldPassword().equals(request.newPassword()))
             throw new IllegalStateException("New password must be different from the old password");
 
-        
-        validatePassword(request.newPassword());
-        
         requester.setHashPassword(encoder.encode(request.newPassword()));
 
         requester.setPasswordChanged(false);
@@ -74,12 +71,6 @@ public class CompanyAccountService
 
         if (!isAllowed)
             throw new SecurityException("Insufficient permissions to manage role: " + targetLevel);
-    }
-
-    private void validatePassword(String password)
-    {
-        if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"))
-            throw new IllegalArgumentException("Password must be at least 8 characters long and contain both letters and numbers");
     }
 }
 

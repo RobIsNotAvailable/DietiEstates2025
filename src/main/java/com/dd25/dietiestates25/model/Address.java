@@ -28,7 +28,12 @@ public class Address
     private PostalAddress postalAddress;
 
     // Constructors
-    public Address() {}
+    public Address()
+    {
+        this.postalAddress = new PostalAddress();
+        this.geocodingDetails = new GeocodingDetails();
+        this.coordinates = new Coordinates();
+    }
 
     public Address(PostalAddress postalAddress, Coordinates coordinates, GeocodingDetails geocodingDetails) 
     {

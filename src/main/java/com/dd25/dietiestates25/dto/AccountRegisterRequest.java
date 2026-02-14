@@ -1,26 +1,28 @@
 package com.dd25.dietiestates25.dto;
 
+import org.springframework.lang.NonNull;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
-public record AccountRegisterRequest
-(
-
-    @NotBlank (message = "Email field cannot be blank")
-    @NotNull (message = "Email field cannot be null")
-    @Email
+public record AccountRegisterRequest(
+    @NonNull
+    @NotBlank (message = "Email field is required")
+    @Email (message = "Invalid email format")
     String email,
 
-    @NotBlank (message = "First name field cannot be blank")
-    @NotNull (message = "First name field cannot be null")
+    @NotBlank (message = "First name field is required")
     String firstName,
 
-    @NotBlank (message = "Last name field cannot be blank")
-    @NotNull (message = "Last name field cannot be null")
+    @NotBlank (message = "Last name field is required")
     String lastName,
 
-    @NotBlank (message = "Password field cannot be blank")
-    @NotNull (message = "Password field cannot be null")
+    @NotBlank (message = "Password field is required")
+    @Pattern
+    (
+        regexp = "^(?=.*[A-Za-z])(?=.*\\d).{8,32}$", 
+        message = "Password length must be between 8 and 32 characters long and contain both letters and numbers"
+    )
     String rawPassword
 ) {}

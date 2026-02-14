@@ -1,7 +1,5 @@
 package com.dd25.dietiestates25.service;
 
-import java.util.Objects;
-
 import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,15 +29,8 @@ public class ClientService
 
     public void registerClient(AccountRegisterRequest request)
     {
-        java.util.Objects.requireNonNull(request.email(), "Email cannot be empty");
-        java.util.Objects.requireNonNull(request.firstName(), "First name cannot be empty");
-        java.util.Objects.requireNonNull(request.lastName(), "Last name cannot be empty");
-        java.util.Objects.requireNonNull(request.rawPassword(), "Password cannot be empty");
-
-        repo.findById(Objects.requireNonNull(request.email())).ifPresent(client -> 
+        repo.findById(request.email()).ifPresent(client -> 
             {throw new IllegalStateException("Email already registered");});
-
-        validatePassword(request.rawPassword());
 
         Client client = new Client(request.email(), request.firstName(), request.lastName(), encoder.encode(request.rawPassword()));
         repo.save(client);  
@@ -57,11 +48,6 @@ public class ClientService
     @Transactional
     public void changePassword(@NonNull String requesterEmail, ChangePasswordRequest request)
     {
-        java.util.Objects.requireNonNull(requesterEmail, "Email cannot be null");
-        
-        if (request == null)
-            throw new IllegalArgumentException("Request cannot be null");
-
         Client requester = repo.findById(requesterEmail).orElseThrow(() -> new IllegalStateException("Account not found"));
         
         if (!encoder.matches(request.oldPassword(), requester.getHashPassword()))
@@ -70,15 +56,7 @@ public class ClientService
         if (request.oldPassword().equals(request.newPassword()))
             throw new IllegalArgumentException("New password must be different from the old password");
 
-        validatePassword(request.newPassword());
-
         requester.setHashPassword(encoder.encode(request.newPassword()));
         
-    }
-
-    private void validatePassword(String password)
-    {
-        if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d).{8,}$"))
-            throw new IllegalArgumentException("Password must be at least 8 characters long and contain both letters and numbers");
     }
 }

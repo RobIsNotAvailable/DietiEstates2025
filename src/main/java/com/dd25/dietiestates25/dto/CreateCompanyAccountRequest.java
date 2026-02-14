@@ -6,6 +6,7 @@ import com.dd25.dietiestates25.model.enums.SecurityLevel;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record CreateCompanyAccountRequest(
     @NonNull
@@ -19,5 +20,6 @@ public record CreateCompanyAccountRequest(
     @NotBlank (message = "Last name field cannot be blank")
     String lastName,
 
+    @NotNull (message = "Security level cannot be null")
     SecurityLevel securityLevel
 ) {}

@@ -41,7 +41,6 @@ public class ListingService
         
         Address normalizedAddress = geoapifyService.normalizeAddress(request.rawAddress());
 
-        
         SurroundingInfo surroundingInfo = geoapifyService.fetchSurroundingInfo(normalizedAddress.getLatitude(), normalizedAddress.getLongitude());
 
         CommercialInfo commercialInfo = new CommercialInfo(request.price(), request.listingType());

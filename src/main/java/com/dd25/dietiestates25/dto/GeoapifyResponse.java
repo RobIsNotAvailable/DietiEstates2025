@@ -5,19 +5,23 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GeoapifyResponse 
+public record GeoapifyResponse(
+    List<GeoapifyFeature> features
+)
 {
-    private List<GeoapifyFeature> features;
-
-    public List<GeoapifyFeature> getFeatures() { return features; }
-    
-    public void setFeatures(List<GeoapifyFeature> features) { this.features = features; }
-
-    public static class GeoapifyFeature 
+    public GeoapifyResponse
     {
-        private GeoapifyProperties properties;
-
-        public GeoapifyProperties getProperties() { return properties; }
-        public void setProperties(GeoapifyProperties properties) { this.properties = properties; }
+        if (features == null || features.isEmpty())
+            throw new IllegalArgumentException("Invalid response from given address");
     }
+
+
+    public List<GeoapifyProperties> properties()
+    {
+        return features.stream()
+                .map(GeoapifyFeature::properties)
+                .toList();
+    }
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private record GeoapifyFeature(GeoapifyProperties properties) {}
 }

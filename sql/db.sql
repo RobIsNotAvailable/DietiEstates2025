@@ -29,7 +29,7 @@ CREATE TABLE company_account
     last_name VARCHAR(100) NOT NULL,
     hash_password VARCHAR(255) NOT NULL,
     security_level security_level NOT NULL,
-    password_changed BOOLEAN NOT NULL DEFAULT FALSE,
+    password_changed BOOLEAN NOT NULL DEFAULT FALSE
 
     CONSTRAINT valid_email CHECK
     (
@@ -42,7 +42,7 @@ CREATE TABLE listing
     id SERIAL PRIMARY KEY,
     status status NOT NULL DEFAULT 'active',
     n_views INT NOT NULL DEFAULT 0,
-    agent_email VARCHAR(255) REFERENCES company_account(email) ON UPDATE CASCADE,
+    agent_email VARCHAR(255) REFERENCES company_account(email) ON UPDATE CASCADE
 );
 
 CREATE TABLE offer
@@ -86,20 +86,6 @@ CREATE TABLE photo
     UNIQUE (listing_id, position)
 );
 
-CREATE TABLE house_info
-(
-    listing_id INT REFERENCES listing(id) PRIMARY KEY,
-    description VARCHAR(255) NOT NULL,
-    address_id INT REFERENCES address(id) NOT NULL,
-    intern INT NOT NULL,
-    floor INT NOT NULL,
-    elevator BOOLEAN NOT NULL,
-    square_meters INT NOT NULL,
-    n_rooms INT NOT NULL,
-    energy_class VARCHAR(5) NOT NULL,
-    other_services VARCHAR(255) NOT NULL
-);
-
 CREATE TABLE address
 (
     id SERIAL PRIMARY KEY,
@@ -115,12 +101,26 @@ CREATE TABLE address
     formatted_address VARCHAR(255)
 );
 
+CREATE TABLE house_info
+(
+    listing_id INT REFERENCES listing(id) PRIMARY KEY,
+    description VARCHAR(255) NOT NULL,
+    address_id INT REFERENCES address(id) NOT NULL,
+    intern INT NOT NULL,
+    floor INT NOT NULL,
+    elevator BOOLEAN NOT NULL,
+    square_meters INT NOT NULL,
+    n_rooms INT NOT NULL,
+    energy_class VARCHAR(5) NOT NULL,
+    other_services VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE commercial_info
 (
     listing_id INT REFERENCES listing(id) PRIMARY KEY,
     price NUMERIC NOT NULL,
-    listing_type listing_type NOT NULL,
-)
+    listing_type listing_type NOT NULL
+);
 
 CREATE TABLE surrounding_info
 (
@@ -128,5 +128,13 @@ CREATE TABLE surrounding_info
     near_stops BOOLEAN NOT NULL,
     near_parks BOOLEAN NOT NULL,
     near_schools BOOLEAN NOT NULL
-)
+);
+
+CREATE TABLE onboarding_token
+(
+    token VARCHAR(255) PRIMARY KEY,
+    email VARCHAR(255) REFERENCES company_account(email) ON UPDATE CASCADE,
+    expiration_date TIMESTAMPTZ NOT NULL,
+    is_used BOOLEAN NOT NULL DEFAULT FALSE
+);
 
