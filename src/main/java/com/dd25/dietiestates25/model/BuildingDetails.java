@@ -1,5 +1,6 @@
 package com.dd25.dietiestates25.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
@@ -11,7 +12,7 @@ import jakarta.persistence.OneToOne;
 public class BuildingDetails
 {
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 

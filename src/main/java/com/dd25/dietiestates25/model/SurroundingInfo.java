@@ -48,7 +48,5 @@ public class SurroundingInfo
     public boolean isNearSchools() { return nearSchools; }
 
     // Setters
-    public void setNearStops(boolean nearStops) { this.nearStops = nearStops; }
-    public void setNearParks(boolean nearParks) { this.nearParks = nearParks; }
-    public void setNearSchools(boolean nearSchools) { this.nearSchools = nearSchools; }
+    public void setListing(Listing listing) { this.listing = listing; }
 }

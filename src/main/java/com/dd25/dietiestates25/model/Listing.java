@@ -53,10 +53,10 @@ public class Listing
         this.status = Status.ACTIVE;
         this.nViews = 0;
         this.agent = agent;
-        this.surroundingInfo = surroundingInfo;
 
         setCommercialInfo(commercialInfo);
         setHouseInfo(houseInfo);
+        setSurroundingInfo(surroundingInfo);
     }
 
     // Getters
@@ -72,7 +72,6 @@ public class Listing
     public void setStatus(Status status) { this.status = status; }
     public void setNViews(Integer nViews) { this.nViews = nViews; }
     public void setAgent(CompanyAccount agent) { this.agent = agent; }
-    public void setSurroundingInfo(SurroundingInfo surroundingInfo) { this.surroundingInfo = surroundingInfo; }
 
     public void setCommercialInfo(CommercialInfo commercialInfo)
     {
@@ -84,6 +83,12 @@ public class Listing
     {
         houseInfo.setListing(this);
         this.houseInfo = houseInfo;
+    }
+
+    public void setSurroundingInfo(SurroundingInfo surroundingInfo) 
+    {
+        surroundingInfo.setListing(this);
+        this.surroundingInfo = surroundingInfo;
     }
 
 }
