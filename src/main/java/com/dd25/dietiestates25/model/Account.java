@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 @Table(name = "account")
 @Inheritance(strategy = jakarta.persistence.InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "account_level")
-@DiscriminatorFormula("CASE WHEN role = 'CLIENT' THEN 'CLIENT' ELSE 'COMPANY' END")
+@DiscriminatorFormula("CASE WHEN account_level = 'client' THEN 'CLIENT' ELSE 'COMPANY' END")
 public abstract class Account 
 {
     @Id

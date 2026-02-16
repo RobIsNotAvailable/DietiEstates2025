@@ -14,7 +14,7 @@ import jakarta.persistence.Enumerated;
 public class CompanyAccount extends Account
 {
     @Enumerated(EnumType.STRING)
-    @Column(name = "security_level", nullable = false)
+    @Column(name = "account_level", nullable = false)
     private SecurityLevel securityLevel;
 
     //constructors
