@@ -14,7 +14,7 @@ CREATE TABLE account
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     hash_password VARCHAR(255) NOT NULL,
-    account_level account_level NOT NULL,
+    account_level account_level NOT NULL DEFAULT 'client',
 
     CONSTRAINT valid_email CHECK
     (
@@ -115,7 +115,7 @@ CREATE TABLE surrounding_info
     near_schools BOOLEAN NOT NULL
 );
 
-CREATE TABLE onboarding_token
+CREATE TABLE login_token
 (
     token VARCHAR(255) PRIMARY KEY,
     email VARCHAR(255) REFERENCES account(email) ON UPDATE CASCADE,

@@ -10,7 +10,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
 @Entity
-@DiscriminatorValue("COMPANY")
+@DiscriminatorValue("company")
 public class CompanyAccount extends Account
 {
     @Enumerated(EnumType.STRING)
