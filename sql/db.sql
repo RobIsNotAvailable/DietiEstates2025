@@ -1,6 +1,6 @@
 /***************************************************** ENUMS *************************************************************/
 
-CREATE TYPE security_level AS enum('agent','support', 'admin');
+CREATE TYPE account_level AS enum('client', 'agent', 'support', 'admin');
 
 CREATE TYPE status AS enum('active', 'ended_succesfully', 'removed');
 
@@ -8,28 +8,13 @@ CREATE TYPE listing_type AS enum('rent', 'sale');
 
 /***************************************************** TABLES *************************************************************/
 
-CREATE TABLE client
-(
-    email VARCHAR(255) PRIMARY KEY,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    hash_password VARCHAR(255) NOT NULL
-
-    CONSTRAINT valid_email CHECK
-    (
-        email ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
-    )
-);
-
-
-CREATE TABLE company_account
+CREATE TABLE account
 (
     email VARCHAR(255) PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     hash_password VARCHAR(255) NOT NULL,
-    security_level security_level NOT NULL,
-    password_changed BOOLEAN NOT NULL DEFAULT FALSE
+    account_level account_level NOT NULL,
 
     CONSTRAINT valid_email CHECK
     (
@@ -42,7 +27,7 @@ CREATE TABLE listing
     id SERIAL PRIMARY KEY,
     status status NOT NULL DEFAULT 'active',
     n_views INT NOT NULL DEFAULT 0,
-    agent_email VARCHAR(255) REFERENCES company_account(email) ON UPDATE CASCADE
+    agent_email VARCHAR(255) REFERENCES account(email) ON UPDATE CASCADE
 );
 
 CREATE TABLE offer
@@ -53,8 +38,8 @@ CREATE TABLE offer
     notes VARCHAR(255) NOT NULL,
     status status NOT NULL DEFAULT 'active',
     listing_id INT REFERENCES listing(id) NOT NULL,
-    client_email VARCHAR(255) REFERENCES client(email) ON UPDATE CASCADE,
-    agent_email VARCHAR(255) REFERENCES company_account(email) ON UPDATE CASCADE
+    client_email VARCHAR(255) REFERENCES account(email) ON UPDATE CASCADE,
+    agent_email VARCHAR(255) REFERENCES account(email) ON UPDATE CASCADE
 
     CONSTRAINT valid_expiration_date CHECK
     (
@@ -68,8 +53,8 @@ CREATE TABLE visit_request
     visit_date TIMESTAMPTZ NOT NULL,
     status status NOT NULL DEFAULT 'active',
     listing_id INT REFERENCES listing(id) NOT NULL,
-    client_email VARCHAR(255) REFERENCES client(email) ON UPDATE CASCADE,
-    agent_email VARCHAR(255) REFERENCES company_account(email) ON UPDATE CASCADE
+    client_email VARCHAR(255) REFERENCES account(email) ON UPDATE CASCADE,
+    agent_email VARCHAR(255) REFERENCES account(email) ON UPDATE CASCADE
 
     CONSTRAINT valid_visit_date CHECK
     (
@@ -133,7 +118,7 @@ CREATE TABLE surrounding_info
 CREATE TABLE onboarding_token
 (
     token VARCHAR(255) PRIMARY KEY,
-    email VARCHAR(255) REFERENCES company_account(email) ON UPDATE CASCADE,
+    email VARCHAR(255) REFERENCES account(email) ON UPDATE CASCADE,
     expiration_date TIMESTAMPTZ NOT NULL,
     is_used BOOLEAN NOT NULL DEFAULT FALSE
 );

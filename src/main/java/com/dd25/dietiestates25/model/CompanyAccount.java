@@ -4,21 +4,18 @@ package com.dd25.dietiestates25.model;
 import com.dd25.dietiestates25.model.enums.SecurityLevel;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "company_account")
-public class CompanyAccount extends AbstractAccount
+@DiscriminatorValue("COMPANY")
+public class CompanyAccount extends Account
 {
     @Enumerated(EnumType.STRING)
     @Column(name = "security_level", nullable = false)
     private SecurityLevel securityLevel;
-
-    @Column(name = "password_changed", nullable = false)
-    private boolean passwordChanged = true;
 
     //constructors
 
@@ -32,10 +29,8 @@ public class CompanyAccount extends AbstractAccount
 
     //getters
     public SecurityLevel getSecurityLevel() { return securityLevel; }
-    public boolean isPasswordChanged() { return passwordChanged; }
 
     
     //setters
     public void setSecurityLevel(SecurityLevel securityLevel) { this.securityLevel = securityLevel; }
-    public void setPasswordChanged(boolean passwordChanged) { this.passwordChanged = passwordChanged; }
 }

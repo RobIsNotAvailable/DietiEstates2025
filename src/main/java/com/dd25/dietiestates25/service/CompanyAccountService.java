@@ -5,13 +5,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.dd25.dietiestates25.dto.ChangePasswordRequest;
 import com.dd25.dietiestates25.dto.CreateCompanyAccountRequest;
 import com.dd25.dietiestates25.model.CompanyAccount;
 import com.dd25.dietiestates25.model.enums.SecurityLevel;
 import com.dd25.dietiestates25.repository.CompanyAccountRepository;
 
-import jakarta.transaction.Transactional;
 
 @Service
 public class CompanyAccountService 
@@ -39,23 +37,6 @@ public class CompanyAccountService
             throw new IllegalStateException("Email already registered");
 
         repo.save(newAccount);
-    }
-
-    @Transactional
-    public void changePassword(@NonNull String requesterEmail, ChangePasswordRequest request)
-    {
-        CompanyAccount requester = repo.findById(requesterEmail).orElseThrow(() -> 
-            new IllegalArgumentException("Account not found"));
-
-        if (!encoder.matches(request.oldPassword(), requester.getHashPassword()))
-            throw new SecurityException("Old password is incorrect");
-
-        if (request.oldPassword().equals(request.newPassword()))
-            throw new IllegalStateException("New password must be different from the old password");
-
-        requester.setHashPassword(encoder.encode(request.newPassword()));
-
-        requester.setPasswordChanged(false);
     }
 
     private void checkRolePermission(CompanyAccount requester, SecurityLevel targetLevel) 

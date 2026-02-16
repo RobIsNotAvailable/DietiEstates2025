@@ -1,11 +1,20 @@
 package com.dd25.dietiestates25.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import org.hibernate.annotations.DiscriminatorFormula;
 
-@MappedSuperclass
-public abstract class AbstractAccount 
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "account")
+@Inheritance(strategy = jakarta.persistence.InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "account_level")
+@DiscriminatorFormula("CASE WHEN role = 'CLIENT' THEN 'CLIENT' ELSE 'COMPANY' END")
+public abstract class Account 
 {
     @Id
     @Column(name = "email", nullable = false, length = 255)
@@ -20,9 +29,9 @@ public abstract class AbstractAccount
     @Column(name = "hash_password", nullable = false, length = 255)
     protected String hashPassword;
 
-    protected AbstractAccount() {}
+    protected Account() {}
 
-    protected AbstractAccount(String email, String firstName, String lastName, String hashPassword) 
+    protected Account(String email, String firstName, String lastName, String hashPassword) 
     {
         this.email = email;
         this.firstName = firstName;

@@ -8,23 +8,26 @@ import jakarta.validation.Valid;
 import com.dd25.dietiestates25.dto.ChangePasswordRequest;
 import com.dd25.dietiestates25.dto.CreateCompanyAccountRequest;
 import com.dd25.dietiestates25.service.CompanyAccountService;
+import com.dd25.dietiestates25.service.AccountService;
 
 @RestController
 @RequestMapping("/api/company_accounts")
 public class CompanyAccountController 
 {
-    private final CompanyAccountService service;
+    private final AccountService accountService;
+    private final CompanyAccountService companyService;
 
-    public CompanyAccountController(CompanyAccountService service)
+    public CompanyAccountController(AccountService accountService, CompanyAccountService companyService)
     {
-        this.service = service;
+        this.accountService = accountService;
+        this.companyService = companyService;
     }
 
     @PostMapping("/create_company_account")
     public ResponseEntity<String> createCompanyAccount
     (@RequestHeader("Requester-Email") @NonNull String requesterEmail, @RequestBody @Valid CreateCompanyAccountRequest request) 
     {
-        service.createCompanyAccount(requesterEmail, request);
+        companyService.createCompanyAccount(requesterEmail, request);
         return ResponseEntity.ok("Account created successfully");
     }
 
@@ -32,7 +35,7 @@ public class CompanyAccountController
     public ResponseEntity<String> changePassword
     (@RequestHeader("Requester-Email") @NonNull String requesterEmail, @RequestBody @Valid ChangePasswordRequest request) 
     {
-        service.changePassword(requesterEmail, request);
+        accountService.changePassword(requesterEmail, request);
         return ResponseEntity.ok("Password succesfully updated");
     }
 }

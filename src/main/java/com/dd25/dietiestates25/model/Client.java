@@ -1,11 +1,11 @@
 package com.dd25.dietiestates25.model;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "client")
-public class Client extends AbstractAccount
+@DiscriminatorValue("CLIENT")
+public class Client extends Account
 {
     //constructors
     protected Client() {}

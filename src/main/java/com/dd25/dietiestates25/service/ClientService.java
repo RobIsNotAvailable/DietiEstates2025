@@ -1,18 +1,11 @@
 package com.dd25.dietiestates25.service;
 
-import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dd25.dietiestates25.dto.AccountRegisterRequest;
-import com.dd25.dietiestates25.dto.ChangePasswordRequest;
-import com.dd25.dietiestates25.dto.LoginRequest;
 import com.dd25.dietiestates25.model.Client;
 import com.dd25.dietiestates25.repository.ClientRepository;
-
-
-
-import jakarta.transaction.Transactional;
 
 @Service
 public class ClientService 
@@ -34,29 +27,5 @@ public class ClientService
 
         Client client = new Client(request.email(), request.firstName(), request.lastName(), encoder.encode(request.rawPassword()));
         repo.save(client);  
-    }
-
-    public void login(LoginRequest request)
-    {
-        Client client = repo.findById(request.email()).orElseThrow(() -> 
-            new SecurityException("Invalid credentials"));
-        
-        if (!encoder.matches(request.rawPassword(), client.getHashPassword()))
-            throw new SecurityException("Invalid credentials");
-    }
-
-    @Transactional
-    public void changePassword(@NonNull String requesterEmail, ChangePasswordRequest request)
-    {
-        Client requester = repo.findById(requesterEmail).orElseThrow(() -> new IllegalStateException("Account not found"));
-        
-        if (!encoder.matches(request.oldPassword(), requester.getHashPassword()))
-            throw new IllegalArgumentException("Old password is incorrect");
-
-        if (request.oldPassword().equals(request.newPassword()))
-            throw new IllegalArgumentException("New password must be different from the old password");
-
-        requester.setHashPassword(encoder.encode(request.newPassword()));
-        
     }
 }

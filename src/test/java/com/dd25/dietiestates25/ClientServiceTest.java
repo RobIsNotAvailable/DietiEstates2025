@@ -5,6 +5,7 @@ import com.dd25.dietiestates25.dto.ChangePasswordRequest;
 import com.dd25.dietiestates25.dto.LoginRequest;
 import com.dd25.dietiestates25.model.Client;
 import com.dd25.dietiestates25.repository.ClientRepository;
+import com.dd25.dietiestates25.service.AccountService;
 import com.dd25.dietiestates25.service.ClientService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,6 +35,9 @@ class ClientServiceTest
 
     @InjectMocks
     private ClientService clientService;
+
+    @InjectMocks
+    private AccountService accountService;
 
     @Test
     void testRegisterClientSuccessTC1() 
@@ -142,7 +146,7 @@ class ClientServiceTest
 
         LoginRequest request = new LoginRequest(email, password);
 
-        clientService.login(request);
+        accountService.login(request);
 
         Mockito.verify(repo).findById(email);
         Mockito.verify(encoder).matches(password, encodedPassword);
@@ -164,7 +168,7 @@ class ClientServiceTest
 
         assertThrows(RuntimeException.class, () -> 
         {
-            clientService.login(request);
+            accountService.login(request);
         });
 
         Mockito.verify(repo).findById(email);
@@ -183,7 +187,7 @@ class ClientServiceTest
 
         assertThrows(RuntimeException.class, () -> 
         {
-            clientService.login(request);
+            accountService.login(request);
         });
 
         Mockito.verify(repo).findById(email);
@@ -201,7 +205,7 @@ class ClientServiceTest
 
         assertThrows(RuntimeException.class, () -> 
         {
-            clientService.login(request);
+            accountService.login(request);
         });
 
         Mockito.verify(repo).findById(email);
@@ -223,7 +227,7 @@ class ClientServiceTest
         Mockito.when(encoder.matches(oldPassword, encodedOldPassword)).thenReturn(true);
         Mockito.when(encoder.encode(newPassword)).thenReturn(encodedNewPassword);
 
-        clientService.changePassword(email, request);
+        accountService.changePassword(email, request);
 
         Mockito.verify(repo).findById(email);
         Mockito.verify(encoder).matches(oldPassword, encodedOldPassword);
@@ -248,7 +252,7 @@ class ClientServiceTest
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> 
         {
-            clientService.changePassword(email, request);
+            accountService.changePassword(email, request);
         });
 
         assertEquals("Old password is incorrect", exception.getMessage());
@@ -273,7 +277,7 @@ class ClientServiceTest
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> 
         {
-            clientService.changePassword(email, request);
+            accountService.changePassword(email, request);
         });
 
         assertEquals("New password must be different from the old password", exception.getMessage());
@@ -299,7 +303,7 @@ class ClientServiceTest
         // Qui l'eccezione viene lanciata da validatePassword(newPassword)
         assertThrows(IllegalArgumentException.class, () -> 
         {
-            clientService.changePassword(email, request);
+            accountService.changePassword(email, request);
         });
 
         Mockito.verify(repo).findById(email);
@@ -320,7 +324,7 @@ class ClientServiceTest
 
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> 
         {
-            clientService.changePassword(email, request);
+            accountService.changePassword(email, request);
         });
 
         assertEquals("Account not found", exception.getMessage());
