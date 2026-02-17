@@ -35,12 +35,6 @@ public class AccountService
         Account account = repo.findById(request.email()).orElseThrow(() -> 
             new SecurityException("Invalid credentials"));
 
-
-        System.out.println("Password inserita: " + request.rawPassword());
-    System.out.println("Password nel DB: " + account.getHashPassword());
-    System.out.println("Match? " + encoder.matches(request.rawPassword(), account.getHashPassword()));
-
-
         if (!encoder.matches(request.rawPassword(), account.getHashPassword()))
             throw new SecurityException("Invalid credentials");
     }

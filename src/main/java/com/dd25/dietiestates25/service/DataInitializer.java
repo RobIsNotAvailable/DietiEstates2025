@@ -33,10 +33,10 @@ public class DataInitializer implements CommandLineRunner
     }
 
     private void createAdminIfMissing() {
-        if (accountRepo.findById("admin@dietiestates.it").isEmpty())
+        if (accountRepo.findById("admin@dietiestates.com").isEmpty())
         {
             CompanyAccount admin = new CompanyAccount(
-                "admin@dietiestates.it", 
+                "admin@dietiestates.com", 
                 "admin", 
                 "admin", 
                 encoder.encode(adminPw),
