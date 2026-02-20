@@ -1,7 +1,6 @@
 package com.dd25.dietiestates25.model;
 
-import java.time.LocalDateTime;
-
+import java.time.OffsetDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,7 +19,7 @@ public class LoginToken
     private String email;
 
     @Column(name = "expiration_date", nullable = false)
-    private LocalDateTime expirationDate;
+    private OffsetDateTime expirationDate;
 
     @Column(name = "is_used", nullable = false)
     private boolean used = false;
@@ -31,13 +30,13 @@ public class LoginToken
     {
         this.token = java.util.UUID.randomUUID().toString();
         this.email = email;
-        this.expirationDate = LocalDateTime.now().plusHours(24);
+        this.expirationDate = OffsetDateTime.now().plusHours(24);
         this.used = false;
     }
 
     public boolean isValid() 
     {
-        return !used && expirationDate.isAfter(LocalDateTime.now());
+        return !used && expirationDate.isAfter(OffsetDateTime.now());
     }
 
     //getters

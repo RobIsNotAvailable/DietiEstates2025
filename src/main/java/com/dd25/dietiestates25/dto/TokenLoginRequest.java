@@ -1,5 +1,7 @@
 package com.dd25.dietiestates25.dto;
 
+import com.dd25.dietiestates25.util.ValidationConstants;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
@@ -7,9 +9,8 @@ public record TokenLoginRequest(
     @NotBlank(message = "New password field is required")
     @Pattern
     (
-        regexp = "^(?=.*[A-Za-z])(?=.*\\d).{8,32}$", 
-        message = "Password length must be between 8 and 32 characters long and contain both letters and numbers"
-
+        regexp = ValidationConstants.PASSWORD_REGEX,
+        message = ValidationConstants.PASSWORD_MESSAGE
     )
     String newPassword
 ) {}

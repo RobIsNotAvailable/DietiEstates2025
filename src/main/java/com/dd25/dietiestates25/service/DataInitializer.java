@@ -2,7 +2,6 @@ package com.dd25.dietiestates25.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -16,14 +15,15 @@ public class DataInitializer implements CommandLineRunner
 
     @Value("${ADMIN_PW}")
     private String adminPw;
-    private final PasswordEncoder encoder = new BCryptPasswordEncoder();
-
+    private final PasswordEncoder encoder;
+    
     private final CompanyAccountRepository accountRepo;
     // e tutte le altre repo per popolare
 
-    public DataInitializer(CompanyAccountRepository accountRepo)
+    public DataInitializer(CompanyAccountRepository accountRepo, PasswordEncoder encoder)
     {
         this.accountRepo = accountRepo;
+        this.encoder = encoder;
     }
 
     @Override

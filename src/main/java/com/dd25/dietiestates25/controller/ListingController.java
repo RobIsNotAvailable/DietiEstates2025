@@ -1,10 +1,13 @@
 package com.dd25.dietiestates25.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import com.dd25.dietiestates25.dto.CreateListingRequest;
+import com.dd25.dietiestates25.dto.ListingSearchRequest;
+import com.dd25.dietiestates25.model.Listing;
 import com.dd25.dietiestates25.service.ListingService;
 
 import jakarta.validation.Valid;
@@ -20,11 +23,22 @@ public class ListingController
         this.service = service;
     }
 
-    @PostMapping("/create_listing")
-    public ResponseEntity<String> createListing
-    (@RequestHeader("Requester-Email") @NonNull String requesterEmail, @RequestBody @Valid CreateListingRequest request)
+    @PostMapping("/create")
+    public ResponseEntity<String> createListing(@RequestBody @Valid CreateListingRequest request)
     {
-        service.createListing(requesterEmail, request);
+        service.createListing(request);
         return ResponseEntity.ok("Listing created successfully");
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<Listing>> search(@RequestBody ListingSearchRequest request)
+    {
+        List<Listing> results = service.searchListings(request);
+        
+        if (results.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        
+        return ResponseEntity.ok(results);
     }
 }

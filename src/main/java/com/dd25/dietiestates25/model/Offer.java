@@ -1,7 +1,7 @@
 package com.dd25.dietiestates25.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import com.dd25.dietiestates25.model.enums.Status;
 
@@ -16,7 +16,7 @@ public class Offer extends AbstractProposal
     private BigDecimal proposedPrice;
 
     @Column(name = "expiration_date", nullable = false)
-    private LocalDateTime expirationDate;
+    private OffsetDateTime expirationDate;
 
     @Column(name = "notes", nullable = false, length = 255)
     private String notes;
@@ -25,7 +25,7 @@ public class Offer extends AbstractProposal
 
     protected Offer() {}
 
-    public Offer(BigDecimal proposedPrice, LocalDateTime expirationDate, String notes, Status status, Listing listing, Client client, CompanyAccount agent) 
+    public Offer(BigDecimal proposedPrice, OffsetDateTime expirationDate, String notes, Status status, Listing listing, Client client, CompanyAccount agent) 
     {
         super(status, listing, client, agent);
         this.proposedPrice = proposedPrice;
@@ -35,11 +35,11 @@ public class Offer extends AbstractProposal
 
     // Getters
     public BigDecimal getProposedPrice() { return proposedPrice; }
-    public LocalDateTime getExpirationDate() { return expirationDate; }
+    public OffsetDateTime getExpirationDate() { return expirationDate; }
     public String getNotes() { return notes; }
 
     // Setters
     public void setProposedPrice(BigDecimal proposedPrice) { this.proposedPrice = proposedPrice; }
-    public void setExpirationDate(LocalDateTime expirationDate) { this.expirationDate = expirationDate; }
+    public void setExpirationDate(OffsetDateTime expirationDate) { this.expirationDate = expirationDate; }
     public void setNotes(String notes) { this.notes = notes; }
 }

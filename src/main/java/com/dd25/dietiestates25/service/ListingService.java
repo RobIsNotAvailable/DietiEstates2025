@@ -3,7 +3,6 @@ package com.dd25.dietiestates25.service;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.dd25.dietiestates25.dto.CreateListingRequest;
@@ -19,6 +18,9 @@ import com.dd25.dietiestates25.model.SurroundingInfo;
 import com.dd25.dietiestates25.repository.CompanyAccountRepository;
 import com.dd25.dietiestates25.repository.ListingRepository;
 import com.dd25.dietiestates25.repository.ListingSpecs;
+import com.dd25.dietiestates25.util.SecurityUtil;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class ListingService 
@@ -26,17 +28,20 @@ public class ListingService
     private final ListingRepository repo;
     private final CompanyAccountRepository agentRepo;
     private final GeoapifyService geoapifyService;
+    private final SecurityUtil securityUtil;
 
-    public ListingService(ListingRepository repo, CompanyAccountRepository agentRepo, GeoapifyService geoapifyService)
+    public ListingService(ListingRepository repo, CompanyAccountRepository agentRepo, GeoapifyService geoapifyService, SecurityUtil securityUtil)
     {
         this.repo = repo;
         this.agentRepo = agentRepo;
         this.geoapifyService = geoapifyService;
+        this.securityUtil = securityUtil;
     }
 
-    public void createListing(@NonNull String requesterEmail, CreateListingRequest request) 
+    @Transactional
+    public void createListing(CreateListingRequest request) 
     {
-        CompanyAccount agent = agentRepo.findById(requesterEmail).orElseThrow(() -> 
+        CompanyAccount agent = agentRepo.findById(securityUtil.getCurrentEmail()).orElseThrow(() -> 
             new IllegalArgumentException("Agent account not found"));
         
         Address normalizedAddress = geoapifyService.normalizeAddress(request.rawAddress());

@@ -3,8 +3,6 @@ package com.dd25.dietiestates25.service;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
-import org.springframework.lang.NonNull;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +12,7 @@ import com.dd25.dietiestates25.model.LoginToken;
 import com.dd25.dietiestates25.model.enums.SecurityLevel;
 import com.dd25.dietiestates25.repository.CompanyAccountRepository;
 import com.dd25.dietiestates25.repository.LoginTokenRepository;
+import com.dd25.dietiestates25.util.SecurityUtil;
 
 
 @Service
@@ -22,18 +21,21 @@ public class CompanyAccountService
     private final CompanyAccountRepository repo;
     private final LoginTokenRepository tokenRepo;
     private final EmailService emailService;
-    private final PasswordEncoder encoder = new BCryptPasswordEncoder();
-    
-    public CompanyAccountService(CompanyAccountRepository repo, LoginTokenRepository tokenRepo, EmailService emailService)
+    private final PasswordEncoder encoder;
+    private final SecurityUtil securityUtil;
+
+    public CompanyAccountService(CompanyAccountRepository repo, LoginTokenRepository tokenRepo, EmailService emailService, PasswordEncoder encoder, SecurityUtil securityUtil)
     {
         this.repo = repo;
         this.tokenRepo = tokenRepo;
         this.emailService = emailService;
+        this.encoder = encoder;
+        this.securityUtil = securityUtil;
     }
 
-    public void createCompanyAccount(@NonNull String requesterEmail, CreateCompanyAccountRequest request)
+    public void createCompanyAccount(CreateCompanyAccountRequest request)
     {
-        CompanyAccount requester = repo.findById(requesterEmail).orElseThrow(() -> 
+        CompanyAccount requester = repo.findById(securityUtil.getCurrentEmail()).orElseThrow(() -> 
             new IllegalArgumentException("Account not found"));
         
         checkRolePermission(requester, request.securityLevel());

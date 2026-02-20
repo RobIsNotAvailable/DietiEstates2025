@@ -227,7 +227,7 @@ class ClientServiceTest
         Mockito.when(encoder.matches(oldPassword, encodedOldPassword)).thenReturn(true);
         Mockito.when(encoder.encode(newPassword)).thenReturn(encodedNewPassword);
 
-        accountService.changePassword(email, request);
+        accountService.changePassword(request);
 
         Mockito.verify(repo).findById(email);
         Mockito.verify(encoder).matches(oldPassword, encodedOldPassword);
@@ -252,7 +252,7 @@ class ClientServiceTest
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> 
         {
-            accountService.changePassword(email, request);
+            accountService.changePassword(request);
         });
 
         assertEquals("Old password is incorrect", exception.getMessage());
@@ -277,7 +277,7 @@ class ClientServiceTest
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> 
         {
-            accountService.changePassword(email, request);
+            accountService.changePassword(request);
         });
 
         assertEquals("New password must be different from the old password", exception.getMessage());
@@ -303,7 +303,7 @@ class ClientServiceTest
         // Qui l'eccezione viene lanciata da validatePassword(newPassword)
         assertThrows(IllegalArgumentException.class, () -> 
         {
-            accountService.changePassword(email, request);
+            accountService.changePassword(request);
         });
 
         Mockito.verify(repo).findById(email);
@@ -324,7 +324,7 @@ class ClientServiceTest
 
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> 
         {
-            accountService.changePassword(email, request);
+            accountService.changePassword(request);
         });
 
         assertEquals("Account not found", exception.getMessage());
