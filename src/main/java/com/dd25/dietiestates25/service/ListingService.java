@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.dd25.dietiestates25.dto.CreateListingRequest;
 import com.dd25.dietiestates25.dto.ListingSearchRequest;
+import com.dd25.dietiestates25.dto.SearchListingResponse;
 import com.dd25.dietiestates25.model.Address;
 import com.dd25.dietiestates25.model.BuildingDetails;
 import com.dd25.dietiestates25.model.CommercialInfo;
@@ -14,10 +15,12 @@ import com.dd25.dietiestates25.model.CompanyAccount;
 import com.dd25.dietiestates25.model.HouseDetails;
 import com.dd25.dietiestates25.model.HouseInfo;
 import com.dd25.dietiestates25.model.Listing;
+import com.dd25.dietiestates25.model.Photo;
 import com.dd25.dietiestates25.model.SurroundingInfo;
 import com.dd25.dietiestates25.repository.CompanyAccountRepository;
 import com.dd25.dietiestates25.repository.ListingRepository;
 import com.dd25.dietiestates25.repository.ListingSpecs;
+import com.dd25.dietiestates25.service.utilityService.GeoapifyService;
 import com.dd25.dietiestates25.util.SecurityUtil;
 
 import jakarta.transaction.Transactional;
@@ -55,16 +58,42 @@ public class ListingService
         repo.save(listing);
     }
 
-    public List<Listing> searchListings(ListingSearchRequest request)
+    public List<SearchListingResponse> searchListings(ListingSearchRequest request)
     {
         Specification<Listing> spec = Specification.unrestricted();
 
+        spec = spec.and(ListingSpecs.isActive(true));
         spec = spec.and(ListingSpecs.hasCity(request.city()));
         spec = spec.and(ListingSpecs.hasPriceRange(request.minPrice(), request.maxPrice()));
         spec = spec.and(ListingSpecs.hasMinRooms(request.minRooms()));
         spec = spec.and(ListingSpecs.hasEnergyClass(request.energyClass()));
         spec = spec.and(ListingSpecs.hasListingType(request.listingType()));
+        List<Listing> results = repo.findAll(spec);
+        return results.stream()
+                  .map(this::mapToResponse)
+                  .toList();
+    }
 
-        return repo.findAll(spec);
+    private SearchListingResponse mapToResponse(Listing l) 
+    {
+        return new SearchListingResponse(
+            l.getAgent().getEmail(),
+            l.getAgent().getFirstName() + " " + l.getAgent().getLastName(),
+            l.getCommercialInfo().getPrice(),
+            l.getCommercialInfo().getListingType().toString(),
+            l.getHouseInfo().getBuildingDetails().getAddress().getFormattedAddress(),
+            l.getHouseInfo().getBuildingDetails().getIntern(),
+            l.getHouseInfo().getBuildingDetails().getFloor(),
+            l.getHouseInfo().getBuildingDetails().hasElevator(),
+            l.getHouseInfo().getHouseDetails().getSquareMeters(),
+            l.getHouseInfo().getHouseDetails().getNumberOfRooms(),
+            l.getHouseInfo().getHouseDetails().getEnergyClass(),
+            l.getHouseInfo().getHouseDetails().getOtherServices(),
+            l.getHouseInfo().getDescription(),
+            l.getSurroundingInfo().isNearStops(),
+            l.getSurroundingInfo().isNearParks(),
+            l.getSurroundingInfo().isNearSchools(),
+            l.getPhotos().stream().map(Photo::getFilepath).toList()
+        );
     }
 }

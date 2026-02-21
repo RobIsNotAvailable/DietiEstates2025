@@ -1,5 +1,8 @@
 package com.dd25.dietiestates25.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dd25.dietiestates25.model.enums.Status;
 
 import jakarta.persistence.CascadeType;
@@ -13,7 +16,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 
 @Entity
@@ -44,6 +49,10 @@ public class Listing
 
     @OneToOne(mappedBy = "listing", cascade = CascadeType.ALL)
     private SurroundingInfo surroundingInfo;
+
+    @OneToMany(mappedBy = "listing", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OrderBy("position ASC")
+    private List<Photo> photos = new ArrayList<>();
     
     //constructors
     protected Listing() {}
@@ -64,8 +73,9 @@ public class Listing
     public Integer getNViews() { return nViews; }
     public CompanyAccount getAgent() { return agent; }
     public CommercialInfo getCommercialInfo() { return commercialInfo; }
-    public HouseInfo getHouseInfo() { return houseInfo; }
+    public HouseInfo getHouseInfo() { return houseInfo; }   
     public SurroundingInfo getSurroundingInfo() { return surroundingInfo; }
+    public List<Photo> getPhotos() { return photos; }
 
 
     // Setters

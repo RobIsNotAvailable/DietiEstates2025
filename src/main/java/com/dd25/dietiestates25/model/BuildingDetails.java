@@ -42,7 +42,7 @@ public class BuildingDetails
     public Address getAddress() { return address; }
     public Integer getIntern() { return intern; }
     public Integer getFloor() { return floor; }
-    public Boolean isElevator() { return elevator; }
+    public Boolean hasElevator() { return elevator; }
 
     //setters
     public void setAddress(Address address) { this.address = address; }

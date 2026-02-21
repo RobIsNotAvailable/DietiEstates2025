@@ -15,6 +15,8 @@ import com.dd25.dietiestates25.model.Account;
 import com.dd25.dietiestates25.model.LoginToken;
 import com.dd25.dietiestates25.repository.AccountRepository;
 import com.dd25.dietiestates25.repository.LoginTokenRepository;
+import com.dd25.dietiestates25.service.utilityService.EmailService;
+import com.dd25.dietiestates25.service.utilityService.JwtService;
 import com.dd25.dietiestates25.util.SecurityUtil;
 
 import jakarta.transaction.Transactional;

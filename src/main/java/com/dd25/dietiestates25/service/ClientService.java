@@ -7,6 +7,7 @@ import com.dd25.dietiestates25.dto.AccountRegisterRequest;
 import com.dd25.dietiestates25.dto.AuthResponse;
 import com.dd25.dietiestates25.model.Client;
 import com.dd25.dietiestates25.repository.ClientRepository;
+import com.dd25.dietiestates25.service.utilityService.JwtService;
 
 import lombok.RequiredArgsConstructor;
 

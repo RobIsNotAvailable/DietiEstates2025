@@ -72,4 +72,9 @@ public class ListingSpecs
             return cb.equal(root.get("listingType"), listingType);
         };
     }
+
+    public static Specification<Listing> isActive(boolean active) 
+    {
+        return (root, query, cb) -> cb.equal(root.get("active"), active);
+    }
 }

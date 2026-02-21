@@ -3,11 +3,14 @@ package com.dd25.dietiestates25.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.dd25.dietiestates25.dto.CreateListingRequest;
 import com.dd25.dietiestates25.dto.ListingSearchRequest;
-import com.dd25.dietiestates25.model.Listing;
+import com.dd25.dietiestates25.dto.SearchListingResponse;
 import com.dd25.dietiestates25.service.ListingService;
 
 import jakarta.validation.Valid;
@@ -31,9 +34,9 @@ public class ListingController
     }
 
     @PostMapping("/search")
-    public ResponseEntity<List<Listing>> search(@RequestBody ListingSearchRequest request)
+    public ResponseEntity<List<SearchListingResponse>> search(@RequestBody ListingSearchRequest request)
     {
-        List<Listing> results = service.searchListings(request);
+        List<SearchListingResponse> results = service.searchListings(request);
         
         if (results.isEmpty()) {
             return ResponseEntity.noContent().build();

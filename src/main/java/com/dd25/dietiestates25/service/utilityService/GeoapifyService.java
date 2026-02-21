@@ -1,4 +1,4 @@
-package com.dd25.dietiestates25.service;
+package com.dd25.dietiestates25.service.utilityService;
 
 import java.util.Optional;
 

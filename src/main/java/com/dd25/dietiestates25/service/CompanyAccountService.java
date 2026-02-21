@@ -12,6 +12,7 @@ import com.dd25.dietiestates25.model.LoginToken;
 import com.dd25.dietiestates25.model.enums.SecurityLevel;
 import com.dd25.dietiestates25.repository.CompanyAccountRepository;
 import com.dd25.dietiestates25.repository.LoginTokenRepository;
+import com.dd25.dietiestates25.service.utilityService.EmailService;
 import com.dd25.dietiestates25.util.SecurityUtil;
 
 import lombok.RequiredArgsConstructor;
