@@ -14,8 +14,11 @@ import com.dd25.dietiestates25.repository.CompanyAccountRepository;
 import com.dd25.dietiestates25.repository.LoginTokenRepository;
 import com.dd25.dietiestates25.util.SecurityUtil;
 
+import lombok.RequiredArgsConstructor;
+
 
 @Service
+@RequiredArgsConstructor
 public class CompanyAccountService 
 {
     private final CompanyAccountRepository repo;
@@ -23,15 +26,6 @@ public class CompanyAccountService
     private final EmailService emailService;
     private final PasswordEncoder encoder;
     private final SecurityUtil securityUtil;
-
-    public CompanyAccountService(CompanyAccountRepository repo, LoginTokenRepository tokenRepo, EmailService emailService, PasswordEncoder encoder, SecurityUtil securityUtil)
-    {
-        this.repo = repo;
-        this.tokenRepo = tokenRepo;
-        this.emailService = emailService;
-        this.encoder = encoder;
-        this.securityUtil = securityUtil;
-    }
 
     public void createCompanyAccount(CreateCompanyAccountRequest request)
     {

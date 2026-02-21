@@ -8,19 +8,15 @@ import com.dd25.dietiestates25.dto.AuthResponse;
 import com.dd25.dietiestates25.model.Client;
 import com.dd25.dietiestates25.repository.ClientRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class ClientService 
 {
     private final ClientRepository repo;
     private final PasswordEncoder encoder;
     private final JwtService jwtService;
-
-    public ClientService(ClientRepository repo, PasswordEncoder encoder, JwtService jwtService)
-    {
-        this.repo = repo;
-        this.encoder = encoder;
-        this.jwtService = jwtService;
-    }
 
     public AuthResponse registerClient(AccountRegisterRequest request)
     {

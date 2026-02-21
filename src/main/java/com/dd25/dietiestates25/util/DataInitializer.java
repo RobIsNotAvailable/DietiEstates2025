@@ -1,4 +1,4 @@
-package com.dd25.dietiestates25.service;
+package com.dd25.dietiestates25.util;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;

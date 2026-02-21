@@ -18,8 +18,10 @@ import com.dd25.dietiestates25.repository.LoginTokenRepository;
 import com.dd25.dietiestates25.util.SecurityUtil;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class AccountService
 {
     private final AccountRepository repo;
@@ -28,16 +30,6 @@ public class AccountService
     private final EmailService emailService;
     private final JwtService jwtService;
     private final SecurityUtil securityUtil;
-
-    public AccountService(AccountRepository repo, LoginTokenRepository tokenRepo, PasswordEncoder encoder, EmailService emailService, JwtService jwtService, SecurityUtil securityUtil)
-    {
-        this.repo = repo;
-        this.tokenRepo = tokenRepo;
-        this.encoder = encoder;
-        this.emailService = emailService;
-        this.jwtService = jwtService;
-        this.securityUtil = securityUtil;
-    }
 
     public AuthResponse login(LoginRequest request)
     {

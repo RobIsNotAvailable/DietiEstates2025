@@ -5,15 +5,13 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class EmailService 
 {
     private JavaMailSender mailSender;
-
-    public EmailService(JavaMailSender mailSender)
-    {
-        this.mailSender = mailSender;
-    }
     
     @Async
     public void sendOnboardingEmail(String to, String token) 

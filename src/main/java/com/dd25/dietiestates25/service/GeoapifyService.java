@@ -13,19 +13,17 @@ import com.dd25.dietiestates25.dto.GeoapifyResponse;
 import com.dd25.dietiestates25.model.Address;
 import com.dd25.dietiestates25.model.SurroundingInfo;
 
+import lombok.RequiredArgsConstructor;
+
 @Service 
-public class GeoapifyService 
+@RequiredArgsConstructor
+public class GeoapifyService
 {
 
     @Value("${geoapify.api.key}")
     private String apiKey;
 
     private final RestTemplate restTemplate;
-
-    public GeoapifyService(RestTemplate restTemplate) 
-    {
-        this.restTemplate = restTemplate;
-    }
 
     public Address normalizeAddress(String rawAddress) 
     {

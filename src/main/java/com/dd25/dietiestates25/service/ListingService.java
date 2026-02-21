@@ -21,22 +21,16 @@ import com.dd25.dietiestates25.repository.ListingSpecs;
 import com.dd25.dietiestates25.util.SecurityUtil;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class ListingService 
 {
     private final ListingRepository repo;
     private final CompanyAccountRepository agentRepo;
     private final GeoapifyService geoapifyService;
     private final SecurityUtil securityUtil;
-
-    public ListingService(ListingRepository repo, CompanyAccountRepository agentRepo, GeoapifyService geoapifyService, SecurityUtil securityUtil)
-    {
-        this.repo = repo;
-        this.agentRepo = agentRepo;
-        this.geoapifyService = geoapifyService;
-        this.securityUtil = securityUtil;
-    }
 
     @Transactional
     public void createListing(CreateListingRequest request) 

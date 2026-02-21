@@ -13,10 +13,7 @@ import jakarta.persistence.criteria.Path;
 public class ListingSpecs 
 {
 
-    private ListingSpecs()  // prevent instantiation
-    {
-        throw new IllegalStateException("Utility class");
-    }
+    private ListingSpecs() {}
     
     public static Specification<Listing> hasCity(String city) 
     {
