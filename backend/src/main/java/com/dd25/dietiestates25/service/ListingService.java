@@ -53,7 +53,7 @@ public class ListingService
         
         HouseInfo houseInfo = new HouseInfo(request.description(), buildingDetails, houseDetails);
         
-        Listing listing = new Listing(agent, commercialInfo, houseInfo, surroundingInfo);
+        Listing listing = new Listing(request.name(), agent, commercialInfo, houseInfo, surroundingInfo);
 
         repo.save(listing);
     }
@@ -77,6 +77,7 @@ public class ListingService
     private SearchListingResponse mapToResponse(Listing l) 
     {
         return new SearchListingResponse(
+            l.getName(),
             l.getAgent().getEmail(),
             l.getAgent().getFirstName() + " " + l.getAgent().getLastName(),
             l.getCommercialInfo().getPrice(),
