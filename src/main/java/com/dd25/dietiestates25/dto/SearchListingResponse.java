@@ -3,7 +3,8 @@ package com.dd25.dietiestates25.dto;
 import java.math.BigDecimal;
 import java.util.List;
 
-public record SearchListingResponse (
+public record SearchListingResponse(
+    String name,
     String agentEmail,
     String agentName,
     BigDecimal price,

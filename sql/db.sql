@@ -25,8 +25,10 @@ CREATE TABLE account
 CREATE TABLE listing
 (
     id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
     status status NOT NULL DEFAULT 'active',
     n_views INT NOT NULL DEFAULT 0,
+    last_modified TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     agent_email VARCHAR(255) REFERENCES account(email) ON UPDATE CASCADE
 );
 

@@ -1,5 +1,6 @@
 package com.dd25.dietiestates25.model;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +31,18 @@ public class Listing
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private Status status;
 
     @Column(name = "n_views", nullable = false)
     private Integer nViews;
+
+    @Column(name = "last_modified", nullable = false)
+    private OffsetDateTime lastModified;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "agent_email", nullable = false)
@@ -57,10 +64,12 @@ public class Listing
     //constructors
     protected Listing() {}
 
-    public Listing(CompanyAccount agent, CommercialInfo commercialInfo, HouseInfo houseInfo, SurroundingInfo surroundingInfo) 
+    public Listing(String name, CompanyAccount agent, CommercialInfo commercialInfo, HouseInfo houseInfo, SurroundingInfo surroundingInfo) 
     {
+        this.name = name;
         this.status = Status.ACTIVE;
         this.nViews = 0;
+        this.lastModified = OffsetDateTime.now();
         this.agent = agent;
 
         setCommercialInfo(commercialInfo);
@@ -71,6 +80,8 @@ public class Listing
     // Getters
     public Status getStatus() { return status; }
     public Integer getNViews() { return nViews; }
+    public String getName() { return name; }
+    public OffsetDateTime getLastModified() { return lastModified; }
     public CompanyAccount getAgent() { return agent; }
     public CommercialInfo getCommercialInfo() { return commercialInfo; }
     public HouseInfo getHouseInfo() { return houseInfo; }   
@@ -81,7 +92,6 @@ public class Listing
     // Setters
     public void setStatus(Status status) { this.status = status; }
     public void setNViews(Integer nViews) { this.nViews = nViews; }
-    public void setAgent(CompanyAccount agent) { this.agent = agent; }
 
     public void setCommercialInfo(CommercialInfo commercialInfo)
     {

@@ -10,6 +10,9 @@ import jakarta.validation.constraints.NotNull;
 
 
 public record CreateListingRequest(
+    @NotBlank(message = "Name is required")
+    String name,
+    
     @NotNull(message = "Price is required")
     BigDecimal price,
 
