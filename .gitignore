@@ -1,0 +1,14 @@
+### Backend ###
+**/target/
+
+### VS Code ###
+**/.vscode/
+
+### Environment variables ###
+.env
+
+### Frontend ###
+
+**/.gemini/
+**/.github/
+**/node_modules/
