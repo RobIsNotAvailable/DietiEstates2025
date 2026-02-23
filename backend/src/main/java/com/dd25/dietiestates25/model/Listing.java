@@ -78,6 +78,7 @@ public class Listing
     }
 
     // Getters
+    public Integer getId() { return id; }
     public Status getStatus() { return status; }
     public Integer getNViews() { return nViews; }
     public String getName() { return name; }

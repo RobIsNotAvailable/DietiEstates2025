@@ -23,7 +23,7 @@ public class CompanyAccountController
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createCompanyAccount(@RequestBody @Valid CreateCompanyAccountRequest request) 
+    public ResponseEntity<String> create(@RequestBody @Valid CreateCompanyAccountRequest request) 
     {
         companyService.createCompanyAccount(request);
         return ResponseEntity.ok("Account created successfully");

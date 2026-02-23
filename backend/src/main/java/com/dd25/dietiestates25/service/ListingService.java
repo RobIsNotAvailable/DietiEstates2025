@@ -3,11 +3,13 @@ package com.dd25.dietiestates25.service;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.dd25.dietiestates25.dto.CreateListingRequest;
+import com.dd25.dietiestates25.dto.FullListingResponse;
 import com.dd25.dietiestates25.dto.ListingSearchRequest;
-import com.dd25.dietiestates25.dto.SearchListingResponse;
+import com.dd25.dietiestates25.dto.SummaryListingResponse;
 import com.dd25.dietiestates25.model.Address;
 import com.dd25.dietiestates25.model.BuildingDetails;
 import com.dd25.dietiestates25.model.CommercialInfo;
@@ -23,6 +25,7 @@ import com.dd25.dietiestates25.repository.ListingSpecs;
 import com.dd25.dietiestates25.service.utilityService.GeoapifyService;
 import com.dd25.dietiestates25.util.SecurityUtil;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -58,7 +61,7 @@ public class ListingService
         repo.save(listing);
     }
 
-    public List<SearchListingResponse> searchListings(ListingSearchRequest request)
+    public List<SummaryListingResponse> searchListings(ListingSearchRequest request)
     {
         Specification<Listing> spec = Specification.unrestricted();
 
@@ -70,13 +73,48 @@ public class ListingService
         spec = spec.and(ListingSpecs.hasListingType(request.listingType()));
         List<Listing> results = repo.findAll(spec);
         return results.stream()
-                  .map(this::mapToResponse)
+                  .map(this::mapToSummary)
                   .toList();
     }
 
-    private SearchListingResponse mapToResponse(Listing l) 
+    public FullListingResponse getListingById(Integer id) 
     {
-        return new SearchListingResponse(
+        Listing listing = repo.findById(id).orElseThrow(() -> 
+            new EntityNotFoundException("Listing not found"));
+        
+        incrementViews(id);
+        return mapToFull(listing);
+    }
+
+    @Async
+    @Transactional
+    private void incrementViews(Integer id)
+    {
+        repo.incrementViews(id);
+    }
+
+    private SummaryListingResponse mapToSummary(Listing l) 
+    {
+        return new SummaryListingResponse
+        (
+            l.getId(),
+            l.getName(),
+            l.getCommercialInfo().getPrice(),
+            l.getCommercialInfo().getListingType().toString(),
+            l.getHouseInfo().getBuildingDetails().getAddress().getFormattedAddress(),
+            l.getHouseInfo().getHouseDetails().getSquareMeters(),
+            l.getHouseInfo().getDescription(),
+            l.getSurroundingInfo().isNearStops(),
+            l.getSurroundingInfo().isNearParks(),
+            l.getSurroundingInfo().isNearSchools(),
+            l.getPhotos().stream().map(Photo::getFilepath).findFirst().orElse(null)
+        );
+    }
+
+    private FullListingResponse mapToFull(Listing l) 
+    {
+        return new FullListingResponse
+        (
             l.getName(),
             l.getAgent().getEmail(),
             l.getAgent().getFirstName() + " " + l.getAgent().getLastName(),

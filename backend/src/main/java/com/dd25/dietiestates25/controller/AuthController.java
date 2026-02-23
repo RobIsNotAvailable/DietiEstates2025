@@ -2,7 +2,6 @@ package com.dd25.dietiestates25.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,7 +44,7 @@ public class AuthController
         return ResponseEntity.ok(response.token());
     }
 
-    @PatchMapping("/link-login/{token}")
+    @PostMapping("/link-login/{token}")
     public ResponseEntity<String> tokenLogin(@PathVariable @NonNull String token, @RequestBody @Valid TokenLoginRequest request)
     {
         AuthResponse response = accountService.tokenLogin(token, request);
