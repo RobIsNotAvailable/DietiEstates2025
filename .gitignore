@@ -12,3 +12,4 @@
 **/.gemini/
 **/.github/
 **/node_modules/
+**/.angular/cache

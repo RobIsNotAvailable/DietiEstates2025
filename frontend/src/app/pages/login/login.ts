@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router'; 
+import { RouterLink, Router } from '@angular/router'; 
+import { AuthService } from '../../services/auth';
 
-@Component({
+@Component(
+{
   selector: 'app-login',
   standalone: true,
   imports: 
@@ -19,7 +21,8 @@ export class LoginComponent
 {
   loginForm: FormGroup;
 
-  constructor() 
+
+  constructor(private authService: AuthService, private router: Router) 
   {
     this.loginForm = new FormGroup(
     {
@@ -32,7 +35,19 @@ export class LoginComponent
   {
     if (this.loginForm.valid) 
     {
-      console.log("Dati inviati:", this.loginForm.value);
+      this.authService.login(this.loginForm.value).subscribe(
+      {
+        next: (res) => 
+        {
+          console.log('Login OK!', res);
+          this.router.navigate(['/home']); 
+        },
+        error: (err) => 
+        {
+          console.error('Errore login:', err);
+          alert('Credenziali non valide o server non raggiungibile');
+        }
+      });
     }
   }
 }
