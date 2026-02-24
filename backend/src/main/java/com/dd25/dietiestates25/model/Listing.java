@@ -38,8 +38,8 @@ public class Listing
     @Column(name = "status", nullable = false)
     private Status status;
 
-    @Column(name = "n_views", nullable = false)
-    private Integer nViews;
+    @Column(name = "views", nullable = false)
+    private Integer views;
 
     @Column(name = "last_modified", nullable = false)
     private OffsetDateTime lastModified;
@@ -68,7 +68,7 @@ public class Listing
     {
         this.name = name;
         this.status = Status.ACTIVE;
-        this.nViews = 0;
+        this.views = 0;
         this.lastModified = OffsetDateTime.now();
         this.agent = agent;
 
@@ -80,7 +80,7 @@ public class Listing
     // Getters
     public Integer getId() { return id; }
     public Status getStatus() { return status; }
-    public Integer getNViews() { return nViews; }
+    public Integer getViews() { return views; }
     public String getName() { return name; }
     public OffsetDateTime getLastModified() { return lastModified; }
     public CompanyAccount getAgent() { return agent; }
@@ -92,7 +92,7 @@ public class Listing
 
     // Setters
     public void setStatus(Status status) { this.status = status; }
-    public void setNViews(Integer nViews) { this.nViews = nViews; }
+    public void setViews(Integer views) { this.views = views; }
 
     public void setCommercialInfo(CommercialInfo commercialInfo)
     {
