@@ -1,32 +1,33 @@
-<div class="login-wrapper"> <div class="login-card">
-    <h2>Crea Account</h2>
-    
-    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
-      <div class="form-field">
-        <label>Nome</label>
-        <input type="text" formControlName="nome" placeholder="Il tuo nome">
-      </div>
+<div class="register-wrapper">
+    <div class="register-card">
+        <h2>Crea Account</h2>
+        
+        <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+            <div class="form-field">
+                <label>Nome</label>
+                <input type="text" formControlName="nome" placeholder="Il tuo nome">
+            </div>
 
-      <div class="form-field">
-        <label>Cognome</label>
-        <input type="text" formControlName="cognome" placeholder="Il tuo cognome">
-      </div>
+            <div class="form-field">
+                <label>Cognome</label>
+                <input type="text" formControlName="cognome" placeholder="Il tuo cognome">
+            </div>
 
-      <div class="form-field">
-        <label>Email</label>
-        <input type="email" formControlName="email" placeholder="esempio@email.it">
-      </div>
+            <div class="form-field">
+                <label>Email</label>
+                <input type="email" formControlName="email" placeholder="esempio@email.it">
+            </div>
 
-      <div class="form-field">
-        <label>Password</label>
-        <input type="password" formControlName="password" placeholder="Minimo 6 caratteri">
-      </div>
+            <div class="form-field">
+                <label>Password</label>
+                <input type="password" formControlName="rawPassword" placeholder="Minimo 6 caratteri">
+            </div>
 
-      <button type="submit" [disabled]="registerForm.invalid">Registrati</button>
-    </form>
+            <button type="submit" [disabled]="registerForm.invalid">Registrati</button>
+        </form>
 
-    <div class="register-link">
-      <p>Hai già un account? <a routerLink="/login">Torna al login</a></p>
+        <div class="login-link">
+            <p>Hai già un account? <a routerLink="/login">Torna al login</a></p>
+        </div>
     </div>
-  </div>
 </div>

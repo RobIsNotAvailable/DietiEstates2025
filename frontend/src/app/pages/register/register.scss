@@ -1,41 +1,29 @@
+@import '../../../styles/auth-shared';
 
+// Variabili specifiche per il tema Register
 $dieti-blue: #007bff;
 $dieti-bg: #f8f9fa; 
 $text-dark: #212529;
 $bg-gradient: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
 $primary-gradient: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
 
-
-.login-wrapper 
+.register-wrapper 
 {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh; // min-height è meglio per form lunghi
     width: 100vw;
     background: $bg-gradient;
 
-    .login-card 
+    .register-card 
     {
-        background: white;
-        padding: 40px 60px; // Padding ridotto per compensare i 4 campi
-        border-radius: 25px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-        width: 100%;
-        max-width: 500px; // Più stretto (il login era 600px, questo lo rende più proporzionato)
-
-        h2 
-        {
-            text-align: center;
-            margin-bottom: 30px;
-            color: $text-dark;
-            font-size: 2.2rem; // Titolo meno "gigante" per stare nel box
-            font-weight: 800;
-        }
+        
+        @include auth-card(600px, 2.4rem); 
 
         .form-field 
         {
-            margin-bottom: 20px; // Spazio tra i campi molto più compatto
+            margin-bottom: 20px; 
 
             label 
             {
@@ -49,7 +37,7 @@ $primary-gradient: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
             input 
             {
                 width: 100%;
-                padding: 15px; // Input più bassi per non allungare troppo la card
+                padding: 15px; 
                 font-size: 1.1rem;
                 border: 2px solid #e9ecef;
                 border-radius: 12px;
@@ -97,7 +85,7 @@ $primary-gradient: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
             }
         }
 
-        .register-link 
+        .login-link 
         {
             text-align: center;
             margin-top: 20px;

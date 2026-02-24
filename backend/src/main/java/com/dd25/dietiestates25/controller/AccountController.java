@@ -2,6 +2,7 @@ package com.dd25.dietiestates25.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import com.dd25.dietiestates25.dto.ResetPasswordRequest;
 
 @RestController
 @RequestMapping("/api/accounts")
+@CrossOrigin(origins = "*") 
 public class AccountController 
 {
     private final AccountService accountService;
