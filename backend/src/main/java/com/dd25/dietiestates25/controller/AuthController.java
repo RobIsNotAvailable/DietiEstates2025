@@ -31,23 +31,23 @@ public class AuthController
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid AccountRegisterRequest request) 
+    public ResponseEntity<AuthResponse> register(@RequestBody @Valid AccountRegisterRequest request) 
     {    
         AuthResponse response = clientService.registerClient(request);
-        return ResponseEntity.ok(response.token());
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Valid LoginRequest request) 
+    public ResponseEntity<AuthResponse> login(@RequestBody @Valid LoginRequest request) 
     {
         AuthResponse response = accountService.login(request);
-        return ResponseEntity.ok(response.token());
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/link-login/{token}")
-    public ResponseEntity<String> tokenLogin(@PathVariable @NonNull String token, @RequestBody @Valid TokenLoginRequest request)
+    public ResponseEntity<AuthResponse> tokenLogin(@PathVariable @NonNull String token, @RequestBody @Valid TokenLoginRequest request)
     {
         AuthResponse response = accountService.tokenLogin(token, request);
-        return ResponseEntity.ok(response.token());
+        return ResponseEntity.ok(response);
     }
 }

@@ -37,19 +37,13 @@ public class ListingController
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<SummaryListingResponse>> search(@RequestBody ListingSearchRequest request)
+    public ResponseEntity<List<SummaryListingResponse>> search(ListingSearchRequest request)
     {
-        List<SummaryListingResponse> response = service.searchListings(request);
-        
-        if (response.isEmpty())
-        {
-            return ResponseEntity.noContent().build();
-        }
-        
+        List<SummaryListingResponse> response = service.searchListings(request); 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<FullListingResponse> view(@PathVariable Integer id)
     {
         FullListingResponse response = service.getListingById(id);
