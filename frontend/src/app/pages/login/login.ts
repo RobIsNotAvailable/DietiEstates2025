@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { RouterLink, Router } from '@angular/router'; 
+import { Router } from '@angular/router'; 
 import { AuthService } from '../../services/auth';
 
 @Component(
@@ -12,7 +12,6 @@ import { AuthService } from '../../services/auth';
   [
     CommonModule, 
     ReactiveFormsModule, 
-    RouterLink 
   ],
   templateUrl: './login.html', 
   styleUrl: './login.scss'     
@@ -20,15 +19,32 @@ import { AuthService } from '../../services/auth';
 export class LoginComponent 
 {
   loginForm: FormGroup;
-
-
+  hidePassword = true;
+             
   constructor(private authService: AuthService, private router: Router) 
   {
     this.loginForm = new FormGroup(
     {
-      email: new FormControl('', [Validators.required, Validators.email]),
-      rawPassword: new FormControl('', [Validators.required, Validators.minLength(6)])
+      email: new FormControl('', [
+        Validators.required, 
+        Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')
+      ]),
+
+      rawPassword: new FormControl('', [
+        Validators.required,
+      ])
     });
+  }
+    
+
+  togglePassword() 
+  {
+    this.hidePassword = !this.hidePassword;
+  }
+
+  goToRegister() 
+  {
+    this.router.navigate(['/register']);
   }
 
   onSubmit() 

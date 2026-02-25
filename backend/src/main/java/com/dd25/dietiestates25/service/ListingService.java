@@ -3,7 +3,6 @@ package com.dd25.dietiestates25.service;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.dd25.dietiestates25.dto.CreateListingRequest;
@@ -22,7 +21,8 @@ import com.dd25.dietiestates25.model.SurroundingInfo;
 import com.dd25.dietiestates25.repository.CompanyAccountRepository;
 import com.dd25.dietiestates25.repository.ListingRepository;
 import com.dd25.dietiestates25.repository.ListingSpecs;
-import com.dd25.dietiestates25.service.utilityService.GeoapifyService;
+import com.dd25.dietiestates25.service.utilityservice.GeoapifyService;
+import com.dd25.dietiestates25.service.utilityservice.ListingStatsService;
 import com.dd25.dietiestates25.util.SecurityUtil;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -31,12 +31,14 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@SuppressWarnings("null")
 public class ListingService 
 {
     private final ListingRepository repo;
     private final CompanyAccountRepository agentRepo;
     private final GeoapifyService geoapifyService;
     private final SecurityUtil securityUtil;
+    private final ListingStatsService statsService;
 
     @Transactional
     public void createListing(CreateListingRequest request) 
@@ -82,15 +84,8 @@ public class ListingService
         Listing listing = repo.findById(id).orElseThrow(() -> 
             new EntityNotFoundException("Listing not found"));
         
-        incrementViews(id);
+        statsService.incrementViews(id);
         return mapToFull(listing);
-    }
-
-    @Async
-    @Transactional
-    private void incrementViews(Integer id)
-    {
-        repo.incrementViews(id);
     }
 
     private SummaryListingResponse mapToSummary(Listing l) 

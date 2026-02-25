@@ -7,12 +7,13 @@ import com.dd25.dietiestates25.dto.AccountRegisterRequest;
 import com.dd25.dietiestates25.dto.AuthResponse;
 import com.dd25.dietiestates25.model.Client;
 import com.dd25.dietiestates25.repository.ClientRepository;
-import com.dd25.dietiestates25.service.utilityService.JwtService;
+import com.dd25.dietiestates25.service.utilityservice.JwtService;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@SuppressWarnings("null")
 public class ClientService 
 {
     private final ClientRepository repo;

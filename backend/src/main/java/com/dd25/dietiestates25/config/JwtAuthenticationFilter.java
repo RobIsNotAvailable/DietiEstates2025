@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.dd25.dietiestates25.service.utilityService.JwtService;
+import com.dd25.dietiestates25.service.utilityservice.JwtService;
 
 import java.io.IOException;
 

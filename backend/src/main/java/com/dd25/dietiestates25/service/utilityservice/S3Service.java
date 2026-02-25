@@ -1,6 +1,7 @@
-package com.dd25.dietiestates25.service.utilityService;
+package com.dd25.dietiestates25.service.utilityservice;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -43,7 +44,7 @@ public class S3Service
 
         } catch (IOException e)
         {
-            throw new RuntimeException("S3 upload error", e);
+            throw new UncheckedIOException("S3 upload error", e);
         }
     }
 }

@@ -1,23 +1,28 @@
 <div class="login-wrapper">
-  <div class="login-card">
-    <h2>DietiEstates Login</h2>
-    
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="form-field">
-        <label>Email</label>
-        <input type="email" formControlName="email" placeholder="esempio@email.it">
-      </div>
+    <div class="login-card">
+        <h2>Login To DietiEstates</h2>
+        
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-field">
+                <label>Email</label>
+                <input type="email" formControlName="email" placeholder="esempio@email.it">
+            </div>
 
-      <div class="form-field">
-        <label>Password</label>
-        <input type="password" formControlName="rawPassword" placeholder="Inserisci password">
-      </div>
+            <div class="form-field">
+                <label>Password</label>
+                <input [type]="hidePassword ? 'password' : 'text'" formControlName="rawPassword" placeholder="Inserisci password">
+                
+                <button type="button" class="toggle-password" (click)="togglePassword()">
+                    <i [className]="hidePassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                </button>
+            </div>
 
-      <button type="submit" [disabled]="loginForm.invalid">Accedi</button>
-    </form>
+            <button type="submit" [disabled]="loginForm.invalid">Accedi</button>
+        </form>
 
-    <div class="register-link">
-        <p>Non hai ancora un account? <a routerLink="/register">Registrati ora</a></p>
+        <div class="register-section">
+            <span>Non hai ancora un account? </span>
+            <button type="button" class="btn-link" (click)="goToRegister()">Registrati ora</button>
+        </div>
     </div>
-  </div>
 </div>

@@ -20,14 +20,19 @@
 
             <div class="form-field">
                 <label>Password</label>
-                <input type="password" formControlName="rawPassword" placeholder="Minimo 6 caratteri">
+                <input [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="Minimo 8 caratteri">
+                
+                <button type="button" class="toggle-password" (click)="togglePassword()">
+                    <i [className]="hidePassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                </button>
             </div>
 
             <button type="submit" [disabled]="registerForm.invalid">Registrati</button>
         </form>
 
-        <div class="login-link">
-            <p>Hai già un account? <a routerLink="/login">Torna al login</a></p>
+        <div class="login-section">
+            <span>Hai già un account? </span>
+            <button type="button" class="btn-link" (click)="goToLogin()">Vai al login</button>
         </div>
     </div>
 </div>

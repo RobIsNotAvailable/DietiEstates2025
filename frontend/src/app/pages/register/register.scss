@@ -1,28 +1,23 @@
 @import '../../../styles/auth-shared';
 
-// Variabili specifiche per il tema Register
-$dieti-blue: #007bff;
-$dieti-bg: #f8f9fa; 
-$text-dark: #212529;
-$bg-gradient: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
-$primary-gradient: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+$bg-gradient: linear-gradient(120deg, #bdc3c7 0%, #bdc3c7 100%);
 
 .register-wrapper 
 {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; // min-height è meglio per form lunghi
+    min-height: 100vh; 
     width: 100vw;
     background: $bg-gradient;
 
     .register-card 
     {
-        
-        @include auth-card(600px, 2.4rem); 
+        @include auth-card(600px, 2.5rem); 
 
         .form-field 
         {
+            position: relative; 
             margin-bottom: 20px; 
 
             label 
@@ -30,79 +25,115 @@ $primary-gradient: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
                 display: block;
                 margin-bottom: 8px;
                 font-weight: 700;
-                font-size: 1.1rem;
-                color: $text-dark;
+                font-size: 1.5rem;
             }
 
             input 
             {
                 width: 100%;
                 padding: 15px; 
+                padding-right: 45px; 
                 font-size: 1.1rem;
-                border: 2px solid #e9ecef;
+                border: 2px solid black;
                 border-radius: 12px;
                 box-sizing: border-box;
-                background-color: white;
 
                 &:focus 
                 {
-                    border-color: $dieti-blue;
+                    border-color: black;
                     outline: none;
+                }
+            }
+
+            .toggle-password 
+            {
+                position: absolute;
+                right: 15px;
+                top: 50%; 
+                transform: translateY(calc(-50% + 15px)); // Correzione per la label
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 0;
+                color: #636e72;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10;
+
+                i 
+                {
+                    font-size: 1.7rem; 
+                    transition: color 0.2s;
+                }
+
+                &:hover i 
+                {
+                    color: #000; 
                 }
             }
         }
 
-        button 
+        button[type="submit"] 
         {
             width: 100%;
             padding: 15px;
-            margin-top: 10px;
-            background: $primary-gradient; 
+            background: black; 
             color: white;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: bold;
-            letter-spacing: 1px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease; 
 
             &:disabled 
             {
-                background: #bdc3c7;
-                cursor: not-allowed;
+            background: #bdc3c7;
+            cursor: not-allowed;
             }
 
             &:hover:not(:disabled) 
             {
-                transform: translateY(-3px); 
-                box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
-            }
-            
-            &:active:not(:disabled)
-            {
-                transform: translateY(-1px);
+            background: #333333; 
+            transform: translateY(-3px); 
             }
         }
 
-        .login-link 
+        .login-section 
         {
+            margin-top: 25px;
             text-align: center;
-            margin-top: 20px;
             border-top: 1px solid #eee;
-            padding-top: 15px;
+            padding-top: 20px;
 
-            p 
+            span 
             {
-                margin: 0;
+                display: block;
+                margin-bottom: 10px;
                 color: #636e72;
-                font-size: 1rem;
+                font-size: 1.1rem;
+            }
 
-                a 
+            
+            .btn-link 
+            {
+                width: 100%; 
+                background: white;
+                border: 2px solid #000000; 
+                color: #000000; 
+                padding: 12px;
+                border-radius: 10px;
+                font-weight: 700;
+                font-size: 1.1rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+
+                &:hover 
                 {
-                    color: $dieti-blue;
-                    text-decoration: none;
-                    font-weight: 700;
+                    background: #f8f9fa; 
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                 }
             }
         }

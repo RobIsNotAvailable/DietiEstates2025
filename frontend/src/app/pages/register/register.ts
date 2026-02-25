@@ -1,20 +1,21 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })
 export class RegisterComponent 
 {
   registerForm: FormGroup;
+  hidePassword = true;
 
-  constructor() 
+  constructor(private router: Router) 
   {
     this.registerForm = new FormGroup(
     {
@@ -25,11 +26,21 @@ export class RegisterComponent
     });
   }
 
+  togglePassword() 
+  {
+    this.hidePassword = !this.hidePassword;
+  }
+
   onRegister() 
   {
     if (this.registerForm.valid) 
     {
       console.log("Dati registrazione:", this.registerForm.value);
     }
+  }
+
+  goToLogin()
+  {
+    this.router.navigate(['/login']);
   }
 }

@@ -1,4 +1,4 @@
-package com.dd25.dietiestates25.service.utilityService;
+package com.dd25.dietiestates25.service.utilityservice;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
