@@ -17,39 +17,13 @@ $bg-gradient: linear-gradient(120deg, #bdc3c7 0%, #bdc3c7 100%);
 
         .form-field 
         {
-            margin-bottom: 20px; 
-            position: relative; 
-
-            label 
-            {
-                display: block;
-                margin-bottom: 8px;
-                font-weight: 700;
-                font-size: 1.5rem;
-            }
-
-            input 
-            {
-                width: 100%;
-                padding: 15px; 
-                padding-right: 45px; 
-                font-size: 1.1rem;
-                border: 2px solid black;
-                border-radius: 12px;
-                box-sizing: border-box;
-
-                &:focus 
-                {
-                    border-color: black;
-                    outline: none;
-                }
-            }
+            @include auth-input-group;
             
             .toggle-password 
             {
                 position: absolute;
                 right: 15px;
-                top: 50%; 
+                top: 55%; 
                 background: none;
                 border: none;
                 cursor: pointer;
@@ -80,67 +54,12 @@ $bg-gradient: linear-gradient(120deg, #bdc3c7 0%, #bdc3c7 100%);
 
         button[type="submit"] 
         {
-            width: 100%;
-            padding: 15px;
-            background: #000000; 
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease; 
-
-            &:disabled 
-            {
-                background: #bdc3c7;
-                cursor: not-allowed;
-            }
-
-            &:hover:not(:disabled) 
-            {
-                background: #333333; 
-                transform: translateY(-3px);
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            }
+            @include auth-button-main;
         }
 
         .register-section 
         {
-            margin-top: 25px;
-            text-align: center;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-
-            span 
-            {
-                display: block;
-                margin-bottom: 10px;
-                color: #636e72;
-                font-size: 1.1rem;
-            }
-
-            
-            .btn-link 
-            {
-                width: 100%; 
-                background: white;
-                border: 2px solid #000000; 
-                color: #000000; 
-                padding: 12px;
-                border-radius: 10px;
-                font-weight: 700;
-                font-size: 1.1rem;
-                cursor: pointer;
-                transition: all 0.3s ease;
-
-                &:hover 
-                {
-                    background: #f8f9fa; 
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                }
-            }
+            @include auth-footer-section;
         }
     }
 }

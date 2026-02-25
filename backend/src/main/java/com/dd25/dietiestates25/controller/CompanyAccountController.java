@@ -1,6 +1,7 @@
 package com.dd25.dietiestates25.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import com.dd25.dietiestates25.service.CompanyAccountService;
 
 @RestController
 @RequestMapping("/api/company")
+@CrossOrigin(origins = "*") 
 public class CompanyAccountController 
 {
     private final CompanyAccountService companyService;

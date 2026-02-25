@@ -17,49 +17,22 @@ $bg-gradient: linear-gradient(120deg, #bdc3c7 0%, #bdc3c7 100%);
 
         .form-field 
         {
-            position: relative; 
-            margin-bottom: 20px; 
-
-            label 
-            {
-                display: block;
-                margin-bottom: 8px;
-                font-weight: 700;
-                font-size: 1.5rem;
-            }
-
-            input 
-            {
-                width: 100%;
-                padding: 15px; 
-                padding-right: 45px; 
-                font-size: 1.1rem;
-                border: 2px solid black;
-                border-radius: 12px;
-                box-sizing: border-box;
-
-                &:focus 
-                {
-                    border-color: black;
-                    outline: none;
-                }
-            }
+            @include auth-input-group;
 
             .toggle-password 
             {
                 position: absolute;
                 right: 15px;
-                top: 50%; 
-                transform: translateY(calc(-50% + 15px)); // Correzione per la label
+                top: 55%; 
                 background: none;
                 border: none;
                 cursor: pointer;
+                font-size: 1.2rem;
                 padding: 0;
                 color: #636e72;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                z-index: 10;
 
                 i 
                 {
@@ -76,64 +49,22 @@ $bg-gradient: linear-gradient(120deg, #bdc3c7 0%, #bdc3c7 100%);
 
         button[type="submit"] 
         {
-            width: 100%;
-            padding: 15px;
-            background: black; 
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            font-weight: bold;
-            transition: all 0.3s ease; 
-
-            &:disabled 
-            {
-            background: #bdc3c7;
-            cursor: not-allowed;
-            }
-
-            &:hover:not(:disabled) 
-            {
-            background: #333333; 
-            transform: translateY(-3px); 
-            }
+            @include auth-button-main;
         }
 
         .login-section 
         {
-            margin-top: 25px;
-            text-align: center;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
+            @include auth-footer-section;
 
-            span 
+            a 
             {
-                display: block;
-                margin-bottom: 10px;
-                color: #636e72;
-                font-size: 1.1rem;
-            }
-
-            
-            .btn-link 
-            {
-                width: 100%; 
-                background: white;
-                border: 2px solid #000000; 
-                color: #000000; 
-                padding: 12px;
-                border-radius: 10px;
+                color: $auth-black;
                 font-weight: 700;
-                font-size: 1.1rem;
-                cursor: pointer;
-                transition: all 0.3s ease;
+                text-decoration: none;
 
                 &:hover 
                 {
-                    background: #f8f9fa; 
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    text-decoration: underline;
                 }
             }
         }
