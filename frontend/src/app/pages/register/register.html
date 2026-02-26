@@ -1,39 +1,42 @@
 <div class="register-wrapper">
     <div class="register-card">
-        <h2>Crea Account</h2>
+        <h2>Create Account</h2>
         
         <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
             <div class="form-field">
-                <label>Nome</label>
-                <input type="text" formControlName="firstName" placeholder="Il tuo nome">
+                <label>First Name</label>
+                <input type="text" formControlName="firstName" placeholder="Your first name">
             </div>
 
             <div class="form-field">
-                <label>Cognome</label>
-                <input type="text" formControlName="lastName" placeholder="Il tuo cognome">
+                <label>Last Name</label>
+                <input type="text" formControlName="lastName" placeholder="Your last name">
             </div>
 
             <div class="form-field">
                 <label>Email</label>
-                <input type="email" formControlName="email" placeholder="esempio@email.it">
+                <input type="email" formControlName="email" placeholder="example@email.it"
+                    [class.is-invalid]="(isSubmitted && registerForm.get('email')?.invalid) || (serverErrorMessage && serverErrorMessage.toLowerCase().includes('email'))">
+                
+                <div *ngIf="serverErrorMessage && serverErrorMessage.toLowerCase().includes('email')" class="error-message">
+                    {{ serverErrorMessage }}
+                </div>
             </div>
 
             <div class="form-field">
                 <label>Password</label>
-                <input [type]="hidePassword ? 'password' : 'text'" formControlName="rawPassword" placeholder="La tua password"
-      
-                    (input)="registerForm.updateValueAndValidity()"> 
-                <div 
-                    *ngIf="registerForm.hasError('mismatch') && registerForm.get('repeatPassword')?.dirty">
+                <div class="input-wrapper" style="position: relative;">
+                    <input [type]="hidePassword ? 'password' : 'text'" 
+                        formControlName="rawPassword"
+                        [class.is-invalid]="(isSubmitted && registerForm.get('rawPassword')?.invalid) || (serverErrorMessage && !serverErrorMessage.toLowerCase().includes('email'))">
+                    
+                    <button type="button" class="toggle-password" (click)="togglePassword()" tabindex="-1">
+                        <i [className]="hidePassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                    </button>
                 </div>
-
-                <button type="button" class="toggle-password" (click)="togglePassword()">
-                    <i [className]="hidePassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-                </button>
-
-                <div *ngIf="registerForm.get('rawPassword')?.errors?.['pattern'] && registerForm.get('rawPassword')?.dirty" 
-                    class="error-message">
-                    La password deve contenere almeno 8 caratteri, una lettera e un numero.
+                
+                <div *ngIf="serverErrorMessage && !serverErrorMessage.toLowerCase().includes('email')" class="error-message">
+                    {{ serverErrorMessage }}
                 </div>
             </div>
 
@@ -41,20 +44,20 @@
                 <label>Ripeti Password</label>
                 <input [type]="hidePassword ? 'password' : 'text'" 
                     formControlName="repeatPassword" 
-                    placeholder="Ripeti la password"
-                    (input)="registerForm.updateValueAndValidity()"> 
-                <div *ngIf="registerForm.hasError('mismatch') && registerForm.get('repeatPassword')?.dirty" 
+                    placeholder="Repeat your password"> 
+                
+                <div *ngIf="isSubmitted && registerForm.hasError('mismatch')" 
                     class="error-message">
-                    Le password non coincidono
+                    Passwords do not match
                 </div>
             </div>
 
-            <button type="submit" [disabled]="registerForm.invalid">Registrati</button>
+            <button type="submit" [disabled]="registerForm.invalid">Register</button>
         </form>
 
         <div class="login-section">
-            <span>Hai già un account? </span>
-            <button type="button" class="btn-link" (click)="goToLogin()">Vai al login</button>
+            <span>Already have an account? </span>
+            <button type="button" class="btn-link" (click)="goToLogin()">Go to login</button>
         </div>
     </div>
 </div>

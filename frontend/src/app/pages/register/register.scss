@@ -1,6 +1,7 @@
 @import '../../../styles/auth-shared';
 
 $bg-gradient: linear-gradient(120deg, #bdc3c7 0%, #bdc3c7 100%);
+$auth-error-red: #e74c3c;
 
 .register-wrapper 
 {
@@ -18,32 +19,57 @@ $bg-gradient: linear-gradient(120deg, #bdc3c7 0%, #bdc3c7 100%);
         .form-field 
         {
             @include auth-input-group;
+            position: relative;        
+            margin-bottom: 25px;
 
-            .toggle-password 
+            input 
             {
-                position: absolute;
-                right: 15px;
-                top: 55%; 
-                background: none;
-                border: none;
-                cursor: pointer;
-                font-size: 1.2rem;
-                padding: 0;
-                color: #636e72;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                padding-right: 45px !important;
+                width: 100%;
 
-                i 
+                &.is-invalid 
                 {
-                    font-size: 1.7rem; 
-                    transition: color 0.2s;
+                    border-color: #e74c3c !important;
                 }
+            }
 
-                &:hover i 
+            .input-wrapper 
+            {
+                width: 100%;
+
+                .toggle-password 
                 {
-                    color: #000; 
+                    position: absolute;
+                    right: 15px;
+                    top: 50%;                    
+                    transform: translateY(-50%); 
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    padding: 0;
+                    color: #636e72;
+                    display: flex;
+                    align-items: center;
+                    z-index: 10;
+
+                    &:hover { color: #000; }
+
+                    i 
+                    {
+                        font-size: 1.5rem; 
+                        transition: color 0.2s;
+                    }
                 }
+            }
+
+            .error-message 
+            {
+                color: #e74c3c;
+                font-size: 0.85rem;
+                margin-top: 5px;
+                display: block;
+                text-align: left;
+                font-weight: 500;
             }
         }
 

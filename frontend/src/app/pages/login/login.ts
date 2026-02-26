@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router'; 
 import { AuthService } from '../../services/auth';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component(
 {
@@ -20,19 +22,15 @@ export class LoginComponent
 {
   loginForm: FormGroup;
   hidePassword = true;
+  serverErrorMessage: string | null = null;
+  isSubmitted = false;
              
-  constructor(private authService: AuthService, private router: Router) 
+  constructor(private authService: AuthService, private router: Router, private cd: ChangeDetectorRef) 
   {
     this.loginForm = new FormGroup(
     {
-      email: new FormControl('', [
-        Validators.required, 
-        Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')
-      ]),
-
-      rawPassword: new FormControl('', [
-        Validators.required,
-      ])
+      email: new FormControl('', [Validators.required, Validators.email]),
+      rawPassword: new FormControl('', [Validators.required])
     });
   }
     
@@ -47,8 +45,11 @@ export class LoginComponent
     this.router.navigate(['/register']);
   }
 
-  onSubmit() 
+  onLogin() 
   {
+    this.serverErrorMessage = null;
+    this.isSubmitted = true;
+
     if (this.loginForm.valid) 
     {
       this.authService.login(this.loginForm.value).subscribe(
@@ -60,8 +61,12 @@ export class LoginComponent
         },
         error: (err) => 
         {
-          console.error('Errore login:', err);
-          alert('Credenziali non valide o server non raggiungibile');
+          console.log("Server error:", err.error);
+          
+          this.serverErrorMessage = "Email o password non corretti.";
+          
+          this.loginForm.get('rawPassword')?.reset(); 
+          this.cd.detectChanges();
         }
       });
     }
