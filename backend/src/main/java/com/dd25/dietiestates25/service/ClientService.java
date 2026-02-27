@@ -8,6 +8,7 @@ import com.dd25.dietiestates25.dto.AuthResponse;
 import com.dd25.dietiestates25.model.Client;
 import com.dd25.dietiestates25.repository.ClientRepository;
 import com.dd25.dietiestates25.service.utilityservice.JwtService;
+import com.dd25.dietiestates25.util.StringConstants;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +24,7 @@ public class ClientService
     public AuthResponse registerClient(AccountRegisterRequest request)
     {
         repo.findById(request.email()).ifPresent(client -> 
-            {throw new IllegalStateException("Email already registered");});
+            {throw new IllegalStateException(StringConstants.EMAIL_ALREADY_REGISTERED_MESSAGE);});
 
         Client client = new Client(request.email(), request.firstName(), request.lastName(), encoder.encode(request.rawPassword()));
         repo.save(client);  

@@ -14,6 +14,7 @@ import com.dd25.dietiestates25.repository.CompanyAccountRepository;
 import com.dd25.dietiestates25.repository.LoginTokenRepository;
 import com.dd25.dietiestates25.service.utilityservice.EmailService;
 import com.dd25.dietiestates25.util.SecurityUtil;
+import com.dd25.dietiestates25.util.StringConstants;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +33,7 @@ public class CompanyAccountService
     public void createCompanyAccount(CreateCompanyAccountRequest request)
     {
         CompanyAccount requester = repo.findById(securityUtil.getCurrentEmail()).orElseThrow(() -> 
-            new IllegalArgumentException("Account not found"));
+            new IllegalArgumentException(StringConstants.ACCOUNT_NOT_FOUND_MESSAGE));
         
         checkRolePermission(requester, request.securityLevel());
 
@@ -41,7 +42,7 @@ public class CompanyAccountService
         CompanyAccount newAccount = new CompanyAccount(request.email(), request.firstName(), request.lastName(), encoder.encode(defaultPassword), request.securityLevel());
         
         if (repo.findById(request.email()).isPresent())
-            throw new IllegalStateException("Email already registered");
+            throw new IllegalStateException(StringConstants.EMAIL_ALREADY_REGISTERED_MESSAGE);
 
         LoginToken token = new LoginToken(request.email());
 

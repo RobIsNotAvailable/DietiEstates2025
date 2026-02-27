@@ -1,25 +1,24 @@
 package com.dd25.dietiestates25.dto;
 
-import com.dd25.dietiestates25.util.ValidationConstants;
+import com.dd25.dietiestates25.util.StringConstants;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 public record ChangePasswordRequest(
-    @NotBlank(message = "Old password field is required")
+    @NotBlank(message = StringConstants.OLD_PASSWORD_REQUIRED_MESSAGE)
     @Pattern
     (
-        regexp = "^(?=.*[A-Za-z])(?=.*\\d).{8,32}$", 
-        message = "Password length must be between 8 and 32 characters long and contain both letters and numbers"
-
+        regexp = StringConstants.PASSWORD_REGEX, 
+        message = StringConstants.PASSWORD_MESSAGE
     )
     String oldPassword,
 
-    @NotBlank(message = "New password field is required")
+    @NotBlank(message = StringConstants.NEW_PASSWORD_REQUIRED_MESSAGE)
     @Pattern
     (
-        regexp = ValidationConstants.PASSWORD_REGEX,
-        message = ValidationConstants.PASSWORD_MESSAGE
+        regexp = StringConstants.PASSWORD_REGEX,
+        message = StringConstants.PASSWORD_MESSAGE
     )
     String newPassword
 ) {}
