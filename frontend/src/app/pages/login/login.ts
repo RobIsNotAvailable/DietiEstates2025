@@ -63,7 +63,7 @@ export class LoginComponent
         {
           console.log("Server error:", err.error);
           
-          this.serverErrorMessage = "Email o password non corretti.";
+          this.serverErrorMessage = "Credentials not valid";
           
           this.loginForm.get('rawPassword')?.reset(); 
           this.cd.detectChanges();

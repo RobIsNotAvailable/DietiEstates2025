@@ -117,3 +117,74 @@ $auth-input-radius: 12px;
         }
     }
 }
+
+@mixin auth-form-field-structure 
+{
+  position: relative; 
+  margin-bottom: 25px;
+  width: 100%;
+
+  label 
+  {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: $auth-label-size;
+  }
+
+  input 
+  {
+    display: block;
+    width: 100%;
+    padding: 15px; 
+    font-size: 1.1rem;
+    border: 2px solid $auth-black;
+    border-radius: $auth-input-radius;
+    box-sizing: border-box;
+
+    &.is-invalid 
+    {
+      border-color: #e74c3c !important;
+      border-width: 2px;
+    }
+
+    &:focus 
+    {
+      outline: none;
+      border-width: 3px; 
+    }
+  }
+
+  .input-wrapper 
+  {
+    position: relative;
+    width: 100%;
+
+    input { padding-right: 45px !important; }
+
+    .toggle-password 
+    {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: $auth-gray-muted;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      
+      i { font-size: 1.5rem; }
+    }
+  }
+
+  .error-message 
+  {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: 5px;
+    font-weight: 500;
+  }
+}

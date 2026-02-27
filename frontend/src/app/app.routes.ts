@@ -8,5 +8,8 @@ export const routes: Routes =
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent }, 
     { path: 'home', component: HomeComponent },
-    { path: '', redirectTo: '/login', pathMatch: 'full' }
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+
+    // Wildcard route for a 404 page (optional)
+    { path: '**', redirectTo: '/home' }
 ];

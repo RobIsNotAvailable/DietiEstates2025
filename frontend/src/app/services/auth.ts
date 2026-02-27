@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap} from 'rxjs';
 
 @Injectable(
 {
@@ -9,16 +9,53 @@ import { Observable } from 'rxjs';
 export class AuthService 
 {
   private apiUrl = 'http://localhost:8080/api/auth';
+  private readonly TOKEN_KEY = 'dieti_token';
 
   constructor(private http: HttpClient) {}
 
   login(credentials: any): Observable<any> 
   {
-    return this.http.post(`${this.apiUrl}/login`, credentials);
+    return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
+      tap(res => 
+      {
+        if (res.token) 
+        {
+          this.saveToken(res.token);
+        }
+      })
+    );
   }
 
   register(userData: any): Observable<any> 
   {
-    return this.http.post(`${this.apiUrl}/register`, userData);
+    return this.http.post<any>(`${this.apiUrl}/register`, userData).pipe(
+      tap(res => 
+      {
+        if (res.token) 
+        {
+          this.saveToken(res.token);
+        }
+      })
+    );
+  }
+
+  private saveToken(token: string) 
+  {
+    localStorage.setItem(this.TOKEN_KEY, token);
+  }
+
+  getToken(): string | null 
+  {
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  logout() 
+  {
+    localStorage.removeItem(this.TOKEN_KEY);
+  }
+
+  isLoggedIn(): boolean 
+  {
+    return !!this.getToken();
   }
 }
