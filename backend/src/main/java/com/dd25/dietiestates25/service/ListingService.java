@@ -24,6 +24,7 @@ import com.dd25.dietiestates25.repository.ListingSpecs;
 import com.dd25.dietiestates25.service.utilityservice.GeoapifyService;
 import com.dd25.dietiestates25.service.utilityservice.ListingStatsService;
 import com.dd25.dietiestates25.util.SecurityUtil;
+import com.dd25.dietiestates25.util.StringConstants;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -44,7 +45,7 @@ public class ListingService
     public void createListing(CreateListingRequest request) 
     {
         CompanyAccount agent = agentRepo.findById(securityUtil.getCurrentEmail()).orElseThrow(() -> 
-            new IllegalArgumentException("Agent account not found"));
+            new IllegalArgumentException(StringConstants.ACCOUNT_NOT_FOUND_MESSAGE));
         
         Address normalizedAddress = geoapifyService.normalizeAddress(request.rawAddress());
 
