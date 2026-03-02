@@ -1,6 +1,7 @@
 @import '../../../styles/auth-shared';
+@import '../../../styles/variables';
 
-$bg-gradient: linear-gradient(120deg, #bdc3c7 0%, #bdc3c7 100%);
+$bg-gradient: $bg-main;
 $auth-error-red: #e74c3c;
 
 .register-wrapper 

@@ -26,7 +26,7 @@ export class RegisterComponent
     {
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [Validators.required]),
       rawPassword: new FormControl('', [Validators.required]),
       repeatPassword: new FormControl('', [Validators.required])
     },
@@ -52,6 +52,20 @@ export class RegisterComponent
     console.log('GO TO LOGIN!');
     this.router.navigate(['/login']);
   }
+
+  isButtonDisabled(): boolean 
+  {
+    const controls = this.registerForm.controls;
+    
+    return (
+      controls['firstName'].invalid ||
+      controls['lastName'].invalid ||
+      controls['email'].invalid ||
+      controls['rawPassword'].invalid ||
+      controls['repeatPassword'].invalid
+    );
+  }
+
 
   onRegister() 
   {

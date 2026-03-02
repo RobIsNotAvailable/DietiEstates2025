@@ -44,7 +44,8 @@
                 <label>Ripeti Password</label>
                 <input [type]="hidePassword ? 'password' : 'text'" 
                     formControlName="repeatPassword" 
-                    placeholder="Repeat your password"> 
+                    placeholder="Repeat your password"
+                    [class.is-invalid]="isSubmitted && registerForm.hasError('mismatch')">
                 
                 <div *ngIf="isSubmitted && registerForm.hasError('mismatch')" 
                     class="error-message">
@@ -52,7 +53,7 @@
                 </div>
             </div>
 
-            <button type="submit" [disabled]="registerForm.invalid">Register</button>
+            <button type="submit" [disabled]="isButtonDisabled()">Register</button>
         </form>
 
         <div class="login-section">
