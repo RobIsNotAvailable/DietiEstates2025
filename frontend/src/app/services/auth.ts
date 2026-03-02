@@ -8,7 +8,7 @@ import { Observable, tap} from 'rxjs';
 })
 export class AuthService 
 {
-  private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = '/api/auth';
   private readonly TOKEN_KEY = 'dieti_token';
 
   constructor(private http: HttpClient) {}
@@ -57,5 +57,20 @@ export class AuthService
   isLoggedIn(): boolean 
   {
     return !!this.getToken();
+  }
+
+  getAccountDetails(): Observable<any> 
+  {
+    return this.http.get<any>(`/api/accounts/me`);
+  }
+
+  getUserData()
+  {
+    const user = localStorage.getItem('user');
+    if (user)
+    {
+      return JSON.parse(user);
+    }
+    return null;
   }
 }

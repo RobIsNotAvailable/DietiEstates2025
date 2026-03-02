@@ -6,6 +6,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.dd25.dietiestates25.dto.AccountDetailsResponse;
 import com.dd25.dietiestates25.dto.AuthResponse;
 import com.dd25.dietiestates25.dto.ChangePasswordRequest;
 import com.dd25.dietiestates25.dto.LoginRequest;
@@ -92,5 +93,14 @@ public class AccountService
         LoginToken token = new LoginToken(email);
         tokenRepo.save(token);
         emailService.sendPasswordResetEmail(email, token.getToken());
+    }
+
+    public AccountDetailsResponse getCurrentAccount()
+    {
+        String email = securityUtil.getCurrentEmail();
+        Account account = repo.findById(email).orElseThrow(() -> 
+            new IllegalArgumentException(StringConstants.ACCOUNT_NOT_FOUND_MESSAGE));
+            
+        return new AccountDetailsResponse(account.getEmail(), account.getFirstName(), account.getLastName());
     }
 }

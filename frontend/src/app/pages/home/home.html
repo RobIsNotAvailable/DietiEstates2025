@@ -16,8 +16,31 @@
           } 
           @else 
           {
-            <span class="welcome-text">Welcome</span>
-            <button class="btn-link" (click)="onLogout()">Logout</button>
+            <div class="user-menu-wrapper">
+              <div class="user-trigger" (click)="toggleDropdown()">
+                <div class="user-avatar">
+                  <i class='bx bxs-user'></i> </div>
+                <span class="welcome-text">
+                  Welcome, {{ userData?.firstName }}
+                </span>
+              </div>
+
+              <div class="dropdown-menu" *ngIf="isDropdownOpen">
+                <div class="dropdown-item">
+                  <i class='bx bx-user'></i>
+                  <span>Il mio Profilo</span>
+                </div>
+                <div class="dropdown-item">
+                  <i class='bx bx-cog'></i>
+                  <span>Impostazioni</span>
+                </div>
+                <div class="dropdown-divider"></div>
+                <div class="dropdown-item logout-action" (click)="onLogout()">
+                  <i class='bx bx-log-out'></i>
+                  <span>Logout</span>
+                </div>
+              </div>
+            </div>
           }
         </div>
       </div>

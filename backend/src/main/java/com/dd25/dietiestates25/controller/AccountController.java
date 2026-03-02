@@ -3,6 +3,7 @@ package com.dd25.dietiestates25.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import com.dd25.dietiestates25.service.AccountService;
 
 import jakarta.validation.Valid;
 
+import com.dd25.dietiestates25.dto.AccountDetailsResponse;
 import com.dd25.dietiestates25.dto.ChangePasswordRequest;
 import com.dd25.dietiestates25.dto.ResetPasswordRequest;
 
@@ -40,4 +42,13 @@ public class AccountController
         accountService.forgotPassword(request);
         return ResponseEntity.ok("Password reset link sent to email");
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentAccount() 
+    {
+
+        AccountDetailsResponse response = accountService.getCurrentAccount();
+        return ResponseEntity.ok(response);
+    }
+    
 }

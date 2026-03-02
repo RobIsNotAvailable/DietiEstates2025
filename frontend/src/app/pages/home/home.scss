@@ -60,6 +60,110 @@
       align-items: center;
       gap: 10px;
 
+      
+      .user-menu-wrapper 
+      {
+        position: relative;
+        margin-right: 20px; 
+
+        .user-trigger 
+        {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          cursor: pointer;
+          padding: 5px 10px;
+          border-radius: 8px;
+          transition: background 0.2s;
+
+          &:hover 
+          {
+            background: rgba(0, 0, 0, 0.04);
+          }
+
+          .user-avatar 
+          {
+            width: 35px;
+            height: 35px;
+            background-color: #e8f5e9; 
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            i 
+            {
+              color: #4caf50; 
+              font-size: 1.2rem;
+            }
+          }
+
+          .welcome-text 
+          {
+            font-size: 1.25rem; 
+            font-weight: 700;
+            color: #1a2a3a;
+          }
+
+          .arrow-icon 
+          {
+            font-size: 1.5rem;
+            color: #4caf50;
+            transition: transform 0.3s ease;
+            
+            &.rotate 
+            {
+              transform: rotate(180deg);
+            }
+          }
+        }
+
+        .dropdown-menu 
+        {
+          position: absolute;
+          top: 120%;
+          right: 0;
+          background: white;
+          border-radius: 12px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+          min-width: 200px;
+          padding: 8px;
+          z-index: 2000;
+          border: 1px solid #eee;
+
+          .dropdown-item 
+          {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            background: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.2s;
+
+            &:hover 
+            {
+              background: #f8f9fa;
+            }
+
+            &.logout-action 
+            {
+              color: #d32f2f;
+              border-top: 1px solid #eee;
+              margin-top: 5px;
+              border-radius: 0 0 8px 8px;
+            }
+          }
+        }
+      }
+
+
       .btn-secondary, .btn-primary 
       {
         height: 40px;
