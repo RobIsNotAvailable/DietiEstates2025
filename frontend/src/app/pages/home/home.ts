@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit
   {
     this.isLoading = true;
     this.isUserLoggedIn = this.authService.isLoggedIn();
-    this.loadingMessage = 'logging in...';
+    this.loadingMessage = 'Finalizing details...';
 
     if (this.isUserLoggedIn) 
     {
@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit
           {
             this.isLoading = false;
             this.cd.detectChanges(); 
-          }, 800); 
+          }, 500); 
         },
         error: (err) => 
         {

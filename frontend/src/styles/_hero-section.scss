@@ -1,5 +1,6 @@
 @import 'variables';
 
+
 @mixin hero-section
 {
     position: relative;
@@ -30,20 +31,20 @@
 
     .search-wrapper 
     {
+        @include entrance-animation(0.5s);
+     
         position: relative;
         z-index: 2; 
         width: 85%;
         max-width: 950px;
         transform: translateY($hero-search-offset); 
 
-        
         opacity: 0;
-        animation: fadeUp 0.8s ease-out 0.3s forwards;
 
         .search-bar-advanced
         {
           @include search-bar-layout;
-          padding: 15px 25px; 
+          padding: 10px 25px; 
         }
     }
 
@@ -51,33 +52,5 @@
     {
         @include loading-overlay-style; 
         z-index: 10; 
-    }
-}
-
-@keyframes heroReveal 
-{
-    from 
-    { 
-        opacity: 0; 
-        transform: scale(1.05);
-    }
-    to 
-    { 
-        opacity: 1; 
-        transform: scale(1); 
-    }
-}
-
-@keyframes fadeUp 
-{
-    from 
-    { 
-        opacity: 0; 
-        transform: translateY(calc($hero-search-offset + 20px)); 
-    }
-    to 
-    { 
-        opacity: 1; 
-        transform: translateY($hero-search-offset); 
     }
 }

@@ -27,7 +27,7 @@
                 <label>Password</label>
                 <div class="input-wrapper" style="position: relative;">
                     <input [type]="hidePassword ? 'password' : 'text'" 
-                        formControlName="rawPassword"
+                        formControlName="rawPassword" placeholder="password"
                         [class.is-invalid]="(isSubmitted && registerForm.get('rawPassword')?.invalid) || (serverErrorMessage && !serverErrorMessage.toLowerCase().includes('email'))">
                     
                     <button type="button" class="toggle-password" (click)="togglePassword()" tabindex="-1">

@@ -1,98 +1,103 @@
-
-<div class="top-section">
-  @if (isLoading) 
-  {
-    <div class="loading-overlay">
-      <div class="spinner"></div>
-      <p>{{ loadingMessage }}</p>
-    </div>
-  }
-    <header class="main-header">
-      <div class="header-container">
-
-        <a routerLink="/" class="logo-section">
-            <div 
-              class="logo-icon">
-              <i class="bx bx-home"></i>
-            </div>
-            <span class="logo-text">DietiEstates</span>
-        </a>
-
-        <div class="auth-buttons">
-          @if (!isUserLoggedIn) 
-          {
-            <button class="btn-secondary" (click)="goToLogin()">Login</button>
-            <button class="btn-primary" (click)="goToRegister()">Register</button>
-          } 
-          @else 
-          {
-            <div class="user-menu-wrapper">
-              <div class="user-trigger" (click)="toggleDropdown()">
-                <div class="user-avatar">
-                  <i class='bx bxs-user'></i> </div>
-                <span class="welcome-text">
-                  Welcome, {{ userData?.firstName }}
-                </span>
-
-                <i class='bx bx-chevron-down arrow-icon' [class.rotate]="isDropdownOpen"></i>
-              </div>
-
-              <div class="dropdown-menu" *ngIf="isDropdownOpen">
-                <div class="dropdown-item">
-                  <i class='bx bx-user'></i>
-                  <span>Il mio Profilo</span>
-                </div>
-                <div class="dropdown-item">
-                  <i class='bx bx-cog'></i>
-                  <span>Impostazioni</span>
-                </div>
-                <div class="dropdown-divider"></div>
-                <div class="dropdown-item logout-action" (click)="onLogout()">
-                  <i class='bx bx-log-out'></i>
-                  <span>Logout</span>
-                </div>
-              </div>
-            </div>
-          }
+<div class="home-container">
+    @if (isLoading) 
+    {
+        <div class="loading-overlay">
+            <div class="spinner"></div>
+            <p>{{ loadingMessage }}</p>
         </div>
-      </div>
-    </header>
+    }
 
-    <section class="hero-section">
-      <div class="hero-background"></div>
+    <div class="top-section">
+        <header class="main-header">
+            <div class="header-container">
+                <a routerLink="/" class="logo-section">
+                    <div class="logo-icon">
+                        <i class="bx bx-home"></i>
+                    </div>
+                    <span class="logo-text">DietiEstates</span>
+                </a>
 
-      <div class="search-wrapper">
-        <div class="search-bar-advanced">
-          
-          <div class="search-group search-main">
-            <i class="bi bi-search search-icon"></i>
-            <input type="text" placeholder="Search by city or area" class="search-input">
-          </div>
+                <div class="auth-buttons">
+                    @if (!isUserLoggedIn) 
+                    {
+                        <button class="btn-secondary" (click)="goToLogin()">Login</button>
+                        <button class="btn-primary" (click)="goToRegister()">Register</button>
+                    } 
+                    @else 
+                    {
+                        <div class="user-menu-wrapper">
+                            <div class="user-trigger" (click)="toggleDropdown()">
+                                <div class="user-avatar">
+                                    <i class='bx bxs-user'></i>
+                                </div>
+                                <span class="welcome-text">
+                                    Welcome, {{ userData?.firstName }}
+                                </span>
+                                <i class='bx bx-chevron-down arrow-icon' [class.rotate]="isDropdownOpen"></i>
+                            </div>
 
-          <div class="divider"></div>
-
-          <div class="search-right-side">
-            
-            <div class="select-pill-wrapper">
-              <select class="search-select">
-                <option value="">Select type</option>
-                <option value="vendita">Sale</option>
-                <option value="affitto">Rent</option>
-              </select>
-              <i class="bi bi-chevron-down select-arrow"></i>
+                            <div class="dropdown-menu" *ngIf="isDropdownOpen">
+                                <div class="dropdown-item">
+                                    <i class='bx bx-user'></i>
+                                    <span>Il mio Profilo</span>
+                                </div>
+                                <div class="dropdown-item">
+                                    <i class='bx bx-cog'></i>
+                                    <span>Impostazioni</span>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <div class="dropdown-item logout-action" (click)="onLogout()">
+                                    <i class='bx bx-log-out'></i>
+                                    <span>Logout</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
+        </header>
 
-            <button class="btn-filters">
-              <i class="bi bi-sliders"></i> Filters
-            </button>
+        <section class="hero-section">
+            <div class="hero-background"></div>
 
-            <button class="btn-search-main">
-              <i class="bi bi-geo-alt"></i> Search
-            </button>
-          </div>
+            <div class="search-wrapper">
+                <div class="search-bar-advanced">
+                    <div class="search-group search-main">
+                        <i class="bi bi-search search-icon"></i>
+                        <input type="text" placeholder="Search by city or area" class="search-input">
+                    </div>
 
-      </div>
+                    <div class="divider"></div>
+
+                    <div class="search-right-side">
+                        <div class="select-pill-wrapper">
+                            <select class="search-select">
+                                <option value="">Select type</option>
+                                <option value="vendita">Sale</option>
+                                <option value="affitto">Rent</option>
+                            </select>
+                            <i class="bi bi-chevron-down select-arrow"></i>
+                        </div>
+
+                        <button class="btn-filters">
+                            <i class="bi bi-sliders"></i> Filters
+                        </button>
+
+                        <button class="btn-search-main">
+                            <i class="bi bi-geo-alt"></i> Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-  </section>
-</div>
 
+    <div class="bottom-section">
+        <div class="main-content-card">
+            <div class="section-header">
+                <h2>Quick Explore</h2>
+                <div class="accent-line"></div>
+            </div>
+            </div>
+    </div>
+</div>
