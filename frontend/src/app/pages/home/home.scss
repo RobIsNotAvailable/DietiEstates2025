@@ -3,10 +3,12 @@
 @import '../../../styles/variables';
 @import '../../../styles/header';
 @import '../../../styles/hero-section';
-@import '../../../styles/loading-overlay';
+@import '../../../styles/animations';
 
 .top-section
 {
+  @include fade-in-up(0.2s);
+
   position: relative;
   max-width: 1300px;      
   margin: 30px auto;      

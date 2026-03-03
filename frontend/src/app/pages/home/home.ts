@@ -58,22 +58,24 @@ export class HomeComponent implements OnInit
 
   onLogout() 
   {
-    this.isLoading = true; 
-    this.isDropdownOpen = false; 
-    this.loadingMessage = 'logging out...';
-
-    this.authService.logout(); 
+    this.loadingMessage = 'Logging out...';
+    this.isLoading = true;
+    this.isDropdownOpen = false;
+    this.cd.detectChanges();
+    this.authService.logout();
 
     setTimeout(() => 
     {
-      localStorage.removeItem('user'); 
+      localStorage.clear();
       this.isUserLoggedIn = false;
       this.userData = null;
-      
       this.isLoading = false; 
-      this.cd.detectChanges();
-      this.router.navigate(['/']); 
-    }, 2000); 
+      
+      this.router.navigate(['/login']).then(() => 
+      {
+        window.location.reload(); 
+      });
+    }, 1500);
   }
 
   goToLogin(): void 

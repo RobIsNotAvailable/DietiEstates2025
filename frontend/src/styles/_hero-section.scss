@@ -9,29 +9,75 @@
     align-items: center;
     padding: 0 5%; 
     margin-top: 20px;
+    overflow: hidden; 
 
     .hero-background 
     {
-      position: absolute;
-      top: 0;
-      width: 100%; 
-      height: 100%;
-      background: url('/images/hero-villa.jpg') center/cover no-repeat;
-      filter: brightness(0.8);
-      z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; 
+        height: 100%;
+        background: url('/images/hero-villa.jpg') center/cover no-repeat;
+        
+        filter: brightness(0.75) contrast(1.05); 
+        image-rendering: -webkit-optimize-contrast; 
+        
+        z-index: 1;
+
+        animation: heroReveal 1.2s ease-out forwards;
     }
 
     .search-wrapper 
     {
-      position: relative;
-      z-index: 2;
-      width: 85%;
-      max-width: 950px;
-      transform: translateY($hero-search-offset); 
+        position: relative;
+        z-index: 2; 
+        width: 85%;
+        max-width: 950px;
+        transform: translateY($hero-search-offset); 
 
-      .search-bar-advanced
-      {
-        @include search-bar-layout;
-      }
+        
+        opacity: 0;
+        animation: fadeUp 0.8s ease-out 0.3s forwards;
+
+        .search-bar-advanced
+        {
+          @include search-bar-layout;
+          padding: 15px 25px; 
+        }
+    }
+
+    .loading-overlay 
+    {
+        @include loading-overlay-style; 
+        z-index: 10; 
+    }
+}
+
+@keyframes heroReveal 
+{
+    from 
+    { 
+        opacity: 0; 
+        transform: scale(1.05);
+    }
+    to 
+    { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+}
+
+@keyframes fadeUp 
+{
+    from 
+    { 
+        opacity: 0; 
+        transform: translateY(calc($hero-search-offset + 20px)); 
+    }
+    to 
+    { 
+        opacity: 1; 
+        transform: translateY($hero-search-offset); 
     }
 }
