@@ -2,7 +2,7 @@
 @import '../../../styles/variables';
 
 $bg-gradient: $bg-main;
-$auth-error-red: #e74c3c;
+$auth-error-red: $error-red;
 
 .register-wrapper 
 {

@@ -63,14 +63,4 @@ export class AuthService
   {
     return this.http.get<any>(`/api/accounts/me`);
   }
-
-  getUserData()
-  {
-    const user = localStorage.getItem('user');
-    if (user)
-    {
-      return JSON.parse(user);
-    }
-    return null;
-  }
 }

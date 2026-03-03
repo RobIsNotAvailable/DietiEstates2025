@@ -1,0 +1,196 @@
+@import 'variables';
+
+@mixin main-header-styles
+  {
+    height: $header-height;
+    background: $white-pure;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    box-shadow: none;
+    position: relative;
+    top: 0;
+    z-index: 1000;
+
+    .header-container 
+    {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-section 
+    {
+      font-size: 2.2rem;   
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none; 
+      padding-left: 25px;   
+      cursor: pointer;
+
+      &:hover 
+      {
+        opacity: 0.8;      
+      }
+
+      .logo-icon 
+      {
+        color: #1a2a3a;
+      }
+
+      .logo-text 
+      {
+        font-size: 2.2rem;   
+        font-weight: 800;    
+        color: #1a2a3a;
+        letter-spacing: -1px;
+      }
+    }
+
+    .auth-buttons 
+    {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      
+      .user-menu-wrapper 
+      {
+        position: relative;
+        margin-right: 20px; 
+
+        .user-trigger 
+        {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          cursor: pointer;
+          padding: 5px 10px;
+          border-radius: 8px;
+          transition: background 0.2s;
+
+          &:hover 
+          {
+            background: rgba(0, 0, 0, 0.04);
+          }
+
+          .user-avatar 
+          {
+            width: 35px;
+            height: 35px;
+            background-color: #e8f5e9; 
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            i 
+            {
+              color: $green-primary; 
+              font-size: 1.2rem;
+            }
+          }
+
+          .welcome-text 
+          {
+            font-size: 1.25rem; 
+            font-weight: 700;
+            color: #1a2a3a;
+          }
+
+          .arrow-icon 
+          {
+            font-size: 1.5rem;
+            color: $green-primary;
+            transition: transform 0.3s ease;
+            
+            &.rotate 
+            {
+              transform: rotate(180deg);
+            }
+          }
+        }
+
+        .dropdown-menu 
+        {
+          position: absolute;
+          top: 120%;
+          right: 0;
+          background: white;
+          border-radius: 12px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+          min-width: 200px;
+          padding: 8px;
+          z-index: 2000;
+          border: 1px solid #eee;
+
+          .dropdown-item 
+          {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            background: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.2s;
+
+            &:hover 
+            {
+              background: #f8f9fa;
+            }
+
+            &.logout-action 
+            {
+              color: #d32f2f;
+              border-top: 1px solid #eee;
+              margin-top: 5px;
+              border-radius: 0 0 8px 8px;
+            }
+          }
+        }
+      }
+
+
+      .btn-secondary, .btn-primary 
+      {
+        height: 40px;
+        padding: 0 20px;
+        border-radius: 5px;
+        font-weight: 600;
+        font-size: 1.05rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+      }
+
+      .btn-primary 
+      { 
+        @include auth-button-main; 
+        margin-right: 20px;
+      }
+
+      .btn-secondary 
+      { 
+        @include auth-button-secondary; 
+        background-color: $bg-main; 
+        border: 1px solid #e0e0e0; 
+        color: #2c3e50;
+        
+        &:hover 
+        {
+          background-color: $bg-hover;
+        }
+      }
+    }
+  }

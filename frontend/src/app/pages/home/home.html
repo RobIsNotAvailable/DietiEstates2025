@@ -1,11 +1,21 @@
 
 <div class="top-section">
+  @if (isLoading) 
+  {
+    <div class="loading-overlay">
+      <div class="spinner"></div>
+      <p>{{ loadingMessage }}</p>
+    </div>
+  }
     <header class="main-header">
       <div class="header-container">
-        
+
         <a routerLink="/" class="logo-section">
-          <i class="bx bx-home"></i>
-          <span class="logo-text">DietiEstates</span>
+            <div 
+              class="logo-icon">
+              <i class="bx bx-home"></i>
+            </div>
+            <span class="logo-text">DietiEstates</span>
         </a>
 
         <div class="auth-buttons">
@@ -23,6 +33,8 @@
                 <span class="welcome-text">
                   Welcome, {{ userData?.firstName }}
                 </span>
+
+                <i class='bx bx-chevron-down arrow-icon' [class.rotate]="isDropdownOpen"></i>
               </div>
 
               <div class="dropdown-menu" *ngIf="isDropdownOpen">

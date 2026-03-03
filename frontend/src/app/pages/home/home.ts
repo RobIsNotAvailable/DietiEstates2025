@@ -15,6 +15,8 @@ export class HomeComponent implements OnInit
 {
   isUserLoggedIn: boolean = false;
   isDropdownOpen: boolean = false;
+  isLoading: boolean = false;
+  loadingMessage: string = '';
   userData: any = null;
 
   constructor(private authService: AuthService, private router: Router, private cd: ChangeDetectorRef) 
@@ -22,34 +24,56 @@ export class HomeComponent implements OnInit
 
   ngOnInit(): void 
   {
-      this.isUserLoggedIn = this.authService.isLoggedIn();
-      console.log("Stato Login nella Home:", this.isUserLoggedIn);
+    this.isLoading = true;
+    this.isUserLoggedIn = this.authService.isLoggedIn();
+    this.loadingMessage = 'logging in...';
 
-      if (this.isUserLoggedIn) 
+    if (this.isUserLoggedIn) 
+    {
+      this.authService.getAccountDetails().subscribe(
       {
-          this.authService.getAccountDetails().subscribe(
+        next: (res) => 
+        {
+          this.userData = res;
+          localStorage.setItem('user', JSON.stringify(res));
+
+          setTimeout(() => 
           {
-              next: (res) => 
-              {
-                  console.log("Dati ricevuti dal /me:", res);
-                  this.userData = res;
-                  localStorage.setItem('user', JSON.stringify(res));
-                  this.cd.markForCheck();
-              },
-              error: (err) => 
-              {
-                  console.error("Errore recupero dettagli:", err);
-                  this.onLogout();
-              }
-          });
-      }
+            this.isLoading = false;
+            this.cd.detectChanges(); 
+          }, 800); 
+        },
+        error: (err) => 
+        {
+          this.isLoading = false; 
+          this.onLogout();
+        }
+      });
+    } 
+    else 
+    {
+      this.isLoading = false;
+    }
   }
 
-  onLogout(): void 
+  onLogout() 
   {
+    this.isLoading = true; 
+    this.isDropdownOpen = false; 
+    this.loadingMessage = 'logging out...';
+
     this.authService.logout(); 
-    this.isUserLoggedIn = false; 
-    this.router.navigate(['/home']);
+
+    setTimeout(() => 
+    {
+      localStorage.removeItem('user'); 
+      this.isUserLoggedIn = false;
+      this.userData = null;
+      
+      this.isLoading = false; 
+      this.cd.detectChanges();
+      this.router.navigate(['/']); 
+    }, 2000); 
   }
 
   goToLogin(): void 

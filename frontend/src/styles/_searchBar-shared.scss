@@ -95,7 +95,7 @@
 
     .btn-search-main 
     {
-      background-color: #58c28d;
+      background-color: $green-primary;
       color: white;
       border: none;
       padding: 8px 22px;
@@ -107,7 +107,7 @@
       cursor: pointer;
       transition: background-color 0.2s;
 
-      &:hover { background-color: #46a374; }
+      &:hover { background-color: $green-hover; }
     }
   }
 }

@@ -29,7 +29,7 @@ export class LoginComponent
   {
     this.loginForm = new FormGroup(
     {
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [Validators.required]),
       rawPassword: new FormControl('', [Validators.required])
     });
   }

@@ -185,7 +185,7 @@ $auth-input-radius: 12px;
 
     &.is-invalid 
     {
-      border-color: #e74c3c !important;
+      border-color: $auth-error-red !important;
       border-width: 2px;
     }
 
