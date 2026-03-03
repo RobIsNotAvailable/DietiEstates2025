@@ -93,11 +93,26 @@
     </div>
 
     <div class="bottom-section">
-        <div class="main-content-card">
-            <div class="section-header">
-                <h2>Quick Explore</h2>
-                <div class="accent-line"></div>
-            </div>
-            </div>
+    <div class="main-content-card">
+        <div class="section-header">
+            <h2>Quick explore</h2>
+            <div class="accent-line"></div>
+        </div>
+
+        <div class="quick-options-grid">
+            @for (item of quickOptions; track item.title) 
+            {
+                <div class="quick-action-card" (click)="handleAction(item.action)">
+                    <div class="icon-container">
+                        <i class='bx' [ngClass]="item.icon"></i>
+                    </div>
+                    <div class="card-text">
+                        <h3>{{ item.title }}</h3>
+                        <p>{{ item.subtitle }}</p>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
+</div>
 </div>

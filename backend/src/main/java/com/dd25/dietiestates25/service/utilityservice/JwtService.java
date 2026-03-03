@@ -1,7 +1,8 @@
 package com.dd25.dietiestates25.service.utilityservice;
 
 import com.dd25.dietiestates25.model.Account;
-import com.dd25.dietiestates25.model.Client;
+import com.dd25.dietiestates25.model.CompanyAccount;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -29,7 +30,11 @@ public class JwtService
     {
         Map<String, Object> claims = new HashMap<>();
         
-        String role = (account instanceof Client) ? "client" : "company";
+        String role = "CLIENT";
+
+        if(account instanceof CompanyAccount)
+            role = ((CompanyAccount) account).getSecurityLevel().toString();
+
         claims.put("role", role);
 
         return Jwts.builder()
