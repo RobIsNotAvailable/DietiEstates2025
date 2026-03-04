@@ -12,4 +12,5 @@ public record ResetPasswordRequest(
     @NotBlank (message = StringConstants.EMAIL_REQUIRED_MESSAGE)
     @Email (message = StringConstants.INVALID_EMAIL_MESSAGE)
     String email
-) {}
+)
+{ public String email() { return email.trim().toLowerCase(); }}

@@ -1,10 +1,10 @@
 /***************************************************** ENUMS *************************************************************/
 
-CREATE TYPE account_level AS enum('client', 'agent', 'support', 'admin');
+CREATE TYPE account_level AS enum('CLIENT', 'AGENT', 'SUPPORT', 'ADMIN');
 
-CREATE TYPE status AS enum('active', 'ended_succesfully', 'cancelled');
+CREATE TYPE status AS enum('ACTIVE', 'ENDED_SUCCESFULLY', 'CANCELLED');
 
-CREATE TYPE listing_type AS enum('rent', 'sale');
+CREATE TYPE listing_type AS enum('RENT', 'SALE');
 
 /***************************************************** TABLES *************************************************************/
 
@@ -14,7 +14,7 @@ CREATE TABLE account
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     hash_password VARCHAR(255) NOT NULL,
-    account_level account_level NOT NULL DEFAULT 'client',
+    account_level account_level NOT NULL DEFAULT 'CLIENT',
 
     CONSTRAINT valid_email CHECK
     (
@@ -26,7 +26,7 @@ CREATE TABLE listing
 (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    status status NOT NULL DEFAULT 'active',
+    status status NOT NULL DEFAULT 'ACTIVE',
     views INT NOT NULL DEFAULT 0,
     last_modified TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     agent_email VARCHAR(255) REFERENCES account(email) ON UPDATE CASCADE
@@ -38,7 +38,7 @@ CREATE TABLE offer
     proposed_price NUMERIC NOT NULL,
     expiration_date DATE NOT NULL,
     notes VARCHAR(255) NOT NULL,
-    status status NOT NULL DEFAULT 'active',
+    status status NOT NULL DEFAULT 'ACTIVE',
     listing_id INT REFERENCES listing(id) NOT NULL,
     client_email VARCHAR(255) REFERENCES account(email) ON UPDATE CASCADE,
     agent_email VARCHAR(255) REFERENCES account(email) ON UPDATE CASCADE
@@ -53,7 +53,7 @@ CREATE TABLE visit_request
 (
     id SERIAL PRIMARY KEY,
     visit_date TIMESTAMPTZ NOT NULL,
-    status status NOT NULL DEFAULT 'active',
+    status status NOT NULL DEFAULT 'ACTIVE',
     listing_id INT REFERENCES listing(id) NOT NULL,
     client_email VARCHAR(255) REFERENCES account(email) ON UPDATE CASCADE,
     agent_email VARCHAR(255) REFERENCES account(email) ON UPDATE CASCADE
