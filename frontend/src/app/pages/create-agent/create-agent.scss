@@ -1,0 +1,70 @@
+@import '../../../styles/auth-shared';
+@import '../../../styles/variables';
+@import '../../../styles/animations';
+
+$auth-label-size: 1.2rem; 
+$auth-input-radius: 12px;
+
+
+.login-wrapper 
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    background-color: $auth-bg-light;
+    padding: 20px;
+}
+
+.login-card 
+{
+    @include auth-card(500px, 2.2rem);
+    @include entrance-animation(0.1s);
+
+    .auth-header p 
+    {
+        text-align: center;
+        color: $auth-gray-muted;
+        margin-top: -20px;
+        margin-bottom: 30px;
+    }
+}
+
+.form-field 
+{
+    @include auth-form-field-structure;
+}
+
+.form-actions 
+{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 10px;
+
+    .submit-btn 
+    {
+        @include auth-button-main;
+    }
+
+    .cancel-btn 
+    {
+        width: 100%;
+        background: white;
+        border: 2px solid $auth-black;
+        color: $auth-black;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover 
+        {
+            background: $bg-main;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    }
+}

@@ -19,7 +19,7 @@ public class EmailService
     @Async
     public void sendOnboardingEmail(String to, String token)
     {
-        String link = "http://localhost:8080/link-login/" + token;
+        String link = "http://localhost:4200/link-login/" + token;
         String title = "Welcome to DietiEstates";
         String body = "Your account was created successfully. To activate it, click the button below:";
         String buttonText = "Activate my account";
@@ -30,7 +30,7 @@ public class EmailService
     @Async
     public void sendPasswordResetEmail(String to, String token)
     {
-        String link = "http://localhost:8080/link-login/" + token;
+        String link = "http://localhost:4200/link-login/" + token;
         String title = "Password Reset Request";
         String body = "We received a request to reset your password. Click the button below to proceed:";
         String buttonText = "Reset Password";

@@ -136,7 +136,7 @@ export class HomeComponent implements OnInit
       if (this.userData?.role === 'SUPPORT' || this.userData?.role === 'ADMIN') 
       {
         this.quickOptions.push({ 
-          title: 'Crea Agente', 
+          title: 'New Agent', 
           subtitle: 'Registra un nuovo collaboratore', 
           icon: 'bx-user-plus', 
           action: 'CREATE_AGENT' 
@@ -146,7 +146,7 @@ export class HomeComponent implements OnInit
       if (this.userData?.role === 'ADMIN') 
       {
         this.quickOptions.push({ 
-          title: 'Crea Support', 
+          title: 'New Support', 
           subtitle: 'Aggiungi personale di assistenza', 
           icon: 'bx-support', 
           action: 'CREATE_SUPPORT' 
@@ -155,8 +155,31 @@ export class HomeComponent implements OnInit
     }
   }
 
-  handleAction(action: string): void
+ handleAction(action: string): void
   {
-    console.log('Azione attivata:', action);
+    console.log('Action activated:', action);
+
+    switch (action) 
+    {
+      case 'CREATE_AGENT':
+        this.router.navigate(['/create-agent']);
+        break;
+      
+      case 'CREATE_SUPPORT':
+        this.router.navigate(['/create-support']);
+        break;
+
+      case 'VIEW_STATS':
+        this.router.navigate(['/dashboard']);
+        break;
+
+      case 'CREATE_LISTING':
+        this.router.navigate(['/new-listing']);
+        break;
+
+      default:
+        console.warn('Action not implemented yet:', action);
+        break;
+    }
   }
 }

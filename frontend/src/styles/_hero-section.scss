@@ -33,11 +33,11 @@
     {
         @include entrance-animation(0.5s);
      
-        position: relative;
+        position: absolute;
         z-index: 2; 
         width: 85%;
+        left: 50%; 
         max-width: 950px;
-        transform: translateY($hero-search-offset); 
 
         opacity: 0;
 

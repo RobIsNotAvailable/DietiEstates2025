@@ -50,25 +50,27 @@ export class LoginComponent
     this.serverErrorMessage = null;
     this.isSubmitted = true;
 
-    if (this.loginForm.valid) 
+    if (!this.loginForm.valid) 
     {
-      this.authService.login(this.loginForm.value).subscribe(
-      {
-        next: (res) => 
-        {
-          console.log('Login OK!', res);
-          this.router.navigate(['/home']); 
-        },
-        error: (err) => 
-        {
-          console.log("Server error:", err.error);
-          
-          this.serverErrorMessage = "Credentials not valid";
-          
-          this.loginForm.get('rawPassword')?.reset(); 
-          this.cd.detectChanges();
-        }
-      });
+      return;
     }
+
+    this.authService.login(this.loginForm.value).subscribe(
+    {
+      next: (res) => 
+      {
+        console.log('Login OK!', res);
+        this.router.navigate(['/home']); 
+      },
+      error: (err) => 
+      {
+        console.log("Server error:", err.error);
+        
+        this.serverErrorMessage = "Credentials not valid";
+        
+        this.loginForm.get('rawPassword')?.reset(); 
+        this.cd.detectChanges();
+      }
+    });
   }
 }

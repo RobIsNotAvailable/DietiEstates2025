@@ -74,40 +74,38 @@ export class RegisterComponent
 
     if (this.registerForm.valid) 
     {
-        this.authService.register(this.registerForm.value).subscribe(
-        {
-            next: (res) => 
-            {
-              console.log('Registration OK!', res);
-              this.router.navigate(['/home']); 
-            },
-            error: (err) => 
-            {
-              console.log("Server error:", err.error);
-
-              if (typeof err.error === 'string') 
-              {
-                this.serverErrorMessage = err.error; 
-              } 
-              else if (err.error && typeof err.error === 'object') 
-              {
-                const errorKeys = Object.keys(err.error);
-                if (errorKeys.length > 0) 
-                {
-                  this.serverErrorMessage = err.error[errorKeys[0]]; 
-                }
-              } 
-              else 
-              {
-                this.serverErrorMessage = "An unexpected error occurred. Please try again.";
-              }
-
-              this.registerForm.get('rawPassword')?.markAsTouched();
-              this.registerForm.get('email')?.markAsTouched();
-              this.cd.detectChanges();
-            }
-        });
+      return;
     }
-  }
 
+    this.authService.register(this.registerForm.value).subscribe(
+    {
+        next: (res) => 
+        {
+          this.router.navigate(['/home']); 
+        },
+        error: (err) => 
+        {
+          if (typeof err.error === 'string') 
+          {
+            this.serverErrorMessage = err.error; 
+          } 
+          else if (err.error && typeof err.error === 'object') 
+          {
+            const errorKeys = Object.keys(err.error);
+            if (errorKeys.length > 0) 
+            {
+              this.serverErrorMessage = err.error[errorKeys[0]]; 
+            }
+          } 
+          else 
+          {
+            this.serverErrorMessage = "An unexpected error occurred. Please try again.";
+          }
+
+          this.registerForm.get('rawPassword')?.markAsTouched();
+          this.registerForm.get('email')?.markAsTouched();
+          this.cd.detectChanges();
+        }
+    });
+  }
 }

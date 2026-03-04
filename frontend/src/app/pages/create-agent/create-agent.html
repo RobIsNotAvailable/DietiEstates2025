@@ -1,0 +1,54 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <div class="auth-header">
+      <h2>Register New Agent</h2>
+      <p>Please enter the agent's details below</p>
+    </div>
+
+    <form [formGroup]="agentForm" (ngSubmit)="onSubmit()">
+      
+      <div class="form-field">
+        <label>First Name</label>
+        <input 
+          type="text" 
+          formControlName="firstName" 
+          placeholder="e.g. Mario"
+          [class.is-invalid]="isSubmitted && agentForm.get('firstName')?.invalid"
+        >
+      </div>
+
+      <div class="form-field">
+        <label>Last Name</label>
+        <input 
+          type="text" 
+          formControlName="lastName" 
+          placeholder="e.g. Rossi"
+          [class.is-invalid]="isSubmitted && agentForm.get('lastName')?.invalid"
+        >
+      </div>
+
+      <div class="form-field">
+        <label>Email Address</label>
+        <input 
+          type="email" 
+          formControlName="email" 
+          placeholder="agent@dietiestates.com"
+          [class.is-invalid]="isSubmitted && agentForm.get('email')?.invalid"
+        >
+      </div>
+
+      <div *ngIf="serverErrorMessage" class="error-message">
+        {{ serverErrorMessage }}
+      </div>
+
+      <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px;">
+        <button type="button" (click)="onCancel()" class="cancel-btn">
+          Cancel
+        </button>
+        <button type="submit" class="submit-btn">
+          Create Agent
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
