@@ -23,4 +23,5 @@ public record CreateCompanyAccountRequest(
 
     @NotNull (message = "Security level cannot be null")
     SecurityLevel securityLevel
-) {}
+)
+{ public String email() { return email.trim().toLowerCase(); }}

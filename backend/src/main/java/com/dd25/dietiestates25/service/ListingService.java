@@ -139,7 +139,8 @@ public class ListingService
             l.getSurroundingInfo().isNearStops(),
             l.getSurroundingInfo().isNearParks(),
             l.getSurroundingInfo().isNearSchools(),
-            l.getPhotos().stream().map(Photo::getFilepath).toList()
+            l.getPhotos().stream().map(Photo::getFilepath).toList(),
+            l.getPhotos().stream().map(Photo::getDescription).toList()
         );
     }
 

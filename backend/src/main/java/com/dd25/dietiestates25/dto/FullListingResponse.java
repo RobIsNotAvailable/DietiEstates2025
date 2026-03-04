@@ -21,5 +21,6 @@ public record FullListingResponse(
     Boolean nearStops,
     Boolean nearParks,
     Boolean nearSchools,
-    List<String> imageUrls
+    List<String> imageUrls,
+    List<String> imageDescriptions
 ) {}

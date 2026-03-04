@@ -27,4 +27,5 @@ public record AccountRegisterRequest(
         message = StringConstants.PASSWORD_MESSAGE
     )
     String rawPassword
-) {}
+) 
+{ public String email() { return email.trim().toLowerCase(); }}
