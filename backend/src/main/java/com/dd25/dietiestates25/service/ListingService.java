@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.dd25.dietiestates25.dto.CreateListingRequest;
 import com.dd25.dietiestates25.dto.FullListingResponse;
 import com.dd25.dietiestates25.dto.ListingSearchRequest;
+import com.dd25.dietiestates25.dto.ListingStatsResponse;
 import com.dd25.dietiestates25.dto.SummaryListingResponse;
 import com.dd25.dietiestates25.model.Address;
 import com.dd25.dietiestates25.model.BuildingDetails;
@@ -42,7 +43,7 @@ public class ListingService
     private final ListingStatsService statsService;
 
     @Transactional
-    public void createListing(CreateListingRequest request) 
+    public Integer createListing(CreateListingRequest request) 
     {
         CompanyAccount agent = agentRepo.findById(securityUtil.getCurrentEmail()).orElseThrow(() -> 
             new IllegalArgumentException(StringConstants.ACCOUNT_NOT_FOUND_MESSAGE));
@@ -62,6 +63,17 @@ public class ListingService
         Listing listing = new Listing(request.name(), agent, commercialInfo, houseInfo, surroundingInfo);
 
         repo.save(listing);
+
+        return listing.getId();
+    }
+
+    public FullListingResponse getListingById(Integer id) 
+    {
+        Listing listing = repo.findById(id).orElseThrow(() -> 
+            new EntityNotFoundException("Listing not found"));
+        
+        statsService.incrementViews(id);
+        return mapToFull(listing);
     }
 
     public List<SummaryListingResponse> searchListings(ListingSearchRequest request)
@@ -80,13 +92,12 @@ public class ListingService
                   .toList();
     }
 
-    public FullListingResponse getListingById(Integer id) 
+    public List<ListingStatsResponse>getStats()
     {
-        Listing listing = repo.findById(id).orElseThrow(() -> 
-            new EntityNotFoundException("Listing not found"));
-        
-        statsService.incrementViews(id);
-        return mapToFull(listing);
+        List<Listing> results = repo.findByAgent(securityUtil.getCurrentEmail());
+        return results.stream()
+            .map(this::mapToStats)
+            .toList();
     }
 
     private SummaryListingResponse mapToSummary(Listing l) 
@@ -130,5 +141,10 @@ public class ListingService
             l.getSurroundingInfo().isNearSchools(),
             l.getPhotos().stream().map(Photo::getFilepath).toList()
         );
+    }
+
+    private ListingStatsResponse mapToStats(Listing l)
+    {
+        return repo.getStatsByListing(l.getId());
     }
 }

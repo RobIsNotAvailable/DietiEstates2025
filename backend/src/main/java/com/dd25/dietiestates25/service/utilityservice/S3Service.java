@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.core.sync.RequestBody;
 
@@ -23,8 +22,10 @@ public class S3Service
 
     @Value("${BUCKET_NAME}")
     private String bucketName;
+    @Value("${AWS_REGION}")
+    private String region;
 
-    public String uploadFile(MultipartFile file) throws IOException
+    public String uploadFile(MultipartFile file)
     {
         String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
@@ -34,14 +35,12 @@ public class S3Service
                     .bucket(bucketName)
                     .key(fileName)
                     .contentType(file.getContentType())
-                    .acl(ObjectCannedACL.PUBLIC_READ)
                     .build();
 
             s3Client.putObject(putObjectRequest, 
                     RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
 
-            return String.format("https://%s.s3.amazonaws.com/%s", bucketName, fileName);
-
+            return String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, region, fileName);    
         } catch (IOException e)
         {
             throw new UncheckedIOException("S3 upload error", e);

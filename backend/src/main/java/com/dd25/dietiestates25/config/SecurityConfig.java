@@ -31,10 +31,11 @@ public class SecurityConfig
             (
                 auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/accounts/forgot_password").permitAll()
+                .requestMatchers("/api/accounts/forgot-password").permitAll()
 
-                .requestMatchers("/api/listings/create").hasRole("COMPANY")
-                .requestMatchers("/api/listings/**").permitAll()
+                .requestMatchers("/api/listings/search").permitAll()
+                .requestMatchers("/api/listings/view/**").permitAll()
+                .requestMatchers("/api/listings/**").hasRole("COMPANY")
 
                 .requestMatchers("/api/company/**").hasRole("COMPANY")
 

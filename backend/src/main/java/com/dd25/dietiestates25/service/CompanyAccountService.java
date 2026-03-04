@@ -6,6 +6,7 @@ import org.passay.PasswordGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.dd25.dietiestates25.dto.AgentStatsResponse;
 import com.dd25.dietiestates25.dto.CreateCompanyAccountRequest;
 import com.dd25.dietiestates25.model.CompanyAccount;
 import com.dd25.dietiestates25.model.LoginToken;
@@ -50,6 +51,11 @@ public class CompanyAccountService
         tokenRepo.save(token);
 
         emailService.sendOnboardingEmail(request.email(), token.getToken());
+    }
+
+    public AgentStatsResponse getStats()
+    {
+        return repo.getStatsByAgent(securityUtil.getCurrentEmail());
     }
 
     private void checkRolePermission(CompanyAccount requester, SecurityLevel targetLevel) 

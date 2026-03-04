@@ -24,7 +24,7 @@ public class JwtService
     @Value("${JWT_KEY}")
     private String key;
 
-    private static final long EXPIRATION_TIME = 1000L * 60 * 60 * 24; // 24 ore
+    private static final long EXPIRATION_TIME = 1000L * 60 * 60 * 12; // 12 ore
 
     public String generateToken(Account account) 
     {

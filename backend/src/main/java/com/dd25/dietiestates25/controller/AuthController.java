@@ -1,5 +1,6 @@
 package com.dd25.dietiestates25.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,26 +18,22 @@ import com.dd25.dietiestates25.service.AccountService;
 import com.dd25.dietiestates25.service.ClientService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "http://localhost:4200")
+@RequiredArgsConstructor
 public class AuthController
 {
     private final AccountService accountService;
     private final ClientService clientService;
 
-    public AuthController(AccountService accountService, ClientService clientService)
-    {
-        this.accountService = accountService;
-        this.clientService = clientService;
-    }
-
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody @Valid AccountRegisterRequest request) 
     {    
         AuthResponse response = clientService.registerClient(request);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PostMapping("/login")

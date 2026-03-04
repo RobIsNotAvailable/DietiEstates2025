@@ -2,7 +2,7 @@
 
 CREATE TYPE account_level AS enum('client', 'agent', 'support', 'admin');
 
-CREATE TYPE status AS enum('active', 'ended_succesfully', 'removed');
+CREATE TYPE status AS enum('active', 'ended_succesfully', 'cancelled');
 
 CREATE TYPE listing_type AS enum('rent', 'sale');
 
