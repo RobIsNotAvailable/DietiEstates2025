@@ -53,14 +53,15 @@ export class HomeComponent implements OnInit
           console.log('Token decodificato, ruolo trovato:', currentRole);
           this.userData = { ...res, role: currentRole };;
           localStorage.setItem('user', JSON.stringify(this.userData));
-
+          this.setupQuickOptions();
+          
           setTimeout(() => 
           {
             this.isLoading = false;
             this.cd.detectChanges(); 
           }, 500); 
         },
-        error: (err) => 
+        error: () => 
         {
           this.isLoading = false; 
           this.onLogout();
@@ -71,9 +72,8 @@ export class HomeComponent implements OnInit
     {
       this.isLoading = false;
       this.sectionTitle = 'Quick explore - (Login to unlock all features!)';
+      this.setupQuickOptions();
     }
-
-    this.setupQuickOptions();
   }
 
   onLogout() 

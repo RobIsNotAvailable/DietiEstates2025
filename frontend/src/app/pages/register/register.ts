@@ -72,40 +72,40 @@ export class RegisterComponent
     this.serverErrorMessage = null;
     this.isSubmitted = true;
 
-    if (this.registerForm.valid) 
+    if (!this.registerForm.valid) 
     {
       return;
     }
 
     this.authService.register(this.registerForm.value).subscribe(
     {
-        next: (res) => 
+      next: () => 
+      {
+        this.router.navigate(['/home']); 
+      },
+      error: (err) => 
+      {
+        if (typeof err.error === 'string') 
         {
-          this.router.navigate(['/home']); 
-        },
-        error: (err) => 
+          this.serverErrorMessage = err.error; 
+        } 
+        else if (err.error && typeof err.error === 'object') 
         {
-          if (typeof err.error === 'string') 
+          const errorKeys = Object.keys(err.error);
+          if (errorKeys.length > 0) 
           {
-            this.serverErrorMessage = err.error; 
-          } 
-          else if (err.error && typeof err.error === 'object') 
-          {
-            const errorKeys = Object.keys(err.error);
-            if (errorKeys.length > 0) 
-            {
-              this.serverErrorMessage = err.error[errorKeys[0]]; 
-            }
-          } 
-          else 
-          {
-            this.serverErrorMessage = "An unexpected error occurred. Please try again.";
+            this.serverErrorMessage = err.error[errorKeys[0]]; 
           }
-
-          this.registerForm.get('rawPassword')?.markAsTouched();
-          this.registerForm.get('email')?.markAsTouched();
-          this.cd.detectChanges();
+        } 
+        else 
+        {
+          this.serverErrorMessage = "An unexpected error occurred. Please try again.";
         }
+
+        this.registerForm.get('rawPassword')?.markAsTouched();
+        this.registerForm.get('email')?.markAsTouched();
+        this.cd.detectChanges();
+      }
     });
   }
 }

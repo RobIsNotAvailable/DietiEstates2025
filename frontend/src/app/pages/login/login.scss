@@ -1,5 +1,5 @@
-@import '../../../styles/auth-shared';
-@import '../../../styles/variables';
+@use '../../../styles/auth-shared' as *;
+@use '../../../styles/variables' as *;
 
 
 $bg-gradient: $bg-main;

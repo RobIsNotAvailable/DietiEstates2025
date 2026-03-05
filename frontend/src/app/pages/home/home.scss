@@ -1,9 +1,9 @@
-@import '../../../styles/auth-shared';
-@import '../../../styles/variables';
-@import '../../../styles/header';
-@import '../../../styles/hero-section';
-@import '../../../styles/animations';
-@import '../../../styles/quick-options';
+@use '../../../styles/auth-shared' as *;
+@use '../../../styles/variables' as *;
+@use '../../../styles/header' as *;
+@use '../../../styles/hero-section' as *;
+@use '../../../styles/animations' as *;
+@use '../../../styles/quick-options' as *;
 
 
 

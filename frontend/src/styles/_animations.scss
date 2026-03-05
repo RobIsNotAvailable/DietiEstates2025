@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 @mixin loading-overlay-style 
 {
   position: absolute;
