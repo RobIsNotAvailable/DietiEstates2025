@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth';
+import { AuthService } from '../../auth/auth';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
@@ -98,16 +98,6 @@ export class HomeComponent implements OnInit
     }, 1500);
   }
 
-  goToLogin(): void 
-  {
-    this.router.navigate(['/login']);
-  }
-
-  goToRegister(): void
-  {
-    this.router.navigate(['/register']);
-  }
-
   toggleDropdown(): void
   {
     this.isDropdownOpen = !this.isDropdownOpen;
@@ -121,10 +111,10 @@ export class HomeComponent implements OnInit
     if (!this.isUserLoggedIn || role == 'CLIENT')
     {
       this.quickOptions = [
-        { title: 'New appointment', subtitle: 'DA MODIFICARE', icon: 'bx-search-alt', action: 'SEARCH' },
-        { title: 'Your appointments', subtitle: 'DA MODIFICARE', icon: 'bx-building-house', action: 'RENT' },
-        { title: 'Make an offer', subtitle: 'DA MODIFICARE?', icon: 'bx-stats', action: 'VALUATE' },
-        { title: 'Your offers', subtitle: 'DA MODIFICARE', icon: 'bx-support', action: 'SUPPORT' }
+        { title: 'New appointment', subtitle: 'Schedule a visit with one of our agents', icon: 'bx-calendar-plus', action: 'SEARCH' },
+        { title: 'Your appointments', subtitle: 'Manage and track your scheduled meetings', icon: 'bx-calendar-check', action: 'RENT' },
+        { title: 'Make an offer', subtitle: 'Submit a proposal for your dream home', icon: 'bx-purchase-tag-alt', action: 'VALUATE' },
+        { title: 'Your offers', subtitle: 'Check the status of your active proposals', icon: 'bx-history', action: 'SUPPORT' }
       ];
     }
     else
@@ -182,8 +172,24 @@ export class HomeComponent implements OnInit
         break;
 
       default:
-        console.warn('Action not implemented yet:', action);
+        this.router.navigate(['/not-implemented']);
         break;
     }
+  }
+
+
+  goToLogin(): void 
+  {
+    this.router.navigate(['/login']);
+  }
+
+  goToRegister(): void
+  {
+    this.router.navigate(['/register']);
+  }
+
+  goToChangePassword() 
+  {
+    this.router.navigate(['/change-password']);
   }
 }

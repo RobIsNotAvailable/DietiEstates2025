@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth';
+import { AuthService } from '../../auth/auth';
 import { ChangeDetectorRef } from '@angular/core';
 
 
@@ -72,7 +72,7 @@ export class RegisterComponent
     this.serverErrorMessage = null;
     this.isSubmitted = true;
 
-    if (!this.registerForm.valid) 
+    if (this.registerForm.invalid) 
     {
       return;
     }

@@ -37,13 +37,9 @@
                             </div>
 
                             <div class="dropdown-menu" *ngIf="isDropdownOpen">
-                                <div class="dropdown-item">
+                                <div class="dropdown-item"(click)="goToChangePassword()">
                                     <i class='bx bx-user'></i>
-                                    <span>Il mio Profilo</span>
-                                </div>
-                                <div class="dropdown-item">
-                                    <i class='bx bx-cog'></i>
-                                    <span>Impostazioni</span>
+                                    <span>Change Password</span>
                                 </div>
                                 <div class="dropdown-divider"></div>
                                 <div class="dropdown-item logout-action" (click)="onLogout()">

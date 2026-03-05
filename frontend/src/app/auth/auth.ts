@@ -84,4 +84,14 @@ export class AuthService
       return null;
     }
   }
+
+  changePassword(oldPassword: string, newPassword: string): Observable<string> 
+  {
+    return this.http.patch<string>(`${this.apiUrl}/accounts/change-password`, 
+    {
+        oldPassword: oldPassword,
+        newPassword: newPassword
+    }, 
+    { responseType: 'text' as 'json' });
+  }
 }

@@ -82,6 +82,7 @@ public class AccountService
 
         account.setHashPassword(encoder.encode(request.newPassword()));
     }
+    
 
     public void forgotPassword(ResetPasswordRequest request)
     {
