@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
+import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 
 interface QuickOption
 {
@@ -16,7 +17,7 @@ interface QuickOption
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SearchBarComponent],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
@@ -27,6 +28,7 @@ export class HomeComponent implements OnInit
   isLoading: boolean = false;
   loadingMessage: string = '';
   userData: any = null;
+  sectionTitle: string = '';
   
   quickOptions: QuickOption[] = [];
 
@@ -41,6 +43,7 @@ export class HomeComponent implements OnInit
 
     if (this.isUserLoggedIn) 
     {
+      this.sectionTitle = 'Quick explore';
 
       this.authService.getAccountDetails().subscribe(
       {
@@ -50,8 +53,6 @@ export class HomeComponent implements OnInit
           console.log('Token decodificato, ruolo trovato:', currentRole);
           this.userData = { ...res, role: currentRole };;
           localStorage.setItem('user', JSON.stringify(this.userData));
-
-          this.setupQuickOptions();
 
           setTimeout(() => 
           {
@@ -69,7 +70,10 @@ export class HomeComponent implements OnInit
     else 
     {
       this.isLoading = false;
+      this.sectionTitle = 'Quick explore - (Login to unlock all features!)';
     }
+
+    this.setupQuickOptions();
   }
 
   onLogout() 
@@ -87,7 +91,7 @@ export class HomeComponent implements OnInit
       this.userData = null;
       this.isLoading = false; 
       
-      this.router.navigate(['/login']).then(() => 
+      this.router.navigate(['/']).then(() => 
       {
         window.location.reload(); 
       });
@@ -114,7 +118,7 @@ export class HomeComponent implements OnInit
     const role = this.userData?.role;
     console.log('DEBUG setupQuickOptions - Ruolo attuale:', role);
 
-    if (role == 'CLIENT')
+    if (!this.isUserLoggedIn || role == 'CLIENT')
     {
       this.quickOptions = [
         { title: 'New appointment', subtitle: 'DA MODIFICARE', icon: 'bx-search-alt', action: 'SEARCH' },
@@ -155,7 +159,7 @@ export class HomeComponent implements OnInit
     }
   }
 
- handleAction(action: string): void
+  handleAction(action: string): void
   {
     console.log('Action activated:', action);
 

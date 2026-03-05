@@ -61,58 +61,42 @@
             <div class="hero-background"></div>
 
             <div class="search-wrapper">
-                <div class="search-bar-advanced">
-                    <div class="search-group search-main">
-                        <i class="bi bi-search search-icon"></i>
-                        <input type="text" placeholder="Search by city or area" class="search-input">
-                    </div>
-
-                    <div class="divider"></div>
-
-                    <div class="search-right-side">
-                        <div class="select-pill-wrapper">
-                            <select class="search-select">
-                                <option value="">Select type</option>
-                                <option value="vendita">Sale</option>
-                                <option value="affitto">Rent</option>
-                            </select>
-                            <i class="bi bi-chevron-down select-arrow"></i>
-                        </div>
-
-                        <button class="btn-filters">
-                            <i class="bi bi-sliders"></i> Filters
-                        </button>
-
-                        <button class="btn-search-main">
-                            <i class="bi bi-geo-alt"></i> Search
-                        </button>
-                    </div>
-                </div>
+                <app-search-bar></app-search-bar> 
             </div>
         </section>
     </div>
 
     <div class="bottom-section">
-    <div class="main-content-card">
-        <div class="section-header">
-            <h2>Quick explore</h2>
-            <div class="accent-line"></div>
-        </div>
+        <div class="main-content-card">
+            <div class="section-header">
+                <h2>{{ sectionTitle }}</h2>
+                <div class="accent-line"></div>
+            </div>
 
-        <div class="quick-options-grid">
-            @for (item of quickOptions; track item.title) 
-            {
-                <div class="quick-action-card" (click)="handleAction(item.action)">
-                    <div class="icon-container">
-                        <i class='bx' [ngClass]="item.icon"></i>
+            <div class="quick-options-grid">
+                @for (item of quickOptions; track item.title) 
+                {
+                    <div class="quick-action-card" 
+                        [ngClass]="{'is-locked': !isUserLoggedIn}"
+                        (click)="isUserLoggedIn ? handleAction(item.action) : null">
+                        
+                        <div class="icon-container">
+                            <i class='bx' [ngClass]="item.icon"></i>
+                            @if (!isUserLoggedIn) 
+                            {
+                                <div class="lock-badge">
+                                    <i class='bx bxs-lock-alt'></i>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="card-text">
+                            <h3>{{ item.title }}</h3>
+                            <p>{{ item.subtitle }}</p>
+                        </div>
                     </div>
-                    <div class="card-text">
-                        <h3>{{ item.title }}</h3>
-                        <p>{{ item.subtitle }}</p>
-                    </div>
-                </div>
-            }
+                }
+            </div>
         </div>
     </div>
-</div>
 </div>

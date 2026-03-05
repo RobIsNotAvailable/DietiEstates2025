@@ -1,11 +1,11 @@
 <div class="login-wrapper">
   <div class="login-card">
     <div class="auth-header">
-      <h2>Register New Agent</h2>
-      <p>Please enter the agent's details below</p>
+      <h2>{{ pageTitle }}</h2>
+      <p>Please enter the details below</p>
     </div>
 
-    <form [formGroup]="agentForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="staffForm" (ngSubmit)="onSubmit()">
       
       <div class="form-field">
         <label>First Name</label>
@@ -13,7 +13,7 @@
           type="text" 
           formControlName="firstName" 
           placeholder="e.g. Mario"
-          [class.is-invalid]="isSubmitted && agentForm.get('firstName')?.invalid"
+          [class.is-invalid]="isSubmitted && staffForm.get('firstName')?.invalid"
         >
       </div>
 
@@ -23,7 +23,7 @@
           type="text" 
           formControlName="lastName" 
           placeholder="e.g. Rossi"
-          [class.is-invalid]="isSubmitted && agentForm.get('lastName')?.invalid"
+          [class.is-invalid]="isSubmitted && staffForm.get('lastName')?.invalid"
         >
       </div>
 
@@ -32,8 +32,8 @@
         <input 
           type="email" 
           formControlName="email" 
-          placeholder="agent@dietiestates.com"
-          [class.is-invalid]="isSubmitted && agentForm.get('email')?.invalid"
+          placeholder="user@dietiestates.com"
+          [class.is-invalid]="isSubmitted && staffForm.get('email')?.invalid"
         >
       </div>
 
@@ -41,12 +41,13 @@
         {{ serverErrorMessage }}
       </div>
 
-      <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px;">
+      <div class="form-actions">
+        <button type="submit" class="submit-btn">
+          Create {{ roleType === 'AGENT' ? 'Agent' : 'Support' }}
+        </button>
+        
         <button type="button" (click)="onCancel()" class="cancel-btn">
           Cancel
-        </button>
-        <button type="submit" class="submit-btn">
-          Create Agent
         </button>
       </div>
     </form>

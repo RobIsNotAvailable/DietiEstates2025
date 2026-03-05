@@ -1,5 +1,4 @@
 @import '../../../styles/auth-shared';
-@import '../../../styles/searchBar-shared';
 @import '../../../styles/variables';
 @import '../../../styles/header';
 @import '../../../styles/hero-section';
@@ -71,11 +70,19 @@
 
             h2 
             {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
                 font-weight: 700;
                 color: #1a2a3a; 
                 margin-bottom: 8px;
                 padding-left: 5px; 
+
+                .unlock-text 
+                {
+                    font-size: 1rem;
+                    color: #d97706; 
+                    font-weight: 500;
+                    opacity: 0.9;
+                }
             }
 
             .accent-line 
@@ -85,6 +92,27 @@
                 height: 2px;
                 background-color: black; 
                 border-radius: 2px;
+            }
+        }
+
+        .quick-action-card 
+        {
+            &.is-locked 
+            {
+                pointer-events: none; 
+                cursor: default;
+                
+                .icon-container, .card-text 
+                {
+                    filter: blur(0.5px) grayscale(0.5); 
+                    opacity: 0.6;
+                }
+
+                &:hover 
+                {
+                    transform: none !important;
+                    box-shadow: none !important;
+                }
             }
         }
 

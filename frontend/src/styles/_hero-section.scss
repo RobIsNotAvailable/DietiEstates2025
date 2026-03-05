@@ -8,7 +8,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 5%; 
     margin-top: 20px;
     overflow: hidden; 
 
@@ -31,21 +30,15 @@
 
     .search-wrapper 
     {
-        @include entrance-animation(0.5s);
-     
         position: absolute;
         z-index: 2; 
-        width: 85%;
-        left: 50%; 
-        max-width: 950px;
+        width: 90%;      
+        max-width: 1000px; 
+        left: 50%;
+        top: 55%;
+        padding: 0;
 
-        opacity: 0;
-
-        .search-bar-advanced
-        {
-          @include search-bar-layout;
-          padding: 10px 25px; 
-        }
+        @include entrance-centered(0.5s);
     }
 
     .loading-overlay 

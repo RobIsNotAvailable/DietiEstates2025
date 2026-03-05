@@ -79,3 +79,24 @@
         transform: translateY(0); 
     }
 }
+
+@mixin entrance-centered($delay: 0s) 
+{
+    opacity: 0;
+    animation: centeredEntrance 0.8s ease-out forwards;
+    animation-delay: $delay;
+}
+
+@keyframes centeredEntrance 
+{
+    from 
+    {
+        opacity: 0;
+        transform: translate(-50%, calc(-50% + 20px));
+    }
+    to 
+    {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
