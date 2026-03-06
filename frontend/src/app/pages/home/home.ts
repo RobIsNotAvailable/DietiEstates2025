@@ -78,7 +78,6 @@ export class HomeComponent implements OnInit
 
   onLogout() 
   {
-    this.loadingMessage = 'Logging out...';
     this.isLoading = true;
     this.isDropdownOpen = false;
     this.cd.detectChanges();

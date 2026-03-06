@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router'; 
+import { Router, RouterModule } from '@angular/router'; 
 import { AuthService } from '../../auth/auth';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -14,6 +14,7 @@ import { ChangeDetectorRef } from '@angular/core';
   [
     CommonModule, 
     ReactiveFormsModule, 
+    RouterModule
   ],
   templateUrl: './login.html', 
   styleUrl: './login.scss'     
@@ -64,12 +65,29 @@ export class LoginComponent
       },
       error: (err) => 
       {
-        console.log("Server error:", err.error);
-        
-        this.serverErrorMessage = "Credentials not valid";
-        
-        this.loginForm.get('rawPassword')?.reset(); 
-        this.cd.detectChanges();
+        if (err.status === 500 || err.status === 0) 
+        {
+            alert("Something went wrong on our side. Please try again or refresh the page.");
+        }
+        else if (typeof err.error === 'string') 
+        {
+            this.serverErrorMessage = err.error; 
+        } 
+        else if (err.error && typeof err.error === 'object') 
+        {
+            const errorKeys = Object.keys(err.error);
+            if (errorKeys.length > 0) 
+            {
+                this.serverErrorMessage = err.error[errorKeys[0]]; 
+            }
+        }
+
+        if (err.status !== 500) 
+        {
+          this.loginForm.get('rawPassword')?.markAsTouched();
+          this.loginForm.get('email')?.markAsTouched();
+          this.cd.detectChanges();
+        }
       }
     });
   }

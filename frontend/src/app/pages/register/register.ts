@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../auth/auth';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -9,7 +9,7 @@ import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })
@@ -85,26 +85,29 @@ export class RegisterComponent
       },
       error: (err) => 
       {
-        if (typeof err.error === 'string') 
+        if (err.status === 500 || err.status === 0) 
         {
-          this.serverErrorMessage = err.error; 
+            alert("Something went wrong on our side. Please try again or refresh the page.");
+        }
+        else if (typeof err.error === 'string') 
+        {
+            this.serverErrorMessage = err.error; 
         } 
         else if (err.error && typeof err.error === 'object') 
         {
-          const errorKeys = Object.keys(err.error);
-          if (errorKeys.length > 0) 
-          {
-            this.serverErrorMessage = err.error[errorKeys[0]]; 
-          }
-        } 
-        else 
-        {
-          this.serverErrorMessage = "An unexpected error occurred. Please try again.";
+            const errorKeys = Object.keys(err.error);
+            if (errorKeys.length > 0) 
+            {
+                this.serverErrorMessage = err.error[errorKeys[0]]; 
+            }
         }
 
-        this.registerForm.get('rawPassword')?.markAsTouched();
-        this.registerForm.get('email')?.markAsTouched();
-        this.cd.detectChanges();
+        if (err.status !== 500) 
+        {
+          this.registerForm.get('rawPassword')?.markAsTouched();
+          this.registerForm.get('email')?.markAsTouched();
+          this.cd.detectChanges();
+        }
       }
     });
   }

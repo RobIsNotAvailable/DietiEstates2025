@@ -1,55 +1,65 @@
-<div class="login-wrapper">
-  <div class="login-card">
-    <div class="auth-header">
-      <h2>{{ pageTitle }}</h2>
-      <p>Please enter the details below</p>
+<div class="staff-wrapper">
+    <div class="staff-container">
+      <header class="logo-box">
+          <a routerLink="/" class="logo-section">
+              <div class="logo-icon">
+                  <i class="bx bx-home"></i>
+              </div>
+              <span class="logo-text">DietiEstates</span>
+          </a>
+      </header>
+
+
+      <div class="staff-card">
+        <div class="auth-header">
+          <h2>{{ pageTitle }}</h2>
+          <p>Please enter the details below</p>
+        </div>
+
+        <form [formGroup]="staffForm" (ngSubmit)="onSubmit()">
+          
+          <div class="form-field">
+            <label>First Name</label>
+            <input 
+              type="text" 
+              formControlName="firstName" 
+              placeholder="e.g. Mario"
+              [class.is-invalid]="isSubmitted && staffForm.get('firstName')?.invalid"
+            >
+          </div>
+
+          <div class="form-field">
+            <label>Last Name</label>
+            <input 
+              type="text" 
+              formControlName="lastName" 
+              placeholder="e.g. Rossi"
+              [class.is-invalid]="isSubmitted && staffForm.get('lastName')?.invalid"
+            >
+          </div>
+
+          <div class="form-field">
+              <label>Email</label>
+              <input 
+                type="email" 
+                formControlName="email" 
+                placeholder="user@dietiestates.com"
+                [class.is-invalid]="(isSubmitted && staffForm.get('email')?.invalid) || (serverErrorMessage && serverErrorMessage.toLowerCase().includes('email'))">
+              
+              <div *ngIf="serverErrorMessage && serverErrorMessage.toLowerCase().includes('email')" class="error-message">
+                  {{ serverErrorMessage }}
+              </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="submit-btn">
+              Create {{ roleType === 'AGENT' ? 'Agent' : 'Support' }}
+            </button>
+            
+            <button type="button" (click)="onCancel()" class="cancel-btn">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-
-    <form [formGroup]="staffForm" (ngSubmit)="onSubmit()">
-      
-      <div class="form-field">
-        <label>First Name</label>
-        <input 
-          type="text" 
-          formControlName="firstName" 
-          placeholder="e.g. Mario"
-          [class.is-invalid]="isSubmitted && staffForm.get('firstName')?.invalid"
-        >
-      </div>
-
-      <div class="form-field">
-        <label>Last Name</label>
-        <input 
-          type="text" 
-          formControlName="lastName" 
-          placeholder="e.g. Rossi"
-          [class.is-invalid]="isSubmitted && staffForm.get('lastName')?.invalid"
-        >
-      </div>
-
-      <div class="form-field">
-        <label>Email Address</label>
-        <input 
-          type="email" 
-          formControlName="email" 
-          placeholder="user@dietiestates.com"
-          [class.is-invalid]="isSubmitted && staffForm.get('email')?.invalid"
-        >
-      </div>
-
-      <div *ngIf="serverErrorMessage" class="error-message">
-        {{ serverErrorMessage }}
-      </div>
-
-      <div class="form-actions">
-        <button type="submit" class="submit-btn">
-          Create {{ roleType === 'AGENT' ? 'Agent' : 'Support' }}
-        </button>
-        
-        <button type="button" (click)="onCancel()" class="cancel-btn">
-          Cancel
-        </button>
-      </div>
-    </form>
-  </div>
 </div>

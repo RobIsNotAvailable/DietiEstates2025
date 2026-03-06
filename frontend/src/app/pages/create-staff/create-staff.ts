@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component(
 {
   selector: 'app-create-staff',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,RouterModule],
   templateUrl: './create-staff.html',
   styleUrls: ['./create-staff.scss']
 })
@@ -25,7 +27,8 @@ export class CreateStaffComponent implements OnInit
     private fb: FormBuilder, 
     private http: HttpClient, 
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cd: ChangeDetectorRef
   ) 
   {}
 
@@ -79,14 +82,27 @@ export class CreateStaffComponent implements OnInit
       },
       error: (err) => 
       {
-        console.error('Error details:', err);
-        if (err.status === 409) 
+        if (err.status === 500 || err.status === 0) 
         {
-          this.serverErrorMessage = "This email is already in use."; 
+            alert("Something went wrong on our side. Please try again or refresh the page.");
+        }
+        else if (typeof err.error === 'string') 
+        {
+            this.serverErrorMessage = err.error; 
         } 
-        else 
+        else if (err.error && typeof err.error === 'object') 
         {
-          this.serverErrorMessage = "An error occurred. Please try again."; 
+            const errorKeys = Object.keys(err.error);
+            if (errorKeys.length > 0) 
+            {
+                this.serverErrorMessage = err.error[errorKeys[0]]; 
+            }
+        }
+
+        if (err.status !== 500) 
+        {
+            this.staffForm.get('email')?.markAsTouched();
+            this.cd.detectChanges();
         }
       }
     });

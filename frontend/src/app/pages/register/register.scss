@@ -1,8 +1,6 @@
 @use '../../../styles/auth-shared' as *;
 @use '../../../styles/variables' as *;
-
-$bg-gradient: $bg-main;
-$auth-error-red: $error-red;
+@use '../../../styles/animations' as *;
 
 .register-wrapper 
 {
@@ -11,36 +9,92 @@ $auth-error-red: $error-red;
     align-items: center;
     min-height: 100vh; 
     width: 100vw;
-    background: $bg-gradient;
+    background: $bg-main;
+    padding: 40px 20px; // Spazio extra per scroll su schermi piccoli
 
-    .register-card 
+    .auth-container 
     {
-        @include auth-card(600px, 2.5rem); 
+        width: 800px; 
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        @include entrance-animation(0.5s);
 
-        .form-field 
+        .logo-box, .register-card 
         {
-            @include auth-form-field-structure;
+            width: 100% !important; 
+            margin: 0;
+            box-sizing: border-box;
         }
 
-        button[type="submit"] 
+        .logo-box 
         {
-            @include auth-button-main;
-        }
+            background: $white-pure;
+            padding: 35px; 
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+            display: flex;
+            justify-content: center;
 
-        .login-section 
-        {
-            @include auth-footer-section;
-
-            a 
+            .logo-section 
             {
-                color: $auth-black;
-                font-weight: 700;
+                display: flex;
+                align-items: center;
+                gap: 15px;
                 text-decoration: none;
 
-                &:hover 
+                .logo-icon i 
                 {
-                    text-decoration: underline;
+                    font-size: 3rem;
+                    color: #1a2a3a;
                 }
+
+                .logo-text 
+                {
+                    font-size: 3rem; 
+                    font-weight: 800;
+                    color: #1a2a3a;
+                    letter-spacing: -1.5px;
+                    line-height: 1;
+                }
+            }
+        }
+
+        .register-card 
+        {
+            @include auth-card(100%, 2.5rem); 
+
+            h2 
+            {
+                text-align: center;
+                font-size: 2.2rem;
+                margin-bottom: 10px;
+                color: #1a2a3a;
+            }
+
+            p 
+            {
+                text-align: center;
+                color: #64748b;
+                margin-bottom: 35px;
+            }
+
+            .form-field 
+            {
+                @include auth-form-field-structure;
+            }
+
+            button[type="submit"] 
+            {
+                @include auth-button-main;
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .login-section 
+            {
+                @include auth-footer-section;
+                margin-top: 25px;
             }
         }
     }

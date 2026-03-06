@@ -1,35 +1,79 @@
 @use '../../../styles/auth-shared' as *;
 @use '../../../styles/variables' as *;
-
-
-$bg-gradient: $bg-main;
-$auth-error-red: $error-red;
+@use '../../../styles/animations' as *;
 
 .login-wrapper 
 {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    justify-content: center; 
+    align-items: center;     
+    min-height: 100vh;
     width: 100vw;
-    background: $bg-gradient;
+    background: $bg-main;
 
-    .login-card 
+    .auth-container 
     {
-        @include auth-card(500px, 2.5rem); 
+        width: 600px; 
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        @include entrance-animation(0.5s);
 
-        .form-field 
+        .logo-box, .login-card 
         {
-            @include auth-form-field-structure;
-        }
-        button[type="submit"] 
-        {
-            @include auth-button-main;
+            width: 100%;
+            margin: 0;
+            box-sizing: border-box;
         }
 
-        .register-section 
+        .logo-box 
         {
-            @include auth-footer-section;
+            background: $white-pure;
+            padding: 35px; 
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+            display: flex;
+            justify-content: center;
+
+            .logo-section 
+            {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                text-decoration: none;
+
+                .logo-icon i 
+                {
+                    font-size: 3rem;
+                    color: #1a2a3a;
+                }
+
+                .logo-text 
+                {
+                    font-size: 3rem; 
+                    font-weight: 800;
+                    color: #1a2a3a;
+                    letter-spacing: -1.5px;
+                    line-height: 1;
+                }
+            }
+        }
+
+        .login-card 
+        {
+            @include auth-card(600px, 2.5rem); 
+            
+            h2 
+            {
+                text-align: center;
+                font-size: 2.5rem;
+                margin-bottom: 35px;
+                color: #1a2a3a;
+            }
+
+            .form-field { @include auth-form-field-structure; }
+            button[type="submit"] { @include auth-button-main; width: 100%; }
+            .register-section { @include auth-footer-section; }
         }
     }
 }
