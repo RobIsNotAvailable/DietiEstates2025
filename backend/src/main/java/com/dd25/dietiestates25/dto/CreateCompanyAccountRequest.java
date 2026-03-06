@@ -5,14 +5,19 @@ import org.springframework.lang.NonNull;
 import com.dd25.dietiestates25.model.enums.SecurityLevel;
 import com.dd25.dietiestates25.util.StringConstants;
 
-import jakarta.validation.constraints.Email;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 public record CreateCompanyAccountRequest(
     @NonNull
     @NotBlank (message = StringConstants.EMAIL_REQUIRED_MESSAGE)
-    @Email (message = StringConstants.INVALID_EMAIL_MESSAGE)
+    @Pattern
+    (
+        regexp = StringConstants.EMAIL_REGEX,
+        message = StringConstants.INVALID_EMAIL_MESSAGE
+    )
     String email,
 
     @NotBlank (message = StringConstants.FIRST_NAME_REQUIRED_MESSAGE)

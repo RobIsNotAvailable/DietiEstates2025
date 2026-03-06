@@ -5,6 +5,7 @@ public final class StringConstants
     private StringConstants() {}
 
     /* DTO validators */
+    public static final String EMAIL_REGEX = "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
     public static final String INVALID_EMAIL_MESSAGE = "Invalid email format";
     public static final String EMAIL_REQUIRED_MESSAGE = "Email field is required";
     public static final String FIRST_NAME_REQUIRED_MESSAGE = "First name field is required";

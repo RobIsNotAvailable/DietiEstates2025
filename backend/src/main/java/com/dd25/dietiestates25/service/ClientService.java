@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.dd25.dietiestates25.dto.AccountRegisterRequest;
 import com.dd25.dietiestates25.dto.AuthResponse;
 import com.dd25.dietiestates25.model.Client;
-import com.dd25.dietiestates25.repository.ClientRepository;
+import com.dd25.dietiestates25.repository.AccountRepository;
 import com.dd25.dietiestates25.service.utilityservice.JwtService;
 import com.dd25.dietiestates25.util.StringConstants;
 
@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @SuppressWarnings("null")
 public class ClientService 
 {
-    private final ClientRepository repo;
+    private final AccountRepository repo;
     private final PasswordEncoder encoder;
     private final JwtService jwtService;
 
