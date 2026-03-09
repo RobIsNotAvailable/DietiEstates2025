@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../../auth/auth';
+import { Router,RouterModule } from '@angular/router';
+import { AccountService } from '../../services/account';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component(
 {
   selector: 'app-change-password',
   standalone: true, 
-  imports: [ReactiveFormsModule, CommonModule], 
+  imports: [ReactiveFormsModule, CommonModule,RouterModule], 
   templateUrl: './change-password.html',
   styleUrls: ['./change-password.scss']
 })
@@ -24,10 +23,8 @@ export class ChangePasswordComponent implements OnInit
 
   constructor(
     private fb: FormBuilder, 
-    private authService: AuthService, 
-    private http: HttpClient, 
+    private accountService: AccountService, 
     private router: Router, 
-    private route: ActivatedRoute, 
     private cd: ChangeDetectorRef,  
   ) 
   {}
@@ -37,7 +34,7 @@ export class ChangePasswordComponent implements OnInit
     this.setupForm = this.fb.group(
     {
       oldPassword: ['', [Validators.required]], 
-      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      newPassword: ['', [Validators.required]],
       repeatPassword: ['', [Validators.required]]
     }, 
     {
@@ -45,10 +42,11 @@ export class ChangePasswordComponent implements OnInit
     });
   }
 
-  passwordMatchValidator(g: any) 
+  passwordMatchValidator(g: FormGroup) 
   {
-    return g.get('newPassword')?.value === g.get('repeatPassword')?.value
-      ? null : { 'mismatch': true };
+    const pass = g.get('newPassword')?.value;
+    const confirmPass = g.get('repeatPassword')?.value;
+    return pass === confirmPass ? null : { mismatch: true };
   }
 
   toggleOldPassword() 
@@ -67,49 +65,50 @@ export class ChangePasswordComponent implements OnInit
   }
 
   onSubmit() 
-  {
+  { 
     this.isSubmitted = true;
     
     if (this.setupForm.invalid) 
     {
-      return;
+        return;
     }
 
-    const { oldPassword, newPassword } = this.setupForm.value;
-
-    this.authService.changePassword(oldPassword, newPassword).subscribe(
+    this.accountService.changePassword(this.setupForm.value).subscribe(
     {
-      next: () => 
-      {
-        alert('Password cambiata con successo!');
-        localStorage.removeItem('setup_email');
-        this.router.navigate(['/login'], { queryParams: { setupSuccess: true } });
-      },
-      error: (err) => 
-      {
-        if (typeof err.error === 'string') 
+        next: () => 
         {
-          this.serverErrorMessage = err.error; 
-        } 
-        else if (err.error && typeof err.error === 'object') 
+            alert('Password changed successfully');
+            localStorage.removeItem('setup_email');
+            this.router.navigate(['/login'], { queryParams: { setupSuccess: true } });
+        },
+        error: (err) => 
         {
-          const errorKeys = Object.keys(err.error);
-          if (errorKeys.length > 0) 
+          if (err.status === 500 || err.status === 0) 
           {
-            this.serverErrorMessage = err.error[errorKeys[0]]; 
+            alert("Something went wrong on our side. Please try again or refresh the page.");
           }
-        } 
-        else 
-        {
-          this.serverErrorMessage = "An unexpected error occurred. Please try again.";
-        }
+          else if (typeof err.error === 'string') 
+          {
+              this.serverErrorMessage = err.error; 
+          } 
+          else if (err.error && typeof err.error === 'object') 
+          {
+              const errorKeys = Object.keys(err.error);
+              if (errorKeys.length > 0) 
+              {
+                  this.serverErrorMessage = err.error[errorKeys[0]]; 
+              }
+          }
 
-        this.setupForm.get('oldPassword')?.markAsTouched();
-        this.setupForm.get('newPassword')?.markAsTouched();
-        this.setupForm.get('repeatPassword')?.markAsTouched();
-        
-        this.cd.detectChanges();
-      }
+          if (err.status !== 500) 
+          {
+            this.setupForm.get('newPassword')?.markAsTouched();
+            this.setupForm.get('oldPassword')?.markAsTouched();
+            this.cd.detectChanges();
+          }
+        }
     });
   }
 }
+
+

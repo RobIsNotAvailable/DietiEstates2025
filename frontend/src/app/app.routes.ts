@@ -3,7 +3,7 @@ import { LoginComponent } from './pages/login/login';
 import { RegisterComponent } from './pages/register/register'; 
 import { HomeComponent } from './pages/home/home';
 import { ChangePasswordComponent } from './pages/change-password/change-password';
-import { SetupPasswordComponent } from './auth/setup-password/setup-password';
+import { SetupPasswordComponent } from './pages/setup-password/setup-password';
 import { CreateStaffComponent } from './pages/create-staff/create-staff';
 import { NotImplementedComponent } from './pages/not-implemented/not-implemented';
 

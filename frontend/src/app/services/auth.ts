@@ -59,11 +59,6 @@ export class AuthService
     return !!this.getToken();
   }
 
-  getAccountDetails(): Observable<any> 
-  {
-    return this.http.get<any>(`/api/accounts/me`);
-  }
-
   getUserRole(): string | null 
   {
     const token = this.getToken(); 
@@ -85,13 +80,11 @@ export class AuthService
     }
   }
 
-  changePassword(oldPassword: string, newPassword: string): Observable<string> 
+  changePassword(formData: any): Observable<string> 
   {
-    return this.http.patch<string>(`${this.apiUrl}/accounts/change-password`, 
-    {
-        oldPassword: oldPassword,
-        newPassword: newPassword
-    }, 
-    { responseType: 'text' as 'json' });
+      return this.http.patch(`${this.apiUrl}/accounts/change-password`, formData, 
+      { 
+          responseType: 'text' 
+      });
   }
 }

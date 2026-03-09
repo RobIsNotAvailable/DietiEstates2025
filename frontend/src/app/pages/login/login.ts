@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router'; 
-import { AuthService } from '../../auth/auth';
+import { AuthService } from '../../services/auth';
 import { ChangeDetectorRef } from '@angular/core';
 
 

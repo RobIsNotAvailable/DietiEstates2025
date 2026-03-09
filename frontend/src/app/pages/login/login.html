@@ -16,8 +16,12 @@
             <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
                 <div class="form-field">
                     <label>Email</label>
-                    <input type="email" formControlName="email" 
-                        [class.is-invalid]="(isSubmitted && loginForm.get('email')?.invalid) || serverErrorMessage">
+                    <input type="email" formControlName="email" placeholder="example@email.it"
+                        [class.is-invalid]="(isSubmitted && loginForm.get('email')?.invalid) || (serverErrorMessage && serverErrorMessage.toLowerCase().includes('email'))">
+                    
+                    <div *ngIf="serverErrorMessage && serverErrorMessage.toLowerCase().includes('email')" class="error-message">
+                        {{ serverErrorMessage }}
+                    </div>
                 </div>
 
                 <div class="form-field">
@@ -31,7 +35,7 @@
                             <i [className]="hidePassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
                         </button>
                     </div>
-                    <div *ngIf="serverErrorMessage" class="error-message">
+                    <div *ngIf="serverErrorMessage" class="error-message" >
                         {{ serverErrorMessage }}
                     </div>
                 </div>

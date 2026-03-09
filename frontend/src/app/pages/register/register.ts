@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../auth/auth';
+import { AuthService } from '../../services/auth';
 import { ChangeDetectorRef } from '@angular/core';
 
 
@@ -91,14 +91,15 @@ export class RegisterComponent
         }
         else if (typeof err.error === 'string') 
         {
-            this.serverErrorMessage = err.error; 
+          this.serverErrorMessage = err.error; 
         } 
         else if (err.error && typeof err.error === 'object') 
         {
+         
             const errorKeys = Object.keys(err.error);
             if (errorKeys.length > 0) 
             {
-                this.serverErrorMessage = err.error[errorKeys[0]]; 
+              this.serverErrorMessage = err.error[errorKeys[0]]; 
             }
         }
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../auth/auth';
+import { AuthService } from '../../services/auth';
+import { AccountService } from '../../services/account';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
@@ -32,7 +33,7 @@ export class HomeComponent implements OnInit
   
   quickOptions: QuickOption[] = [];
 
-  constructor(private authService: AuthService, private router: Router, private cd: ChangeDetectorRef) 
+  constructor(private authService: AuthService, private router: Router, private cd: ChangeDetectorRef, private accountService: AccountService) 
   {}
 
   ngOnInit(): void 
@@ -45,7 +46,7 @@ export class HomeComponent implements OnInit
     {
       this.sectionTitle = 'Quick explore';
 
-      this.authService.getAccountDetails().subscribe(
+      this.accountService.getAccountDetails().subscribe(
       {
         next: (res) => 
         {

@@ -78,38 +78,38 @@ export class SetupPasswordComponent implements OnInit
       next: () => 
       {
         alert('Account attivato!');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/home']);
       },
       error: (err) => 
       {
-          let tempErrorMessage = "";
-
-          if (typeof err.error === 'string') 
+          if (err.status === 500 || err.status === 0) 
           {
-              tempErrorMessage = err.error; 
+              alert("Something went wrong on our side. Please try again or refresh the page.");
+          }
+          else if (typeof err.error === 'string') 
+          {
+              this.serverErrorMessage = err.error; 
           } 
           else if (err.error && typeof err.error === 'object') 
           {
               const errorKeys = Object.keys(err.error);
-              tempErrorMessage = errorKeys.length > 0 ? err.error[errorKeys[0]] : "Unknown Error";
-          } 
-          else 
-          {
-              tempErrorMessage = "An unexpected error occurred.";
+              if (errorKeys.length > 0) 
+              {
+                this.serverErrorMessage = err.error[errorKeys[0]]; 
+              }
           }
 
-          if (tempErrorMessage.toLowerCase().includes('token')) 
+          if (this.serverErrorMessage.toLowerCase().includes('token')) 
           {
               alert("Link is expired, you'll be redirected to the home");
               this.router.navigate(['/']);
-          } 
-          else 
-          {
-              this.serverErrorMessage = tempErrorMessage; 
           }
-
-          this.setupForm.get('newPassword')?.markAsTouched();
-          this.cd.detectChanges();
+          else if (err.status !== 500) 
+          {
+            this.setupForm.get('newPassword')?.markAsTouched();
+            this.setupForm.get('repeatPassword')?.markAsTouched();
+            this.cd.detectChanges();
+          }
       }
     });
   }
