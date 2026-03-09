@@ -93,7 +93,11 @@
       cursor: pointer;
       transition: all 0.2s;
 
-      &:hover { background: #f8f9fa; }
+      &:hover 
+      {
+        background-color: #e9ecef;
+        border-color: #bdc3c7;
+      }
     }
 
     .btn-search-main 

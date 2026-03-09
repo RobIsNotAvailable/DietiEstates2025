@@ -15,9 +15,10 @@
             
             <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
                 <div class="form-field">
-                    <label>Email</label>
-                    <input type="email" formControlName="email" placeholder="example@email.it"
-                        [class.is-invalid]="(isSubmitted && loginForm.get('email')?.invalid) || (serverErrorMessage && serverErrorMessage.toLowerCase().includes('email'))">
+                    <input type="email" id="emailField" formControlName="email" placeholder=" "
+                        [class.is-invalid]="(isSubmitted && loginForm.get('email')?.invalid) || serverErrorMessage">
+                    
+                    <label for="emailField">Email</label>
                     
                     <div *ngIf="serverErrorMessage && serverErrorMessage.toLowerCase().includes('email')" class="error-message">
                         {{ serverErrorMessage }}
@@ -25,17 +26,18 @@
                 </div>
 
                 <div class="form-field">
-                    <label>Password</label>
                     <div class="input-wrapper" style="position: relative;">
-                        <input [type]="hidePassword ? 'password' : 'text'" 
-                            formControlName="rawPassword"
+                        <input [type]="hidePassword ? 'password' : 'text'" id="passwordField" formControlName="rawPassword"  placeholder=" "
                             [class.is-invalid]="(isSubmitted && loginForm.get('rawPassword')?.invalid) || serverErrorMessage">
+                        
+                        <label for="passwordField">Password</label>
                         
                         <button type="button" class="toggle-password" (click)="togglePassword()" tabindex="-1">
                             <i [className]="hidePassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
                         </button>
                     </div>
-                    <div *ngIf="serverErrorMessage" class="error-message" >
+
+                    <div *ngIf="serverErrorMessage && !serverErrorMessage.toLowerCase().includes('email')" class="error-message">
                         {{ serverErrorMessage }}
                     </div>
                 </div>

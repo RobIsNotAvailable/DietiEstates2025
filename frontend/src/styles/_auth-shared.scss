@@ -6,159 +6,144 @@ $auth-bg-light: #f8f9fa;
 $auth-label-size: 1.5rem;
 $auth-input-radius: 12px;
 
-@mixin auth-card($larghezza, $font-titolo) 
+@mixin auth-card($width, $title-font) 
 {
-    background: white;
-    padding: 40px 60px;
-    border-radius: 25px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    width: 100%;
-    max-width: $larghezza;
+  background: white;
+  padding: 40px 60px;
+  border-radius: 25px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: $width;
 
-    h2 
-    {
-        text-align: center;
-        margin-bottom: 30px;
-        color: #212529;
-        font-size: $font-titolo;
-        font-weight: 800;
-    }
+  h2 
+  {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #212529;
+    font-size: $title-font;
+    font-weight: 800;
+  }
 }
 
 @mixin auth-input-group 
 {
-    position: relative; 
-    margin-bottom: 20px;
+  position: relative; 
+  margin-bottom: 20px;
 
-    label 
+  label 
+  {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: $auth-label-size;
+  }
+
+  input 
+  {
+    width: 100%;
+    padding: 15px; 
+    padding-right: 45px; 
+    font-size: 1.1rem;
+    border: 2px solid $auth-black;
+    border-radius: $auth-input-radius;
+    box-sizing: border-box;
+
+    &:focus 
     {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 700;
-        font-size: $auth-label-size;
+      outline: none;
+      border-width: 3px; 
     }
-
-    input 
-    {
-        width: 100%;
-        padding: 15px; 
-        padding-right: 45px; 
-        font-size: 1.1rem;
-        border: 2px solid $auth-black;
-        border-radius: $auth-input-radius;
-        box-sizing: border-box;
-
-        &:focus 
-        {
-            outline: none;
-            border-width: 3px; 
-        }
-    }
+  }
 }
 
-@mixin auth-button-main 
+@mixin auth-button-black
 {
-  background-color: #2c3e50; 
+  width: 100%;
+  padding: 15px;
+  background: $auth-black;
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 12px 24px;
-  font-weight: 600;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1.2rem;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: all 0.3s ease;
 
-  &:hover 
+  &:disabled 
   {
-    background-color: #34495e;
-    transform: translateY(-1px);
+    background: #bdc3c7;
+    cursor: not-allowed;
   }
 
-  &:active 
+  &:hover:not(:disabled) 
   {
-    transform: translateY(0);
+    background: #333333;
+    transform: translateY(-3px);
   }
 }
 
-@mixin auth-button-secondary 
+@mixin auth-button-white 
 {
-  background-color: #f8f9fa; 
-  color: #2c3e50;
-  border: 1px solid #dcdde1;
-  border-radius: 8px;
-  padding: 12px 24px;
-  font-weight: 600;
+  width: 100%;
+  padding: 15px;
+  background: $auth-black;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1.2rem;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
 
-  &:hover 
+  &:disabled 
+  {
+    background: #bdc3c7;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) 
   {
     background-color: #e9ecef;
     border-color: #bdc3c7;
+    transform: translateY(-3px);
   }
-}
-
-
-@mixin auth-button-main 
-{
-    width: 100%;
-    padding: 15px;
-    background: $auth-black;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
-    &:disabled 
-    {
-        background: #bdc3c7;
-        cursor: not-allowed;
-    }
-
-    &:hover:not(:disabled) 
-    {
-        background: #333333;
-        transform: translateY(-3px);
-    }
 }
 
 @mixin auth-footer-section 
 {
-    margin-top: 25px;
-    text-align: center;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
+  margin-top: 25px;
+  text-align: center;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
 
-    span 
+  span 
+  {
+      display: block;
+      margin-bottom: 10px;
+      color: $auth-gray-muted; 
+      font-size: 1.1rem;
+  }
+
+  .btn-link 
+  {
+    width: 100%;
+    background: white;
+    border: 2px solid $auth-black;
+    color: $auth-black;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover 
     {
-        display: block;
-        margin-bottom: 10px;
-        color: $auth-gray-muted; 
-        font-size: 1.1rem;
+      background: #f8f9fa;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-
-    .btn-link 
-    {
-        width: 100%;
-        background: white;
-        border: 2px solid $auth-black;
-        color: $auth-black;
-        padding: 12px;
-        border-radius: 10px;
-        font-weight: 700;
-        font-size: 1.1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-
-        &:hover 
-        {
-            background: #f8f9fa;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-    }
+  }
 }
 
 @mixin auth-form-field-structure 

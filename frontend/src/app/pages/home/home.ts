@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit
         next: (res) => 
         {
           const currentRole = this.authService.getUserRole();
-          console.log('Token decodificato, ruolo trovato:', currentRole);
+          console.log('Token decoded, role found:', currentRole);
           this.userData = { ...res, role: currentRole };;
           localStorage.setItem('user', JSON.stringify(this.userData));
           this.setupQuickOptions();
@@ -106,24 +106,23 @@ export class HomeComponent implements OnInit
   setupQuickOptions(): void
   {
     const role = this.userData?.role;
-    console.log('DEBUG setupQuickOptions - Ruolo attuale:', role);
 
     if (!this.isUserLoggedIn || role == 'CLIENT')
     {
       this.quickOptions = [
-        { title: 'New appointment', subtitle: 'Schedule a visit with one of our agents', icon: 'bx-calendar-plus', action: 'SEARCH' },
-        { title: 'Your appointments', subtitle: 'Manage and track your scheduled meetings', icon: 'bx-calendar-check', action: 'RENT' },
-        { title: 'Make an offer', subtitle: 'Submit a proposal for your dream home', icon: 'bx-purchase-tag-alt', action: 'VALUATE' },
-        { title: 'Your offers', subtitle: 'Check the status of your active proposals', icon: 'bx-history', action: 'SUPPORT' }
+        { title: 'Your offers', subtitle: 'Submit a proposal for your dream home', icon: 'bx bx-edit-alt', action: 'OFFERS' },
+        { title: 'Your appointments', subtitle: 'Manage and track your scheduled meetings', icon: 'bx-calendar-check', action: 'APPOINTMENT' },
+        { title: 'Saved', subtitle: 'Check back on your favorite houses', icon: 'bx bx-bookmark-alt', action: 'SAVED' },
+        { title: 'History', subtitle: 'Review your previous activities', icon: 'bx-history', action: 'HISTORY' }
       ];
     }
     else
     {
       this.quickOptions = [
-        { title: 'New Listing', subtitle: 'Aggiungi una nuova proprietà', icon: 'bx-plus-circle', action: 'CREATE_LISTING' },
-        { title: 'Dashboard', subtitle: 'Le tue statistiche e overview', icon: 'bx-line-chart', action: 'VIEW_STATS' },
-        { title: 'Your Listings', subtitle: 'Gestisci le tue proprietà attive', icon: 'bx-list-ul', action: 'MANAGE_LISTINGS' },
-        { title: 'Your Appointments', subtitle: 'Il tuo calendario e visite', icon: 'bx-calendar', action: 'VIEW_APPOINTMENTS' },
+        { title: 'New Listing', subtitle: 'Create a new listing', icon: 'bx-plus-circle', action: 'CREATE_LISTING' },
+        { title: 'Dashboard', subtitle: 'Overview of your statistics', icon: 'bx-line-chart', action: 'VIEW_STATS' },
+        { title: 'Your Listings', subtitle: 'Manage your active listings', icon: 'bx-list-ul', action: 'MANAGE_LISTINGS' },
+        { title: 'Your Appointments', subtitle: 'Your appointment calendar', icon: 'bx-calendar', action: 'VIEW_APPOINTMENTS' },
         
       ];
 
@@ -131,7 +130,7 @@ export class HomeComponent implements OnInit
       {
         this.quickOptions.push({ 
           title: 'New Agent', 
-          subtitle: 'Registra un nuovo collaboratore', 
+          subtitle: 'Register a new agent', 
           icon: 'bx-user-plus', 
           action: 'CREATE_AGENT' 
         });
@@ -141,7 +140,7 @@ export class HomeComponent implements OnInit
       {
         this.quickOptions.push({ 
           title: 'New Support', 
-          subtitle: 'Aggiungi personale di assistenza', 
+          subtitle: 'Register a new support account', 
           icon: 'bx-support', 
           action: 'CREATE_SUPPORT' 
         });
@@ -151,8 +150,6 @@ export class HomeComponent implements OnInit
 
   handleAction(action: string): void
   {
-    console.log('Action activated:', action);
-
     switch (action) 
     {
       case 'CREATE_AGENT':

@@ -67,12 +67,49 @@
             {
                 text-align: center;
                 font-size: 2.5rem;
-                margin-bottom: 35px;
+                margin-bottom: 70px;
                 color: #1a2a3a;
             }
 
-            .form-field { @include auth-form-field-structure; }
-            button[type="submit"] { @include auth-button-main; width: 100%; }
+            .form-field
+            { 
+                @include auth-form-field-structure; 
+                position: relative;
+                margin-top: 45px;
+
+                input
+                {
+                    width: 100%;
+                    padding: 15px; 
+                    border: 1px solid #ccc;
+                    border-radius: 8px;
+                    outline: none;
+
+                    &:focus ~ label,
+                    &:not(:placeholder-shown) ~ label
+                    {
+                        top: -14px;
+                        left: 10px;
+                        font-size: 1.5rem;
+                        background: transparent;
+                        padding: 0 5px;
+                        color: #1a2a3a;
+                    }
+                }
+
+                label
+                {
+                    position: absolute;
+                    left: 15px;
+                    top: 50%;
+                    transform: translateY(-50%); 
+                    transition: all 0.2s ease;
+                    pointer-events: none;
+                    color: #888;
+                }
+            }
+
+            button[type="submit"] { @include auth-button-black; width: 100%; }
             .register-section { @include auth-footer-section; }
         }
     }

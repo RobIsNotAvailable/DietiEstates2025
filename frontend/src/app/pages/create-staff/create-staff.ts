@@ -84,19 +84,11 @@ export class CreateStaffComponent implements OnInit
       {
         if (err.status === 500 || err.status === 0) 
         {
-            alert("Something went wrong on our side. Please try again or refresh the page.");
+          alert("Something went wrong on our side. Please try again or refresh the page.");
         }
-        else if (typeof err.error === 'string') 
+        else
         {
-            this.serverErrorMessage = err.error; 
-        } 
-        else if (err.error && typeof err.error === 'object') 
-        {
-            const errorKeys = Object.keys(err.error);
-            if (errorKeys.length > 0) 
-            {
-                this.serverErrorMessage = err.error[errorKeys[0]]; 
-            }
+          this.serverErrorMessage = err.error; 
         }
 
         if (err.status !== 500) 

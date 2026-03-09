@@ -177,13 +177,13 @@
 
       .btn-primary 
       { 
-        @include auth-button-main; 
+        @include auth-button-black; 
         margin-right: 20px;
       }
 
       .btn-secondary 
       { 
-        @include auth-button-secondary; 
+        @include auth-button-white; 
         background-color: $bg-main; 
         border: 1px solid #e0e0e0; 
         color: #2c3e50;

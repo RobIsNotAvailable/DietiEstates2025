@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router,RouterModule } from '@angular/router';
 import { AccountService } from '../../services/account';
@@ -38,8 +38,8 @@ export class ChangePasswordComponent implements OnInit
       repeatPassword: ['', [Validators.required]]
     }, 
     {
-      validators: this.passwordMatchValidator
-    });
+      validators: [this.passwordMatchValidator] 
+    } as AbstractControlOptions);
   }
 
   passwordMatchValidator(g: FormGroup) 
@@ -59,9 +59,16 @@ export class ChangePasswordComponent implements OnInit
     this.hideNewPassword = !this.hideNewPassword;
     
   }
-  isButtonDisabled() 
+
+  isButtonDisabled(): boolean 
   {
-    return this.setupForm.invalid;
+    const controls = this.setupForm.controls;
+    
+    return (
+      controls['oldPassword'].invalid ||
+      controls['newPassword'].invalid ||
+      controls['repeatPassword'].invalid
+    );
   }
 
   onSubmit() 
@@ -77,9 +84,9 @@ export class ChangePasswordComponent implements OnInit
     {
         next: () => 
         {
-            alert('Password changed successfully');
-            localStorage.removeItem('setup_email');
-            this.router.navigate(['/login'], { queryParams: { setupSuccess: true } });
+          alert('Password changed successfully');
+          localStorage.removeItem('setup_email');
+          this.router.navigate(['/login'], { queryParams: { setupSuccess: true } });
         },
         error: (err) => 
         {
@@ -87,17 +94,9 @@ export class ChangePasswordComponent implements OnInit
           {
             alert("Something went wrong on our side. Please try again or refresh the page.");
           }
-          else if (typeof err.error === 'string') 
+          else
           {
-              this.serverErrorMessage = err.error; 
-          } 
-          else if (err.error && typeof err.error === 'object') 
-          {
-              const errorKeys = Object.keys(err.error);
-              if (errorKeys.length > 0) 
-              {
-                  this.serverErrorMessage = err.error[errorKeys[0]]; 
-              }
+            this.serverErrorMessage = err.error; 
           }
 
           if (err.status !== 500) 

@@ -1,8 +1,5 @@
 package com.dd25.dietiestates25.exception;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,13 +13,14 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 public class GlobalExceptionHandler
 {
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException e) 
+    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException e) 
     {
-        Map<String, String> errors = new HashMap<>();
-        e.getBindingResult().getFieldErrors().forEach(error -> 
-            errors.put(error.getField(), error.getDefaultMessage())
-        );
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        String errorMessage = e.getBindingResult()
+                           .getFieldErrors()
+                           .get(0)
+                           .getDefaultMessage();
+    
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

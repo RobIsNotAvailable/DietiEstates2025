@@ -57,8 +57,7 @@
                         placeholder="Repeat your password"
                         [class.is-invalid]="isSubmitted && registerForm.hasError('mismatch')">
                     
-                    <div *ngIf="isSubmitted && registerForm.hasError('mismatch')" 
-                        class="error-message">
+                    <div *ngIf="isSubmitted && registerForm.hasError('mismatch')" class="error-message">
                         Passwords do not match
                     </div>
                 </div>
