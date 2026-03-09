@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.dd25.dietiestates25.dto.ListingStatsResponse;
+import com.dd25.dietiestates25.dto.response.ListingStatsResponse;
 import com.dd25.dietiestates25.model.Listing;
 
 import jakarta.transaction.Transactional;
@@ -25,7 +25,7 @@ public interface ListingRepository extends JpaRepository<Listing, Integer>, JpaS
     
     @Query
     ("""
-        SELECT new com.dd25.dietiestates25.dto.ListingStatsResponse
+        SELECT new com.dd25.dietiestates25.dto.response.ListingStatsResponse
         (
             l.id, 
             l.name, 

@@ -1,13 +1,16 @@
-package com.dd25.dietiestates25.dto;
+package com.dd25.dietiestates25.dto.request;
 
 import org.springframework.lang.NonNull;
 
+import com.dd25.dietiestates25.model.enums.SecurityLevel;
 import com.dd25.dietiestates25.util.StringConstants;
 
+
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public record AccountRegisterRequest(
+public record CreateCompanyAccountRequest(
     @NonNull
     @NotBlank (message = StringConstants.EMAIL_REQUIRED_MESSAGE)
     @Pattern
@@ -23,12 +26,7 @@ public record AccountRegisterRequest(
     @NotBlank (message = StringConstants.LAST_NAME_REQUIRED_MESSAGE)
     String lastName,
 
-    @NotBlank (message = StringConstants.PASSWORD_REQUIRED_MESSAGE)
-    @Pattern
-    (
-        regexp = StringConstants.PASSWORD_REGEX,
-        message = StringConstants.PASSWORD_MESSAGE
-    )
-    String rawPassword
-) 
+    @NotNull (message = "Security level cannot be null")
+    SecurityLevel securityLevel
+)
 { public String email() { return email.trim().toLowerCase(); }}

@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.dd25.dietiestates25.dto.CreateListingRequest;
-import com.dd25.dietiestates25.dto.FullListingResponse;
-import com.dd25.dietiestates25.dto.ListingSearchRequest;
-import com.dd25.dietiestates25.dto.ListingStatsResponse;
-import com.dd25.dietiestates25.dto.SummaryListingResponse;
+import com.dd25.dietiestates25.dto.request.CreateListingRequest;
+import com.dd25.dietiestates25.dto.request.ListingSearchRequest;
+import com.dd25.dietiestates25.dto.response.FullListingResponse;
+import com.dd25.dietiestates25.dto.response.ListingStatsResponse;
+import com.dd25.dietiestates25.dto.response.SummaryListingResponse;
 import com.dd25.dietiestates25.model.Address;
 import com.dd25.dietiestates25.model.BuildingDetails;
 import com.dd25.dietiestates25.model.CommercialInfo;

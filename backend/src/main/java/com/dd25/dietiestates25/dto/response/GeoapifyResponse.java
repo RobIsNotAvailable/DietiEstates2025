@@ -1,7 +1,8 @@
-package com.dd25.dietiestates25.dto;
+package com.dd25.dietiestates25.dto.response;
 
 import java.util.List;
 
+import com.dd25.dietiestates25.dto.GeoapifyProperties;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)

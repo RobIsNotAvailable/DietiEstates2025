@@ -6,12 +6,12 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.dd25.dietiestates25.dto.AccountDetailsResponse;
-import com.dd25.dietiestates25.dto.AuthResponse;
-import com.dd25.dietiestates25.dto.ChangePasswordRequest;
-import com.dd25.dietiestates25.dto.LoginRequest;
-import com.dd25.dietiestates25.dto.ResetPasswordRequest;
-import com.dd25.dietiestates25.dto.TokenLoginRequest;
+import com.dd25.dietiestates25.dto.request.ChangePasswordRequest;
+import com.dd25.dietiestates25.dto.request.LoginRequest;
+import com.dd25.dietiestates25.dto.request.ResetPasswordRequest;
+import com.dd25.dietiestates25.dto.request.TokenLoginRequest;
+import com.dd25.dietiestates25.dto.response.AccountDetailsResponse;
+import com.dd25.dietiestates25.dto.response.AuthResponse;
 import com.dd25.dietiestates25.model.Account;
 import com.dd25.dietiestates25.model.LoginToken;
 import com.dd25.dietiestates25.repository.AccountRepository;
@@ -96,7 +96,7 @@ public class AccountService
         emailService.sendPasswordResetEmail(email, token.getToken());
     }
 
-    public AccountDetailsResponse getCurrentAccount()
+    public AccountDetailsResponse getAccountDetails()
     {
         String email = securityUtil.getCurrentEmail();
         Account account = repo.findById(email).orElseThrow(() -> 

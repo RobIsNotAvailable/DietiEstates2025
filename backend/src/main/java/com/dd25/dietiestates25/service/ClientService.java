@@ -3,8 +3,8 @@ package com.dd25.dietiestates25.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.dd25.dietiestates25.dto.AccountRegisterRequest;
-import com.dd25.dietiestates25.dto.AuthResponse;
+import com.dd25.dietiestates25.dto.request.AccountRegisterRequest;
+import com.dd25.dietiestates25.dto.response.AuthResponse;
 import com.dd25.dietiestates25.model.Client;
 import com.dd25.dietiestates25.repository.AccountRepository;
 import com.dd25.dietiestates25.service.utilityservice.JwtService;

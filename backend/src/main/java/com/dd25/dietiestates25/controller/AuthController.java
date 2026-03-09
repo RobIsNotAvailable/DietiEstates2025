@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dd25.dietiestates25.dto.AccountRegisterRequest;
-import com.dd25.dietiestates25.dto.AuthResponse;
-import com.dd25.dietiestates25.dto.LoginRequest;
-import com.dd25.dietiestates25.dto.TokenLoginRequest;
+import com.dd25.dietiestates25.dto.request.AccountRegisterRequest;
+import com.dd25.dietiestates25.dto.request.LoginRequest;
+import com.dd25.dietiestates25.dto.request.TokenLoginRequest;
+import com.dd25.dietiestates25.dto.response.AuthResponse;
 import com.dd25.dietiestates25.service.AccountService;
 import com.dd25.dietiestates25.service.ClientService;
 

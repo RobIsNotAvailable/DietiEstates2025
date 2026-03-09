@@ -50,21 +50,31 @@ public class EmailService
             helper.setSubject(subject);
 
             String htmlContent = """
-                <html>
-                    <body style="font-family: Arial, sans-serif; color: #000000; line-height: 1.6;">
-                        <h2 style="color: #2c3e50;">%s</h2>
-                        <p>%s</p>
-                        <div style="text-align: center; margin: 30px 0;">
-                            <a href="%s" 
-                               style="background-color: #4caf50; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
-                               %s
-                            </a>
-                        </div>
-                        <p style="font-size: 12px; color: #000000;">Otherwise, visit this link: %s</p>
-                        <p>The link will expire in 24 hours.</p>
-                        <hr style="border: 0; border-top: 1px solid #f3f3f3; margin: 20px 0;">
-                    </body>
-                </html>
+            <html>
+                <body style="font-family: Arial, sans-serif; color: #000000; line-height: 1.6; text-align: center; padding: 20px;">
+                    
+                    <h2 style="color: #2c3e50; margin-bottom: 20px;">%s</h2>
+                    
+                    <p style="margin-bottom: 30px;">%s</p>
+                    
+                    <div style="margin: 30px 0;">
+                        <a href="%s" 
+                        style="background-color: #4caf50; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
+                        %s
+                        </a>
+                    </div>
+                    
+                    <p style="font-size: 12px; color: #666666; margin-top: 30px;">
+                        Otherwise, visit this link: <br>
+                        %s
+                    </p>
+                    
+                    <p style="font-weight: bold;">The link will expire in 24 hours.</p>
+                    
+                    <hr style="border: 0; border-top: 1px solid #f3f3f3; margin: 20px auto; width: 50%%;">
+                    
+                </body>
+            </html>
             """.formatted(title, body, link, buttonText, link);
 
             helper.setText(htmlContent, true);

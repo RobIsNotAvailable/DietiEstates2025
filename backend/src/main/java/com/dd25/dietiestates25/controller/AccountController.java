@@ -14,9 +14,9 @@ import com.dd25.dietiestates25.service.AccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-import com.dd25.dietiestates25.dto.AccountDetailsResponse;
-import com.dd25.dietiestates25.dto.ChangePasswordRequest;
-import com.dd25.dietiestates25.dto.ResetPasswordRequest;
+import com.dd25.dietiestates25.dto.request.ChangePasswordRequest;
+import com.dd25.dietiestates25.dto.request.ResetPasswordRequest;
+import com.dd25.dietiestates25.dto.response.AccountDetailsResponse;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -41,9 +41,9 @@ public class AccountController
     }
 
     @GetMapping("/me")
-    public ResponseEntity<AccountDetailsResponse> getCurrentAccount() 
+    public ResponseEntity<AccountDetailsResponse> getAccountDetails() 
     {
-        AccountDetailsResponse response = accountService.getCurrentAccount();
+        AccountDetailsResponse response = accountService.getAccountDetails();
         return ResponseEntity.ok(response);
     }
     

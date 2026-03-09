@@ -1,4 +1,4 @@
-package com.dd25.dietiestates25.dto;
+package com.dd25.dietiestates25.dto.response;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;

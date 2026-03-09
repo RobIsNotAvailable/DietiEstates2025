@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dd25.dietiestates25.dto.GeoapifyProperties;
-import com.dd25.dietiestates25.dto.GeoapifyResponse;
+import com.dd25.dietiestates25.dto.response.GeoapifyResponse;
 import com.dd25.dietiestates25.model.Address;
 import com.dd25.dietiestates25.model.SurroundingInfo;
 

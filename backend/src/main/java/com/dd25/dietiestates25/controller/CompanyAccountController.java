@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-import com.dd25.dietiestates25.dto.CreateCompanyAccountRequest;
+import com.dd25.dietiestates25.dto.request.CreateCompanyAccountRequest;
 import com.dd25.dietiestates25.service.CompanyAccountService;
 
 @RestController

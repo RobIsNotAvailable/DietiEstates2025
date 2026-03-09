@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.dd25.dietiestates25.dto.CreateListingRequest;
-import com.dd25.dietiestates25.dto.FullListingResponse;
-import com.dd25.dietiestates25.dto.ListingSearchRequest;
-import com.dd25.dietiestates25.dto.ListingStatsResponse;
-import com.dd25.dietiestates25.dto.SummaryListingResponse;
+import com.dd25.dietiestates25.dto.request.CreateListingRequest;
+import com.dd25.dietiestates25.dto.request.ListingSearchRequest;
+import com.dd25.dietiestates25.dto.response.FullListingResponse;
+import com.dd25.dietiestates25.dto.response.ListingStatsResponse;
+import com.dd25.dietiestates25.dto.response.SummaryListingResponse;
 import com.dd25.dietiestates25.service.ListingService;
 import com.dd25.dietiestates25.service.PhotoService;
 

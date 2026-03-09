@@ -6,8 +6,8 @@ import org.passay.PasswordGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.dd25.dietiestates25.dto.AgentStatsResponse;
-import com.dd25.dietiestates25.dto.CreateCompanyAccountRequest;
+import com.dd25.dietiestates25.dto.request.CreateCompanyAccountRequest;
+import com.dd25.dietiestates25.dto.response.AgentStatsResponse;
 import com.dd25.dietiestates25.model.CompanyAccount;
 import com.dd25.dietiestates25.model.LoginToken;
 import com.dd25.dietiestates25.model.enums.SecurityLevel;
