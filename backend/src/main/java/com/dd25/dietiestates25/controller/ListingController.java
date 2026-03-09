@@ -18,6 +18,7 @@ import com.dd25.dietiestates25.dto.request.CreateListingRequest;
 import com.dd25.dietiestates25.dto.request.ListingSearchRequest;
 import com.dd25.dietiestates25.dto.response.FullListingResponse;
 import com.dd25.dietiestates25.dto.response.ListingStatsResponse;
+import com.dd25.dietiestates25.dto.response.StringResponse;
 import com.dd25.dietiestates25.dto.response.SummaryListingResponse;
 import com.dd25.dietiestates25.service.ListingService;
 import com.dd25.dietiestates25.service.PhotoService;
@@ -42,10 +43,10 @@ public class ListingController
     }
 
     @PostMapping("/photos/{id}")
-    public ResponseEntity<String> uploadPhotos(@PathVariable Integer id, @RequestParam("photos") List<MultipartFile> photos, @RequestParam("descriptions") List<String> descriptions)
+    public ResponseEntity<StringResponse> uploadPhotos(@PathVariable Integer id, @RequestParam("photos") List<MultipartFile> photos, @RequestParam("descriptions") List<String> descriptions)
     {
         photoService.uploadPhotos(id, photos, descriptions);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Photos uploaded successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new StringResponse("Photos uploaded successfully"));
     }
     
 

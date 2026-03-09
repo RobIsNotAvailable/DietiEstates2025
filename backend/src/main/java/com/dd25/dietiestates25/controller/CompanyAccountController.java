@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import com.dd25.dietiestates25.dto.request.CreateCompanyAccountRequest;
+import com.dd25.dietiestates25.dto.response.StringResponse;
 import com.dd25.dietiestates25.service.CompanyAccountService;
 
 @RestController
@@ -23,9 +24,9 @@ public class CompanyAccountController
     private final CompanyAccountService companyService;
 
     @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody @Valid CreateCompanyAccountRequest request) 
+    public ResponseEntity<StringResponse> create(@RequestBody @Valid CreateCompanyAccountRequest request) 
     {
         companyService.createCompanyAccount(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Account created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new StringResponse("Account created successfully"));
     }
 }
