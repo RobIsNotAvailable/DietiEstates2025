@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
@@ -9,7 +9,12 @@ import { ChangeDetectorRef } from '@angular/core';
 {
   selector: 'app-setup-password',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule], 
+  imports:
+  [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule
+  ], 
   templateUrl: './setup-password.html',
   styleUrls: ['./setup-password.scss']
 })
