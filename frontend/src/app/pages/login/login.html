@@ -31,7 +31,7 @@
                             [class.is-invalid]="(isSubmitted && loginForm.get('rawPassword')?.invalid) || serverErrorMessage">
                         
                         <label for="passwordField">Password</label>
-                        
+
                         <button type="button" class="toggle-password" (click)="togglePassword()" tabindex="-1">
                             <i [className]="hidePassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
                         </button>
@@ -41,11 +41,16 @@
                         {{ serverErrorMessage }}
                     </div>
                 </div>
+
+                <div class="forgot-password-wrapper">
+                    <span (click)="onForgotPassword()">Forgot password?</span>
+                </div>
+                
                 <button type="submit" [disabled]="loginForm.invalid">Login</button>
             </form>
 
             <div class="register-section">
-                <span>Don't have an account? </span>
+                <span>Don't have an account?</span>
                 <button type="button" class="btn-link" (click)="goToRegister()">Register now</button>
             </div>
         </div>

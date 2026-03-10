@@ -11,7 +11,7 @@ import com.dd25.dietiestates25.dto.request.LoginRequest;
 import com.dd25.dietiestates25.dto.request.ResetPasswordRequest;
 import com.dd25.dietiestates25.dto.request.TokenLoginRequest;
 import com.dd25.dietiestates25.dto.response.AccountDetailsResponse;
-import com.dd25.dietiestates25.dto.response.AuthResponse;
+import com.dd25.dietiestates25.dto.response.StringResponse;
 import com.dd25.dietiestates25.model.Account;
 import com.dd25.dietiestates25.model.LoginToken;
 import com.dd25.dietiestates25.repository.AccountRepository;
@@ -36,7 +36,7 @@ public class AccountService
     private final JwtService jwtService;
     private final SecurityUtil securityUtil;
 
-    public AuthResponse login(LoginRequest request)
+    public StringResponse login(LoginRequest request)
     {
         Account account = repo.findById(request.email()).orElseThrow(() -> 
             new SecurityException(StringConstants.INVALID_CREDENTIALS_MESSAGE));
@@ -45,11 +45,11 @@ public class AccountService
             throw new SecurityException(StringConstants.INVALID_CREDENTIALS_MESSAGE);
 
         String token = jwtService.generateToken(account);
-        return new AuthResponse(token);
+        return new StringResponse(token);
     }
 
     @Transactional
-    public AuthResponse tokenLogin(@NonNull String tokenString, TokenLoginRequest request)
+    public StringResponse tokenLogin(@NonNull String tokenString, TokenLoginRequest request)
     {
         LoginToken loginToken = tokenRepo.findById(tokenString).orElseThrow(() -> 
             new SecurityException(StringConstants.INVALID_TOKEN_MESSAGE));
@@ -65,7 +65,7 @@ public class AccountService
         loginToken.setUsed(true);
 
         String jwt = jwtService.generateToken(account);
-        return new AuthResponse(jwt);   
+        return new StringResponse(jwt);   
     }
     
     @Transactional

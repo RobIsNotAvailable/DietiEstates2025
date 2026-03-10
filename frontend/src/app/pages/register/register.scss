@@ -1,4 +1,4 @@
-@use '../../../styles/auth-shared' as *;
+@use '../../../styles/form-shared' as *;
 @use '../../../styles/variables' as *;
 @use '../../../styles/animations' as *;
 
@@ -10,7 +10,6 @@
     min-height: 100vh; 
     width: 100vw;
     background: $bg-main;
-    padding: 40px 20px; // Spazio extra per scroll su schermi piccoli
 
     .auth-container 
     {
@@ -62,7 +61,7 @@
 
         .register-card 
         {
-            @include auth-card(100%, $text-xxl); 
+            @include form-card(100%, $text-xxl); 
 
             h2 
             {
@@ -81,19 +80,19 @@
 
             .form-field 
             {
-                @include auth-form-field-structure;
+                @include form-field-structure;
             }
 
             button[type="submit"] 
             {
-                @include auth-button-black;
+                @include form-button-black;
                 width: 100%;
                 margin-top: 10px;
             }
 
             .login-section 
             {
-                @include auth-footer-section;
+                @include form-footer-section;
                 margin-top: 25px;
             }
         }

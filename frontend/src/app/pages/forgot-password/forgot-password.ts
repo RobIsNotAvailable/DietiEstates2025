@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router'; 
-import { AuthService } from '../../services/auth';
+import { AccountService } from '../../services/account';
 import { ChangeDetectorRef } from '@angular/core';
 
 
 @Component(
 {
-  selector: 'app-login',
+  selector: 'app-forgot-password',
   standalone: true,
   imports: 
   [
@@ -16,56 +16,39 @@ import { ChangeDetectorRef } from '@angular/core';
     ReactiveFormsModule, 
     RouterModule
   ],
-  templateUrl: './login.html', 
-  styleUrl: './login.scss'     
+  templateUrl: './forgot-password.html', 
+  styleUrl: './forgot-password.scss'     
 })
-export class LoginComponent 
+export class ForgotPasswordComponent
 {
-  loginForm: FormGroup;
-  hidePassword = true;
+  forgotForm: FormGroup;
   serverErrorMessage: string | null = null;
   isSubmitted = false;
-             
-  constructor(private authService: AuthService, private router: Router, private cd: ChangeDetectorRef) 
+
+  constructor(private accountService: AccountService, private router: Router, private cd: ChangeDetectorRef) 
   {
-    this.loginForm = new FormGroup(
+    this.forgotForm = new FormGroup(
     {
       email: new FormControl('', [Validators.required]),
-      rawPassword: new FormControl('', [Validators.required])
     });
   }
-    
 
-  togglePassword() 
-  {
-    this.hidePassword = !this.hidePassword;
-  }
-
-  goToRegister() 
-  {
-    this.router.navigate(['/register']);
-  }
-
-  onForgotPassword()
-  {
-    this.router.navigate(['/forgot-password']);
-  }
-
-  onLogin() 
+  onSubmit()
   {
     this.serverErrorMessage = null;
     this.isSubmitted = true;
 
-    if (this.loginForm.invalid) 
+    if (this.forgotForm.invalid) 
     {
       return;
     }
 
-    this.authService.login(this.loginForm.value).subscribe(
+    this.accountService.forgotPassword(this.forgotForm.value).subscribe(
     {
       next: () => 
       {
-        this.router.navigate(['/home']); 
+        alert('If the mail is registered, you\'ll recieve an email');
+        this.router.navigate(['/login']); 
       },
       error: (err) => 
       {
@@ -80,8 +63,7 @@ export class LoginComponent
 
         if (err.status !== 500) 
         {
-          this.loginForm.get('rawPassword')?.markAsTouched();
-          this.loginForm.get('email')?.markAsTouched();
+          this.forgotForm.get('email')?.markAsTouched();
           this.cd.detectChanges();
         }
       }

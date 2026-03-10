@@ -1,4 +1,4 @@
-@use '../../../styles/auth-shared' as *;
+@use '../../../styles/form-shared' as *;
 @use '../../../styles/variables' as *;
 @use '../../../styles/animations' as *;
 
@@ -62,7 +62,7 @@
 
         .staff-card 
         {
-            @include auth-card(100%, $text-xxl); 
+            @include form-card(100%, $text-xxl); 
             
             h2 
             {
@@ -82,7 +82,7 @@
 
             .form-field 
             {
-                @include auth-form-field-structure;
+                @include form-field-structure;
                 
                 .error-message 
                 {
@@ -103,7 +103,7 @@
 
                 .submit-btn 
                 {
-                    @include auth-button-black;
+                    @include form-button-black;
                     width: 100%;
                 }
 
@@ -111,8 +111,8 @@
                 {
                     width: 100%;
                     background: transparent;
-                    border: 2px solid $auth-black;
-                    color: $auth-black;
+                    border: 2px solid $form-black;
+                    color: $form-black;
                     padding: 14px;
                     border-radius: 12px;
                     font-weight: 700;

@@ -23,4 +23,12 @@ export class AccountService
     {
         return this.http.get<any>(`${this.apiUrl}/me`);
     }
+
+    forgotPassword(formData: any): Observable<string> 
+    {
+        return this.http.post(`${this.apiUrl}/forgot-password`, formData, 
+        { 
+            responseType: 'text' 
+        });
+    }
 }

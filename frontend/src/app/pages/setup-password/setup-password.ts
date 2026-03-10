@@ -77,14 +77,14 @@ export class SetupPasswordComponent implements OnInit
     {
       next: () => 
       {
-        alert('Account attivato!');
+        alert('Account activated');
         this.router.navigate(['/home']);
       },
       error: (err) => 
       {
         if (err.status === 500 || err.status === 0) 
         {
-          alert("Something went wrong on our side. Please try again or refresh the page.");
+          alert("Something went wrong on our side. Please try again or refresh the page");
         }
         else
         {

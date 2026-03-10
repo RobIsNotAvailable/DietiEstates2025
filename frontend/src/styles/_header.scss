@@ -1,5 +1,5 @@
 @use 'variables' as *;
-@use 'auth-shared' as *;
+@use 'form-shared' as *;
 
 @mixin main-header-styles
   {
@@ -177,13 +177,13 @@
 
       .btn-primary 
       { 
-        @include auth-button-black; 
+        @include form-button-black; 
         margin-right: 20px;
       }
 
       .btn-secondary 
       { 
-        @include auth-button-white; 
+        @include form-button-white; 
         background-color: $bg-main; 
         border: 1px solid #e0e0e0; 
         color: #2c3e50;
