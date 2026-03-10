@@ -45,13 +45,13 @@
 
                 .logo-icon i 
                 {
-                    font-size: 3rem;
+                    font-size: $text-xxxl;
                     color: #1a2a3a;
                 }
 
                 .logo-text 
                 {
-                    font-size: 3rem; 
+                    font-size: $text-xxxl; 
                     font-weight: 800;
                     color: #1a2a3a;
                     letter-spacing: -1.5px;
@@ -62,12 +62,12 @@
 
         .staff-card 
         {
-            @include auth-card(100%, 2.5rem); 
+            @include auth-card(100%, $text-xxl); 
             
             h2 
             {
                 text-align: center;
-                font-size: 2.2rem;
+                font-size: $text-xl;
                 margin-bottom: 10px;
                 color: #1a2a3a;
             }
@@ -77,7 +77,7 @@
                 text-align: center;
                 color: #64748b; 
                 margin-bottom: 35px;
-                font-size: 1.1rem;
+                font-size: $text-base;
             }
 
             .form-field 
@@ -87,7 +87,7 @@
                 .error-message 
                 {
                     color: $error-red;
-                    font-size: 0.85rem;
+                    font-size: $text-sm;
                     font-weight: 600;
                     margin-top: 5px;
                     @include entrance-animation(0s, 5px);
@@ -116,7 +116,7 @@
                     padding: 14px;
                     border-radius: 12px;
                     font-weight: 700;
-                    font-size: 1.1rem;
+                    font-size: $text-base;
                     cursor: pointer;
                     transition: all 0.2s ease;
 

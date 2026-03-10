@@ -22,7 +22,7 @@
 
     .logo-section 
     {
-      font-size: 2.2rem;   
+      font-size: $text-xxl;   
       display: flex;
       align-items: center;
       gap: 12px;
@@ -42,7 +42,7 @@
 
       .logo-text 
       {
-        font-size: 2.5rem;   
+        font-size: $text-xxl;   
         font-weight: 800;    
         color: #1a2a3a;
         letter-spacing: -1px;
@@ -89,20 +89,20 @@
             i 
             {
               color: $green-primary; 
-              font-size: 1.2rem;
+              font-size: $text-md;
             }
           }
 
           .welcome-text 
           {
-            font-size: 1.25rem; 
+            font-size: $text-md; 
             font-weight: 700;
             color: #1a2a3a;
           }
 
           .arrow-icon 
           {
-            font-size: 1.5rem;
+            font-size: $text-lg;
             color: $green-primary;
             transition: transform 0.3s ease;
             
@@ -136,7 +136,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 1rem;
+            font-size: $text-base;
             font-weight: 600;
             color: #2c3e50;
             cursor: pointer;
@@ -166,7 +166,7 @@
         padding: 0 20px;
         border-radius: 5px;
         font-weight: 600;
-        font-size: 1rem;
+        font-size: $text-base;
         display: flex;
         align-items: center;
         justify-content: center;

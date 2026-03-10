@@ -3,7 +3,7 @@
 $auth-black: #000000;
 $auth-gray-muted: #636e72;
 $auth-bg-light: #f8f9fa;
-$auth-label-size: 1.5rem;
+$auth-label-size:$text-lg;
 $auth-input-radius: 12px;
 
 @mixin auth-card($width, $title-font) 
@@ -43,7 +43,7 @@ $auth-input-radius: 12px;
     width: 100%;
     padding: 15px; 
     padding-right: 45px; 
-    font-size: 1.1rem;
+    font-size: $text-md;
     border: 2px solid $auth-black;
     border-radius: $auth-input-radius;
     box-sizing: border-box;
@@ -65,7 +65,7 @@ $auth-input-radius: 12px;
   border: none;
   border-radius: 10px;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: $text-md;
   cursor: pointer;
   transition: all 0.3s ease;
 
@@ -91,7 +91,7 @@ $auth-input-radius: 12px;
   border: none;
   border-radius: 10px;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: $text-md;
   cursor: pointer;
   transition: all 0.3s ease;
 
@@ -121,7 +121,7 @@ $auth-input-radius: 12px;
       display: block;
       margin-bottom: 10px;
       color: $auth-gray-muted; 
-      font-size: 1.1rem;
+      font-size: $text-base;
   }
 
   .btn-link 
@@ -133,7 +133,7 @@ $auth-input-radius: 12px;
     padding: 12px;
     border-radius: 10px;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: $text-base;
     cursor: pointer;
     transition: all 0.3s ease;
 
@@ -165,7 +165,7 @@ $auth-input-radius: 12px;
     display: block;
     width: 100%;
     padding: 15px; 
-    font-size: 1.1rem;
+    font-size: $text-base;
     border: 2px solid $auth-black;
     border-radius: $auth-input-radius;
     box-sizing: border-box;
@@ -204,14 +204,14 @@ $auth-input-radius: 12px;
       display: flex;
       align-items: center;
       
-      i { font-size: 1.5rem; }
+      i { font-size: $text-lg; }
     }
   }
 
   .error-message 
   {
     color: #e74c3c;
-    font-size: 0.85rem;
+    font-size: $text-sm;
     margin-top: 5px;
     font-weight: 500;
   }

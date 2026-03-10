@@ -40,13 +40,13 @@
 
                 .logo-icon i 
                 {
-                    font-size: 2.8rem;
+                    font-size: $text-xxxl;
                     color: #1a2a3a;
                 }
 
                 .logo-text 
                 {
-                    font-size: 3rem;
+                    font-size: $text-xxxl;
                     font-weight: 800;
                     color: #1a2a3a;
                     letter-spacing: -1.5px;
@@ -85,7 +85,7 @@
 
             .display-title 
             {
-                font-size: 2.2rem;
+                font-size: $text-xl;
                 font-weight: 700;
                 color: #1a2a3a;
                 margin-bottom: 15px;
@@ -94,7 +94,7 @@
             .description 
             {
                 color: #64748b;
-                font-size: 1.1rem;
+                font-size: $text-base;
                 line-height: 1.6;
                 margin-bottom: 35px;
             }
@@ -104,7 +104,7 @@
                 @include auth-button-black;
                 width: 100%;
                 height: 55px; 
-                font-size: 1.1rem;
+                font-size: $text-base;
             }
         }
     }

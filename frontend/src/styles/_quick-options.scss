@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 @mixin quick-options-layout 
 {
     .quick-options-grid 
@@ -61,7 +63,7 @@
             {
                 h3 
                 {
-                    font-size: 1.15rem;
+                    font-size: $text-md;
                     font-weight: 700;
                     color: #1a2a3a;
                     margin: 0 0 4px 0;
@@ -69,7 +71,7 @@
 
                 p 
                 {
-                    font-size: 0.9rem;
+                    font-size: $text-base;
                     color: #718096;
                     margin: 0;
                     line-height: 1.4;

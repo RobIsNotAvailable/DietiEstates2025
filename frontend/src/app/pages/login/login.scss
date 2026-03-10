@@ -44,13 +44,13 @@
 
                 .logo-icon i 
                 {
-                    font-size: 3rem;
+                    font-size: $text-xxxl;
                     color: #1a2a3a;
                 }
 
                 .logo-text 
                 {
-                    font-size: 3rem; 
+                    font-size: $text-xxxl; 
                     font-weight: 800;
                     color: #1a2a3a;
                     letter-spacing: -1.5px;
@@ -61,12 +61,12 @@
 
         .login-card 
         {
-            @include auth-card(600px, 2.5rem); 
+            @include auth-card(600px, $text-xxl); 
             
             h2 
             {
                 text-align: center;
-                font-size: 2.5rem;
+                font-size: $text-xxl;
                 margin-bottom: 70px;
                 color: #1a2a3a;
             }
@@ -90,7 +90,7 @@
                     {
                         top: -14px;
                         left: 10px;
-                        font-size: 1.5rem;
+                        font-size: $text-lg;
                         background: transparent;
                         padding: 0 5px;
                         color: #1a2a3a;
