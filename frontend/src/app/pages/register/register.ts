@@ -49,7 +49,6 @@ export class RegisterComponent
 
   goToLogin()
   {
-    console.log('GO TO LOGIN!');
     this.router.navigate(['/login']);
   }
 

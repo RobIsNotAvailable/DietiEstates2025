@@ -1,7 +1,11 @@
 package com.dd25.dietiestates25.exception;
 
+import java.util.Comparator;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -15,11 +19,19 @@ public class GlobalExceptionHandler
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException e) 
     {
+        List<String> priorityOrder = List.of("email", "firstName", "lastName", "rawPassword");
+
         String errorMessage = e.getBindingResult()
-                           .getFieldErrors()
-                           .get(0)
-                           .getDefaultMessage();
-    
+                .getFieldErrors()
+                .stream()
+                .sorted(Comparator.comparingInt(fe -> {
+                    int index = priorityOrder.indexOf(fe.getField());
+                    return index == -1 ? priorityOrder.size() : index;
+                }))
+                .map(FieldError::getDefaultMessage)
+                .findFirst()
+                .orElse("Validation error");
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 

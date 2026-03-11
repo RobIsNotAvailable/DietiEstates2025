@@ -149,7 +149,7 @@ $form-input-radius: 12px;
 {
   position: relative; 
   margin-top: 45px;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
   width: 100%;
 
   input
@@ -263,9 +263,11 @@ $form-input-radius: 12px;
 
   .error-message 
   {
+    position: absolute;
     color: $error-red;
     font-size: $text-sm;
     margin-top: 5px;
+    margin-left: 5px;
     font-weight: 500;
   }
 }

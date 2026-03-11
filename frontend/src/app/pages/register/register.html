@@ -14,19 +14,22 @@
             
             <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
                 <div class="form-field">
-                    <label>First Name</label>
-                    <input type="text" formControlName="firstName" placeholder="Your first name">
+                    <input type="text" id="firstNameField" formControlName="firstName" placeholder=" ">
+
+                    <label for="firstNameField">First name</label>
                 </div>
 
                 <div class="form-field">
-                    <label>Last Name</label>
-                    <input type="text" formControlName="lastName" placeholder="Your last name">
+                    <input type="text" id="lastNameField" formControlName="lastName" placeholder=" ">
+                    
+                    <label for="lastNameField">Last name</label>
                 </div>
 
                 <div class="form-field">
-                    <label>Email</label>
-                    <input type="email" formControlName="email" placeholder="example@email.it"
+                    <input type="email" id="emailField" formControlName="email" placeholder=" "
                         [class.is-invalid]="(isSubmitted && registerForm.get('email')?.invalid) || (serverErrorMessage && serverErrorMessage.toLowerCase().includes('email'))">
+                    
+                    <label for="emailField">Email</label>
                     
                     <div *ngIf="serverErrorMessage && serverErrorMessage.toLowerCase().includes('email')" class="error-message">
                         {{ serverErrorMessage }}
@@ -34,12 +37,12 @@
                 </div>
 
                 <div class="form-field">
-                    <label>Password</label>
                     <div class="input-wrapper" style="position: relative;">
-                        <input [type]="hidePassword ? 'password' : 'text'" 
-                            formControlName="rawPassword" placeholder="password"
+                        <input [type]="hidePassword ? 'password' : 'text'" id="passwordField" formControlName="rawPassword"  placeholder=" "
                             [class.is-invalid]="(isSubmitted && registerForm.get('rawPassword')?.invalid) || (serverErrorMessage && !serverErrorMessage.toLowerCase().includes('email'))">
                         
+                        <label for="passwordField">Password</label>
+
                         <button type="button" class="toggle-password" (click)="togglePassword()" tabindex="-1">
                             <i [className]="hidePassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
                         </button>
@@ -51,12 +54,11 @@
                 </div>
 
                 <div class="form-field">
-                    <label>Repeat Password</label>
-                    <input [type]="hidePassword ? 'password' : 'text'" 
-                        formControlName="repeatPassword" 
-                        placeholder="Repeat your password"
+                    <input [type]="hidePassword ? 'password' : 'text'" formControlName="repeatPassword" placeholder=" "
                         [class.is-invalid]="isSubmitted && registerForm.hasError('mismatch')">
                     
+                    <label for="repeatPassword">Repeat password</label>
+
                     <div *ngIf="isSubmitted && registerForm.hasError('mismatch')" class="error-message">
                         Passwords do not match
                     </div>
