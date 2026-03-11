@@ -1,6 +1,6 @@
-@use '../../../styles/form-shared' as *;
-@use '../../../styles/variables' as *;
-@use '../../../styles/animations' as *;
+@use 'form-shared' as *;
+@use 'variables' as *;
+@use 'animations' as *;
 
 .register-wrapper 
 {
@@ -8,12 +8,12 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh; 
-    width: 100vw;
+    width: 100%;
     background: $bg-main;
 
     .auth-container 
     {
-        width: 800px; 
+        width: 600px; 
         display: flex;
         flex-direction: column;
         gap: 20px;
@@ -21,7 +21,7 @@
 
         .logo-box, .register-card 
         {
-            width: 100% !important; 
+            width: 100%; 
             margin: 0;
             box-sizing: border-box;
         }
@@ -61,21 +61,14 @@
 
         .register-card 
         {
-            @include form-card(100%, $text-xxl); 
+            @include form-card(600px, $text-xxl); 
 
             h2 
             {
                 text-align: center;
-                font-size: $text-xl;
+                font-size: $text-xxl;
                 margin-bottom: 10px;
                 color: #1a2a3a;
-            }
-
-            p 
-            {
-                text-align: center;
-                color: #64748b;
-                margin-bottom: 35px;
             }
 
             .form-field 

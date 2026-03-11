@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dd25.dietiestates25.dto.request.AccountRegisterRequest;
 import com.dd25.dietiestates25.dto.request.LoginRequest;
 import com.dd25.dietiestates25.dto.request.TokenLoginRequest;
-import com.dd25.dietiestates25.dto.response.StringResponse;
+import com.dd25.dietiestates25.dto.response.AuthResponse;
 import com.dd25.dietiestates25.service.AccountService;
 import com.dd25.dietiestates25.service.ClientService;
 
@@ -30,23 +30,23 @@ public class AuthController
     private final ClientService clientService;
 
     @PostMapping("/register")
-    public ResponseEntity<StringResponse> register(@RequestBody @Valid AccountRegisterRequest request) 
+    public ResponseEntity<AuthResponse> register(@RequestBody @Valid AccountRegisterRequest request) 
     {    
-        StringResponse response = clientService.registerClient(request);
+        AuthResponse response = clientService.registerClient(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<StringResponse> login(@RequestBody @Valid LoginRequest request) 
+    public ResponseEntity<AuthResponse> login(@RequestBody @Valid LoginRequest request) 
     {
-        StringResponse response = accountService.login(request);
+        AuthResponse response = accountService.login(request);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/link-login/{token}")
-    public ResponseEntity<StringResponse> tokenLogin(@PathVariable @NonNull String token, @RequestBody @Valid TokenLoginRequest request)
+    public ResponseEntity<AuthResponse> tokenLogin(@PathVariable @NonNull String token, @RequestBody @Valid TokenLoginRequest request)
     {
-        StringResponse response = accountService.tokenLogin(token, request);
+        AuthResponse response = accountService.tokenLogin(token, request);
         return ResponseEntity.ok(response);
     }
 }

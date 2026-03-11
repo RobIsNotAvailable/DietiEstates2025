@@ -1,6 +1,6 @@
-@use '../../../styles/form-shared' as *;
-@use '../../../styles/variables' as *;
-@use '../../../styles/animations' as *;
+@use 'form-shared' as *;
+@use 'variables' as *;
+@use 'animations' as *;
 
 .login-wrapper 
 {
@@ -8,7 +8,7 @@
     justify-content: center; 
     align-items: center;     
     min-height: 100vh;
-    width: 100vw;
+    width: 100%;
     background: $bg-main;
 
     .auth-container 

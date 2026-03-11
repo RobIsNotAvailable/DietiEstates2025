@@ -4,7 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dd25.dietiestates25.dto.request.AccountRegisterRequest;
-import com.dd25.dietiestates25.dto.response.StringResponse;
+import com.dd25.dietiestates25.dto.response.AuthResponse;
 import com.dd25.dietiestates25.model.Client;
 import com.dd25.dietiestates25.repository.AccountRepository;
 import com.dd25.dietiestates25.service.utilityservice.JwtService;
@@ -21,7 +21,7 @@ public class ClientService
     private final PasswordEncoder encoder;
     private final JwtService jwtService;
 
-    public StringResponse registerClient(AccountRegisterRequest request)
+    public AuthResponse registerClient(AccountRegisterRequest request)
     {
         repo.findById(request.email()).ifPresent(client -> 
             {throw new IllegalStateException(StringConstants.EMAIL_ALREADY_REGISTERED_MESSAGE);});
@@ -30,6 +30,6 @@ public class ClientService
         repo.save(client);  
 
         String token = jwtService.generateToken(client);
-        return new StringResponse(token);
+        return new AuthResponse(token);
     }
 }

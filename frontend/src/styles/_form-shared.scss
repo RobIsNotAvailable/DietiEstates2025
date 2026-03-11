@@ -1,4 +1,5 @@
 @use 'variables' as *;
+@use 'animations' as *;
 
 $form-black: #000000;
 $form-gray-muted: #636e72;
@@ -8,266 +9,266 @@ $form-input-radius: 12px;
 
 @mixin form-card($width, $title-font) 
 {
-  background: white;
-  padding: 40px 60px;
-  border-radius: 25px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-  width: 100%;
-  max-width: $width;
+	background: white;
+	padding: 40px 60px;
+	border-radius: 25px;
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+	width: 100%;
+	max-width: $width;
 
-  h2 
-  {
-    text-align: center;
-    margin-bottom: 30px;
-    color: #212529;
-    font-size: $title-font;
-    font-weight: 800;
-  }
+	h2 
+	{
+		text-align: center;
+		margin-bottom: 30px;
+		color: #212529;
+		font-size: $title-font;
+		font-weight: 800;
+	}
 }
 
 @mixin form-input-group 
 {
-  position: relative; 
-  margin-bottom: 20px;
+	position: relative; 
+	margin-bottom: 20px;
 
-  label 
-  {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 700;
-    font-size: $form-label-size;
-  }
+	label 
+	{
+		display: block;
+		margin-bottom: 8px;
+		font-weight: 700;
+		font-size: $form-label-size;
+	}
 
-  input 
-  {
-    width: 100%;
-    padding: 15px; 
-    padding-right: 45px; 
-    font-size: $text-md;
-    border: 2px solid $form-black;
-    border-radius: $form-input-radius;
-    box-sizing: border-box;
+	input 
+	{
+		width: 100%;
+		padding: 15px; 
+		padding-right: 45px; 
+		font-size: $text-md;
+		border: 2px solid $form-black;
+		border-radius: $form-input-radius;
+		box-sizing: border-box;
 
-    &:focus 
-    {
-      outline: none;
-      border-width: 3px; 
-    }
-  }
+		&:focus 
+		{
+		outline: none;
+		border-width: 3px; 
+		}
+	}
 }
 
 @mixin form-button-black
 {
-  width: 100%;
-  padding: 15px;
-  background: $form-black;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-weight: bold;
-  font-size: $text-md;
-  cursor: pointer;
-  transition: all 0.3s ease;
+	width: 100%;
+	padding: 15px;
+	background: $form-black;
+	color: white;
+	border: none;
+	border-radius: 10px;
+	font-weight: bold;
+	font-size: $text-md;
+	cursor: pointer;
+	transition: all 0.3s ease;
 
-  &:disabled 
-  {
-    background: #bdc3c7;
-    cursor: not-allowed;
-  }
+	&:disabled 
+	{
+		background: #bdc3c7;
+		cursor: not-allowed;
+	}
 
-  &:hover:not(:disabled) 
-  {
-    background: #333333;
-    transform: translateY(-3px);
-  }
+	&:hover:not(:disabled) 
+	{
+		background: #333333;
+		transform: translateY(-3px);
+	}
 }
 
 @mixin form-button-white 
 {
-  width: 100%;
-  padding: 15px;
-  background: $form-black;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-weight: bold;
-  font-size: $text-md;
-  cursor: pointer;
-  transition: all 0.3s ease;
+	width: 100%;
+	padding: 15px;
+	background: $form-black;
+	color: white;
+	border: none;
+	border-radius: 10px;
+	font-weight: bold;
+	font-size: $text-md;
+	cursor: pointer;
+	transition: all 0.3s ease;
 
-  &:disabled 
-  {
-    background: #bdc3c7;
-    cursor: not-allowed;
-  }
+	&:disabled 
+	{
+		background: #bdc3c7;
+		cursor: not-allowed;
+	}
 
-  &:hover:not(:disabled) 
-  {
-    background-color: #e9ecef;
-    border-color: #bdc3c7;
-    transform: translateY(-3px);
-  }
+	&:hover:not(:disabled) 
+	{
+		background-color: #e9ecef;
+		border-color: #bdc3c7;
+		transform: translateY(-3px);
+	}
 }
 
 @mixin form-footer-section 
 {
-  margin-top: 25px;
-  text-align: center;
-  border-top: 1px solid #eee;
-  padding-top: 20px;
+	margin-top: 25px;
+	text-align: center;
+	border-top: 1px solid #eee;
+	padding-top: 20px;
 
-  span 
-  {
-      display: block;
-      margin-bottom: 10px;
-      color: $form-gray-muted;
-  }
+	span 
+	{
+		display: block;
+		margin-bottom: 10px;
+		color: $form-gray-muted;
+	}
 
-  .btn-link 
-  {
-    width: 100%;
-    background: white;
-    border: 2px solid $form-black;
-    color: $form-black;
-    padding: 12px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: $text-base;
-    cursor: pointer;
-    transition: all 0.3s ease;
+	.btn-link 
+	{
+		width: 100%;
+		background: white;
+		border: 2px solid $form-black;
+		color: $form-black;
+		padding: 12px;
+		border-radius: 10px;
+		font-weight: 700;
+		font-size: $text-base;
+		cursor: pointer;
+		transition: all 0.3s ease;
 
-    &:hover 
-    {
-      background: #f8f9fa;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-  }
+		&:hover 
+		{
+			background: #f8f9fa;
+			transform: translateY(-2px);
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		}
+	}
 }
 
 @mixin form-field-structure 
 {
-  position: relative; 
-  margin-top: 45px;
-  margin-bottom: 30px;
-  width: 100%;
+	position: relative; 
+	margin-top: 45px;
+	margin-bottom: 30px;
+	width: 100%;
 
-  input
-  {
-      width: 100%;
-      padding: 15px; 
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      outline: none;
+	input
+	{
+		width: 100%;
+		padding: 15px; 
+		border: 1px solid #ccc;
+		border-radius: 8px;
+		outline: none;
 
-      &:focus ~ label,
-      &:not(:placeholder-shown) ~ label
-      {
-          top: -14px;
-          left: 10px;
-          font-size: $text-lg;
-          background: transparent;
-          padding: 0 5px;
-          color: #1a2a3a;
-      }
-  }
+		&:focus ~ label,
+		&:not(:placeholder-shown) ~ label
+		{
+			top: -14px;
+			left: 10px;
+			font-size: $text-lg;
+			background: transparent;
+			padding: 0 5px;
+			color: #1a2a3a;
+		}
+	}
 
-  label
-  {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%); 
-      transition: all 0.2s ease;
-      pointer-events: none;
-      color: #888;
-  }
-  label 
-  {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%); 
-    transition: all 0.2s ease;
-    pointer-events: none;
-    
-    color: #888;
-    font-weight: 700;
-    font-size: $form-label-size;
-    display: block;
-    margin-bottom: 0;
-  }
+	label
+	{
+		position: absolute;
+		left: 15px;
+		top: 50%;
+		transform: translateY(-50%); 
+		transition: all 0.2s ease;
+		pointer-events: none;
+		color: #888;
+	}
+	label 
+	{
+		position: absolute;
+		left: 15px;
+		top: 50%;
+		transform: translateY(-50%); 
+		transition: all 0.2s ease;
+		pointer-events: none;
 
-  input 
-  {
-    display: block;
-    width: 100%;
-    padding: 15px; 
-    font-size: $text-base;
-    color: #1a2a3a;
-    
-    border: 2px solid $form-black;
-    border-radius: $form-input-radius;
-    box-sizing: border-box;
-    outline: none;
-    background: transparent;
+		color: #888;
+		font-weight: 700;
+		font-size: $form-label-size;
+		display: block;
+		margin-bottom: 0;
+	}
 
-    &:focus ~ label,
-    &:not(:placeholder-shown) ~ label 
-    {
-      top: -14px;
-      left: 10px;
-      font-size: $text-lg;
-      font-weight: 700;
-      background: transparent;
-      padding: 0 5px;
-      color: #1a2a3a;
-    }
+	input 
+	{
+		display: block;
+		width: 100%;
+		padding: 15px; 
+		font-size: $text-base;
+		color: #1a2a3a;
 
-    &.is-invalid 
-    {
-      border-color: $error-red;
-      border-width: 2px;
-    }
+		border: 2px solid $form-black;
+		border-radius: $form-input-radius;
+		box-sizing: border-box;
+		outline: none;
+		background: transparent;
 
-    &:focus 
-    {
-      border-width: 3px; 
-    }
-  }
+		&:focus ~ label,
+		&:not(:placeholder-shown) ~ label 
+		{
+			top: -14px;
+			left: 10px;
+			font-size: $text-lg;
+			font-weight: 700;
+			background: transparent;
+			padding: 0 5px;
+			color: #1a2a3a;
+		}
 
-  .input-wrapper 
-  {
-    position: relative;
-    width: 100%;
+		&.is-invalid 
+		{
+			border-color: $error-red;
+			border-width: 2px;
+		}
 
-    input { padding-right: 45px !important; }
+		&:focus 
+		{
+			border-width: 3px; 
+		}
+	}
 
-    .toggle-password 
-    {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: $form-gray-muted;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      
-      i { font-size: $text-lg; }
-    }
-  }
+	.input-wrapper 
+	{
+		position: relative;
+		width: 100%;
 
-  .error-message 
-  {
-    position: absolute;
-    color: $error-red;
-    font-size: $text-sm;
-    margin-top: 5px;
-    margin-left: 5px;
-    font-weight: 500;
-  }
+		input { padding-right: 45px !important; }
+
+		.toggle-password 
+		{
+			position: absolute;
+			right: 15px;
+			top: 50%;
+			transform: translateY(-50%);
+			background: none;
+			border: none;
+			cursor: pointer;
+			color: $form-gray-muted;
+			z-index: 10;
+			display: flex;
+			align-items: center;
+
+			i { font-size: $text-lg; }
+		}
+	}
+
+	.error-message 
+	{
+		color: $error-red;
+		font-size: $text-sm;
+		font-weight: 600;
+		margin-top: 5px;
+		margin-left: 5px;
+		@include entrance-animation(0s, 5px);
+	}
 }

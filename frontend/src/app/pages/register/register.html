@@ -37,9 +37,12 @@
                 </div>
 
                 <div class="form-field">
-                    <div class="input-wrapper" style="position: relative;">
-                        <input [type]="hidePassword ? 'password' : 'text'" id="passwordField" formControlName="rawPassword"  placeholder=" "
-                            [class.is-invalid]="(isSubmitted && registerForm.get('rawPassword')?.invalid) || (serverErrorMessage && !serverErrorMessage.toLowerCase().includes('email'))">
+                    <div class="input-wrapper">
+                        <input [type]="hidePassword ? 'password' : 'text'" 
+                        formControlName="rawPassword" 
+                        id="passwordField"
+                        placeholder=" "
+                        [class.is-invalid]="(isSubmitted && registerForm.get('rawPassword')?.invalid) || (serverErrorMessage && !serverErrorMessage.toLowerCase().includes('email'))">
                         
                         <label for="passwordField">Password</label>
 
@@ -54,10 +57,19 @@
                 </div>
 
                 <div class="form-field">
-                    <input [type]="hidePassword ? 'password' : 'text'" formControlName="repeatPassword" placeholder=" "
-                        [class.is-invalid]="isSubmitted && registerForm.hasError('mismatch')">
-                    
-                    <label for="repeatPassword">Repeat password</label>
+                    <div class="input-wrapper">
+                        <input [type]="hidePassword ? 'password' : 'text'" 
+                            formControlName="repeatPassword" 
+                            id="repeatPassword"
+                            placeholder=" " 
+                            [class.is-invalid]="isSubmitted && registerForm.hasError('mismatch')">
+                        
+                        <label for="repeatPassword">Repeat Password</label>
+                        
+                        <button type="button" class="toggle-password" (click)="togglePassword()" tabindex="-1">
+                            <i [className]="hidePassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                        </button>
+                    </div>
 
                     <div *ngIf="isSubmitted && registerForm.hasError('mismatch')" class="error-message">
                         Passwords do not match

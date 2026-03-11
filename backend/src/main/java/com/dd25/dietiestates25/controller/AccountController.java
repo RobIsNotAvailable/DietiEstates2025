@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 import com.dd25.dietiestates25.dto.request.ChangePasswordRequest;
 import com.dd25.dietiestates25.dto.request.ResetPasswordRequest;
 import com.dd25.dietiestates25.dto.response.AccountDetailsResponse;
-import com.dd25.dietiestates25.dto.response.StringResponse;
+import com.dd25.dietiestates25.dto.response.AuthResponse;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -28,17 +28,17 @@ public class AccountController
     private final AccountService accountService;
 
     @PatchMapping("/change-password")
-    public ResponseEntity<StringResponse> changePassword(@RequestBody @Valid ChangePasswordRequest request) 
+    public ResponseEntity<AuthResponse> changePassword(@RequestBody @Valid ChangePasswordRequest request) 
     {
         accountService.changePassword(request);
-        return ResponseEntity.ok(new StringResponse("Password successfully updated"));
+        return ResponseEntity.ok(new AuthResponse("Password successfully updated"));
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<StringResponse> forgotPassword(@RequestBody @Valid ResetPasswordRequest request)
+    public ResponseEntity<AuthResponse> forgotPassword(@RequestBody @Valid ResetPasswordRequest request)
     {
         accountService.forgotPassword(request);
-        return ResponseEntity.ok(new StringResponse("Password reset link sent to email"));
+        return ResponseEntity.ok(new AuthResponse("Password reset link sent to email"));
     }
 
     @GetMapping("/me")

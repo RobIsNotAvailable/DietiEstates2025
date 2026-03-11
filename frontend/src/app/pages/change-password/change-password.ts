@@ -92,7 +92,7 @@ export class ChangePasswordComponent implements OnInit
         {
           if (err.status === 500 || err.status === 0) 
           {
-            alert("Something went wrong on our side. Please try again or refresh the page.");
+            alert("Something went wrong on our side. Please try again or refresh the page");
           }
           else
           {

@@ -19,15 +19,15 @@
 			<form [formGroup]="staffForm" (ngSubmit)="onSubmit()">
 
 				<div class="form-field">
-					<input type="text" id="firstNameField" formControlName="firstName" placeholder=" ">
-					[class.is-invalid]="isSubmitted && staffForm.get('firstName')?.invalid"
+					<input type="text" id="firstNameField" formControlName="firstName" placeholder=" "
+					[class.is-invalid]="isSubmitted && staffForm.get('firstName')?.invalid">
 
 					<label for="firstNameField">First name</label>
 				</div>
 
 				<div class="form-field">
-					<input type="text" id="lastNameField" formControlName="lastName" placeholder=" ">
-					[class.is-invalid]="isSubmitted && staffForm.get('lastName')?.invalid"
+					<input type="text" id="lastNameField" formControlName="lastName" placeholder=" "
+					[class.is-invalid]="isSubmitted && staffForm.get('lastName')?.invalid">
 
 					<label for="lastNameField">Last name</label>
 				</div>

@@ -48,7 +48,7 @@ export class CreateStaffComponent implements OnInit
     {
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required]]
     });
   }
 
@@ -74,9 +74,9 @@ export class CreateStaffComponent implements OnInit
 
     this.http.post(url, payload, { responseType: 'text' }).subscribe(
     {
-      next: (response) => 
+      next: () => 
       {
-        console.log('Success:', response);
+        var role = this.roleType.charAt(0).toUpperCase() + this.roleType.slice(1).toLowerCase();
         alert(`${this.roleType} account created successfully!`); 
         this.router.navigate(['/home']);
       },

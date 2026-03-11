@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; 
+import { FormBuilder, FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -20,15 +20,22 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class SetupPasswordComponent implements OnInit 
 {
-  setupForm!: FormGroup; 
+  setupForm: FormGroup; 
   token: string | null = null;
   serverErrorMessage = '';
   isSubmitted = false;
   hidePassword = true;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private http: HttpClient, private router: Router, private cd: ChangeDetectorRef) 
+  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router, private cd: ChangeDetectorRef) 
   {
-    this.initForm();
+    this.setupForm = new FormGroup(
+    {
+      newPassword: new FormControl('', [Validators.required]),
+      repeatPassword: new FormControl('', [Validators.required])
+    },
+    { 
+      validators: (g: any) => this.passwordMatchValidator(g) 
+    });
   }
 
   ngOnInit(): void 
@@ -36,22 +43,11 @@ export class SetupPasswordComponent implements OnInit
     this.token = this.route.snapshot.paramMap.get('token');
   }
 
-  private initForm(): void 
-  {
-    this.setupForm = this.fb.group(
-    {
-      newPassword: ['', [Validators.required]],
-      repeatPassword: ['', [Validators.required]]
-    }, 
-    { 
-      validators: this.passwordMatchValidator 
-    });
-  }
-
   private passwordMatchValidator(g: FormGroup) 
   {
-    return g.get('newPassword')?.value === g.get('repeatPassword')?.value
-      ? null : { 'mismatch': true };
+    const pass = g.get('newPassword')?.value;
+    const confirmPass = g.get('repeatPassword')?.value;
+    return pass === confirmPass ? null : { mismatch: true };
   }
 
   togglePassword(): void 
@@ -61,9 +57,12 @@ export class SetupPasswordComponent implements OnInit
 
   isButtonDisabled(): boolean 
   {
-    const newPass = this.setupForm.get('newPassword')?.value;
-    const repeatPass = this.setupForm.get('repeatPassword')?.value;
-    return !newPass || !repeatPass;
+    const controls = this.setupForm.controls;
+    
+    return (
+      controls['newPassword'].invalid ||
+      controls['repeatPassword'].invalid
+    );
   }
 
   onSubmit(): void 
