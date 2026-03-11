@@ -165,7 +165,7 @@ export class HomeComponent implements OnInit
         break;
 
       case 'CREATE_LISTING':
-        this.router.navigate(['/new-listing']);
+        this.router.navigate(['/create-listing']);
         break;
 
       default:

@@ -1,0 +1,49 @@
+<div class="stepper-container">
+  <header class="stepper-card">
+    <div class="stepper-content">
+      
+      <div class="step-item" (click)="setStep(1)" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
+        <div class="step-circle">
+          <span *ngIf="currentStep <= 1">1</span>
+          <i *ngIf="currentStep > 1" class="bx bx-check"></i>
+        </div>
+        <span class="step-label">General Info</span>
+      </div>
+
+      <div class="step-line" [class.filled]="currentStep > 1"></div>
+
+      <div class="step-item" (click)="setStep(2)" [class.active]="currentStep === 2" [class.completed]="currentStep > 2">
+        <div class="step-circle">
+          <span *ngIf="currentStep <= 2">2</span>
+          <i *ngIf="currentStep > 2" class="bx bx-check"></i>
+        </div>
+        <span class="step-label">Position</span>
+      </div>
+
+      <div class="step-line" [class.filled]="currentStep > 2"></div>
+
+      <div class="step-item" (click)="setStep(3)" [class.active]="currentStep === 3">
+        <div class="step-circle">3</div>
+        <span class="step-label">Extra Details</span>
+      </div>
+
+    </div>
+  </header>
+</div>
+
+<div class="content-container">
+  <div [ngSwitch]="currentStep" class="step-wrapper">
+    <app-step-general-info *ngSwitchCase="1"></app-step-general-info>
+    <app-step-location     *ngSwitchCase="2"></app-step-location>
+    <app-step-details      *ngSwitchCase="3"></app-step-details>
+  </div>
+
+  <div class="debug-actions">
+    <button (click)="setStep(currentStep - 1)" [disabled]="currentStep === 1">
+      Indietro
+    </button>
+    <button (click)="setStep(currentStep + 1)" [disabled]="currentStep === 3">
+      Avanti
+    </button>
+  </div>
+</div>
