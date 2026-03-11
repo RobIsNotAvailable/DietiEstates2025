@@ -110,8 +110,8 @@ export class HomeComponent implements OnInit
     if (!this.isUserLoggedIn || role == 'CLIENT')
     {
       this.quickOptions = [
-        { title: 'Your offers', subtitle: 'Submit a proposal for your dream home', icon: 'bx bx-edit-alt', action: 'OFFERS' },
-        { title: 'Your appointments', subtitle: 'Manage and track your scheduled meetings', icon: 'bx-calendar-check', action: 'APPOINTMENT' },
+        { title: 'Your offers', subtitle: 'Check on your previous offers', icon: 'bx bx-edit-alt', action: 'OFFERS' },
+        { title: 'Your appointments', subtitle: 'Manage and track your scheduled appointments', icon: 'bx-calendar', action: 'APPOINTMENTS' },
         { title: 'Saved', subtitle: 'Check back on your favorite houses', icon: 'bx bx-bookmark-alt', action: 'SAVED' },
         { title: 'History', subtitle: 'Review your previous activities', icon: 'bx-history', action: 'HISTORY' }
       ];
