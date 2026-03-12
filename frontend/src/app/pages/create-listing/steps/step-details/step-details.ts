@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-step-details',
@@ -6,6 +7,8 @@ import { Component } from '@angular/core';
   templateUrl: './step-details.html',
   styleUrl: './step-details.scss',
 })
-export class StepDetailsComponent{
+export class StepDetailsComponent
+{
+  @Input() parentForm!: FormGroup;
 
 }

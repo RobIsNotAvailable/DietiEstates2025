@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-step-location',
@@ -7,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './step-location.scss',
 })
 export class StepLocationComponent {
+  @Input() parentForm!: FormGroup;
 
 }

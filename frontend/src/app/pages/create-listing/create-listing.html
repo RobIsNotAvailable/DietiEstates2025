@@ -1,7 +1,6 @@
 <div class="stepper-container">
   <header class="stepper-card">
     <div class="stepper-content">
-      
       <div class="step-item" (click)="setStep(1)" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
         <div class="step-circle">
           <span *ngIf="currentStep <= 1">1</span>
@@ -9,7 +8,6 @@
         </div>
         <span class="step-label">General Info</span>
       </div>
-
       <div class="step-line" [class.filled]="currentStep > 1"></div>
 
       <div class="step-item" (click)="setStep(2)" [class.active]="currentStep === 2" [class.completed]="currentStep > 2">
@@ -19,23 +17,32 @@
         </div>
         <span class="step-label">Position</span>
       </div>
-
       <div class="step-line" [class.filled]="currentStep > 2"></div>
 
       <div class="step-item" (click)="setStep(3)" [class.active]="currentStep === 3">
         <div class="step-circle">3</div>
         <span class="step-label">Extra Details</span>
       </div>
-
     </div>
   </header>
 </div>
 
 <div class="content-container">
   <div [ngSwitch]="currentStep" class="step-wrapper">
-    <app-step-general-info *ngSwitchCase="1"></app-step-general-info>
-    <app-step-location     *ngSwitchCase="2"></app-step-location>
-    <app-step-details      *ngSwitchCase="3"></app-step-details>
+    <app-step-general-info 
+      *ngSwitchCase="1" 
+      [parentForm]="listingForm">
+    </app-step-general-info>
+
+    <app-step-location     
+      *ngSwitchCase="2" 
+      [parentForm]="listingForm">
+    </app-step-location>
+
+    <app-step-details      
+      *ngSwitchCase="3" 
+      [parentForm]="listingForm">
+    </app-step-details>
   </div>
 
   <div class="debug-actions">

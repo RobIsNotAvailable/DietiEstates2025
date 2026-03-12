@@ -1,1 +1,75 @@
-<p>pagina general info</p>
+<form class="general-info-container" *ngIf="parentForm" [formGroup]="generalGroup">
+    
+   <div class="photo-upload-section">
+        <div class="slider-wrapper" *ngIf="imagePreviews.length > 0">
+            <div class="slider-container">
+                <div class="loading-overlay" *ngIf="isUploading">
+                    <div class="spinner"></div>
+                </div>
+
+                <img [src]="imagePreviews[currentIndex]" class="slider-image">
+                
+                <button type="button" class="remove-btn" (click)="removeImage(currentIndex)">×</button>
+
+                <button type="button" class="nav-btn prev" (click)="prevSlide()" *ngIf="imagePreviews.length > 1">
+                    <i class='bx bx-chevron-left'></i>
+                </button>
+                <button type="button" class="nav-btn next" (click)="nextSlide()" *ngIf="imagePreviews.length > 1">
+                    <i class='bx bx-chevron-right'></i>
+                </button>
+            </div>
+            
+            <div class="slider-dots" *ngIf="imagePreviews.length > 1">
+                <span *ngFor="let dot of imagePreviews; let i = index" 
+                    [class.active]="i === currentIndex"
+                    (click)="currentIndex = i">
+                </span>
+            </div>
+
+            <button type="button" class="add-more-btn" (click)="fileInput.click()">
+                <i class='bx bx-plus'></i> Aggiungi altre foto
+            </button>
+        </div>
+
+        <div class="empty-gallery" (click)="fileInput.click()" *ngIf="imagePreviews.length === 0">
+            <div class="spinner" *ngIf="isUploading"></div>
+            <ng-container *ngIf="!isUploading">
+                <i class='bx bx-image-add'></i>
+                <p>Carica le foto dell'immobile</p>
+            </ng-container>
+        </div>
+
+        <input #fileInput type="file" (change)="onFilesSelected($event)" multiple hidden accept="image/*">
+    </div>
+
+    <div class="form-row">
+        <div class="form-field main-field">
+            <input type="text" id="listingName" formControlName="name" placeholder=" ">
+            <label for="listingName">Listing Name</label>
+        </div>
+        <div class="form-field">
+            <select id="listingType" formControlName="type" [class.has-value]="generalGroup.get('type')?.value">
+                <option value="" selected hidden></option>
+                <option value="vendita">Sale</option>
+                <option value="affitto">Rent</option>
+            </select>
+            <label for="listingType">Listing Type</label>
+            <i class="bx bx-chevron-down select-icon"></i>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-field price-field">
+            <input type="number" id="listingPrice" formControlName="price" placeholder=" ">
+            <label for="listingPrice">Price (€)</label>
+        </div>
+    </div>
+
+    <div class="form-field textarea-field">
+        <textarea id="listingDescription" formControlName="description" rows="5" placeholder=" "></textarea>
+        <label for="listingDescription">Description</label>
+    </div>
+
+    <p class="info-text">* all fields are mandatory</p>
+</form>
+
