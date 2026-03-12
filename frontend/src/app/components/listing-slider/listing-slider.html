@@ -1,0 +1,27 @@
+<div class="slider-container" *ngIf="images.length > 0">
+    <div class="background-blur" [style.background-image]="'url(' + images[currentIndex] + ')'"></div>
+
+    <img [src]="images[currentIndex]" class="slider-image" alt="Listing image">
+    
+    <ng-content></ng-content>
+
+    <ng-container *ngIf="images.length > 1">
+        <button type="button" class="nav-btn prev" (click)="prevSlide()">
+            <i class='bx bx-chevron-left'></i>
+        </button>
+        <button type="button" class="nav-btn next" (click)="nextSlide()">
+            <i class='bx bx-chevron-right'></i>
+        </button>
+
+        <div class="slider-dots">
+            <span *ngFor="let dot of images; let i = index" 
+                  [class.active]="i === currentIndex"
+                  (click)="goToSlide(i)">
+            </span>
+        </div>
+    </ng-container>
+</div>
+
+<div class="no-image" *ngIf="images.length === 0">
+    <i class='bx bx-image-alt'></i>
+</div>
