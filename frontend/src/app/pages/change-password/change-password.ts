@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControlOptions, FormGroup, ReactiveFormsModule, Validators, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router,RouterModule } from '@angular/router';
 import { AccountService } from '../../services/account';
@@ -13,33 +13,25 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: './change-password.html',
   styleUrls: ['./change-password.scss']
 })
-export class ChangePasswordComponent implements OnInit 
+export class ChangePasswordComponent
 {
-  setupForm!: FormGroup; 
+  setupForm: FormGroup; 
   hideOldPassword = true;
   hideNewPassword = true;
   isSubmitted = false;
-  serverErrorMessage = '';
+  serverErrorMessage: string | null = null;
 
-  constructor(
-    private fb: FormBuilder, 
-    private accountService: AccountService, 
-    private router: Router, 
-    private cd: ChangeDetectorRef,  
-  ) 
-  {}
-
-  ngOnInit(): void 
+  constructor(private accountService: AccountService, private router: Router, private cd: ChangeDetectorRef)
   {
-    this.setupForm = this.fb.group(
-    {
-      oldPassword: ['', [Validators.required]], 
-      newPassword: ['', [Validators.required]],
-      repeatPassword: ['', [Validators.required]]
-    }, 
-    {
-      validators: [this.passwordMatchValidator] 
-    } as AbstractControlOptions);
+    this.setupForm = new FormGroup(
+      {
+      oldPassword: new FormControl ('', [Validators.required]), 
+      newPassword: new FormControl ('', [Validators.required]),
+      repeatPassword: new FormControl ('', [Validators.required])
+      },
+      {
+        validators: (g: any) => this.passwordMatchValidator(g)
+      });
   }
 
   passwordMatchValidator(g: FormGroup) 
@@ -73,6 +65,7 @@ export class ChangePasswordComponent implements OnInit
 
   onSubmit() 
   { 
+    this.serverErrorMessage = null;
     this.isSubmitted = true;
     
     if (this.setupForm.invalid) 
@@ -101,6 +94,7 @@ export class ChangePasswordComponent implements OnInit
 
           if (err.status !== 500) 
           {
+            console.log(this.serverErrorMessage);
             this.setupForm.get('newPassword')?.markAsTouched();
             this.setupForm.get('oldPassword')?.markAsTouched();
             this.cd.detectChanges();

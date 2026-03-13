@@ -79,12 +79,4 @@ export class AuthService
       return null;
     }
   }
-
-  changePassword(formData: any): Observable<string> 
-  {
-      return this.http.patch(`${this.apiUrl}/accounts/change-password`, formData, 
-      { 
-          responseType: 'text' 
-      });
-  }
 }
