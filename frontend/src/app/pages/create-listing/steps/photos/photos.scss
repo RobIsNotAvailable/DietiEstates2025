@@ -1,0 +1,115 @@
+@use 'variables' as *;
+@use 'form-shared' as *;
+
+.photo-upload-container 
+{
+    display: flex;
+    flex-direction: column;
+    gap: 35px; 
+
+    .section-label 
+    {
+        display: block;
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 12px;
+        color: #333;
+    }
+
+    @mixin upload-box-base 
+    {
+        width: 100%;
+        border: 2px dashed #ccc;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: #f9f9f9;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover { border-color: #000; background: #f4f4f4; }
+        
+        p { color: #888; margin: 0; font-weight: 500; }
+        i { font-size: 48px; color: #ccc; margin-bottom: 10px; }
+    }
+
+    .planimetry-upload-section,
+    .photo-upload-section
+    {
+        .slider-wrapper 
+        {
+            width: 100%;
+            position: relative;
+            
+            app-listing-slider {
+                display: block;
+                height: 450px; 
+            }
+        }
+
+        .empty-gallery { @include upload-box-base; height: 450px; }
+    }
+
+    .remove-btn 
+    {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 32px;
+        height: 32px;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid #000;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 20; 
+        font-size: 18px;
+        transition: all 0.2s ease;
+
+        &:hover { 
+            background: #000; 
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        &.small { width: 28px; height: 28px; top: 10px; right: 10px; }
+    }
+
+    .add-more-btn 
+    {
+        margin-top: 15px;
+        width: 100%;
+        padding: 12px;
+        border: 2px dashed #ccc;
+        background: #fff;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-weight: 500;
+        
+        &:hover { border-color: #000; background: #f9f9f9; }
+        i { font-size: 20px; }
+    }
+}
+
+.spinner 
+{
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid $green-primary;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

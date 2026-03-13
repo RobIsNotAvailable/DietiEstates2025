@@ -6,7 +6,6 @@ $container-padding: 20px;
 
 .stepper-container 
 {
-    
     display: flex;
     justify-content: center;
     width: 100%;
@@ -18,19 +17,42 @@ $container-padding: 20px;
 
     .stepper-card 
     {
-        background: $white-pure;
-        padding: 20px 40px;
-        border-radius: 20px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        width: 100%;
-        max-width: $card-width;
-    }
-
-    .stepper-content 
-    {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-between; 
+        padding: 0 40px; 
+        height: 100px; 
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        
+        width: 100%; 
+        max-width: $card-width; 
+
+        .logo-section 
+        {
+            cursor: pointer;
+            flex-shrink: 0; 
+            margin-right: 30px; 
+
+            .logo-text 
+            {
+                font-size: $text-xxxl; 
+                font-weight: 800;
+                color: #1a2a3a;
+                letter-spacing: -1.5px;
+                line-height: 1;
+                white-space: nowrap; // Impedisce al logo di andare a capo
+            }
+        }
+
+        .stepper-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; // Cambiato da flex-end a space-between
+            flex-grow: 1; 
+            // max-width: 600px; // Se lo vedi ancora troppo stretto, alza questo valore o toglilo
+        }
     }
 }
 

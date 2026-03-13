@@ -1,0 +1,50 @@
+<div class="photo-upload-container" [formGroup]="photosGroup">
+    
+    <div class="photo-upload-section">
+        <label class="section-label">Property Photos</label>
+        
+        <div class="slider-wrapper" *ngIf="imagePreviews.length > 0">
+            <app-listing-slider [images]="imagePreviews" [(currentIndex)]="currentIndex">
+                <button type="button" class="remove-btn" (click)="removeImage(currentIndex)">×</button>
+            </app-listing-slider>
+            
+            <button type="button" class="add-more-btn" (click)="photoInput.click()">
+                <i class='bx bx-plus'></i> Add more photos
+            </button>
+        </div>
+
+        <div class="empty-gallery" (click)="photoInput.click()" *ngIf="imagePreviews.length === 0">
+            <div class="spinner" *ngIf="isUploading"></div>
+            <ng-container *ngIf="!isUploading">
+                <i class='bx bx-image-add'></i>
+                <p>Upload property photos</p>
+            </ng-container>
+        </div>
+        
+        <input #photoInput type="file" (change)="onFilesSelected($event)" multiple hidden accept="image/*">
+    </div>
+
+    <div class="planimetry-upload-section">
+        <label class="section-label">Planimetry</label>
+        
+        <div class="slider-wrapper" *ngIf="planimetryPreview.length > 0">
+            <app-listing-slider [images]="planimetryPreview" [(currentIndex)]="currentPlanimetryIndex">
+                <button type="button" class="remove-btn" (click)="removePlanimetry(currentPlanimetryIndex)">×</button>
+            </app-listing-slider>
+            
+            <button type="button" class="add-more-btn" (click)="planInput.click()">
+                <i class='bx bx-plus'></i> Add planimetry
+            </button>
+        </div>
+
+        <div class="empty-gallery" (click)="planInput.click()" *ngIf="planimetryPreview.length === 0">
+            <div class="spinner" *ngIf="isUploadingPlanimetry"></div>
+            <ng-container *ngIf="!isUploadingPlanimetry">
+                <i class='bx bx-map-alt'></i>
+                <p>Upload planimetry</p>
+            </ng-container>
+        </div>
+        
+        <input #planInput type="file" (change)="onPlanimetrySelected($event)" multiple hidden accept="image/*">
+    </div>
+</div>

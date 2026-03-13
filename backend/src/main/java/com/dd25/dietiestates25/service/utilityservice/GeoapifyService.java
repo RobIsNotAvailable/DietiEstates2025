@@ -1,5 +1,6 @@
 package com.dd25.dietiestates25.service.utilityservice;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +14,7 @@ import com.dd25.dietiestates25.dto.response.GeoapifyResponse;
 import com.dd25.dietiestates25.model.Address;
 import com.dd25.dietiestates25.model.SurroundingInfo;
 
+import io.jsonwebtoken.lang.Collections;
 import lombok.RequiredArgsConstructor;
 
 @Service 
@@ -25,20 +27,41 @@ public class GeoapifyService
 
     private final RestTemplate restTemplate;
 
+
+    public List<GeoapifyProperties> getPossibleAddresses(String rawAddress) 
+    {
+        String url = UriComponentsBuilder
+                .fromUriString("https://api.geoapify.com/v1/geocode/autocomplete")
+                .queryParam("text", rawAddress)
+                .queryParam("apiKey", apiKey)
+                .queryParam("limit", 5)
+                .queryParam("filter", "countrycode:it") 
+                .queryParam("lang", "it")
+                .build()
+                .toUriString();
+
+        GeoapifyResponse response = restTemplate.getForObject(url, GeoapifyResponse.class);
+
+        return Optional.ofNullable(response)
+                .map(GeoapifyResponse::properties)
+                .orElse(Collections.emptyList());
+    }
+
     public Address normalizeAddress(String rawAddress) 
     {
         String url = UriComponentsBuilder
-                .fromUriString("https://api.geoapify.com/v1/geocode/search")
-                .queryParam("text", rawAddress)
-                .queryParam("apiKey", apiKey)
-                .build()
-                .toUriString();
+            .fromUriString("https://api.geoapify.com/v1/geocode/search")
+            .queryParam("text", rawAddress)
+            .queryParam("apiKey", apiKey)
+            .build()
+            .toUriString();
 
         GeoapifyResponse response = restTemplate.getForObject(url, GeoapifyResponse.class);
 
         GeoapifyProperties props = Optional.ofNullable(response)
             .map(res -> res.properties().get(0))
             .orElseThrow(() -> new IllegalArgumentException("Address not found"));
+
 
         return mapToAddress(props);
     }

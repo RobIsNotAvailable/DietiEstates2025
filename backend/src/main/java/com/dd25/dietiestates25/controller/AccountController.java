@@ -2,7 +2,6 @@ package com.dd25.dietiestates25.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +20,6 @@ import com.dd25.dietiestates25.dto.response.AuthResponse;
 
 @RestController
 @RequestMapping("/api/accounts")
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class AccountController 
 {

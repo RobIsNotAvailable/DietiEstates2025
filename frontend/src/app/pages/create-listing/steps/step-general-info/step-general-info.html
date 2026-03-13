@@ -1,30 +1,4 @@
 <form class="general-info-container" *ngIf="parentForm" [formGroup]="generalGroup">
-    <div class="photo-upload-section">
-        <div class="slider-wrapper" *ngIf="imagePreviews.length > 0">
-            
-            <app-listing-slider 
-                [images]="imagePreviews" 
-                [(currentIndex)]="currentIndex">
-                
-                <button type="button" class="remove-btn" (click)="removeImage(currentIndex)">×</button>
-            </app-listing-slider>
-
-            <button type="button" class="add-more-btn" (click)="fileInput.click()">
-                <i class='bx bx-plus'></i> Add more photos
-            </button>
-        </div>
-
-        <div class="empty-gallery" (click)="fileInput.click()" *ngIf="imagePreviews.length === 0">
-            <div class="spinner" *ngIf="isUploading"></div>
-            <ng-container *ngIf="!isUploading">
-                <i class='bx bx-image-add'></i>
-                <p>Upload property photos</p>
-            </ng-container>
-        </div>
-
-        <input #fileInput type="file" (change)="onFilesSelected($event)" multiple hidden accept="image/*">
-    </div>
-
     <div class="form-row">
         <div class="form-field main-field">
             <input type="text" id="listingName" formControlName="name" placeholder=" ">
@@ -50,6 +24,18 @@
             </select>
             <label for="listingType">Listing Type</label>
             <i class="bx bx-chevron-down select-icon"></i>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-field">
+            <input type="number" id="listingSurface" formControlName="surface" placeholder=" ">
+            <label for="listingSurface">Surface (m²)</label>
+        </div>
+
+        <div class="form-field">
+            <input type="number" id="listingRooms" formControlName="rooms" placeholder=" ">
+            <label for="listingRooms">Number of Rooms</label>
         </div>
     </div>
 

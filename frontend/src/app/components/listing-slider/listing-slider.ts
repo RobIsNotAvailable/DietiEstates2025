@@ -6,7 +6,8 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './listing-slider.html',
-  styleUrls: ['./listing-slider.scss']
+  styleUrls: ['./listing-slider.scss'],
+  host: { 'tabindex': '0' }
 })
 
 export class ListingSliderComponent 
@@ -15,7 +16,7 @@ export class ListingSliderComponent
   @Input() currentIndex: number = 0;
   @Output() currentIndexChange = new EventEmitter<number>();
 
-  @HostListener('window:keydown', ['$event'])
+  @HostListener('keydown', ['$event'])
   handleKeyboard(event: KeyboardEvent) 
   {
     const target = event.target as HTMLElement;

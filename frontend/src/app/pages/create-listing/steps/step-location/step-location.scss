@@ -1,0 +1,125 @@
+@use 'variables' as *;
+@use 'form-shared' as *;
+
+
+.location-container 
+{
+    .step-title { margin-bottom: 30px; font-weight: 800; color: $black-pure; }
+
+    .form-field 
+    { 
+        @include form-field-structure; 
+        position: relative;
+    }
+    .loader-icon 
+    {
+        position: absolute;
+        right: 15px;
+        top: 50%; 
+        transform: translateY(-50%); 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1a2a3a;
+        pointer-events: none; 
+        
+        i {
+            font-size: 18px;
+            line-height: 1; 
+        }
+    }
+    .form-row 
+    {
+        display: flex;
+        gap: 15px;
+        margin-top: 0; 
+        .form-field { flex: 1; }
+    }
+
+    .location-layout-grid 
+    {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr; 
+        gap: 30px;
+        margin-top: 10px;
+
+        @media (max-width: 992px) { grid-template-columns: 1fr; }
+    }
+
+    .map-section 
+    {
+        .map-header 
+        {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+
+            .section-label { font-weight: 700; color: #1a2a3a; }
+            
+            .verify-btn 
+            {
+                background: white;
+                border: 1px solid #1a2a3a;
+                padding: 5px 12px;
+                border-radius: 8px;
+                font-size: 12px;
+                cursor: pointer;
+                transition: all 0.2s;
+                &:hover { background: #1a2a3a; color: white; }
+            }
+        }
+
+        .map-placeholder 
+        {
+            width: 100%;
+            height: 250px;
+            background: #f0f2f5;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            border: 2px dashed #ccc;
+
+            i { font-size: 40px; margin-bottom: 10px; }
+        }
+    }
+
+    .suggestions-panel 
+    {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        z-index: 100;
+        border: 1px solid #eee;
+        overflow: hidden;
+
+        .suggestion-item 
+        {
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            &:hover { background: #f8f9fa; }
+            i { margin-right: 12px; color: #1a2a3a; }
+            .main-address { display: block; font-weight: 700; font-size: 14px; }
+            .sub-address { font-size: 12px; color: #888; }
+        }
+    }
+
+    @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+}
