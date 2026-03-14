@@ -1,29 +1,93 @@
 <div class="location-container" *ngIf="parentForm" [formGroup]="locationGroup">
-  <h2 class="step-title">Inserisci la Posizione e le Dimensioni</h2>
+  <h2 class="step-title">Position</h2>
 
-  <div class="form-field address-field">
-    <div class="input-wrapper">
-      <input type="text" id="listingAddress" formControlName="address" placeholder=" " autocomplete="off">
-      <label for="listingAddress">Indirizzo Completo</label>
-      
-      <div class="loader-icon" *ngIf="isSearching">
-        <i class='bx bx-loader-alt bx-spin'></i>
-      </div>
-    </div>
+  <div class="location-vertical-layout">
+    
+    <div class="address-section">
+      <div class="form-field address-field">
+        <div class="input-wrapper">
+          <input type="text" id="listingAddress" formControlName="address" placeholder=" " autocomplete="off">
+          <label for="listingAddress">Complete Address</label>
+          
+          <div class="loader-icon" *ngIf="isSearching">
+            <i class='bx bx-loader-alt bx-spin'></i>
+          </div>
+        </div>
 
-    <div class="suggestions-panel" *ngIf="suggestions.length > 0">
-      <div class="suggestion-item" *ngFor="let s of suggestions" (click)="selectAddress(s)">
-        <i class='bx bxs-map'></i>
-        <div class="suggestion-text">
-          <span class="main-address">{{ s.main_text }}</span>
-          <span class="sub-address">{{ s.secondary_text }}</span>
+        <div class="suggestions-panel" *ngIf="suggestions.length > 0">
+          <div class="suggestion-item" *ngFor="let s of suggestions" (click)="selectAddress(s)">
+            <i class='bx bxs-map'></i>
+            <div class="suggestion-text">
+              <span class="main-address">{{ s.main_text }}</span>
+              <span class="sub-address">{{ s.secondary_text }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="error-message" *ngIf="locationGroup.get('address')?.invalid && locationGroup.get('address')?.touched">
+          Address Required
         </div>
       </div>
     </div>
 
-    <div class="error-message" *ngIf="locationGroup.get('address')?.invalid && locationGroup.get('address')?.touched">
-      Indirizzo richiesto
+    <div class="map-section" style="margin-top: 20px;">
+      <div class="map-header">
+        <span class="section-label">Map Position</span>
+        <button *ngIf="currentLat" type="button" class="verify-btn" (click)="recenterMap()">
+          <i class='bx bx-target-lock'></i> Ricentra
+        </button>
+      </div>
+
+      <div class="map-wrapper">
+        <app-map *ngIf="currentLat && currentLon; else mapPlaceholder" 
+                 [lat]="currentLat" 
+                 [lon]="currentLon">
+        </app-map>
+
+        <ng-template #mapPlaceholder>
+          <div class="map-placeholder">
+            <div class="placeholder-content">
+              <i class='bx bx-map-alt'></i>
+              <p>Select an address to see the map</p>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="poi-container">
+        <span class="poi-label">Near Services</span>
+        <div class="poi-badges">
+          
+          <div class="poi-item" 
+              [class.active]="poiStatus.hasBus && !isPoiLoading"
+              [class.loading]="isPoiLoading">
+            <div class="poi-icon">
+              <i *ngIf="isPoiLoading" class='bx bx-loader-alt bx-spin'></i>
+              
+              <i *ngIf="!isPoiLoading" class="bi bi-bus-front-fill"></i>
+            </div>
+            <span>Transports</span>
+          </div>
+
+          <div class="poi-item" [class.active]="poiStatus.hasPark && !isPoiLoading" [class.loading]="isPoiLoading">
+            <div class="poi-icon">
+              <i *ngIf="isPoiLoading" class='bx bx-loader-alt bx-spin'></i>
+
+              <i *ngIf="!isPoiLoading" class="bi bi-tree"></i>
+            </div>
+            <span>Parks</span>
+          </div>
+
+          <div class="poi-item" [class.active]="poiStatus.hasSchool && !isPoiLoading" [class.loading]="isPoiLoading">
+            <div class="poi-icon">
+              <i *ngIf="isPoiLoading" class='bx bx-loader-alt bx-spin'></i>
+              <lucide-icon *ngIf="!isPoiLoading" name="school"></lucide-icon>
+            </div>
+            <span>Schools</span>
+          </div>
+
+        </div>
+      </div>
     </div>
   </div>
-
-  </div>
+</div>

@@ -47,6 +47,7 @@ public class GeoapifyService
                 .orElse(Collections.emptyList());
     }
 
+    
     public Address normalizeAddress(String rawAddress) 
     {
         String url = UriComponentsBuilder

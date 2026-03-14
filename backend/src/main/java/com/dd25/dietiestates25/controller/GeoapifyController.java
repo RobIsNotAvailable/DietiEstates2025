@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dd25.dietiestates25.dto.GeoapifyProperties;
+import com.dd25.dietiestates25.dto.response.SurroundingInfoResponse;
+import com.dd25.dietiestates25.model.SurroundingInfo;
 import com.dd25.dietiestates25.service.utilityservice.GeoapifyService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,5 +28,20 @@ public class GeoapifyController
     {
         List<GeoapifyProperties> suggestions = geoapifyService.getPossibleAddresses(rawAddress);
         return ResponseEntity.ok(suggestions);
+    }
+
+    @GetMapping("/surroundings")
+    public ResponseEntity<SurroundingInfoResponse> getSurroundings(@RequestParam double lat, @RequestParam double lon) 
+    {
+        SurroundingInfo info = geoapifyService.fetchSurroundingInfo(lat, lon);
+        
+        SurroundingInfoResponse dto = new SurroundingInfoResponse
+        (
+            info.isNearStops(),
+            info.isNearParks(),
+            info.isNearSchools()
+        );
+        
+        return ResponseEntity.ok(dto);
     }
 }

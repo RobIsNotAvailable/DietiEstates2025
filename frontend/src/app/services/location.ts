@@ -31,4 +31,11 @@ export class LocationService
       params: { rawAddress }
     });
   }
+
+  getSurroundings(lat: number, lon: number): Observable<any> 
+  {
+    return this.http.get<any>(`${this.apiUrl}/surroundings`, {
+      params: { lat: lat.toString(), lon: lon.toString() }
+    });
+  }
 }
