@@ -15,7 +15,6 @@
     .loading-overlay 
     {
         @include loading-overlay-style;
-        z-index: 9999; 
     }
 }
 

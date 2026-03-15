@@ -65,7 +65,7 @@ public class CompanyAccountService
         boolean isAllowed = false;
 
         if (requesterLevel == SecurityLevel.ADMIN)
-            isAllowed = (targetLevel != SecurityLevel.AGENT);
+            isAllowed = (targetLevel != SecurityLevel.ADMIN);
         else if (requesterLevel == SecurityLevel.SUPPORT)
             isAllowed = (targetLevel == SecurityLevel.AGENT);
 

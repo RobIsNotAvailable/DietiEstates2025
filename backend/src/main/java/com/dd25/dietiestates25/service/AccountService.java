@@ -88,8 +88,7 @@ public class AccountService
     {
         String email = request.email();
         
-        repo.findById(email).orElseThrow(() -> 
-            new IllegalArgumentException(StringConstants.ACCOUNT_NOT_FOUND_MESSAGE));
+        if (repo.findById(email).isEmpty()) return;
         
         LoginToken token = new LoginToken(email);
         tokenRepo.save(token);
