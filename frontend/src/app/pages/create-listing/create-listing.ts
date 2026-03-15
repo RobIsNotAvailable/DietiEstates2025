@@ -1,13 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
+import { switchMap } from 'rxjs/operators';
 
 import { StepGeneralInfoComponent } from './steps/step-general-info/step-general-info';
 import { StepLocationComponent } from './steps/step-location/step-location';
-import { StepDetailsComponent } from './steps/step-details/step-details';
+import { StepExtraDetailsComponent } from './steps/step-extra-details/step-extra-details';
 import { PhotosComponent } from './steps/photos/photos';
+
+import { ListingService } from '../../services/listing';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-create-listing',
@@ -17,7 +21,7 @@ import { PhotosComponent } from './steps/photos/photos';
     CommonModule,
     StepGeneralInfoComponent, 
     StepLocationComponent,   
-    StepDetailsComponent,
+    StepExtraDetailsComponent,
     PhotosComponent,
     RouterModule  
   ],
@@ -29,29 +33,30 @@ export class CreateListingComponent
   currentStep: number = 1;
   listingForm: FormGroup;
 
-  constructor(private fb: FormBuilder) 
+  constructor(private fb: FormBuilder, private listingService: ListingService, private cd: ChangeDetectorRef) 
   {
     this.listingForm = new FormGroup({
       generalInfo: new FormGroup({
         name: new FormControl('', [Validators.required]),
-        type: new FormControl('', [Validators.required]),
+        listingType: new FormControl('', [Validators.required]),
         price: new FormControl(null, [Validators.required, Validators.min(0)]),
         description: new FormControl('', [Validators.required]),
-        surface: new FormControl(null), 
-        rooms: new FormControl(1)       
+        squareMeters: new FormControl(null, [Validators.required, Validators.min(1)]), 
+        numberOfRooms: new FormControl(1, [Validators.required, Validators.min(1)])       
       }),
-      location: new FormGroup({
+        location: new FormGroup({
         address: new FormControl('', [Validators.required])
       }),
-      details: new FormGroup({ 
-        floor: new FormControl(''),
-        inner: new FormControl(''),
-        hasElevator: new FormControl(false),
-        extraDetails: new FormControl('')
+      extraDetails: new FormGroup({ 
+        floor: new FormControl('', [Validators.required]),        
+        intern: new FormControl(''),                               
+        hasElevator: new FormControl(false, [Validators.required]),
+        extraDetails: new FormControl(''),
+        energyClass: new FormControl('')                         
       }),
       photos: new FormGroup({ 
-        images: new FormControl([]),
-        planimetry: new FormControl(null)
+        images: new FormControl([], [Validators.required, Validators.minLength(1)]), 
+        planimetry: new FormControl(null)                                           
       })
     });
   }
@@ -61,6 +66,81 @@ export class CreateListingComponent
     if (step >= 1 && step <= 4) 
     {
       this.currentStep = step;
+      this.cd.detectChanges();
     }
+  }
+
+  onSubmit() 
+  {
+    
+    if (this.listingForm.invalid) 
+    {
+      console.error("Form non valido", this.listingForm.errors);
+      return;
+    }
+
+    const formValue = this.listingForm.value;
+
+    console.log("Valore grezzo del form:", formValue);
+    
+    const createRequest = 
+    {
+      name: formValue.generalInfo.name,
+      description: formValue.generalInfo.description,
+      price: formValue.generalInfo.price,
+      listingType: formValue.generalInfo.listingType,
+      squareMeters: formValue.generalInfo.squareMeters,
+      numberOfRooms: formValue.generalInfo.numberOfRooms,
+      
+      rawAddress: formValue.location.address, 
+      
+      floor: formValue.extraDetails.floor,
+      intern: formValue.extraDetails.intern,
+      hasElevator: formValue.extraDetails.hasElevator,
+      energyClass: formValue.extraDetails.energyClass,
+      otherServices: formValue.extraDetails.extraDetails 
+    };
+
+    this.listingService.createListing(createRequest).pipe
+    (
+      switchMap((listingId: number) => 
+      {
+        const photoEntries = formValue.photos?.images || []; 
+        
+        if (photoEntries.length === 0) 
+        {
+          return of({ message: 'Success without photos' });
+        }
+
+        const files = photoEntries.map((base64: string, index: number) => 
+        {
+          return this.base64ToFile(base64, `photo_${listingId}_${index}.jpg`);
+        });
+
+        const descriptions = files.map(() => "No description");
+
+        return this.listingService.uploadPhotos(listingId, files, descriptions);
+      })
+    ).subscribe
+    ({
+        next: () => alert("Annuncio creato!"),
+        error: (err) => console.error("Errore nel flusso:", err)
+    });
+  }
+
+  base64ToFile(base64String: string, fileName: string): File 
+  {
+    const arr = base64String.split(',');
+    const mime = arr[0].match(/:(.*?);/)![1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    
+    while (n--) 
+    {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    
+    return new File([u8arr], fileName, { type: mime });
   }
 }

@@ -17,10 +17,10 @@
         </div>
 
         <div class="form-field">
-            <select id="listingType" formControlName="type" [class.has-value]="generalGroup.get('type')?.value">
+            <select id="listingType" formControlName="listingType" [class.has-value]="generalGroup.get('type')?.value">
                 <option value="" selected hidden></option>
-                <option value="vendita">Sale</option>
-                <option value="affitto">Rent</option>
+                <option value="SALE">Sale</option>
+                <option value="RENT">Rent</option>
             </select>
             <label for="listingType">Listing Type</label>
             <i class="bx bx-chevron-down select-icon"></i>
@@ -29,12 +29,12 @@
 
     <div class="form-row">
         <div class="form-field">
-            <input type="number" id="listingSurface" formControlName="surface" placeholder=" ">
+            <input type="number" id="listingSurface" formControlName="squareMeters" placeholder=" ">
             <label for="listingSurface">Surface (m²)</label>
         </div>
 
         <div class="form-field">
-            <input type="number" id="listingRooms" formControlName="rooms" placeholder=" ">
+            <input type="number" id="listingRooms" formControlName="numberOfRooms" placeholder=" ">
             <label for="listingRooms">Number of Rooms</label>
         </div>
     </div>

@@ -1,11 +1,14 @@
 @use 'variables' as *;
 @use 'form-shared' as *;
+@use 'animations' as *;
+
 
 .photo-upload-container 
 {
     display: flex;
     flex-direction: column;
     gap: 35px; 
+    @include entrance-animation(0.2s, 10px);
 
     .section-label 
     {

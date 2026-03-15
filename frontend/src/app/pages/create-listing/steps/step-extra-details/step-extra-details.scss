@@ -2,8 +2,7 @@
 @use 'form-shared' as *;
 @use 'animations' as *;
 
-
-.general-info-container 
+.extra-details-container 
 {
     .form-row 
     {
@@ -17,6 +16,7 @@
     { 
         @include form-field-structure; 
         @include entrance-animation(0.2s, 10px);
+
 
         select 
         {
@@ -47,9 +47,7 @@
             &:focus ~ label,
             &:not(:placeholder-shown) ~ label { top: 0;}
         }
-
     }
 
     .info-text { font-size: 13px; color: #888; margin-top: 25px; font-style: italic; }
 }
-
