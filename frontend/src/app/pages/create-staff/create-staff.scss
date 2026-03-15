@@ -11,6 +11,11 @@
     width: 100%;
     background: $bg-main;
 
+    .loading-overlay 
+    {
+        @include loading-overlay-style;
+    }
+    
     .staff-container 
     {
         width: 600px; 

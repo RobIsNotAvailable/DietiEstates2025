@@ -16,7 +16,6 @@ public class EmailService
 {
     private final JavaMailSender mailSender;
     
-    @Async
     public void sendOnboardingEmail(String to, String token)
     {
         String link = "http://localhost:4200/link-login/" + token;

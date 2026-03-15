@@ -17,8 +17,10 @@ import { ChangeDetectorRef } from '@angular/core';
 export class CreateStaffComponent implements OnInit 
 {
   staffForm!: FormGroup;
-  isSubmitted = false;
+  isSubmitted: boolean = false;
   serverErrorMessage = '';
+  isLoading: boolean = false;
+  loadingMessage: string = '';
 
   roleType: 'AGENT' | 'SUPPORT' = 'AGENT';
   pageTitle = '';
@@ -54,11 +56,14 @@ export class CreateStaffComponent implements OnInit
 
   onSubmit(): void 
   {
-    this.isSubmitted = true;
+    this.isLoading = true;
+    this.loadingMessage = 'Sending email...';
+    this.isSubmitted = true;  
     this.serverErrorMessage = '';
 
     if (this.staffForm.invalid) 
     {
+      this.isLoading = false;
       return;
     }
 
@@ -76,12 +81,14 @@ export class CreateStaffComponent implements OnInit
     {
       next: () => 
       {
+        this.isLoading = false;
         var role = this.roleType.charAt(0).toUpperCase() + this.roleType.slice(1).toLowerCase();
-        alert(`${this.roleType} account created successfully!`); 
+        alert(`${role} account created successfully!`); 
         this.router.navigate(['/home']);
       },
       error: (err) => 
       {
+        this.isLoading = false;
         if (err.status === 500 || err.status === 0) 
         {
           alert("Something went wrong on our side. Please try again or refresh the page.");
