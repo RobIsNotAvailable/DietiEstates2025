@@ -4,7 +4,7 @@ import { AccountService } from '../../services/account';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
-import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+import { SearchBarComponent } from '../../components/search-bar/search-bar';
 import { FilterPanelComponent } from '../../components/filter-panel/filter-panel';
 
 interface QuickOption

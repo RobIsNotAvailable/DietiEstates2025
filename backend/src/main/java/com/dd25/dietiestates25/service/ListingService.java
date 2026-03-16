@@ -87,6 +87,7 @@ public class ListingService
         spec = spec.and(ListingSpecs.hasEnergyClass(request.energyClass()));
         spec = spec.and(ListingSpecs.hasListingType(request.listingType()));
         List<Listing> results = repo.findAll(spec);
+
         return results.stream()
                   .map(this::mapToSummary)
                   .toList();

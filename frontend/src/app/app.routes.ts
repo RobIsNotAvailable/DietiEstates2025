@@ -8,6 +8,8 @@ import { SetupPasswordComponent } from './pages/setup-password/setup-password';
 import { CreateStaffComponent } from './pages/create-staff/create-staff';
 import { CreateListingComponent } from './pages/create-listing/create-listing';
 import { NotImplementedComponent } from './pages/not-implemented/not-implemented';
+import { ListingsPageComponent } from './pages/listings-page/listings-page';
+
 
 
 
@@ -22,6 +24,7 @@ export const routes: Routes =
     { path: 'forgot-password', component: ForgotPasswordComponent },
     { path: 'create-listing', component: CreateListingComponent },
     { path: 'not-implemented', component: NotImplementedComponent },
+    { path: 'listings', component: ListingsPageComponent },
     { 
     path: 'create-agent', 
     component: CreateStaffComponent, 

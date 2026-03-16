@@ -87,8 +87,8 @@ $form-input-radius: 12px;
 {
 	width: 100%;
 	padding: 15px;
-	background: $form-black;
-	color: white;
+	background: $white-pure;
+	color: $black-pure;
 	border: none;
 	border-radius: 10px;
 	font-weight: bold;
@@ -106,6 +106,33 @@ $form-input-radius: 12px;
 	{
 		background-color: #e9ecef;
 		border-color: #bdc3c7;
+		transform: translateY(-3px);
+	}
+}
+
+@mixin form-button-green
+{
+	width: 100%;
+	padding: 15px;
+	background: $green-primary;
+	color: white;
+	border: none;
+	border-radius: 10px;
+	font-weight: bold;
+	font-size: $text-md;
+	cursor: pointer;
+	transition: all 0.3s ease;
+
+	&:disabled 
+	{
+		background: #333333;
+		cursor: not-allowed;
+	}
+
+	&:hover:not(:disabled) 
+	{
+		
+		background: $green-hover;
 		transform: translateY(-3px);
 	}
 }
@@ -175,7 +202,7 @@ $form-input-radius: 12px;
 		width: 100%;
 		padding: 15px; 
 		font-size: $text-base;
-		color: #1a2a3a;
+		color: $logo-color;
 
 		border: 2px solid $form-black;
 		border-radius: $form-input-radius;
@@ -192,7 +219,7 @@ $form-input-radius: 12px;
 			font-weight: 700;
 			background: $form-bg-light;
 			padding: 0 5px;
-			color: #1a2a3a;
+			color: $logo-color;
 		}
 
 		&.is-invalid 

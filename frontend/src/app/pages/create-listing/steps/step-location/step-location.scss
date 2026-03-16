@@ -22,7 +22,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #1a2a3a;
+        color: $logo-color;
         pointer-events: none; 
         
         i {
@@ -63,7 +63,7 @@
             .section-label 
             { 
                 font-weight: 700; 
-                color: #1a2a3a; 
+                color: $logo-color; 
                 font-size: 14px;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
@@ -75,12 +75,12 @@
                 align-items: center;
                 gap: 6px;
                 background: white;
-                border: 1.5px solid #1a2a3a;
+                border: 1.5px solid $logo-color;
                 padding: 6px 14px;
                 border-radius: 10px;
                 font-size: 12px;
                 font-weight: 600;
-                color: #1a2a3a;
+                color: $logo-color;
                 cursor: pointer;
                 transition: all 0.25s ease;
 
@@ -88,7 +88,7 @@
 
                 &:hover 
                 { 
-                    background: #1a2a3a; 
+                    background: $logo-color; 
                     color: white;
                     transform: translateY(-2px);
                     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -168,7 +168,7 @@
             align-items: center;
             cursor: pointer;
             &:hover { background: #f8f9fa; }
-            i { margin-right: 12px; color: #1a2a3a; }
+            i { margin-right: 12px; color: $logo-color; }
             .main-address { display: block; font-weight: 700; font-size: 14px; }
             .sub-address { font-size: 12px; color: #888; }
         }
@@ -232,7 +232,7 @@
             {
                 .poi-icon 
                 {
-                    background: #1a2a3a; 
+                    background: $logo-color; 
                     color: white;        
                     box-shadow: 0 8px 15px rgba(26, 42, 58, 0.2);
                     transform: scale(1.1);
@@ -240,7 +240,7 @@
 
                 span 
                 { 
-                    color: #1a2a3a; 
+                    color: $logo-color; 
                     font-weight: 700;
                 }
             }
@@ -249,8 +249,8 @@
             {
                 .poi-icon {
                 background: #f8f9fa;
-                border: 2px solid #1a2a3a; 
-                color: #1a2a3a; 
+                border: 2px solid $logo-color; 
+                color: $logo-color; 
                 
                 i {
                     font-size: 24px;
@@ -258,7 +258,7 @@
                 }
                 
                 span {
-                color: #1a2a3a;
+                color: $logo-color;
                 font-weight: 600;
                 }
             }

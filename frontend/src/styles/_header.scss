@@ -37,14 +37,14 @@
 
       .logo-icon 
       {
-        color: #1a2a3a;
+        color: $logo-color;
       }
 
       .logo-text 
       {
         font-size: $text-xxl;   
         font-weight: 800;    
-        color: #1a2a3a;
+        color: $logo-color;
         letter-spacing: -1px;
       }
     }
@@ -97,7 +97,7 @@
           {
             font-size: $text-md; 
             font-weight: 700;
-            color: #1a2a3a;
+            color: $logo-color;
           }
 
           .arrow-icon 

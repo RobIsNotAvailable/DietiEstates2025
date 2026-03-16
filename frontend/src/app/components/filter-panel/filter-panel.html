@@ -1,38 +1,75 @@
 <div class="filter-container">
     <div class="filter-header">
         <h3>Filtri Avanzati</h3>
-        <button class="close-btn" (click)="close.emit()">
+        <button class="close-btn" (click)="onCloseClick()">
             <i class="bx bx-x"></i>
         </button>
     </div>
 
     <div class="filter-body">
-        <div class="filter-group">
-            <label>Prezzo Massimo</label>
-            <input type="range" min="0" max="1000000" step="50000">
-            <div class="range-values">fino a 1.000.000€</div>
-        </div>
-
-        <div class="filter-group">
-            <label>Tipologia Immobile</label>
-            <select>
-                <option value="house">Casa</option>
-                <option value="apartment">Appartamento</option>
-                <option value="villa">Villa</option>
-            </select>
-        </div>
-
-        <div class="filter-group">
-            <label>Stanze</label>
+        <div class="filter-section">
+            <span class="section-label">Tipo Contratto</span>
             <div class="options-row">
-                <button class="opt-btn">1+</button>
-                <button class="opt-btn">2+</button>
-                <button class="opt-btn">3+</button>
+                <button class="opt-btn" 
+                        [class.selected]="filters.mode === 'sale'" 
+                        (click)="setMode('sale')">Vendita</button>
+                <button class="opt-btn" 
+                        [class.selected]="filters.mode === 'rent'" 
+                        (click)="setMode('rent')">Affitto</button>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <div class="form-field">
+                <input type="number" id="minPrice" [(ngModel)]="filters.minPrice" placeholder=" ">
+                <label for="minPrice">Prezzo Minimo (€)</label>
+            </div>
+            <div class="chips-container">
+                <button class="chip" [class.active]="filters.minPrice === null" (click)="selectMinPrice(null)">Qualsiasi</button>
+                @for (p of priceChips; track p) 
+                {
+                    <button class="chip" [class.active]="filters.minPrice === p" (click)="selectMinPrice(p)">{{ p | number:'1.0-0' }}€</button>
+                }
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <div class="form-field">
+                <input type="number" id="maxPrice" [(ngModel)]="filters.maxPrice" placeholder=" ">
+                <label for="maxPrice">Prezzo Massimo (€)</label>
+            </div>
+            <div class="chips-container">
+                <button class="chip" [class.active]="filters.maxPrice === null" (click)="selectMaxPrice(null)">Qualsiasi</button>
+                @for (p of priceChips; track p) 
+                {
+                    <button class="chip" [class.active]="filters.maxPrice === p" (click)="selectMaxPrice(p)">{{ p | number:'1.0-0' }}€</button>
+                }
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <span class="section-label">Stanze (minimo)</span>
+            <div class="options-row">
+                @for (n of [1, 2, 3, 4, 5]; track n) 
+                {
+                    <button class="opt-btn" [class.selected]="filters.minRooms === n" (click)="filters.minRooms = n">{{ n }}+</button>
+                }
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <span class="section-label">Classe Energetica</span>
+            <div class="energy-chips">
+                <button class="chip" [class.active]="filters.energyClass === ''" (click)="filters.energyClass = ''">Qualsiasi</button>
+                @for (cls of energyClasses; track cls) 
+                {
+                    <button class="chip" [class.active]="filters.energyClass === cls" (click)="filters.energyClass = cls">{{ cls }}</button>
+                }
             </div>
         </div>
     </div>
 
     <div class="filter-footer">
-        <button class="apply-btn" (click)="close.emit()">Applica Filtri</button>
+        <button class="apply-btn" (click)="applyFilters()">Applica Filtri</button>
     </div>
 </div>

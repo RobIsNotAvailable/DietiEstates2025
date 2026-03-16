@@ -40,14 +40,14 @@
                 .logo-icon i 
                 {
                     font-size: $text-xxxl;
-                    color: #1a2a3a;
+                    color: $logo-color;
                 }
 
                 .logo-text 
                 {
                     font-size: $text-xxxl;
                     font-weight: 800;
-                    color: #1a2a3a;
+                    color: $logo-color;
                     letter-spacing: -1.5px;
                     line-height: 1;
                 }
@@ -86,7 +86,7 @@
             {
                 font-size: $text-xl;
                 font-weight: 700;
-                color: #1a2a3a;
+                color: $logo-color;
                 margin-bottom: 15px;
             }
 

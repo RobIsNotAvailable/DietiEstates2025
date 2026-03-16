@@ -43,6 +43,7 @@ public class BuildingDetails
     public Integer getIntern() { return intern; }
     public Integer getFloor() { return floor; }
     public Boolean hasElevator() { return elevator; }
+    public String getCity() {return address.getCity(); }
 
     //setters
     public void setAddress(Address address) { this.address = address; }

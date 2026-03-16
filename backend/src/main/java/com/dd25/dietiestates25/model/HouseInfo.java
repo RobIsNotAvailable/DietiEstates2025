@@ -49,6 +49,7 @@ public class HouseInfo
     public String getDescription() { return description; }
     public BuildingDetails getBuildingDetails() { return buildingDetails; }
     public HouseDetails getHouseDetails() { return houseDetails; }
+    public String getCity() {return buildingDetails.getCity(); }
 
     // Setters
     public void setListing(Listing listing) { this.listing = listing; }

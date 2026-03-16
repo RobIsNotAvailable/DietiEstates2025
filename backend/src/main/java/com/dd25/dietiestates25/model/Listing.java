@@ -88,6 +88,7 @@ public class Listing
     public HouseInfo getHouseInfo() { return houseInfo; }   
     public SurroundingInfo getSurroundingInfo() { return surroundingInfo; }
     public List<Photo> getPhotos() { return photos; }
+    public String getCity() {return houseInfo.getCity(); }
 
 
     // Setters

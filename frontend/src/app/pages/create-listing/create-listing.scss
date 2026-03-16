@@ -40,28 +40,42 @@ $container-padding: 20px;
         background: $white-pure;
         border-radius: 20px;
         box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-        
         width: 100%; 
         max-width: $card-width; 
 
         .logo-section 
         {
+            display: flex;       
+            align-items: center; 
+            gap: 10px;           
             cursor: pointer;
             flex-shrink: 0; 
-            margin-right: 30px; 
+            margin-right: 40px;  
+            text-decoration: none !important; 
+
+            .logo-icon 
+            {
+                font-size: $text-xxl; 
+                color: $logo-color;      
+                line-height: 1;
+            }
 
             .logo-text 
             {
                 font-size: $text-xxxl; 
                 font-weight: 800;
-                color: #1a2a3a;
+                color: $logo-color;
                 letter-spacing: -1.5px;
                 line-height: 1;
                 white-space: nowrap; 
+                text-decoration: none; 
             }
+
+            &:hover { opacity: 0.8; }
         }
 
-        .stepper-content {
+        .stepper-content 
+        {
             display: flex;
             align-items: center;
             justify-content: space-between; 
@@ -232,13 +246,7 @@ $container-padding: 20px;
 
     .btn-submit 
     {
-        @include form-button-black;
-        width: auto;
-        background-color: $green-primary; 
-        
-        &:hover:not(:disabled) 
-        {
-            background-color: $green-hover;
-        }
+        @include form-button-green;
+        width: auto
     }
 }
