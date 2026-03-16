@@ -103,3 +103,23 @@
         transform: translate(-50%, -50%);
     }
 }
+
+@mixin overlay-sidebar-entrance($duration: 0.4s) 
+{
+    @keyframes overlaySlideIn 
+    {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    animation: overlaySlideIn $duration cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+@mixin overlay-sidebar-exit($duration: 0.4s) 
+{
+    @keyframes overlaySlideOut 
+    {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+    animation: overlaySlideOut $duration cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}

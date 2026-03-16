@@ -9,6 +9,22 @@ import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/co
 })
 export class FilterPanelComponent 
 {
-  @Input() @HostBinding('class.open') isOpen = false;
+  @Input() isOpen: boolean = false;
+  
   @Output() close = new EventEmitter<void>();
+
+  private hasBeenOpened = false;
+
+  @HostBinding('class.active') get active() {
+    if (this.isOpen) this.hasBeenOpened = true;
+    return this.isOpen;
+  }
+
+  @HostBinding('class.closing') get closing() {
+    return !this.isOpen && this.hasBeenOpened;
+  }
+
+  onCloseClick() {
+    this.close.emit();
+  }
 }

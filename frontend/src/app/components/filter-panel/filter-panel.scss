@@ -3,9 +3,8 @@
 
 :host 
 {
-    @include filter-sidebar-style;
-    display: block; // Fondamentale per dare dimensioni al componente
-    overflow-y: auto;
+    @include filter-sidebar-style; 
+    display: block; 
 }
 
 .filter-container 
@@ -13,36 +12,88 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    padding: 30px;
+    box-sizing: border-box; 
 
     .filter-header 
     {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 30px;
-        
-        h3 { font-size: $text-xl; font-weight: 800; color: #1a2a3a; }
-        .close-btn { background: none; border: none; font-size: 24px; cursor: pointer; }
-    }
+        margin-bottom: 40px;
 
-    .filter-group 
-    {
-        margin-bottom: 25px;
-        label { display: block; font-weight: 700; margin-bottom: 10px; }
-        
-        input[type="range"] { width: 100%; accent-color: $green-primary; }
-        
-        select {
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 2px solid #eee;
-            font-size: $text-md;
+        h3 { font-size: $text-xl; font-weight: 800; margin: 0; }
+
+        .close-btn 
+        { 
+            background: #f1f2f6; 
+            border: none;
+            border-radius: 50%;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+
+            &:hover 
+            { 
+                background: $black-pure; 
+                color: $white-pure;
+            }
         }
     }
 
-    .apply-btn {
-        @include form-button-black;
-        margin-top: auto;
+    .filter-body 
+    {
+        flex: 1;
+        overflow-y: auto;
+
+        .filter-group 
+        {
+            margin-bottom: 30px;
+
+            label 
+            { 
+                display: block;
+                font-weight: 700;
+                margin-bottom: 10px;
+                font-size: $text-md;
+            }
+
+            select 
+            {
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #000; 
+                border-radius: 12px;
+                font-size: $text-base;
+                background: white;
+            }
+
+            .options-row 
+            {
+                display: flex;
+                gap: 10px;
+
+                .opt-btn 
+                {
+                    flex: 1;
+                    padding: 10px;
+                    border: 2px solid #eee;
+                    border-radius: 8px;
+                    background: white;
+                    font-weight: 600;
+                    cursor: pointer;
+
+                    &:hover { border-color: #000; }
+                }
+            }
+        }
+    }
+
+    .filter-footer 
+    {
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+
+        .apply-btn { @include form-button-black; } 
     }
 }

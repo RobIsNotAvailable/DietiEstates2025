@@ -6,6 +6,18 @@
 @use 'quick-options' as *;
 
 
+.home-layout-wrapper 
+{
+    display: flex; 
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    .main-content-column 
+    {
+        width: 100%;
+    }
+}
 
 .home-container 
 {
@@ -43,6 +55,7 @@
     @include hero-section;
     margin-top: 0;
   }
+  
 }
 
 .bottom-section 
