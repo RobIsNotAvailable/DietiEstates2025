@@ -57,6 +57,12 @@
                 font-size: 1.8rem;
                 color: #333;
                 transition: all 0.2s ease;
+
+                &::before 
+                {
+                    display: none !important;
+                    content: none !important;
+                }
             }
 
             .card-text 

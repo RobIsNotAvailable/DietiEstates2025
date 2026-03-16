@@ -57,7 +57,14 @@
             <div class="hero-background"></div>
 
             <div class="search-wrapper">
-                <app-search-bar></app-search-bar> 
+                <app-search-bar (toggleFilters)="isFiltersOpen = !isFiltersOpen"></app-search-bar>
+    
+                <app-filter-panel [class.open]="isFiltersOpen" (close)="isFiltersOpen = false"></app-filter-panel>
+                
+                @if (isFiltersOpen) 
+                {
+                    <div class="backdrop" (click)="isFiltersOpen = false"></div>
+                }
             </div>
         </section>
     </div>

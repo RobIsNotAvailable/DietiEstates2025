@@ -1,0 +1,38 @@
+<div class="filter-container">
+    <div class="filter-header">
+        <h3>Filtri Avanzati</h3>
+        <button class="close-btn" (click)="close.emit()">
+            <i class="bx bx-x"></i>
+        </button>
+    </div>
+
+    <div class="filter-body">
+        <div class="filter-group">
+            <label>Prezzo Massimo</label>
+            <input type="range" min="0" max="1000000" step="50000">
+            <div class="range-values">fino a 1.000.000€</div>
+        </div>
+
+        <div class="filter-group">
+            <label>Tipologia Immobile</label>
+            <select>
+                <option value="house">Casa</option>
+                <option value="apartment">Appartamento</option>
+                <option value="villa">Villa</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Stanze</label>
+            <div class="options-row">
+                <button class="opt-btn">1+</button>
+                <button class="opt-btn">2+</button>
+                <button class="opt-btn">3+</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="filter-footer">
+        <button class="apply-btn" (click)="close.emit()">Applica Filtri</button>
+    </div>
+</div>

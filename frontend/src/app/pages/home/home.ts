@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+import { FilterPanelComponent } from '../../components/filter-panel/filter-panel';
 
 interface QuickOption
 {
@@ -18,7 +19,7 @@ interface QuickOption
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, SearchBarComponent],
+  imports: [CommonModule, SearchBarComponent, FilterPanelComponent],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
@@ -30,7 +31,7 @@ export class HomeComponent implements OnInit
   loadingMessage: string = '';
   userData: any = null;
   sectionTitle: string = '';
-  
+  isFiltersOpen: boolean = false;
   quickOptions: QuickOption[] = [];
 
   constructor(private authService: AuthService, private router: Router, private cd: ChangeDetectorRef, private accountService: AccountService) 
@@ -189,4 +190,10 @@ export class HomeComponent implements OnInit
   {
     this.router.navigate(['/change-password']);
   }
+
+  toggleFilterPanel() 
+  {
+    this.isFiltersOpen = !this.isFiltersOpen;
+  }
 }
+

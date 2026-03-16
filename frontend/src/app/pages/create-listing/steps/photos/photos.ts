@@ -56,31 +56,31 @@ export class PhotosComponent implements OnInit
     const files: FileList = event.target.files;
     if (!files || files.length === 0) return;
 
-    this.isUploading = true;
+    const MAX_SIZE_MB = 5; 
     const fileArray = Array.from(files);
+    
+    const validFiles = fileArray.filter(file => {
+      if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+        alert(`Il file è troppo grande! Massimo ${MAX_SIZE_MB}MB.`);
+        return false;
+      }
+      return true;
+    });
+
+    if (validFiles.length === 0) return;
+
+    this.isUploading = true;
     let processed = 0;
 
-    fileArray.forEach((file: File) => 
-    {
-      const reader = new FileReader();
-      reader.onload = (e: any) => 
-      {
-        this.imagePreviews.push(e.target.result);
+    validFiles.forEach((file: File) => {
+      this.compressImage(file).then((compressedBase64: string) => {
+        this.imagePreviews.push(compressedBase64);
         processed++;
         
-        if (processed === fileArray.length) 
-        {
-          this.photosGroup.get('images')?.setValue([...this.imagePreviews]);
-
-          setTimeout(() => 
-          {
-            this.isUploading = false;
-            this.currentIndex = this.imagePreviews.length - 1;
-            this.cd.detectChanges();
-          }, 500);
+        if (processed === validFiles.length) {
+          this.updateFormAndUI();
         }
-      };
-      reader.readAsDataURL(file);
+      });
     });
     event.target.value = '';
   }
@@ -142,4 +142,50 @@ export class PhotosComponent implements OnInit
       }
       this.cd.detectChanges();
   }
+
+  compressImage(file: File): Promise<string> 
+  {
+    return new Promise((resolve) => 
+    {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event: any) => 
+      {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => 
+        {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 1280;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > MAX_WIDTH) {
+            height = (height * MAX_WIDTH) / width;
+            width = MAX_WIDTH;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+          resolve(compressedBase64);
+        };
+      };
+    });
+  }
+
+private updateFormAndUI() 
+{
+  this.photosGroup.get('images')?.setValue([...this.imagePreviews]);
+  setTimeout(() => {
+    this.isUploading = false;
+    this.currentIndex = this.imagePreviews.length - 1;
+    this.cd.detectChanges();
+  }, 500);
+}
+
+
 }

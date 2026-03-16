@@ -243,3 +243,25 @@ $form-input-radius: 12px;
 		@include entrance-animation(0s, 5px);
 	}
 }
+
+@mixin filter-sidebar-style 
+{
+    position: fixed;
+    top: 0;
+    right: -400px; 
+    width: 400px;
+    height: 100vh;
+    background: rgba($white-pure, 0.8);
+    backdrop-filter: blur(15px);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+    z-index: 10000;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+
+    &.open 
+    {
+        right: 0; 
+    }
+}

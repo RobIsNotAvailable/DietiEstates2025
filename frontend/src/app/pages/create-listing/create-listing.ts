@@ -1,6 +1,6 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { switchMap } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { StepExtraDetailsComponent } from './steps/step-extra-details/step-extra
 import { PhotosComponent } from './steps/photos/photos';
 
 import { ListingService } from '../../services/listing';
-import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-listing',
@@ -32,8 +32,9 @@ export class CreateListingComponent
 {
   currentStep: number = 1;
   listingForm: FormGroup;
+  isSubmitting: boolean = false;
 
-  constructor(private fb: FormBuilder, private listingService: ListingService, private cd: ChangeDetectorRef) 
+  constructor(private listingService: ListingService, private cd: ChangeDetectorRef, private router: Router) 
   {
     this.listingForm = new FormGroup({
       generalInfo: new FormGroup({
@@ -79,6 +80,8 @@ export class CreateListingComponent
       return;
     }
 
+    this.isSubmitting = true;
+
     const formValue = this.listingForm.value;
 
     console.log("Valore grezzo del form:", formValue);
@@ -105,12 +108,7 @@ export class CreateListingComponent
     (
       switchMap((listingId: number) => 
       {
-        const photoEntries = formValue.photos?.images || []; 
-        
-        if (photoEntries.length === 0) 
-        {
-          return of({ message: 'Success without photos' });
-        }
+        const photoEntries = formValue.photos?.images; 
 
         const files = photoEntries.map((base64: string, index: number) => 
         {
@@ -123,8 +121,17 @@ export class CreateListingComponent
       })
     ).subscribe
     ({
-        next: () => alert("Annuncio creato!"),
-        error: (err) => console.error("Errore nel flusso:", err)
+        next: () => 
+        {
+          this.isSubmitting = false;
+          alert("Annuncio creato con successo!");
+          this.router.navigate(['/home']); 
+        },
+        error: () => 
+        {
+          this.isSubmitting = false;
+          alert("Error! Something went wrong please try again");
+        }
     });
   }
 

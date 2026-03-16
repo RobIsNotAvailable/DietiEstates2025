@@ -1,81 +1,93 @@
-<div class="stepper-container">
-  <header class="stepper-card">
-    <a routerLink="/" class="logo-section">
-        <span class="logo-text">DietiEstates</span>
-    </a>
+<div class="create-listing-wrapper"> 
+  <div class="loading-overlay" *ngIf="isSubmitting"></div>
 
-    <div class="stepper-content">
-      <div class="step-item" (click)="setStep(1)" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
-        <div class="step-circle">
-          <span *ngIf="currentStep <= 1">1</span>
-          <i *ngIf="currentStep > 1" class="bx bx-check"></i>
-        </div>
-        <span class="step-label">General Info</span>
-      </div>
-      
-      <div class="step-line" [class.filled]="currentStep > 1"></div>
-
-      <div class="step-item" (click)="setStep(2)" [class.active]="currentStep === 2" [class.completed]="currentStep > 2">
-        <div class="step-circle">
-          <span *ngIf="currentStep <= 2">2</span>
-          <i *ngIf="currentStep > 2" class="bx bx-check"></i>
-        </div>
-        <span class="step-label">Position</span>
-      </div>
-
-      <div class="step-line" [class.filled]="currentStep > 2"></div>
-
-      <div class="step-item" (click)="setStep(3)" [class.active]="currentStep === 3" [class.completed]="currentStep > 3">
-        <div class="step-circle">
-          <span *ngIf="currentStep <= 3">3</span>
-          <i *ngIf="currentStep > 3" class="bx bx-check"></i>
-        </div>
-        <span class="step-label">Extra Details</span>
-      </div>
-
-      <div class="step-line" [class.filled]="currentStep > 3"></div>
-
-      <div class="step-item" (click)="setStep(4)" [class.active]="currentStep === 4">
-        <div class="step-circle">4</div>
-        <span class="step-label">Photos</span>
-      </div>
+  @if (isSubmitting) 
+  {
+    <div class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Creating Listing...</p>
     </div>
-  </header>
-</div>
+  }
 
-<div class="content-container">
-  <div class="step-wrapper">
-    <app-step-general-info 
-      [hidden]="currentStep !== 1" 
-      [parentForm]="listingForm">
-    </app-step-general-info>
+  <div class="stepper-container">
+    <header class="stepper-card">
+      <a routerLink="/" class="logo-section">
+          <span class="logo-text">DietiEstates</span>
+      </a>
 
-    <app-step-location 
-      [hidden]="currentStep !== 2" 
-      [parentForm]="listingForm">
-    </app-step-location>
+      <div class="stepper-content">
+        <div class="step-item" (click)="setStep(1)" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
+          <div class="step-circle">
+            <span *ngIf="currentStep <= 1">1</span>
+            <i *ngIf="currentStep > 1" class="bx bx-check"></i>
+          </div>
+          <span class="step-label">General Info</span>
+        </div>
+        
+        <div class="step-line" [class.filled]="currentStep > 1"></div>
 
-    <app-step-extra-details 
-      [hidden]="currentStep !== 3" 
-      [parentForm]="listingForm">
-    </app-step-extra-details>
+        <div class="step-item" (click)="setStep(2)" [class.active]="currentStep === 2" [class.completed]="currentStep > 2">
+          <div class="step-circle">
+            <span *ngIf="currentStep <= 2">2</span>
+            <i *ngIf="currentStep > 2" class="bx bx-check"></i>
+          </div>
+          <span class="step-label">Position</span>
+        </div>
 
-    <app-photos 
-      [hidden]="currentStep !== 4" 
-      [parentForm]="listingForm">
-    </app-photos>
+        <div class="step-line" [class.filled]="currentStep > 2"></div>
+
+        <div class="step-item" (click)="setStep(3)" [class.active]="currentStep === 3" [class.completed]="currentStep > 3">
+          <div class="step-circle">
+            <span *ngIf="currentStep <= 3">3</span>
+            <i *ngIf="currentStep > 3" class="bx bx-check"></i>
+          </div>
+          <span class="step-label">Extra Details</span>
+        </div>
+
+        <div class="step-line" [class.filled]="currentStep > 3"></div>
+
+        <div class="step-item" (click)="setStep(4)" [class.active]="currentStep === 4">
+          <div class="step-circle">4</div>
+          <span class="step-label">Photos</span>
+        </div>
+      </div>
+    </header>
   </div>
 
-  <div class="form-actions">
-    <button type="button" class="btn-secondary" (click)="setStep(currentStep - 1)" [disabled]="currentStep === 1">
-      <i class="bx bx-chevron-left"></i> Back
-    </button>
-    <button type="button" class="btn-primary" *ngIf="currentStep < 4" (click)="setStep(currentStep + 1)">
-      Next <i class="bx bx-chevron-right"></i>
-    </button>
-    <button type="submit" class="btn-submit" *ngIf="currentStep === 4" [disabled]="listingForm.invalid" (click)="onSubmit()">
-      Create Listing <i class="bx bx-check-double"></i>
-    </button>
-  </div>
+  <div class="content-container">
+    <div class="step-wrapper">
+      <app-step-general-info 
+        [hidden]="currentStep !== 1" 
+        [parentForm]="listingForm">
+      </app-step-general-info>
+
+      <app-step-location 
+        [hidden]="currentStep !== 2" 
+        [parentForm]="listingForm">
+      </app-step-location>
+
+      <app-step-extra-details 
+        [hidden]="currentStep !== 3" 
+        [parentForm]="listingForm">
+      </app-step-extra-details>
+
+      <app-photos 
+        [hidden]="currentStep !== 4" 
+        [parentForm]="listingForm">
+      </app-photos>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" (click)="setStep(currentStep - 1)" [disabled]="currentStep === 1">
+        <i class="bx bx-chevron-left"></i> Back
+      </button>
+      <button type="button" class="btn-primary" *ngIf="currentStep < 4" (click)="setStep(currentStep + 1)">
+        Next <i class="bx bx-chevron-right"></i>
+      </button>
+      <button type="submit" class="btn-submit" *ngIf="currentStep === 4" [disabled]="listingForm.invalid" (click)="onSubmit()">
+        Create Listing <i class="bx bx-check-double"></i>
+      </button>
+    </div>
+  </div> 
 </div> 
 
