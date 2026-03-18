@@ -50,6 +50,19 @@
 
     }
 
-    .info-text { font-size: 13px; color: #888; margin-top: 25px; font-style: italic; }
+    .info-text 
+    {
+        margin-top: 20px;
+        font-size: $text-sm;
+        color: $form-gray-muted; 
+        transition: all 0.3s ease;
+
+        &.error-active 
+        {
+            color: $error-red; 
+            font-weight: 600;
+            animation: step-shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+    }
 }
 

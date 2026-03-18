@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core'; 
+import { Component, Input, OnInit, ChangeDetectorRef, ViewChild} from '@angular/core'; 
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, switchMap, filter, tap, catchError, delay } from 'rxjs/operators';
@@ -20,6 +20,8 @@ import { LucideAngularModule } from 'lucide-angular';
 export class StepLocationComponent implements OnInit 
 {
   @Input() parentForm!: FormGroup;
+  @ViewChild(MapComponent) mapComponent!: MapComponent;
+
   suggestions: any[] = [];
   isSearching = false;
   isPoiLoading = false;
@@ -154,14 +156,27 @@ export class StepLocationComponent implements OnInit
 
   recenterMap() 
   {
-    const lat = this.locationGroup.get('latitude')?.value;
-    const lon = this.locationGroup.get('longitude')?.value;
+    const lat = this.mapComponent.lat;
+    const lon = this.mapComponent.lon;
     
+    console.log("Tentativo di ricentramento su:", lat, lon); 
+
     if (lat && lon) 
     {
-      this.currentLat = lat;
-      this.currentLon = lon;
+      this.currentLat = null;
+      this.currentLon = null;
       this.cd.detectChanges();
+
+      setTimeout(() => 
+      {
+        this.currentLat = lat;
+        this.currentLon = lon;
+        this.cd.detectChanges();
+      }, 50);
+    }
+    else
+    {
+      console.warn("Nessuna coordinata disponibile per il ricentramento.");
     }
   }
 }

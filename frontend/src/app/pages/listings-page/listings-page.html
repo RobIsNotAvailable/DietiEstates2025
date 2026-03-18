@@ -1,24 +1,50 @@
-<div class="listings-page-wrapper">
+<div class="listings-page-wrapper" [class.filters-active]="isFiltersOpen">
   
   <section class="top-bar-section">
     <div class="header-card">
       <div class="header-top">
+        <a routerLink="/" class="logo-section">
+            <div class="logo-icon">
+                <i class="bx bx-home"></i>
+            </div>
+            <span class="logo-text">DietiEstates</span>
+        </a>
         <h1>Listing Search Results</h1>
       </div>
 
       <div class="search-and-sort">
-        <app-search-bar 
-          (openFilters)="isSidebarOpen = true">
-        </app-search-bar>
+        <app-search-bar (toggleFilters)="isFiltersOpen = !isFiltersOpen"></app-search-bar>
       </div>
     </div>
   </section>
 
   <main class="results-layout">
+    <div class="main-results-card">
+      
+      <div class="results-toolbar">
+        <div class="sort-controls">
+          <label>Sort by:</label>
+          <select class="sort-select">
+            <option>Newest</option>
+            <option>Price: Low to High</option>
+            <option>Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="listings-grid">
+        <div class="listing-item-container" *ngFor="let i of [1,2,3,4]">
+          <div class="placeholder-card"></div>
+        </div>
+      </div>
+
+      <div class="pagination-wrapper">
+        </div>
+    </div>
   </main>
 
   <app-filter-panel 
-    [isOpen]="isSidebarOpen" 
-    (close)="isSidebarOpen = false">
+    [isOpen]="isFiltersOpen" 
+    (close)="isFiltersOpen = false">
   </app-filter-panel>
 </div>

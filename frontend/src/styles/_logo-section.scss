@@ -1,0 +1,28 @@
+@use 'variables' as *;
+
+@mixin logo-section 
+{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+
+    &:hover { opacity: 0.8; }
+
+    .logo-icon i 
+    {
+        font-size: $text-xxxl;
+        color: $logo-color; 
+    }
+
+    .logo-text 
+    {
+        font-size: 24px;
+        font-weight: 800;
+        color: $logo-color;
+        letter-spacing: -1px;
+        line-height: 1;
+        font-size: $text-xxxl;
+    }
+}

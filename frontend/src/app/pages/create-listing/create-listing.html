@@ -1,6 +1,4 @@
 <div class="create-listing-wrapper"> 
-  <div class="loading-overlay" *ngIf="isSubmitting"></div>
-
   @if (isSubmitting) 
   {
     <div class="loading-overlay">
@@ -19,38 +17,45 @@
       </a>
 
       <div class="stepper-content">
-        <div class="step-item" (click)="setStep(1)" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
+        <div class="step-item" (click)="setStep(1)" [ngClass]="getStepStatus(1)">
           <div class="step-circle">
-            <span *ngIf="currentStep <= 1">1</span>
-            <i *ngIf="currentStep > 1" class="bx bx-check"></i>
+            <i *ngIf="getStepStatus(1) === 'valid'" class="bx bx-check"></i>
+            <i *ngIf="getStepStatus(1) === 'error'" class="bx bx-x"></i>
+            <span *ngIf="getStepStatus(1) === 'active' || getStepStatus(1) === 'pending'">1</span>
           </div>
           <span class="step-label">General Info</span>
         </div>
         
-        <div class="step-line" [class.filled]="currentStep > 1"></div>
+        <div class="step-line" [class.filled]="getStepStatus(1) === 'valid'"></div>
 
-        <div class="step-item" (click)="setStep(2)" [class.active]="currentStep === 2" [class.completed]="currentStep > 2">
+        <div class="step-item" (click)="setStep(2)" [ngClass]="getStepStatus(2)">
           <div class="step-circle">
-            <span *ngIf="currentStep <= 2">2</span>
-            <i *ngIf="currentStep > 2" class="bx bx-check"></i>
+            <i *ngIf="getStepStatus(2) === 'valid'" class="bx bx-check"></i>
+            <i *ngIf="getStepStatus(2) === 'error'" class="bx bx-x"></i>
+            <span *ngIf="getStepStatus(2) === 'active' || getStepStatus(2) === 'pending'">2</span>
           </div>
           <span class="step-label">Position</span>
         </div>
 
-        <div class="step-line" [class.filled]="currentStep > 2"></div>
+        <div class="step-line" [class.filled]="getStepStatus(2) === 'valid'"></div>
 
-        <div class="step-item" (click)="setStep(3)" [class.active]="currentStep === 3" [class.completed]="currentStep > 3">
+        <div class="step-item" (click)="setStep(3)" [ngClass]="getStepStatus(3)">
           <div class="step-circle">
-            <span *ngIf="currentStep <= 3">3</span>
-            <i *ngIf="currentStep > 3" class="bx bx-check"></i>
+            <i *ngIf="getStepStatus(3) === 'valid'" class="bx bx-check"></i>
+            <i *ngIf="getStepStatus(3) === 'error'" class="bx bx-x"></i>
+            <span *ngIf="getStepStatus(3) === 'active' || getStepStatus(3) === 'pending'">3</span>
           </div>
           <span class="step-label">Extra Details</span>
         </div>
 
-        <div class="step-line" [class.filled]="currentStep > 3"></div>
+        <div class="step-line" [class.filled]="getStepStatus(3) === 'valid'"></div>
 
-        <div class="step-item" (click)="setStep(4)" [class.active]="currentStep === 4">
-          <div class="step-circle">4</div>
+        <div class="step-item" (click)="setStep(4)" [ngClass]="getStepStatus(4)">
+          <div class="step-circle">
+            <i *ngIf="getStepStatus(4) === 'valid'" class="bx bx-check"></i>
+            <i *ngIf="getStepStatus(4) === 'error'" class="bx bx-x"></i>
+            <span *ngIf="getStepStatus(4) === 'active' || getStepStatus(4) === 'pending'">4</span>
+          </div>
           <span class="step-label">Photos</span>
         </div>
       </div>
@@ -59,38 +64,30 @@
 
   <div class="content-container">
     <div class="step-wrapper">
-      <app-step-general-info 
-        [hidden]="currentStep !== 1" 
-        [parentForm]="listingForm">
-      </app-step-general-info>
+      <app-step-general-info [hidden]="currentStep !== 1" [parentForm]="listingForm"></app-step-general-info>
+      <app-step-location [hidden]="currentStep !== 2" [parentForm]="listingForm"></app-step-location>
+      <app-step-extra-details [hidden]="currentStep !== 3" [parentForm]="listingForm"></app-step-extra-details>
+      <app-photos [hidden]="currentStep !== 4" [parentForm]="listingForm"></app-photos>
+    </div>
 
-      <app-step-location 
-        [hidden]="currentStep !== 2" 
-        [parentForm]="listingForm">
-      </app-step-location>
-
-      <app-step-extra-details 
-        [hidden]="currentStep !== 3" 
-        [parentForm]="listingForm">
-      </app-step-extra-details>
-
-      <app-photos 
-        [hidden]="currentStep !== 4" 
-        [parentForm]="listingForm">
-      </app-photos>
+    <div class="error-container">
+      <p class="error-notice" *ngIf="hasVisibleErrors()">
+        <i class='bx bx-error-circle'></i> Some sections have errors. Please check the red marks.
+      </p>
     </div>
 
     <div class="form-actions">
       <button type="button" class="btn-secondary" (click)="setStep(currentStep - 1)" [disabled]="currentStep === 1">
         <i class="bx bx-chevron-left"></i> Back
       </button>
+      
       <button type="button" class="btn-primary" *ngIf="currentStep < 4" (click)="setStep(currentStep + 1)">
         Next <i class="bx bx-chevron-right"></i>
       </button>
-      <button type="submit" class="btn-submit" *ngIf="currentStep === 4" [disabled]="listingForm.invalid" (click)="onSubmit()">
+
+      <button type="submit" class="btn-submit" *ngIf="currentStep === 4" [disabled]="listingForm.invalid || isSubmitting" (click)="onSubmit()">
         Create Listing <i class="bx bx-check-double"></i>
       </button>
     </div>
   </div> 
-</div> 
-
+</div>

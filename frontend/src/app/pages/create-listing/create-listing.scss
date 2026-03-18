@@ -1,6 +1,7 @@
 @use 'variables' as *;
 @use 'animations' as *;
 @use 'form-shared' as *;
+@use 'logo-section' as *;
 
 $card-width: 1000px;
 $container-padding: 20px;
@@ -17,7 +18,6 @@ $container-padding: 20px;
     z-index: 9999; 
   }
 }
-
 
 .stepper-container 
 {
@@ -45,33 +45,8 @@ $container-padding: 20px;
 
         .logo-section 
         {
-            display: flex;       
-            align-items: center; 
-            gap: 10px;           
-            cursor: pointer;
-            flex-shrink: 0; 
+            @include logo-section;
             margin-right: 40px;  
-            text-decoration: none !important; 
-
-            .logo-icon 
-            {
-                font-size: $text-xxl; 
-                color: $logo-color;      
-                line-height: 1;
-            }
-
-            .logo-text 
-            {
-                font-size: $text-xxxl; 
-                font-weight: 800;
-                color: $logo-color;
-                letter-spacing: -1.5px;
-                line-height: 1;
-                white-space: nowrap; 
-                text-decoration: none; 
-            }
-
-            &:hover { opacity: 0.8; }
         }
 
         .stepper-content 
@@ -86,7 +61,6 @@ $container-padding: 20px;
 
 .content-container 
 {
-    
     display: flex;
     justify-content: center;
     width: 100%;
@@ -126,6 +100,11 @@ $container-padding: 20px;
         justify-content: center;
         font-weight: 600;
         border: 2px solid transparent;
+
+        i 
+        {
+            font-size: 20px;
+        }
     }
 
     .step-label 
@@ -133,6 +112,7 @@ $container-padding: 20px;
         margin-top: 8px;
         font-size: 12px;
         font-weight: 500;
+        transition: color 0.3s ease;
     }
 
     &.active 
@@ -143,15 +123,39 @@ $container-padding: 20px;
             color: $green-primary;
             border-color: $green-primary;
         }
-        .step-label { color: $green-primary; }
+        .step-label 
+        { 
+            color: $green-primary; 
+        }
     }
 
-    &.completed 
+    &.valid 
     {
         .step-circle 
         {
             background: $green-primary;
             color: $white-pure;
+            border-color: $green-primary;
+        }
+        .step-label 
+        { 
+            color: $green-primary; 
+        }
+    }
+
+    &.error 
+    {
+        animation: step-shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+
+        .step-circle 
+        {
+            background: #e74c3c;
+            color: $white-pure;
+            border-color: #e74c3c;
+        }
+        .step-label 
+        { 
+            color: #e74c3c; 
         }
     }
 }
@@ -188,11 +192,14 @@ $container-padding: 20px;
 .form-actions 
 {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; 
     align-items: center;
+    gap: 20px;               
     margin-top: 40px;
     padding: 20px 0;
     border-top: 1px solid #eee;
+    width: 100%;
+    max-width: $card-width;
     
     @include entrance-animation(0.3s, 5px);
 
@@ -214,12 +221,13 @@ $container-padding: 20px;
 
         &:disabled 
         {
-            background-color: $bg-main !important;
-            color: $bg-main;               
-            border: none;
+            background-color: #f0f0f0 !important; 
+            color: #999 !important;             
+            border: 1px solid #ddd !important;   
             cursor: not-allowed;
             transform: none !important;
             box-shadow: none !important;
+            opacity: 0.7;
         }
     }
 
@@ -249,4 +257,33 @@ $container-padding: 20px;
         @include form-button-green;
         width: auto
     }
+}
+
+.error-container 
+{
+    width: 100%;
+    max-width: $card-width;
+    display: flex;
+    justify-content: center;
+    height: 30px; 
+    margin-top: 20px;
+}
+
+.error-notice 
+{
+  color:$error-red;
+  font-size: $text-sm;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: step-shake 0.4s ease-in-out;
+}
+
+@keyframes step-shake 
+{
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+    40%, 60% { transform: translate3d(3px, 0, 0); }
 }

@@ -122,7 +122,7 @@ export class HomeComponent implements OnInit
       this.quickOptions = [
         { title: 'New Listing', subtitle: 'Create a new listing', icon: 'bx-plus-circle', action: 'CREATE_LISTING' },
         { title: 'Dashboard', subtitle: 'Overview of your statistics', icon: 'bx-line-chart', action: 'VIEW_STATS' },
-        { title: 'Your Listings', subtitle: 'Manage your active listings', icon: 'bx-list-ul', action: 'MANAGE_LISTINGS' },
+        { title: 'Search Listings', subtitle: 'Manage your active listings', icon: 'bx-list-ul', action: 'VIEW_LISTINGS' },
         { title: 'Your Appointments', subtitle: 'Your appointment calendar', icon: 'bx-calendar', action: 'VIEW_APPOINTMENTS' },
         
       ];
@@ -167,6 +167,10 @@ export class HomeComponent implements OnInit
 
       case 'CREATE_LISTING':
         this.router.navigate(['/create-listing']);
+        break;
+      
+      case 'VIEW_LISTINGS':
+        this.router.navigate(['/listings']);
         break;
 
       default:

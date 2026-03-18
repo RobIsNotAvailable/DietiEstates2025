@@ -40,5 +40,7 @@
         <label for="extraDetails">Extra Details</label>
     </div>
 
-    <p class="info-text">* all fields are mandatory</p>
+    <p class="info-text" [class.error-active]="extraGroup.invalid && extraGroup.touched">
+        * all fields are mandatory
+    </p>
 </form>

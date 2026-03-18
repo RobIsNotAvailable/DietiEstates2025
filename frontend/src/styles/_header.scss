@@ -1,8 +1,9 @@
 @use 'variables' as *;
 @use 'form-shared' as *;
+@use 'logo-section' as *;
 
 @mixin main-header-styles
-  {
+{
     height: $header-height;
     background: $white-pure;
     display: flex;
@@ -22,31 +23,7 @@
 
     .logo-section 
     {
-      font-size: $text-xxl;   
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none; 
-      padding-left: 25px;   
-      cursor: pointer;
-
-      &:hover 
-      {
-        opacity: 0.8;      
-      }
-
-      .logo-icon 
-      {
-        color: $logo-color;
-      }
-
-      .logo-text 
-      {
-        font-size: $text-xxl;   
-        font-weight: 800;    
-        color: $logo-color;
-        letter-spacing: -1px;
-      }
+      @include logo-section;
     }
 
     .auth-buttons 

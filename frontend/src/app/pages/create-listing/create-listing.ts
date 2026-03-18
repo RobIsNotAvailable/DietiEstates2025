@@ -34,6 +34,14 @@ export class CreateListingComponent
   listingForm: FormGroup;
   isSubmitting: boolean = false;
 
+  private stepGroups: { [key: number]: string } = 
+  {
+    1: 'generalInfo',
+    2: 'location',
+    3: 'extraDetails',
+    4: 'photos'
+  };
+
   constructor(private listingService: ListingService, private cd: ChangeDetectorRef, private router: Router) 
   {
     this.listingForm = new FormGroup({
@@ -60,15 +68,44 @@ export class CreateListingComponent
         planimetry: new FormControl(null)                                           
       })
     });
+
+    this.listingForm.valueChanges.subscribe(() => 
+    {
+      this.listingForm.updateValueAndValidity({ emitEvent: false });
+    });
   }
   
   setStep(step: number) 
   {
     if (step >= 1 && step <= 4) 
     {
+      const currentGroupName = this.stepGroups[this.currentStep];
+      this.listingForm.get(currentGroupName)?.markAsTouched();
+
       this.currentStep = step;
       this.cd.detectChanges();
+
+      this.listingForm.updateValueAndValidity();
     }
+  }
+
+  nextStep() { this.setStep(this.currentStep + 1); }
+  prevStep() { this.setStep(this.currentStep - 1); }
+
+  getStepStatus(step: number): 'active' | 'valid' | 'error' | 'pending' 
+  {
+    if (this.currentStep === step) return 'active';
+
+    const groupName = this.stepGroups[step];
+    const group = this.listingForm.get(groupName);
+
+    if (group) 
+    {
+      if (group.valid) return 'valid';
+      if (group.invalid && (group.touched || group.dirty)) return 'error';
+    }
+
+    return 'pending';
   }
 
   onSubmit() 
@@ -150,4 +187,19 @@ export class CreateListingComponent
     
     return new File([u8arr], fileName, { type: mime });
   }
+
+  hasVisibleErrors(): boolean 
+  {
+    for (let i = 1; i <= this.currentStep; i++) 
+    {
+      const groupName = this.stepGroups[i];
+      const group = this.listingForm.get(groupName);
+      if (group && group.invalid && (group.touched || group.dirty)) 
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }

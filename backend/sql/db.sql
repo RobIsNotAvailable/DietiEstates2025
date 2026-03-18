@@ -91,7 +91,7 @@ CREATE TABLE address
 CREATE TABLE house_info
 (
     listing_id INT REFERENCES listing(id) PRIMARY KEY,
-    description VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
     address_id INT REFERENCES address(id) NOT NULL,
     intern INT NOT NULL,
     floor INT NOT NULL,

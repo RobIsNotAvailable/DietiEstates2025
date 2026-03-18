@@ -39,25 +39,44 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy
 
   private initMap() 
   {
-    this.map = L.map(`map-${this.instanceId}`).setView([this.lat, this.lon], this.zoom);
+      this.map = L.map(`map-${this.instanceId}`, {
+          scrollWheelZoom: false 
+      }).setView([this.lat, this.lon], this.zoom);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(this.map);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+      }).addTo(this.map);
 
-    this.marker = L.marker([this.lat, this.lon], { icon: this.defaultIcon }).addTo(this.map);
+      this.marker = L.marker([this.lat, this.lon], { icon: this.defaultIcon }).addTo(this.map);
 
-    setTimeout(() => {
-      this.map.invalidateSize();
-    }, 200);
+      this.map.on('focus', () => 
+      {
+          this.map.scrollWheelZoom.enable();
+      });
+
+      this.map.on('blur', () => 
+      {
+          this.map.scrollWheelZoom.disable();
+      });
+
+      setTimeout(() => 
+        {
+        if (this.map) {
+            this.map.invalidateSize();
+            this.map.setView([this.lat, this.lon], this.zoom);
+        }
+      }, 300);
   }
 
-  private updatePosition(lat: number, lon: number) 
+  public updatePosition(lat: number, lon: number) 
   {
     if (!lat || !lon) return;
 
     this.marker.setLatLng([lat, lon]);
-    this.map.setView([lat, lon], 17); 
+    this.map.flyTo([lat, lon], 17, {
+        animate: true,
+        duration: 1.5
+    });
   }
 
   ngOnDestroy() 

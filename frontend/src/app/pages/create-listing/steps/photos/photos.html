@@ -47,4 +47,8 @@
         
         <input #planInput type="file" (change)="onPlanimetrySelected($event)" multiple hidden accept="image/*">
     </div>
+
+    <p class="info-text" [class.error-active]="photosGroup.invalid && photosGroup.touched">
+        * at least one property photo and the planimetry are required
+    </p>
 </div>
