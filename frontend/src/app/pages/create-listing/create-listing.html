@@ -64,10 +64,29 @@
 
   <div class="content-container">
     <div class="step-wrapper">
-      <app-step-general-info [hidden]="currentStep !== 1" [parentForm]="listingForm"></app-step-general-info>
-      <app-step-location [hidden]="currentStep !== 2" [parentForm]="listingForm"></app-step-location>
-      <app-step-extra-details [hidden]="currentStep !== 3" [parentForm]="listingForm"></app-step-extra-details>
-      <app-photos [hidden]="currentStep !== 4" [parentForm]="listingForm"></app-photos>
+      <app-step-general-info 
+        *ngIf="currentStep === 1" 
+        [parentForm]="listingForm"
+        [showErrors]="stepsAttempted.has(1)">
+      </app-step-general-info>
+
+      <app-step-location 
+        *ngIf="currentStep === 2" 
+        [parentForm]="listingForm"
+        [showErrors]="stepsAttempted.has(2)">
+      </app-step-location>
+
+      <app-step-extra-details 
+        *ngIf="currentStep === 3" 
+        [parentForm]="listingForm"
+        [showErrors]="stepsAttempted.has(3)">
+      </app-step-extra-details>
+
+      <app-photos 
+        *ngIf="currentStep === 4" 
+        [parentForm]="listingForm"
+        [showErrors]="stepsAttempted.has(4)">
+      </app-photos>
     </div>
 
     <div class="error-container">

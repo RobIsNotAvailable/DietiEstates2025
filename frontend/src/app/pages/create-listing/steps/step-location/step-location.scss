@@ -12,7 +12,35 @@
     { 
         @include form-field-structure; 
         position: relative;
+
+        &.error-state {
+            .input-wrapper 
+            {
+                input 
+                {
+                    border-color: $error-red !important;
+                    box-shadow: 0 0 0 4px rgba($error-red, 0.1);
+                }
+                label 
+                {
+                    color: $error-red !important;
+                }
+            }
+        }
     }
+
+    .error-message 
+    {
+        color: $error-red;
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        @include entrance-animation(0.2s, -5px); 
+    }
+    
     .loader-icon 
     {
         position: absolute;

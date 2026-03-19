@@ -14,7 +14,7 @@ import { ListingSliderComponent } from '../../../../components/listing-slider/li
 export class StepGeneralInfoComponent 
 {
   @Input() parentForm!: FormGroup;
-
+  @Input() showErrors: boolean = false;
    
   formattedPrice: string = ''; 
 

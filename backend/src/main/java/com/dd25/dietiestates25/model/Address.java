@@ -17,7 +17,6 @@ public class Address
     @Column(name = "id", nullable = false)
     private Integer id;
 
-
     @Embedded
     private Coordinates coordinates; 
 

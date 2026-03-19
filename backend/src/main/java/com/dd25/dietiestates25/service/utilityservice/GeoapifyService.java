@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -30,7 +31,9 @@ public class GeoapifyService
 
     public List<GeoapifyProperties> getPossibleAddresses(String rawAddress) 
     {
-        String url = UriComponentsBuilder
+        try 
+        {
+            String url = UriComponentsBuilder
                 .fromUriString("https://api.geoapify.com/v1/geocode/autocomplete")
                 .queryParam("text", rawAddress)
                 .queryParam("apiKey", apiKey)
@@ -40,11 +43,16 @@ public class GeoapifyService
                 .build()
                 .toUriString();
 
-        GeoapifyResponse response = restTemplate.getForObject(url, GeoapifyResponse.class);
+            GeoapifyResponse response = restTemplate.getForObject(url, GeoapifyResponse.class);
 
-        return Optional.ofNullable(response)
-                .map(GeoapifyResponse::properties)
-                .orElse(Collections.emptyList());
+            return Optional.ofNullable(response)
+                    .map(GeoapifyResponse::properties)
+                        .orElse(Collections.emptyList());    
+        } 
+        catch (RestClientException e) 
+        {
+            return Collections.emptyList();
+        }
     }
 
     

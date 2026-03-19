@@ -6,35 +6,30 @@ import { of } from 'rxjs';
 
 import { LocationService } from '../../../../services/location';
 import { MapComponent } from '../../../../components/map/map';
-
 import { LucideAngularModule } from 'lucide-angular';
-@Component
-({
+
+@Component({
   selector: 'app-step-location',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MapComponent, LucideAngularModule], 
   templateUrl: './step-location.html',
   styleUrls: ['./step-location.scss']
 })
-
 export class StepLocationComponent implements OnInit 
 {
   @Input() parentForm!: FormGroup;
+  @Input() showErrors: boolean = false;
   @ViewChild(MapComponent) mapComponent!: MapComponent;
 
   suggestions: any[] = [];
   isSearching = false;
   isPoiLoading = false;
+  showSuggestions = false;
 
   currentLat: number | null = null;
   currentLon: number | null = null;
 
-  poiStatus = 
-  {
-    hasBus: false,
-    hasPark: false,
-    hasSchool: false
-  };
+  poiStatus = { hasBus: false, hasPark: false, hasSchool: false };
 
   constructor(private locationService: LocationService, private cd: ChangeDetectorRef) {}
 
@@ -45,14 +40,17 @@ export class StepLocationComponent implements OnInit
 
   ngOnInit() 
   {
+    // Restore map coords if address was already chosen before
     const existingLat = this.locationGroup.get('latitude')?.value;
     const existingLon = this.locationGroup.get('longitude')?.value;
+
     if (existingLat && existingLon) 
     {
       this.currentLat = existingLat;
       this.currentLon = existingLon;
     }
 
+    // Search pipe — no validator logic here anymore
     this.locationGroup.get('address')?.valueChanges.pipe
     (
       tap(value => 
@@ -61,8 +59,10 @@ export class StepLocationComponent implements OnInit
         {
           this.suggestions = [];
           this.isSearching = false;
-          this.locationGroup.patchValue({ latitude: null, longitude: null }, { emitEvent: false });
-          
+          this.locationGroup.patchValue(
+            { latitude: null, longitude: null }, 
+            { emitEvent: false }
+          );
           this.currentLat = null;
           this.currentLon = null;
         }
@@ -78,27 +78,21 @@ export class StepLocationComponent implements OnInit
       switchMap(value => this.locationService.normalizeAddress(value).pipe
       (
         delay(300), 
-        catchError(() => of([])) 
+        catchError(() => of([]))
       ))
     )
-    .subscribe
-    ({
+    .subscribe({
       next: (results: any) => 
       {
-        if (results && results.length > 0) 
-        {
-          this.suggestions = results.map((res: any) => 
-          ({
-            ...res,
-            main_text: (res.street || '') + (res.houseNumber ? ' ' + res.houseNumber : ''),
-            secondary_text: `${res.city || ''}, ${res.province || ''}`, 
-            full_address: res.formattedAddress 
-          }));
-        } 
-        else 
-        {
-          this.suggestions = [];
-        }
+        this.suggestions = results?.length > 0
+          ? results.map((res: any) => ({
+              ...res,
+              main_text: (res.street || '') + (res.houseNumber ? ' ' + res.houseNumber : ''),
+              secondary_text: `${res.city || ''}, ${res.province || ''}`,
+              full_address: res.formattedAddress
+            }))
+          : [];
+
         this.isSearching = false;
         this.cd.detectChanges(); 
       },
@@ -106,7 +100,7 @@ export class StepLocationComponent implements OnInit
       {
         this.suggestions = [];
         this.isSearching = false;
-        this.cd.detectChanges(); 
+        this.cd.detectChanges();
       }
     });
   }
@@ -117,31 +111,28 @@ export class StepLocationComponent implements OnInit
     
     this.currentLat = s.lat;
     this.currentLon = s.lon;
-
     this.isPoiLoading = true;
-    
-    this.locationGroup.patchValue
-    ({
+
+    // emitEvent: false so the search pipe doesn't re-trigger
+    // latitude being set is what the parent validator checks
+    this.locationGroup.patchValue({
       address: selectedAddress, 
       city: s.city,
       zipCode: s.postcode,
       latitude: s.lat,
       longitude: s.lon,
       province: s.province || ''
-    }, { emitEvent: false }); 
+    }, { emitEvent: false });
 
-    this.locationService.getSurroundings(s.lat, s.lon).subscribe
-    ({
-      next: (res) => {
-        this.poiStatus = 
-        {
-          hasBus: res.hasBus,
-          hasPark: res.hasPark,
-          hasSchool: res.hasSchool
-        };
+    // Manually re-run validation now that latitude is set
+    this.locationGroup.get('address')?.updateValueAndValidity({ emitEvent: false });
+
+    this.locationService.getSurroundings(s.lat, s.lon).subscribe({
+      next: (res) => 
+      {
+        this.poiStatus = { hasBus: res.hasBus, hasPark: res.hasPark, hasSchool: res.hasSchool };
         this.isPoiLoading = false;
         this.cd.detectChanges();
-
       },
       error: () => 
       {
@@ -158,8 +149,6 @@ export class StepLocationComponent implements OnInit
   {
     const lat = this.mapComponent.lat;
     const lon = this.mapComponent.lon;
-    
-    console.log("Tentativo di ricentramento su:", lat, lon); 
 
     if (lat && lon) 
     {
@@ -174,9 +163,17 @@ export class StepLocationComponent implements OnInit
         this.cd.detectChanges();
       }, 50);
     }
-    else
-    {
-      console.warn("Nessuna coordinata disponibile per il ricentramento.");
-    }
+  }
+
+  onAddressInput() 
+  {
+    this.locationGroup.patchValue(
+      { latitude: null, longitude: null }, 
+      { emitEvent: false }
+    );
+    this.currentLat = null;
+    this.currentLon = null;
+    this.suggestions = [];
+    this.locationGroup.get('address')?.updateValueAndValidity({ emitEvent: false });
   }
 }

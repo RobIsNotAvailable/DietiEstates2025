@@ -55,4 +55,19 @@ public interface ListingRepository extends JpaRepository<Listing, Integer>, JpaS
                 p.filepath, l.views, l.lastModified, l.status
     """)
     ListingStatsResponse getStatsByListing(@Param("id") Integer id);
+
+    @Query
+    (
+        """
+        SELECT COUNT(l) = 0 
+        FROM Listing l 
+        JOIN l.houseInfo h 
+        JOIN h.buildingDetails bd 
+        JOIN bd.address a 
+        WHERE a.geocodingDetails.placeId = :placeId 
+        AND bd.intern = :intern 
+        AND l.status = 'ACTIVE'
+        """
+    )
+    boolean isAddressAvailable(@Param("placeId") String placeId, @Param("intern") int intern);
 }

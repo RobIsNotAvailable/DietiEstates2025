@@ -23,7 +23,7 @@ public class HouseInfo
     @JoinColumn(name = "listing_id")
     private Listing listing;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     private String description;
 
     @Embedded
@@ -50,6 +50,7 @@ public class HouseInfo
     public BuildingDetails getBuildingDetails() { return buildingDetails; }
     public HouseDetails getHouseDetails() { return houseDetails; }
     public String getCity() {return buildingDetails.getCity(); }
+    public Integer getIntern() { return buildingDetails.getIntern(); }
 
     // Setters
     public void setListing(Listing listing) { this.listing = listing; }

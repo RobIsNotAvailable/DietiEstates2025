@@ -18,6 +18,7 @@ import { ListingSliderComponent } from '../../../../components/listing-slider/li
 export class PhotosComponent implements OnInit
 {
   @Input() parentForm!: FormGroup;
+  @Input() showErrors: boolean = false;
 
   imagePreviews: string[] = [];
   currentIndex: number = 0;

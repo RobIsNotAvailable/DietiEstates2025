@@ -12,7 +12,8 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 export class StepExtraDetailsComponent 
 {
   @Input() parentForm!: FormGroup;
-
+  @Input() showErrors: boolean = false;
+  
   get extraGroup() 
   {
     return this.parentForm.get('extraDetails') as FormGroup;

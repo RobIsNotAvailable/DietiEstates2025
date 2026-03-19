@@ -33,6 +33,7 @@ export class CreateListingComponent
   currentStep: number = 1;
   listingForm: FormGroup;
   isSubmitting: boolean = false;
+  stepsAttempted: Set<number> = new Set();
 
   private stepGroups: { [key: number]: string } = 
   {
@@ -54,7 +55,18 @@ export class CreateListingComponent
         numberOfRooms: new FormControl(1, [Validators.required, Validators.min(1)])       
       }),
         location: new FormGroup({
-        address: new FormControl('', [Validators.required])
+          address: new FormControl('', [
+            Validators.required,
+            (control) => {
+              const lat = (control.parent as FormGroup)?.get('latitude')?.value;
+              return (control.value && !lat) ? { invalidAddress: true } : null;
+            }
+          ]),
+          city: new FormControl(''),
+          zipCode: new FormControl(''),
+          latitude: new FormControl(null),
+          longitude: new FormControl(null),
+          province: new FormControl('')
       }),
       extraDetails: new FormGroup({ 
         floor: new FormControl('', [Validators.required]),        
@@ -73,39 +85,6 @@ export class CreateListingComponent
     {
       this.listingForm.updateValueAndValidity({ emitEvent: false });
     });
-  }
-  
-  setStep(step: number) 
-  {
-    if (step >= 1 && step <= 4) 
-    {
-      const currentGroupName = this.stepGroups[this.currentStep];
-      this.listingForm.get(currentGroupName)?.markAsTouched();
-
-      this.currentStep = step;
-      this.cd.detectChanges();
-
-      this.listingForm.updateValueAndValidity();
-    }
-  }
-
-  nextStep() { this.setStep(this.currentStep + 1); }
-  prevStep() { this.setStep(this.currentStep - 1); }
-
-  getStepStatus(step: number): 'active' | 'valid' | 'error' | 'pending' 
-  {
-    if (this.currentStep === step) return 'active';
-
-    const groupName = this.stepGroups[step];
-    const group = this.listingForm.get(groupName);
-
-    if (group) 
-    {
-      if (group.valid) return 'valid';
-      if (group.invalid && (group.touched || group.dirty)) return 'error';
-    }
-
-    return 'pending';
   }
 
   onSubmit() 
@@ -156,7 +135,8 @@ export class CreateListingComponent
 
         return this.listingService.uploadPhotos(listingId, files, descriptions);
       })
-    ).subscribe
+    )
+    .subscribe
     ({
         next: () => 
         {
@@ -164,10 +144,21 @@ export class CreateListingComponent
           alert("Annuncio creato con successo!");
           this.router.navigate(['/home']); 
         },
-        error: () => 
+        error: (err) => 
         {
           this.isSubmitting = false;
-          alert("Error! Something went wrong please try again");
+          this.cd.detectChanges();
+
+          if (err.status === 500 || err.status === 0) 
+          {
+            alert("Something went wrong. Please check all datas inserted and try again or refresh the page");
+          } 
+          else 
+          {
+            const errorMessage = typeof err.error === 'string' ? err.error : (err.error?.message || "An error occurred");
+            
+            alert(errorMessage);
+          }
         }
     });
   }
@@ -188,18 +179,66 @@ export class CreateListingComponent
     return new File([u8arr], fileName, { type: mime });
   }
 
+  setStep(step: number) 
+  {
+    if (step >= 1 && step <= 4) 
+    {
+      if (step > this.currentStep) 
+      {
+        this.stepsAttempted.add(this.currentStep);
+      }
+
+      const currentGroupName = this.stepGroups[this.currentStep];
+      this.listingForm.get(currentGroupName)?.markAsTouched();
+
+      if (step === 2) 
+      {
+        const addressControl = this.listingForm.get('location.address');
+        const lat = this.listingForm.get('location.latitude')?.value;
+        if (lat && addressControl) 
+        {
+          addressControl.markAsUntouched();
+          addressControl.markAsPristine();
+        }
+      }
+
+      this.currentStep = step;
+      this.cd.detectChanges();
+      this.listingForm.updateValueAndValidity();
+    }
+  }
+
+  getStepStatus(step: number): 'active' | 'valid' | 'error' | 'pending' 
+  {
+    if (this.currentStep === step) return 'active';
+
+    const groupName = this.stepGroups[step];
+    const group = this.listingForm.get(groupName);
+
+    if (group) 
+    {
+      if (group.valid) return 'valid';
+      if (group.invalid && this.stepsAttempted.has(step)) return 'error';
+    }
+
+    return 'pending';
+  }
+
   hasVisibleErrors(): boolean 
   {
-    for (let i = 1; i <= this.currentStep; i++) 
+    for (let i = 1; i <= 4; i++) 
     {
       const groupName = this.stepGroups[i];
       const group = this.listingForm.get(groupName);
-      if (group && group.invalid && (group.touched || group.dirty)) 
+      if (group && group.invalid && this.stepsAttempted.has(i)) 
       {
         return true;
       }
     }
     return false;
   }
+
+  nextStep() { this.setStep(this.currentStep + 1); }
+  prevStep() { this.setStep(this.currentStep - 1); }
 
 }

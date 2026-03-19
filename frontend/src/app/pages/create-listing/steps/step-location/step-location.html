@@ -4,9 +4,16 @@
   <div class="location-vertical-layout">
     
     <div class="address-section">
-      <div class="form-field address-field">
+      <div class="form-field address-field" [class.error-state]="locationGroup.get('address')?.invalid && (locationGroup.get('address')?.touched || showErrors)">
         <div class="input-wrapper">
-          <input type="text" id="listingAddress" formControlName="address" placeholder=" " autocomplete="off">
+          <input 
+  type="text" 
+  id="listingAddress" 
+  formControlName="address" 
+  (input)="onAddressInput()" 
+  placeholder=" " 
+  autocomplete="off"
+>
           <label for="listingAddress">Complete Address</label>
           
           <div class="loader-icon" *ngIf="isSearching">
@@ -24,8 +31,12 @@
           </div>
         </div>
 
-        <div class="error-message" *ngIf="locationGroup.get('address')?.invalid && locationGroup.get('address')?.touched">
-          Address Required
+        <div class="error-message" *ngIf="locationGroup.get('address')?.invalid && (locationGroup.get('address')?.touched || showErrors)">
+          <span *ngIf="locationGroup.get('address')?.hasError('required')">Address is required</span>
+          
+          <span *ngIf="locationGroup.get('address')?.hasError('invalidAddress') && !locationGroup.get('address')?.hasError('required')">
+            Please select a valid address from the suggestions
+          </span>
         </div>
       </div>
     </div>
@@ -91,7 +102,7 @@
     </div>
   </div>
 
-  <p class="info-text" [class.error-active]="locationGroup.invalid && locationGroup.touched">
+  <p class="info-text" [class.error-active]="locationGroup.invalid && showErrors">
     * all fields are mandatory
   </p>
 </div>

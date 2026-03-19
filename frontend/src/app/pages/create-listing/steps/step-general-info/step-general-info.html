@@ -44,7 +44,7 @@
         <label for="listingDescription">Description</label>
     </div>
 
-    <p class="info-text" [class.error-active]="generalGroup.invalid && generalGroup.touched">
+    <p class="info-text" [class.error-active]="generalGroup.invalid && showErrors">
         * all fields are mandatory
     </p>
 </form>

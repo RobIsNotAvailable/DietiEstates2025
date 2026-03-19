@@ -62,6 +62,9 @@ public class ListingService
         
         Listing listing = new Listing(request.name(), agent, commercialInfo, houseInfo, surroundingInfo);
 
+        if (!repo.isAddressAvailable(normalizedAddress.getPlaceId(), houseInfo.getIntern())) 
+            throw new IllegalStateException("This house already has an active listing");
+
         repo.save(listing);
 
         return listing.getId();
