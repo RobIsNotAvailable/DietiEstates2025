@@ -2,6 +2,8 @@ package com.dd25.dietiestates25.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -70,4 +72,22 @@ public interface ListingRepository extends JpaRepository<Listing, Integer>, JpaS
         """
     )
     boolean isAddressAvailable(@Param("placeId") String placeId, @Param("intern") int intern);
+
+    @Query
+    (
+        value = """
+        SELECT DISTINCT l FROM Listing l
+        LEFT JOIN FETCH l.commercialInfo
+        LEFT JOIN FETCH l.houseInfo hi
+        LEFT JOIN FETCH hi.buildingDetails.address
+        LEFT JOIN FETCH l.surroundingInfo
+        LEFT JOIN FETCH l.photos
+        WHERE l.status = com.dd25.dietiestates25.model.enums.Status.ACTIVE
+        """,
+        countQuery = """
+        SELECT COUNT(l) FROM Listing l
+        WHERE l.status = com.dd25.dietiestates25.model.enums.Status.ACTIVE
+        """
+    )
+    Page<Listing> findAllActiveWithDetails(Pageable pageable);
 }

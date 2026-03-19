@@ -2,6 +2,10 @@ package com.dd25.dietiestates25.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -83,7 +87,7 @@ public class ListingService
     {
         Specification<Listing> spec = Specification.unrestricted();
 
-        spec = spec.and(ListingSpecs.isActive(true));
+        spec = spec.and(ListingSpecs.isActive());
         spec = spec.and(ListingSpecs.hasCity(request.city()));
         spec = spec.and(ListingSpecs.hasPriceRange(request.minPrice(), request.maxPrice()));
         spec = spec.and(ListingSpecs.hasMinRooms(request.minRooms()));
@@ -94,6 +98,15 @@ public class ListingService
         return results.stream()
                   .map(this::mapToSummary)
                   .toList();
+    }
+    
+    public Page<SummaryListingResponse> getAllActiveListings(int page, int size) 
+    {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("lastModified").descending());
+
+        Page<Listing> entityPage = repo.findAllActiveWithDetails(pageable);
+
+        return entityPage.map(this::mapToSummary);
     }
 
     public List<ListingStatsResponse>getStats()
@@ -106,6 +119,10 @@ public class ListingService
 
     private SummaryListingResponse mapToSummary(Listing l) 
     {
+        String coverImage = l.getPhotos() != null && !l.getPhotos().isEmpty() 
+            ? l.getPhotos().get(0).getFilepath() 
+            : null;
+
         return new SummaryListingResponse
         (
             l.getId(),
@@ -118,7 +135,7 @@ public class ListingService
             l.getSurroundingInfo().isNearStops(),
             l.getSurroundingInfo().isNearParks(),
             l.getSurroundingInfo().isNearSchools(),
-            l.getPhotos().stream().map(Photo::getFilepath).findFirst().orElse(null)
+            coverImage 
         );
     }
 

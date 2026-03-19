@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchBarComponent } from '../../components/search-bar/search-bar';
 import { FilterPanelComponent } from '../../components/filter-panel/filter-panel';
 import { RouterModule } from '@angular/router';
+import { ListingService } from '../../services/listing';
+import { SummaryListingResponse } from '../../models/listing.model';
+import { Page } from '../../models/page.model';
 
 @Component({
   selector: 'app-listings-page',
@@ -11,13 +14,67 @@ import { RouterModule } from '@angular/router';
   templateUrl: './listings-page.html',
   styleUrls: ['./listings-page.scss']
 })
-export class ListingsPageComponent 
+export class ListingsPageComponent implements OnInit 
 {
+  listings: SummaryListingResponse[] = [];
+  isLoading: boolean = false;
   isFiltersOpen: boolean = false;
   currentCity: string = ''; 
+
+  currentPage: number = 0;
+  pageSize: number = 20;
+  totalElements: number = 0;
+  isLast: boolean = false;
+
+  constructor(private listingService: ListingService, private cd: ChangeDetectorRef) {}
+
+  ngOnInit() 
+  {
+    this.loadListings();
+  }
+
+  loadListings(page: number = 0) 
+  {
+    this.isLoading = true;
+    
+    this.listingService.getActiveListings(page, this.pageSize).subscribe
+    ({
+      next: (data: Page<SummaryListingResponse>) => 
+      {
+        console.log("Dati grezzi dal server:", data.content[0]);
+        this.listings = data.content;
+        this.totalElements = data.totalElements;
+        this.currentPage = data.number;
+        this.isLast = data.last;
+        this.isLoading = false;
+        this.cd.detectChanges();
+      },
+      error: (err) => 
+      {
+        console.error("Errore durante il recupero dei listing:", err);
+        this.isLoading = false;
+      }
+    });
+  }
 
   toggleFilterPanel() 
   {
     this.isFiltersOpen = !this.isFiltersOpen;
+  }
+
+  goToNextPage() 
+  {
+    if (!this.isLast) 
+    {
+      this.loadListings(this.currentPage + 1);
+    }
+  }
+
+  goToPreviousPage() 
+  {
+    if (this.currentPage > 0) 
+    {
+      this.loadListings(this.currentPage - 1);
+    }
   }
 }

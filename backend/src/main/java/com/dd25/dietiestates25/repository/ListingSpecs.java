@@ -73,8 +73,9 @@ public class ListingSpecs
         };
     }
 
-    public static Specification<Listing> isActive(boolean active) 
+    public static Specification<Listing> isActive() 
     {
-        return (root, query, cb) -> cb.equal(root.get("active"), active);
+        return (root, query, criteriaBuilder) -> 
+            criteriaBuilder.equal(root.get("status"), com.dd25.dietiestates25.model.enums.Status.ACTIVE);
     }
 }

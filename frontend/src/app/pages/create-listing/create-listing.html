@@ -26,7 +26,7 @@
           <span class="step-label">General Info</span>
         </div>
         
-        <div class="step-line" [class.filled]="getStepStatus(1) === 'valid'"></div>
+        <div class="step-line" [class.filled]="getStepStatus(1) === 'valid' && currentStep > 1"></div>
 
         <div class="step-item" (click)="setStep(2)" [ngClass]="getStepStatus(2)">
           <div class="step-circle">
@@ -37,7 +37,7 @@
           <span class="step-label">Position</span>
         </div>
 
-        <div class="step-line" [class.filled]="getStepStatus(2) === 'valid'"></div>
+        <div class="step-line" [class.filled]="getStepStatus(2) === 'valid' && currentStep > 2"></div>
 
         <div class="step-item" (click)="setStep(3)" [ngClass]="getStepStatus(3)">
           <div class="step-circle">
@@ -48,7 +48,7 @@
           <span class="step-label">Extra Details</span>
         </div>
 
-        <div class="step-line" [class.filled]="getStepStatus(3) === 'valid'"></div>
+        <div class="step-line" [class.filled]="getStepStatus(3) === 'valid' && currentStep > 3"></div>
 
         <div class="step-item" (click)="setStep(4)" [ngClass]="getStepStatus(4)">
           <div class="step-circle">

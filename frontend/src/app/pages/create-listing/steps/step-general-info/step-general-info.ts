@@ -28,20 +28,25 @@ export class StepGeneralInfoComponent
   formatPrice(event: any) 
   {
     const input = event.target as HTMLInputElement;
+    
     let rawValue = input.value.replace(/\D/g, '');
 
     if (rawValue) 
     {
+      if (rawValue.length > 10) rawValue = rawValue.substring(0, 10);
+
       const numericValue = parseInt(rawValue, 10);
+
       this.formattedPrice = new Intl.NumberFormat('de-DE').format(numericValue);
-      this.generalGroup.patchValue({ price: numericValue });
+      
+      this.generalGroup.patchValue({ price: numericValue }, { emitEvent: true });
     } 
     else 
     {
       this.formattedPrice = '';
-      this.generalGroup.patchValue({ price: null });
+      this.generalGroup.patchValue({ price: null }, { emitEvent: true });
     }
-  }
 
-  
+    input.value = this.formattedPrice;
+  }
 }

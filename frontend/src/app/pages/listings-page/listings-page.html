@@ -22,6 +22,7 @@
     <div class="main-results-card">
       
       <div class="results-toolbar">
+        <span class="results-count" *ngIf="!isLoading">Showing {{listings.length}} of {{totalElements}} Listings</span>
         <div class="sort-controls">
           <label>Sort by:</label>
           <select class="sort-select">
@@ -33,13 +34,39 @@
       </div>
 
       <div class="listings-grid">
-        <div class="listing-item-container" *ngFor="let i of [1,2,3,4]">
-          <div class="placeholder-card"></div>
+        <div class="listing-card" *ngFor="let item of listings">
+          <div class="card-image">
+            <img [src]="item.imageUrl || 'assets/images/placeholder-house.jpg'" alt="Property image">
+            <div class="tag">{{ item.listingType }}</div>
+          </div>
+          
+          <div class="card-content">
+            <h3 class="title">{{ item.name }}</h3>
+            <p class="address"><i class="bx bx-map"></i> {{ item.formattedAddress }}</p>
+            
+            <div class="features">
+              <span><i class="bx bx-area"></i> {{ item.squareMeters }} sqm</span>
+              <span *ngIf="item.nearStops"><i class="bx bx-train"></i> Transit</span>
+            </div>
+
+            <div class="card-footer">
+              <span class="price">{{ item.price | currency:'EUR':'symbol':'1.0-0' }}</span>
+              <button class="btn-details" [routerLink]="['/listing', item.id]">View Details</button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="pagination-wrapper">
-        </div>
+      <div class="pagination-wrapper" *ngIf="totalElements > 0">
+        <button class="btn-pag" (click)="goToPreviousPage()" [disabled]="currentPage === 0">
+          <i class="bx bx-chevron-left"></i> Prev
+        </button>
+        <span class="page-indicator">Page {{ currentPage + 1 }}</span>
+        <button class="btn-pag" (click)="goToNextPage()" [disabled]="isLast">
+          Next <i class="bx bx-chevron-right"></i>
+        </button>
+      </div>
+
     </div>
   </main>
 
