@@ -40,7 +40,6 @@ export class StepLocationComponent implements OnInit
 
   ngOnInit() 
   {
-    // Restore map coords if address was already chosen before
     const existingLat = this.locationGroup.get('latitude')?.value;
     const existingLon = this.locationGroup.get('longitude')?.value;
 
@@ -50,7 +49,6 @@ export class StepLocationComponent implements OnInit
       this.currentLon = existingLon;
     }
 
-    // Search pipe — no validator logic here anymore
     this.locationGroup.get('address')?.valueChanges.pipe
     (
       tap(value => 
@@ -113,8 +111,7 @@ export class StepLocationComponent implements OnInit
     this.currentLon = s.lon;
     this.isPoiLoading = true;
 
-    // emitEvent: false so the search pipe doesn't re-trigger
-    // latitude being set is what the parent validator checks
+
     this.locationGroup.patchValue({
       address: selectedAddress, 
       city: s.city,
@@ -124,7 +121,6 @@ export class StepLocationComponent implements OnInit
       province: s.province || ''
     }, { emitEvent: false });
 
-    // Manually re-run validation now that latitude is set
     this.locationGroup.get('address')?.updateValueAndValidity({ emitEvent: false });
 
     this.locationService.getSurroundings(s.lat, s.lon).subscribe({

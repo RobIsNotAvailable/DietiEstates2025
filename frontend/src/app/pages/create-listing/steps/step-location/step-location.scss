@@ -1,6 +1,8 @@
 @use 'variables' as *;
 @use 'form-shared' as *;
 @use 'animations' as *;
+@use 'listings' as *;
+
 
 .location-container 
 {
@@ -204,93 +206,7 @@
     
     .poi-container 
     {
-        margin-top: 25px;
-        padding: 10px 5px; 
-
-        .poi-label 
-        {
-            display: block;
-            font-size: 11px;
-            font-weight: 800;
-            color: #a0aec0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-        }
-
-        .poi-badges 
-        {
-            display: flex;
-            gap: 30px;
-            justify-content: flex-start;
-        }
-
-        .poi-item 
-        {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            
-            .poi-icon 
-            {
-                width: 55px;
-                height: 55px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: #f1f3f5; 
-                border-radius: 50%;
-                font-size: 24px;
-                color: #adb5bd; 
-                border: 2px solid transparent;
-                transition: all 0.4s ease;
-            }
-
-            span 
-            {
-                font-size: 11px;
-                font-weight: 600;
-                color: #adb5bd;
-                transition: all 0.4s ease;
-            }
-
-            &.active 
-            {
-                .poi-icon 
-                {
-                    background: $logo-color; 
-                    color: white;        
-                    box-shadow: 0 8px 15px rgba(26, 42, 58, 0.2);
-                    transform: scale(1.1);
-                }
-
-                span 
-                { 
-                    color: $logo-color; 
-                    font-weight: 700;
-                }
-            }
-
-            &.loading 
-            {
-                .poi-icon {
-                background: #f8f9fa;
-                border: 2px solid $logo-color; 
-                color: $logo-color; 
-                
-                i {
-                    font-size: 24px;
-                }
-                }
-                
-                span {
-                color: $logo-color;
-                font-weight: 600;
-                }
-            }
-        }
+        @include poi-container();
     }
 
     @keyframes spin 

@@ -4,10 +4,10 @@
     <div class="header-card">
       <div class="header-top">
         <a routerLink="/" class="logo-section">
-            <div class="logo-icon">
-                <i class="bx bx-home"></i>
-            </div>
-            <span class="logo-text">DietiEstates</span>
+          <div class="logo-icon">
+            <i class="bx bx-home"></i>
+          </div>
+          <span class="logo-text">DietiEstates</span>
         </a>
         <h1>Listing Search Results</h1>
       </div>
@@ -22,7 +22,6 @@
     <div class="main-results-card">
       
       <div class="results-toolbar">
-        <span class="results-count" *ngIf="!isLoading">Showing {{listings.length}} of {{totalElements}} Listings</span>
         <div class="sort-controls">
           <label>Sort by:</label>
           <select class="sort-select">
@@ -44,14 +43,36 @@
             <h3 class="title">{{ item.name }}</h3>
             <p class="address"><i class="bx bx-map"></i> {{ item.formattedAddress }}</p>
             
-            <div class="features">
-              <span><i class="bx bx-area"></i> {{ item.squareMeters }} sqm</span>
-              <span *ngIf="item.nearStops"><i class="bx bx-train"></i> Transit</span>
+            <div class="specs-container">
+              <div class="poi-container">
+                <span class="poi-label">Near Services</span>
+                <div class="poi-badges">
+                  <div class="poi-item" [class.active]="item.nearSchools" data-tooltip="Schools">
+                    <div class="poi-icon"><lucide-icon name="school" [size]="14"></lucide-icon></div>
+                  </div>
+                  <div class="poi-item" [class.active]="item.nearStops" data-tooltip="Public Transport">
+                    <div class="poi-icon"><i class="bi bi-bus-front-fill"></i></div>
+                  </div>
+                  <div class="poi-item" [class.active]="item.nearParks" data-tooltip="Green Areas">
+                    <div class="poi-icon"><i class="bi bi-tree"></i></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="surface-container">
+                <span class="poi-label">Surface</span>
+                <div class="surface-box">
+                  <lucide-icon name="ruler" [size]="14"></lucide-icon>
+                  <span>{{ item.squareMeters }} sqm</span>
+                </div>
+              </div>
             </div>
 
             <div class="card-footer">
               <span class="price">{{ item.price | currency:'EUR':'symbol':'1.0-0' }}</span>
-              <button class="btn-details" [routerLink]="['/listing', item.id]">View Details</button>
+              <div class="card-actions">
+                <button class="btn-save"><i class="bx bx-bookmark-alt"></i> Save</button>
+              </div>
             </div>
           </div>
         </div>

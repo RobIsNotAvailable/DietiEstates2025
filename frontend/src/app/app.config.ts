@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http'; 
 import { routes } from './app.routes';
 import { authInterceptor } from './interceptors/auth.interceptor';
-import { LucideAngularModule, School} from 'lucide-angular';
+import { LucideAngularModule, School, Ruler} from 'lucide-angular';
 
 export const appConfig: ApplicationConfig = 
 {
@@ -11,6 +11,6 @@ export const appConfig: ApplicationConfig =
   [
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
-    importProvidersFrom(LucideAngularModule.pick({ School }))
+    importProvidersFrom(LucideAngularModule.pick({ School,Ruler}))
   ]
 };

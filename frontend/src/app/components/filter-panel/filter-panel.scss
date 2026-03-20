@@ -5,6 +5,15 @@
 {
     @include filter-sidebar-style; 
     display: block; 
+
+    position: fixed;
+    top: 0;
+    right: 0; 
+    height: 100vh; 
+    width: 400px; 
+    z-index: 1000;
+    background: white; 
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
 }
 
 .filter-container 
@@ -12,7 +21,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 30px;
+    padding: 25px; 
     box-sizing: border-box; 
 
     .filter-header 
@@ -20,7 +29,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 40px;
+        margin-bottom: 25px; 
 
         h3 { font-size: $text-xl; font-weight: 800; margin: 0; }
 
@@ -29,8 +38,8 @@
             background: #f1f2f6; 
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 36px; 
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -51,21 +60,23 @@
     {
         flex: 1;
         overflow-y: auto;
-        padding-top: 20px;
+        padding-top: 5px; 
+        
+        &::-webkit-scrollbar { width: 4px; }
+        &::-webkit-scrollbar-thumb { background: #eee; border-radius: 10px; }
 
         .filter-section 
         {
-            margin-bottom: 45px; 
+            margin-bottom: 30px; 
             display: flex;
             flex-direction: column;
 
             .form-field 
             { 
                 @include form-field-structure; 
-                margin-bottom: 15px; 
+                margin-bottom: 12px; 
                 
                 input { font-size: $text-md; } 
-
                 label { font-size: $text-md; } 
 
                 input:focus ~ label,
@@ -83,7 +94,7 @@
             {
                 font-weight: 800;
                 font-size: $text-lg; 
-                margin-bottom: 20px;
+                margin-bottom: 15px; 
                 color: $black-pure;
             }
         }
@@ -92,15 +103,15 @@
         {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 5px;
+            gap: 8px; 
+            margin-top: 2px;
 
             .chip, .opt-btn 
             {
-                padding: 10px 16px; 
+                padding: 8px 14px; 
                 background: #f8f9fa;
                 border: 1px solid #edf0f2;
-                border-radius: 12px;
+                border-radius: 10px;
                 font-weight: 600;
                 font-size: $text-base; 
                 cursor: pointer;
@@ -121,6 +132,7 @@
     .filter-footer 
     {
         padding-top: 20px;
+        margin-top: 10px;
         border-top: 1px solid #eee;
         background: white; 
 
@@ -128,7 +140,8 @@
         { 
             @include form-button-green; 
             font-size: $text-lg; 
-            padding: 18px; 
+            padding: 15px; 
+            width: 100%;
         } 
     }
 }
@@ -136,7 +149,7 @@
 .options-row 
 {
     display: flex;
-    gap: 10px;
+    gap: 8px;
 
     .opt-btn 
     {

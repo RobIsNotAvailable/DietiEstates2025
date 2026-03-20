@@ -6,11 +6,12 @@ import { RouterModule } from '@angular/router';
 import { ListingService } from '../../services/listing';
 import { SummaryListingResponse } from '../../models/listing.model';
 import { Page } from '../../models/page.model';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-listings-page',
   standalone: true,
-  imports: [CommonModule, SearchBarComponent, FilterPanelComponent, RouterModule],
+  imports: [CommonModule, SearchBarComponent, FilterPanelComponent, RouterModule, LucideAngularModule],
   templateUrl: './listings-page.html',
   styleUrls: ['./listings-page.scss']
 })
@@ -41,7 +42,6 @@ export class ListingsPageComponent implements OnInit
     ({
       next: (data: Page<SummaryListingResponse>) => 
       {
-        console.log("Dati grezzi dal server:", data.content[0]);
         this.listings = data.content;
         this.totalElements = data.totalElements;
         this.currentPage = data.number;

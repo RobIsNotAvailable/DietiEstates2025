@@ -68,35 +68,36 @@
       <div class="poi-container">
         <span class="poi-label">Near Services</span>
         <div class="poi-badges">
-          
-          <div class="poi-item" 
-              [class.active]="poiStatus.hasBus && !isPoiLoading"
-              [class.loading]="isPoiLoading">
-            <div class="poi-icon">
-              <i *ngIf="isPoiLoading" class='bx bx-loader-alt bx-spin'></i>
-              
-              <i *ngIf="!isPoiLoading" class="bi bi-bus-front-fill"></i>
+            
+            <div class="poi-item" 
+                [class.active]="poiStatus.hasSchool && !isPoiLoading" 
+                [class.loading]="isPoiLoading"
+                [attr.data-tooltip]="isPoiLoading ? 'Searching schools...' : 'Schools'">
+                <div class="poi-icon">
+                    <i *ngIf="isPoiLoading" class='bx bx-loader-alt bx-spin'></i>
+                    <lucide-icon *ngIf="!isPoiLoading" name="school"></lucide-icon>
+                </div>
             </div>
-            <span>Transports</span>
-          </div>
 
-          <div class="poi-item" [class.active]="poiStatus.hasPark && !isPoiLoading" [class.loading]="isPoiLoading">
-            <div class="poi-icon">
-              <i *ngIf="isPoiLoading" class='bx bx-loader-alt bx-spin'></i>
-
-              <i *ngIf="!isPoiLoading" class="bi bi-tree"></i>
+            <div class="poi-item" 
+                [class.active]="poiStatus.hasBus && !isPoiLoading"
+                [class.loading]="isPoiLoading"
+                [attr.data-tooltip]="isPoiLoading ? 'Searching transports...' : 'Public Transports'">
+                <div class="poi-icon">
+                    <i *ngIf="isPoiLoading" class='bx bx-loader-alt bx-spin'></i>
+                    <i *ngIf="!isPoiLoading" class="bi bi-bus-front-fill"></i>
+                </div>
             </div>
-            <span>Parks</span>
-          </div>
 
-          <div class="poi-item" [class.active]="poiStatus.hasSchool && !isPoiLoading" [class.loading]="isPoiLoading">
-            <div class="poi-icon">
-              <i *ngIf="isPoiLoading" class='bx bx-loader-alt bx-spin'></i>
-              <lucide-icon *ngIf="!isPoiLoading" name="school"></lucide-icon>
+            <div class="poi-item" 
+                [class.active]="poiStatus.hasPark && !isPoiLoading" 
+                [class.loading]="isPoiLoading"
+                [attr.data-tooltip]="isPoiLoading ? 'Searching parks...' : 'Green Areas & Parks'">
+                <div class="poi-icon">
+                    <i *ngIf="isPoiLoading" class='bx bx-loader-alt bx-spin'></i>
+                    <i *ngIf="!isPoiLoading" class="bi bi-tree"></i>
+                </div>
             </div>
-            <span>Schools</span>
-          </div>
-
         </div>
       </div>
     </div>

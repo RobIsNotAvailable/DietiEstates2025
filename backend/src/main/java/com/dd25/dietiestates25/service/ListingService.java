@@ -2,6 +2,7 @@ package com.dd25.dietiestates25.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -34,6 +35,9 @@ import com.dd25.dietiestates25.util.StringConstants;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +49,10 @@ public class ListingService
     private final GeoapifyService geoapifyService;
     private final SecurityUtil securityUtil;
     private final ListingStatsService statsService;
+    private final S3Presigner s3Presigner;
+
+    @Value("${aws.s3.bucket.name}") 
+    private String bucketName;
 
     @Transactional
     public Integer createListing(CreateListingRequest request) 
@@ -119,9 +127,11 @@ public class ListingService
 
     private SummaryListingResponse mapToSummary(Listing l) 
     {
-        String coverImage = l.getPhotos() != null && !l.getPhotos().isEmpty() 
+        String coverKey = l.getPhotos() != null && !l.getPhotos().isEmpty() 
             ? l.getPhotos().get(0).getFilepath() 
             : null;
+
+        String signedUrl = generatePresignedUrl(coverKey);
 
         return new SummaryListingResponse
         (
@@ -135,7 +145,7 @@ public class ListingService
             l.getSurroundingInfo().isNearStops(),
             l.getSurroundingInfo().isNearParks(),
             l.getSurroundingInfo().isNearSchools(),
-            coverImage 
+            signedUrl 
         );
     }
 
@@ -160,7 +170,7 @@ public class ListingService
             l.getSurroundingInfo().isNearStops(),
             l.getSurroundingInfo().isNearParks(),
             l.getSurroundingInfo().isNearSchools(),
-            l.getPhotos().stream().map(Photo::getFilepath).toList(),
+            l.getPhotos().stream().map(p -> generatePresignedUrl(p.getFilepath())).toList(),
             l.getPhotos().stream().map(Photo::getDescription).toList()
         );
     }
@@ -168,5 +178,37 @@ public class ListingService
     private ListingStatsResponse mapToStats(Listing l)
     {
         return repo.getStatsByListing(l.getId());
+    }
+
+    private String generatePresignedUrl(String fullUrlOrKey) 
+    {
+        if (fullUrlOrKey == null || fullUrlOrKey.isEmpty()) 
+        {
+            return null;
+        }
+
+        String objectKey = fullUrlOrKey.contains("/") 
+                ? fullUrlOrKey.substring(fullUrlOrKey.lastIndexOf("/") + 1) 
+                : fullUrlOrKey;
+
+        try 
+        {
+            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                    .bucket(bucketName) 
+                    .key(objectKey)
+                    .build();
+
+            GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()
+                    .signatureDuration(java.time.Duration.ofMinutes(60)) 
+                    .getObjectRequest(getObjectRequest)
+                    .build();
+
+            return s3Presigner.presignGetObject(presignRequest).url().toString();
+        } 
+        catch (Exception e) 
+        {
+            System.err.println("ERRORE S3: " + e.getMessage()); 
+            return null;
+        }
     }
 }
