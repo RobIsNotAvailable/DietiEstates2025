@@ -33,7 +33,11 @@
       </div>
 
       <div class="listings-grid">
-        <div class="listing-card" *ngFor="let item of listings">
+        <div class="listing-card" 
+            *ngFor="let item of listings" 
+            (click)="goToDetail(item.id)"
+            style="cursor: pointer;"> 
+          
           <div class="card-image">
             <img [src]="item.imageUrl || 'assets/images/placeholder-house.jpg'" alt="Property image">
             <div class="tag">{{ item.listingType }}</div>
@@ -41,6 +45,9 @@
           
           <div class="card-content">
             <h3 class="title">{{ item.name }}</h3>
+
+            <div class="flex-spacer"></div>
+
             <p class="address"><i class="bx bx-map"></i> {{ item.formattedAddress }}</p>
             
             <div class="specs-container">
@@ -69,9 +76,15 @@
             </div>
 
             <div class="card-footer">
-              <span class="price">{{ item.price | currency:'EUR':'symbol':'1.0-0' }}</span>
+              <div class="price-container">
+                <span class="price">{{ item.price | currency:'EUR':'symbol':'1.0-0' }}</span>
+                <span class="price-period" *ngIf="item.listingType.toUpperCase() === 'RENT'">/ monthly</span>
+              </div>
+              
               <div class="card-actions">
-                <button class="btn-save"><i class="bx bx-bookmark-alt"></i> Save</button>
+                <button class="btn-save" (click)="onSave($event)">
+                  <i class="bx bx-bookmark-alt"></i> Save
+                </button>
               </div>
             </div>
           </div>

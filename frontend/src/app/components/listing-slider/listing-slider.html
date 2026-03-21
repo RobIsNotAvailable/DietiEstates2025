@@ -3,6 +3,10 @@
 
     <img [src]="images[currentIndex]" class="slider-image" alt="Listing image">
     
+    <div class="image-caption" *ngIf="descriptions && descriptions[currentIndex]">
+        <p>{{ descriptions[currentIndex] }}</p>
+    </div>
+
     <ng-content></ng-content>
 
     <ng-container *ngIf="images.length > 1">

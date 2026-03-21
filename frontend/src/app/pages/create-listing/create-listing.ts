@@ -68,7 +68,7 @@ export class CreateListingComponent
           longitude: new FormControl(null),
           province: new FormControl('')
       }),
-      extraDetails: new FormGroup({ 
+        extraDetails: new FormGroup({ 
         floor: new FormControl('', [Validators.required]),        
         intern: new FormControl(''),                               
         hasElevator: new FormControl(false, [Validators.required]),
@@ -77,6 +77,7 @@ export class CreateListingComponent
       }),
       photos: new FormGroup({ 
         images: new FormControl([], [Validators.required, Validators.minLength(1)]), 
+        descriptions: new FormControl([]),
         planimetry: new FormControl(null)                                           
       })
     });
@@ -89,19 +90,16 @@ export class CreateListingComponent
 
   onSubmit() 
   {
-    
     if (this.listingForm.invalid) 
     {
+      this.stepsAttempted.add(this.currentStep);
       console.error("Form non valido", this.listingForm.errors);
       return;
     }
 
     this.isSubmitting = true;
-
     const formValue = this.listingForm.value;
 
-    console.log("Valore grezzo del form:", formValue);
-    
     const createRequest = 
     {
       name: formValue.generalInfo.name,
@@ -110,28 +108,31 @@ export class CreateListingComponent
       listingType: formValue.generalInfo.listingType,
       squareMeters: formValue.generalInfo.squareMeters,
       numberOfRooms: formValue.generalInfo.numberOfRooms,
-      
       rawAddress: formValue.location.address, 
       
-      floor: formValue.extraDetails.floor,
-      intern: formValue.extraDetails.intern,
+      floor: Number(formValue.extraDetails.floor),
+      intern: Number(formValue.extraDetails.intern),
       hasElevator: formValue.extraDetails.hasElevator,
       energyClass: formValue.extraDetails.energyClass,
-      otherServices: formValue.extraDetails.extraDetails 
+      otherServices: formValue.extraDetails.extraDetails
     };
 
     this.listingService.createListing(createRequest).pipe
     (
       switchMap((listingId: number) => 
       {
-        const photoEntries = formValue.photos?.images; 
+        const photoEntries: string[] = formValue.photos?.images || []; 
+        const descriptionsFromForm: string[] = formValue.photos?.descriptions || [];
 
         const files = photoEntries.map((base64: string, index: number) => 
         {
           return this.base64ToFile(base64, `photo_${listingId}_${index}.jpg`);
         });
 
-        const descriptions = files.map(() => "No description");
+        const descriptions = files.map((_, index: number) => 
+        {
+          return descriptionsFromForm[index] || ""; 
+        });
 
         return this.listingService.uploadPhotos(listingId, files, descriptions);
       })
@@ -149,16 +150,8 @@ export class CreateListingComponent
           this.isSubmitting = false;
           this.cd.detectChanges();
 
-          if (err.status === 500 || err.status === 0) 
-          {
-            alert("Something went wrong. Please check all datas inserted and try again or refresh the page");
-          } 
-          else 
-          {
-            const errorMessage = typeof err.error === 'string' ? err.error : (err.error?.message || "An error occurred");
-            
-            alert(errorMessage);
-          }
+          const errorMessage = typeof err.error === 'string' ? err.error : (err.error?.message || "An error occurred");
+          alert(errorMessage);
         }
     });
   }

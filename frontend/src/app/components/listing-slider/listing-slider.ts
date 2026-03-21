@@ -14,6 +14,7 @@ export class ListingSliderComponent
 {
   @Input() images: string[] = [];
   @Input() currentIndex: number = 0;
+  @Input() descriptions: string[] = [];
   @Output() currentIndexChange = new EventEmitter<number>();
 
   @HostListener('keydown', ['$event'])

@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectorRef, OnInit } from '@angular/core'; 
 import { CommonModule } from '@angular/common';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ListingSliderComponent } from '../../../../components/listing-slider/listing-slider';
 
@@ -10,6 +10,7 @@ import { ListingSliderComponent } from '../../../../components/listing-slider/li
   imports: [
     CommonModule,         
     ReactiveFormsModule,   
+    FormsModule,
     ListingSliderComponent
   ],
   templateUrl: './photos.html',
@@ -21,6 +22,7 @@ export class PhotosComponent implements OnInit
   @Input() showErrors: boolean = false;
 
   imagePreviews: string[] = [];
+  imageDescriptions: string[] = [];
   currentIndex: number = 0;
   isUploading = false;
 
@@ -37,6 +39,16 @@ export class PhotosComponent implements OnInit
       {
           this.imagePreviews = [...savedImages];
           this.currentIndex = 0; 
+      }
+
+      const savedDescriptions = this.photosGroup.get('descriptions')?.value;
+      if (savedDescriptions && savedDescriptions.length > 0) 
+      {
+        this.imageDescriptions = [...savedDescriptions];
+      } 
+      else 
+      {
+        this.imageDescriptions = new Array(this.imagePreviews.length).fill('');
       }
 
       const savedPlanimetry = this.photosGroup.get('planimetry')?.value;
@@ -60,8 +72,10 @@ export class PhotosComponent implements OnInit
     const MAX_SIZE_MB = 5; 
     const fileArray = Array.from(files);
     
-    const validFiles = fileArray.filter(file => {
-      if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+    const validFiles = fileArray.filter(file => 
+    {
+      if (file.size > MAX_SIZE_MB * 1024 * 1024) 
+      {
         alert(`Il file è troppo grande! Massimo ${MAX_SIZE_MB}MB.`);
         return false;
       }
@@ -73,12 +87,16 @@ export class PhotosComponent implements OnInit
     this.isUploading = true;
     let processed = 0;
 
-    validFiles.forEach((file: File) => {
-      this.compressImage(file).then((compressedBase64: string) => {
+    validFiles.forEach((file: File) => 
+    {
+      this.compressImage(file).then((compressedBase64: string) => 
+      {
         this.imagePreviews.push(compressedBase64);
+        this.imageDescriptions.push(''); // Aggiunge una descrizione vuota per la nuova immagine
         processed++;
         
-        if (processed === validFiles.length) {
+        if (processed === validFiles.length) 
+        {
           this.updateFormAndUI();
         }
       });
@@ -89,12 +107,17 @@ export class PhotosComponent implements OnInit
   removeImage(index: number) 
   {
     this.imagePreviews.splice(index, 1);
+    this.imageDescriptions.splice(index, 1); 
+
     this.photosGroup.get('images')?.setValue([...this.imagePreviews]);
+    this.photosGroup.get('descriptions')?.setValue([...this.imageDescriptions]);
 
     if (this.currentIndex >= this.imagePreviews.length) 
     {
       this.currentIndex = Math.max(0, this.imagePreviews.length - 1);
     }
+    
+    this.cd.markForCheck();
     this.cd.detectChanges();
   }
 
@@ -117,14 +140,16 @@ export class PhotosComponent implements OnInit
 
               if (processed === fileArray.length) 
               {
-                  this.photosGroup.get('planimetry')?.setValue([...this.planimetryPreview]);
+                  this.planimetryPreview = [...this.planimetryPreview];
+                  this.photosGroup.get('planimetry')?.setValue(this.planimetryPreview);
                   
                   setTimeout(() => 
                   {
                       this.isUploadingPlanimetry = false;
                       this.currentPlanimetryIndex = this.planimetryPreview.length - 1;
+                      this.cd.markForCheck();
                       this.cd.detectChanges();
-                  }, 500);
+                  }, 100);
               }
           };
           reader.readAsDataURL(file);
@@ -178,15 +203,26 @@ export class PhotosComponent implements OnInit
     });
   }
 
-private updateFormAndUI() 
-{
-  this.photosGroup.get('images')?.setValue([...this.imagePreviews]);
-  setTimeout(() => {
-    this.isUploading = false;
-    this.currentIndex = this.imagePreviews.length - 1;
-    this.cd.detectChanges();
-  }, 500);
-}
+  updateFormDescriptions() 
+  {
+    this.photosGroup.get('descriptions')?.setValue([...this.imageDescriptions]);
+  }
+
+  private updateFormAndUI() 
+  {
+    this.imagePreviews = [...this.imagePreviews]; 
+    this.photosGroup.get('images')?.setValue(this.imagePreviews);
+    
+    this.photosGroup.get('descriptions')?.setValue([...this.imageDescriptions]);
+    
+    setTimeout(() => 
+    {
+      this.isUploading = false;
+      this.currentIndex = this.imagePreviews.length - 1;
+      this.cd.markForCheck(); 
+      this.cd.detectChanges(); 
+    }, 200); 
+  }
 
 
 }

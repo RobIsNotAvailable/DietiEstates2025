@@ -2,7 +2,6 @@
 @use 'form-shared' as *;
 @use 'animations' as *;
 
-
 .photo-upload-container 
 {
     display: flex;
@@ -31,6 +30,8 @@
         background: #f9f9f9;
         cursor: pointer;
         transition: all 0.3s ease;
+        position: relative; // Fondamentale per l'overlay interno
+        overflow: hidden;
 
         &:hover { border-color: #000; background: #f4f4f4; }
         
@@ -44,7 +45,9 @@
         .slider-wrapper 
         {
             width: 100%;
-            position: relative;
+            position: relative; // Deve essere relative per ospitare l'overlay absolute
+            border-radius: 12px;
+            overflow: hidden;
             
             app-listing-slider {
                 display: block;
@@ -52,7 +55,21 @@
             }
         }
 
-        .empty-gallery { @include upload-box-base; height: 450px; }
+        .empty-gallery 
+        { 
+            @include upload-box-base; 
+            height: 450px; 
+        }
+
+        // APPLICA IL MIXIN SOLO QUI
+        .loading-overlay 
+        {
+            @include loading-overlay-style;
+            // Aggiungiamo l'animazione di entrata per lo spinner
+            .spinner, p {
+                @include entrance-animation(0s, 10px);
+            }
+        }
     }
 
     .remove-btn 
@@ -78,8 +95,6 @@
             color: #fff;
             transform: scale(1.1);
         }
-
-        &.small { width: 28px; height: 28px; top: 10px; right: 10px; }
     }
 
     .add-more-btn 
@@ -100,21 +115,15 @@
         &:hover { border-color: #000; background: #f9f9f9; }
         i { font-size: 20px; }
     }
-}
 
-.spinner 
-{
-    width: 40px;
-    height: 40px;
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid $green-primary;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
+    .description-input-field 
+    {
+        @include form-field-structure; 
+        margin-top: 20px;   
+        margin-bottom: 10px;
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+        input { background: #fff; }
+    }
 }
 
 .info-text 

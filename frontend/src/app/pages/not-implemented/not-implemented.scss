@@ -63,6 +63,12 @@
                     font-size: 3.5rem; 
                     color: #ffc107;
                 }
+
+                &::before 
+                {
+                    display: none !important;
+                    content: none !important;
+                }   
             }
 
             .display-title 

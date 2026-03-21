@@ -1,20 +1,38 @@
 <div class="photo-upload-container" [formGroup]="photosGroup">
-    
     <div class="photo-upload-section">
         <label class="section-label">Property Photos</label>
         
         <div class="slider-wrapper" *ngIf="imagePreviews.length > 0">
-            <app-listing-slider [images]="imagePreviews" [(currentIndex)]="currentIndex">
+            <div class="loading-overlay" *ngIf="isUploading">
+                <div class="spinner"></div>
+                <p>Compressione immagini...</p>
+            </div>
+
+            <app-listing-slider 
+                [images]="imagePreviews" 
+                [descriptions]="imageDescriptions"
+                [(currentIndex)]="currentIndex">
                 <button type="button" class="remove-btn" (click)="removeImage(currentIndex)">×</button>
             </app-listing-slider>
             
+            <div class="description-input-field">
+                <div class="input-wrapper">
+                    <input type="text" id="photo-desc" [(ngModel)]="imageDescriptions[currentIndex]" 
+                           [ngModelOptions]="{standalone: true}" (blur)="updateFormDescriptions()" placeholder=" ">
+                    <label for="photo-desc">Photo description</label>
+                </div>
+            </div>
+
             <button type="button" class="add-more-btn" (click)="photoInput.click()">
                 <i class='bx bx-plus'></i> Add more photos
             </button>
         </div>
 
         <div class="empty-gallery" (click)="photoInput.click()" *ngIf="imagePreviews.length === 0">
-            <div class="spinner" *ngIf="isUploading"></div>
+            <div class="loading-overlay" *ngIf="isUploading">
+                <div class="spinner"></div>
+                <p>Caricamento...</p>
+            </div>
             <ng-container *ngIf="!isUploading">
                 <i class='bx bx-image-add'></i>
                 <p>Upload property photos</p>
@@ -28,6 +46,9 @@
         <label class="section-label">Planimetry</label>
         
         <div class="slider-wrapper" *ngIf="planimetryPreview.length > 0">
+            <div class="loading-overlay" *ngIf="isUploadingPlanimetry">
+                <div class="spinner"></div>
+            </div>
             <app-listing-slider [images]="planimetryPreview" [(currentIndex)]="currentPlanimetryIndex">
                 <button type="button" class="remove-btn" (click)="removePlanimetry(currentPlanimetryIndex)">×</button>
             </app-listing-slider>
@@ -38,7 +59,9 @@
         </div>
 
         <div class="empty-gallery" (click)="planInput.click()" *ngIf="planimetryPreview.length === 0">
-            <div class="spinner" *ngIf="isUploadingPlanimetry"></div>
+            <div class="loading-overlay" *ngIf="isUploadingPlanimetry">
+                <div class="spinner"></div>
+            </div>
             <ng-container *ngIf="!isUploadingPlanimetry">
                 <i class='bx bx-map-alt'></i>
                 <p>Upload planimetry</p>

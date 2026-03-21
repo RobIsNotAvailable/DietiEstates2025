@@ -87,7 +87,9 @@
             border: 1px solid #eee;
             overflow: hidden;
             transition: all 0.3s ease;
-            
+            display: flex;         
+            flex-direction: column;
+
             &:hover 
             {
                 transform: translateY(-8px);
@@ -110,6 +112,12 @@
                 gap: 4px;
                 border-radius: 0 0 12px 12px;
                 background-color: #f8f8f8 ;
+                flex-grow: 1;
+
+                .flex-spacer 
+                {
+                    flex-grow: 1; 
+                }
 
                 .specs-container 
                 {
@@ -192,13 +200,30 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-end;
+                    margin-top: auto;
 
-                    .price 
+                    .price-container 
                     {
-                        font-size: $text-xxxl;
-                        font-weight: 850;
-                        color: $black-pure;
-                        letter-spacing: -0.5px;
+                        display: flex;
+                        align-items: baseline; 
+                        gap: 6px;
+
+                        .price 
+                        {
+                            font-size: $text-xxxl;
+                            font-weight: 850;
+                            color: $black-pure;
+                            letter-spacing: -0.5px;
+                            margin: 0; 
+                        }
+
+                        .price-period 
+                        {
+                            font-size: $text-md;
+                            font-weight: 500;
+                            color: #666;
+                            text-transform: lowercase; 
+                        }
                     }
 
                     .card-actions 

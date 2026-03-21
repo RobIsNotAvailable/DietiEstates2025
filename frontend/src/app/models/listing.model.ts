@@ -6,7 +6,6 @@ export interface SummaryListingResponse
   listingType: string;
   formattedAddress: string;
   squareMeters: number;
-  description: string;
   nearStops: boolean;
   nearParks: boolean;
   nearSchools: boolean;

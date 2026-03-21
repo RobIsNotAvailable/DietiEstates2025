@@ -7,6 +7,7 @@ import { ListingService } from '../../services/listing';
 import { SummaryListingResponse } from '../../models/listing.model';
 import { Page } from '../../models/page.model';
 import { LucideAngularModule } from 'lucide-angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-listings-page',
@@ -27,7 +28,7 @@ export class ListingsPageComponent implements OnInit
   totalElements: number = 0;
   isLast: boolean = false;
 
-  constructor(private listingService: ListingService, private cd: ChangeDetectorRef) {}
+  constructor(private listingService: ListingService, private cd: ChangeDetectorRef, private router: Router) {}
 
   ngOnInit() 
   {
@@ -76,5 +77,17 @@ export class ListingsPageComponent implements OnInit
     {
       this.loadListings(this.currentPage - 1);
     }
+  }
+
+  goToDetail(id: number | string) 
+  {
+    this.router.navigate(['/listings', id]);
+  }
+
+  onSave(event: Event) 
+  {
+    //will be implemented in the future
+    event.stopPropagation(); 
+    this.router.navigate(['/not-implemented']);
   }
 }
