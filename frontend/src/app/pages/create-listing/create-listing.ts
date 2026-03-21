@@ -95,14 +95,12 @@ export class CreateListingComponent
   {
     if (this.listingForm.invalid) 
     {
-      this.stepsAttempted.add(this.currentStep);
-      console.error("Form non valido", this.listingForm.errors);
       return;
     }
 
     this.isSubmitting = true;
     const formValue = this.listingForm.value;
-
+    
     const createRequest = 
     {
       name: formValue.generalInfo.name,

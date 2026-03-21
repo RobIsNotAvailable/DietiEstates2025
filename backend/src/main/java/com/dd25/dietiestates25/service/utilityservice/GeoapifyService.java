@@ -12,8 +12,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dd25.dietiestates25.dto.GeoapifyProperties;
 import com.dd25.dietiestates25.dto.response.GeoapifyResponse;
+import com.dd25.dietiestates25.dto.response.SurroundingInfoResponse;
 import com.dd25.dietiestates25.model.Address;
-import com.dd25.dietiestates25.model.SurroundingInfo;
 
 import io.jsonwebtoken.lang.Collections;
 import lombok.RequiredArgsConstructor;
@@ -93,7 +93,7 @@ public class GeoapifyService
         return address;
     }
 
-    public SurroundingInfo fetchSurroundingInfo(double lat, double lon) 
+    public SurroundingInfoResponse fetchSurroundingInfo(double lat, double lon) 
     {
         String url = buildUrl(lat, lon, "education.school,building.school,building.kindergarten,leisure.park,public_transport", 50);
         
@@ -104,7 +104,7 @@ public class GeoapifyService
         boolean nearParks = isCategoryPresent(response, "park");
         boolean nearStops = isCategoryPresent(response, "transport");
 
-        return new SurroundingInfo(nearStops, nearParks, nearSchools);
+        return new SurroundingInfoResponse(nearStops, nearParks, nearSchools);
     }
 
     private @NonNull String buildUrl(double lat, double lon, String categories, int limit) 

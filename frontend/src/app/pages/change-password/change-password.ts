@@ -94,7 +94,6 @@ export class ChangePasswordComponent
 
           if (err.status !== 500) 
           {
-            console.log(this.serverErrorMessage);
             this.setupForm.get('newPassword')?.markAsTouched();
             this.setupForm.get('oldPassword')?.markAsTouched();
             this.cd.detectChanges();
