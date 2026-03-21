@@ -52,7 +52,6 @@ export class HomeComponent implements OnInit
         next: (res) => 
         {
           const currentRole = this.authService.getUserRole();
-          console.log('Token decoded, role found:', currentRole);
           this.userData = { ...res, role: currentRole };;
           localStorage.setItem('user', JSON.stringify(this.userData));
           this.setupQuickOptions();

@@ -15,6 +15,7 @@ import com.dd25.dietiestates25.dto.request.ListingSearchRequest;
 import com.dd25.dietiestates25.dto.response.FullListingResponse;
 import com.dd25.dietiestates25.dto.response.ListingStatsResponse;
 import com.dd25.dietiestates25.dto.response.SummaryListingResponse;
+import com.dd25.dietiestates25.dto.response.SurroundingInfoResponse;
 import com.dd25.dietiestates25.model.Address;
 import com.dd25.dietiestates25.model.BuildingDetails;
 import com.dd25.dietiestates25.model.CommercialInfo;
@@ -62,7 +63,8 @@ public class ListingService
         
         Address normalizedAddress = geoapifyService.normalizeAddress(request.rawAddress());
 
-        SurroundingInfo surroundingInfo = geoapifyService.fetchSurroundingInfo(normalizedAddress.getLatitude(), normalizedAddress.getLongitude());
+        SurroundingInfoResponse resp = geoapifyService.fetchSurroundingInfo(normalizedAddress.getLatitude(), normalizedAddress.getLongitude());
+        SurroundingInfo surroundingInfo = new SurroundingInfo(resp.hasBus(), resp.hasPark(), resp.hasSchool());
 
         CommercialInfo commercialInfo = new CommercialInfo(request.price(), request.listingType());
         
@@ -141,7 +143,6 @@ public class ListingService
             l.getCommercialInfo().getListingType().toString(),
             l.getHouseInfo().getBuildingDetails().getAddress().getFormattedAddress(),
             l.getHouseInfo().getHouseDetails().getSquareMeters(),
-            l.getHouseInfo().getDescription(),
             l.getSurroundingInfo().isNearStops(),
             l.getSurroundingInfo().isNearParks(),
             l.getSurroundingInfo().isNearSchools(),
@@ -207,7 +208,6 @@ public class ListingService
         } 
         catch (Exception e) 
         {
-            System.err.println("ERRORE S3: " + e.getMessage()); 
             return null;
         }
     }

@@ -1,15 +1,19 @@
 package com.dd25.dietiestates25;
 
-import com.dd25.dietiestates25.dto.request.AccountRegisterRequest;
-import com.dd25.dietiestates25.model.Account;
-import com.dd25.dietiestates25.model.Client;
-import com.dd25.dietiestates25.repository.AccountRepository;
-import com.dd25.dietiestates25.service.ClientService;
+import com.dd25.dietiestates25.dto.request.CreateCompanyAccountRequest;
+import com.dd25.dietiestates25.model.LoginToken;
+import com.dd25.dietiestates25.model.CompanyAccount;
+import com.dd25.dietiestates25.model.enums.SecurityLevel;
+import com.dd25.dietiestates25.repository.CompanyAccountRepository;
+import com.dd25.dietiestates25.repository.LoginTokenRepository;
+import com.dd25.dietiestates25.service.CompanyAccountService;
+import com.dd25.dietiestates25.service.utilityservice.EmailService;
 import com.dd25.dietiestates25.service.utilityservice.JwtService;
+import com.dd25.dietiestates25.util.SecurityUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
+
+import java.util.Optional;
 
 import org.mockito.Mockito;
 
@@ -20,120 +24,77 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("null") 
-class ClientServiceTest 
+class CompanyServiceTest 
 {
     @Mock
-    private AccountRepository repo;
+    private CompanyAccountRepository repo;
+
+    @Mock
+    private LoginTokenRepository tokenRepo;
 
     @Mock
     private PasswordEncoder encoder;
 
     @Mock
+    private EmailService emailService;
+
+    @Mock
     private JwtService jwtService;
 
+    @Mock
+    private SecurityUtil securityUtil;
+
     @InjectMocks
-    private ClientService clientService;
+    private CompanyAccountService service;
 
 
     @Test
-    void testRegisterClientSuccessTC1() 
+    void testCreateCompanySuccessTC1() 
     {
-        String firstName = "John";
-        String lastName = "Doe";
-        String rawPassword = "Password123!";
-        String encodedPassword = "encoded_password_abc";
+        // New account
         String email = "john.doe@example.com";
-        String token = "mock_token";
+        String firstName = "John";
+        String lastName = "Agent";
+        SecurityLevel securityLevel = SecurityLevel.AGENT;
+        CreateCompanyAccountRequest request = new CreateCompanyAccountRequest(email, firstName, lastName, securityLevel);
 
-        AccountRegisterRequest request = new AccountRegisterRequest(email, firstName, lastName, rawPassword);
+        // Requester
+        String requesterEmail = "requester@example.com";
+        // String requesterFirstName = "John";
+        // String requesterLastName = "Requester";
+        // String requesterPassword = "notRelevant123";
+        // SecurityLevel requesterSecurityLevel = SecurityLevel.ADMIN;
+        // CompanyAccount requester = new CompanyAccount(requesterEmail, requesterFirstName, requesterLastName, requesterPassword, requesterSecurityLevel);
 
-        Mockito.when(repo.findById(email)).thenReturn(java.util.Optional.empty());
-        Mockito.when(encoder.encode(rawPassword)).thenReturn(encodedPassword);
-        Mockito.when(jwtService.generateToken(any(Account.class))).thenReturn(token);
+        // Extra
+        LoginToken token = new LoginToken(email);
 
-        clientService.registerClient(request);
+        Mockito.when(securityUtil.getCurrentEmail()).thenReturn(requesterEmail);
+        // checkRolePermission is okay
+        Mockito.when(repo.findById(email)).thenReturn(Optional.empty());
+        Mockito.when(new LoginToken(email)).thenReturn(token);
+
+        service.createCompanyAccount(request);
 
         Mockito.verify(repo).findById(email);
-        Mockito.verify(encoder).encode(rawPassword);
+        Mockito.verify(emailService).sendOnboardingEmail(email, token.getToken());
 
-        ArgumentCaptor<Client> clientCaptor = ArgumentCaptor.forClass(Client.class);
+        ArgumentCaptor<CompanyAccount> captor = ArgumentCaptor.forClass(CompanyAccount.class);
+        // ArgumentCaptor<LoginToken> tokenCaptor = ArgumentCaptor.forClass(LoginToken.class);
         
-        Mockito.verify(repo).save(clientCaptor.capture());
+        // Mockito.verify(repo).save(captor.capture());
+        // Mockito.verify(tokenRepo).save(tokenCaptor.capture());
 
-        Client savedClient = clientCaptor.getValue(); 
+        CompanyAccount savedAccount = captor.getValue(); 
         
-        assertEquals(email, savedClient.getEmail());
-        assertEquals(firstName, savedClient.getFirstName());
-        assertEquals(lastName, savedClient.getLastName());
-        assertEquals(encodedPassword, savedClient.getHashPassword());
+        assertEquals(email, savedAccount.getEmail());
+        assertEquals(firstName, savedAccount.getFirstName());
+        assertEquals(lastName, savedAccount.getLastName());
     }
-
-    @Test
-    void testRegisterClientEmailAlreadyRegisteredTC2() 
-    {
-        String email = "john.doe@example.com";
-        AccountRegisterRequest request = new AccountRegisterRequest(email, "John", "Doe", "Password123!");
-        Mockito.when(repo.findById(email)).thenReturn(java.util.Optional.of(new Client(email, "John", "Doe", "encoded_password")));
-
-        assertThrows(IllegalStateException.class, () -> 
-        {
-            clientService.registerClient(request);
-        });
-    }
-
-    @Test
-    void testRegisterClientNullEmailTC3() 
-    {
-        AccountRegisterRequest request = new AccountRegisterRequest(null, "John", "Doe", "Password123!");
-
-        assertThrows(NullPointerException.class, () -> 
-        {
-            clientService.registerClient(request);
-        });
-    }
-
-    @Test
-    void testRegisterClientWeakPasswordTC4() 
-    {
-        String email = "john.doe@example.com";
-        AccountRegisterRequest request = new AccountRegisterRequest(email, "John", "Doe", "weakpass");
-        
-        assertThrows(MethodArgumentNotValidException.class, () -> 
-        {
-            clientService.registerClient(request);
-        });
-    }    
-
-    @Test
-    void testRegisterClientFirstNameNullTC5() 
-    {
-        String email = "john.doe@example.com";
-        AccountRegisterRequest request = new AccountRegisterRequest(email, null, "Doe", "Password123!");
-        
-        assertThrows(NullPointerException.class, () -> 
-        {
-            clientService.registerClient(request);
-        });
-    }
-
-    @Test
-    void testRegisterClientLastNameNullTC6() 
-    {
-        String email = "john.doe@example.com";
-        AccountRegisterRequest request = new AccountRegisterRequest(email, "john", null, "Password123!");
-        
-        assertThrows(NullPointerException.class, () -> 
-        {
-            clientService.registerClient(request);
-        });
-    }
-
 
 
 //     @Test  

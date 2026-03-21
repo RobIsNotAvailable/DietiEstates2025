@@ -52,7 +52,6 @@ export class ListingsPageComponent implements OnInit
       },
       error: (err) => 
       {
-        console.error("Errore durante il recupero dei listing:", err);
         this.isLoading = false;
       }
     });

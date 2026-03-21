@@ -9,7 +9,6 @@ public record SummaryListingResponse(
     String listingType,
     String formattedAddress,
     Integer squareMeters,
-    String description,
     Boolean nearStops,
     Boolean nearParks,
     Boolean nearSchools,

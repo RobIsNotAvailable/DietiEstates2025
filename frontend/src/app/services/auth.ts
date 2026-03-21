@@ -75,7 +75,6 @@ export class AuthService
     } 
     catch (e) 
     {
-      console.error('Error occured during token decodification:', e);
       return null;
     }
   }
