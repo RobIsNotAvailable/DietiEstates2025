@@ -24,6 +24,7 @@
     .logo-section 
     {
       @include logo-section;
+      margin-left:20px;
     }
 
     .auth-buttons 

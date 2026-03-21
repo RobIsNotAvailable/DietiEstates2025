@@ -1,5 +1,6 @@
 package com.dd25.dietiestates25.model;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,6 +90,7 @@ public class Listing
     public SurroundingInfo getSurroundingInfo() { return surroundingInfo; }
     public List<Photo> getPhotos() { return photos; }
     public String getCity() {return houseInfo.getCity(); }
+    public BigDecimal getPrice() {return commercialInfo.getPrice(); }
 
 
     // Setters

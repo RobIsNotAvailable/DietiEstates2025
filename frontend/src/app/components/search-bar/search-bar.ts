@@ -16,10 +16,11 @@ export class SearchBarComponent
   contractType: string = '';
 
   @Output() toggleFilters = new EventEmitter<void>();
-
+  @Output() search = new EventEmitter<string>();
+  
   onSearch(): void 
   {
-    console.log('Search initiated for:', this.searchCity, 'Type:', this.contractType);
+    this.search.emit(this.searchCity);
   }
 
   onFilterClick() 

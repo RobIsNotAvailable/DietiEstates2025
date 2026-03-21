@@ -9,13 +9,19 @@
     <div class="filter-body">
         <div class="filter-section">
             <span class="section-label">Tipo Contratto</span>
-            <div class="options-row">
-                <button class="opt-btn" 
-                        [class.selected]="filters.mode === 'sale'" 
-                        (click)="setMode('sale')">Vendita</button>
-                <button class="opt-btn" 
-                        [class.selected]="filters.mode === 'rent'" 
-                        (click)="setMode('rent')">Affitto</button>
+            <div class="chips-container">  
+                <button class="chip" 
+                        [class.active]="filters.listingType === null" 
+                        (click)="setType(null)">Qualsiasi</button>
+                
+                @for (t of typeChips; track t) 
+                {
+                    <button class="chip" 
+                            [class.active]="filters.listingType === t" 
+                            (click)="setType(t)">
+                        {{ t === 'SALE' ? 'Vendita' : 'Affitto' }}
+                    </button>
+                }
             </div>
         </div>
 
@@ -70,6 +76,8 @@
     </div>
 
     <div class="filter-footer">
+        <button class="reset-btn" (click)="resetFilters()">Reset</button>
+        
         <button class="apply-btn" (click)="applyFilters()">Search</button>
     </div>
 </div>

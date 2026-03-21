@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 interface FilterOptions 
 {
-  mode: 'sale' | 'rent';
+  listingType: 'SALE' | 'RENT' | null;
   minPrice: number | null;
   maxPrice: number | null;
   minRooms: number;
@@ -22,10 +22,10 @@ interface FilterOptions
 export class FilterPanelComponent 
 {
   @Input() isOpen: boolean = false;
-  @Input() mode: 'sale' | 'rent' = 'sale';
+  @Input() listingType!: 'SALE' | 'RENT' | null;
 
   @Output() close = new EventEmitter<void>();
-  @Output() filterChanged = new EventEmitter<any>();
+  @Output() onSearch = new EventEmitter<any>();
 
   private hasBeenOpened = false;
 
@@ -45,16 +45,21 @@ export class FilterPanelComponent
 
   energyClasses = ['A', 'B', 'C', 'D'];
 
+  get typeChips(): ('SALE' | 'RENT')[] 
+  {
+      return ['SALE', 'RENT']; 
+  }
+
   get priceChips() 
   {
-      return this.filters.mode === 'sale' 
+      return this.filters.listingType === 'SALE' 
         ? [100000, 200000, 300000, 500000] 
         : [400, 700, 1000, 1500]; 
   }
 
   filters: FilterOptions = 
   {
-      mode: 'sale',
+      listingType: null,
       minPrice: null, 
       maxPrice: null,
       minRooms: 1,
@@ -64,22 +69,22 @@ export class FilterPanelComponent
   ngOnChanges() 
   {
     if (this.isOpen) 
-    {
-      this.filters.mode = this.mode;
+      {
+        this.filters.listingType = this.listingType ?? null; 
     }
   }
 
-  setMode(m: 'sale' | 'rent') 
+  setType(t: 'SALE' | 'RENT' | null) 
   {
-    this.filters.mode = m;
-
-    this.filters.minPrice = null;
-    this.filters.maxPrice = null;
+      this.filters.listingType = t;
+      
+      this.filters.minPrice = null;
+      this.filters.maxPrice = null;
   }
 
   applyFilters() 
   {
-      this.filterChanged.emit(this.filters); 
+      this.onSearch.emit(this.filters); 
       this.close.emit();
   }
 
@@ -96,5 +101,19 @@ export class FilterPanelComponent
   selectMaxPrice(p: number | null) 
   { 
     this.filters.maxPrice = p; 
+  }
+
+  resetFilters() 
+  {
+    this.filters = 
+    {
+      listingType: null,
+      minPrice: null,
+      maxPrice: null,
+      minRooms: 1,
+      energyClass: ''
+    };
+    
+    this.applyFilters();
   }
 }

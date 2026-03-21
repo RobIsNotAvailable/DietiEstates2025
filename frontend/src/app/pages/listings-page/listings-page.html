@@ -4,16 +4,17 @@
     <div class="header-card">
       <div class="header-top">
         <a routerLink="/" class="logo-section">
-          <div class="logo-icon">
-            <i class="bx bx-home"></i>
-          </div>
+          <div class="logo-icon"><i class="bx bx-home"></i></div>
           <span class="logo-text">DietiEstates</span>
         </a>
         <h1>Listing Search Results</h1>
       </div>
 
       <div class="search-and-sort">
-        <app-search-bar (toggleFilters)="isFiltersOpen = !isFiltersOpen"></app-search-bar>
+        <app-search-bar 
+          (toggleFilters)="isFiltersOpen = !isFiltersOpen"
+          (search)="handleSearchBarClick()">
+        </app-search-bar>
       </div>
     </div>
   </section>
@@ -21,7 +22,7 @@
   <main class="results-layout">
     <div class="main-results-card">
       
-      <div class="results-toolbar">
+      <div class="results-toolbar" *ngIf="listings.length > 0">
         <div class="sort-controls">
           <label>Sort by:</label>
           <select class="sort-select">
@@ -32,12 +33,8 @@
         </div>
       </div>
 
-      <div class="listings-grid">
-        <div class="listing-card" 
-            *ngFor="let item of listings" 
-            (click)="goToDetail(item.id)"
-            style="cursor: pointer;"> 
-          
+      <div class="listings-grid" *ngIf="listings.length > 0; else noResults">
+        <div class="listing-card" *ngFor="let item of listings" (click)="goToDetail(item.id)" style="cursor: pointer;"> 
           <div class="card-image">
             <img [src]="item.imageUrl || 'assets/images/placeholder-house.jpg'" alt="Property image">
             <div class="tag">{{ item.listingType }}</div>
@@ -45,27 +42,18 @@
           
           <div class="card-content">
             <h3 class="title">{{ item.name }}</h3>
-
             <div class="flex-spacer"></div>
-
             <p class="address"><i class="bx bx-map"></i> {{ item.formattedAddress }}</p>
             
             <div class="specs-container">
               <div class="poi-container">
                 <span class="poi-label">Near Services</span>
                 <div class="poi-badges">
-                  <div class="poi-item" [class.active]="item.nearSchools" data-tooltip="Schools">
-                    <div class="poi-icon"><lucide-icon name="school" [size]="14"></lucide-icon></div>
-                  </div>
-                  <div class="poi-item" [class.active]="item.nearStops" data-tooltip="Public Transport">
-                    <div class="poi-icon"><i class="bi bi-bus-front-fill"></i></div>
-                  </div>
-                  <div class="poi-item" [class.active]="item.nearParks" data-tooltip="Green Areas">
-                    <div class="poi-icon"><i class="bi bi-tree"></i></div>
-                  </div>
+                  <div class="poi-item" [class.active]="item.nearSchools"><div class="poi-icon"><lucide-icon name="school" [size]="14"></lucide-icon></div></div>
+                  <div class="poi-item" [class.active]="item.nearStops"><div class="poi-icon"><i class="bi bi-bus-front-fill"></i></div></div>
+                  <div class="poi-item" [class.active]="item.nearParks"><div class="poi-icon"><i class="bi bi-tree"></i></div></div>
                 </div>
               </div>
-
               <div class="surface-container">
                 <span class="poi-label">Surface</span>
                 <div class="surface-box">
@@ -80,32 +68,40 @@
                 <span class="price">{{ item.price | currency:'EUR':'symbol':'1.0-0' }}</span>
                 <span class="price-period" *ngIf="item.listingType.toUpperCase() === 'RENT'">/ monthly</span>
               </div>
-              
               <div class="card-actions">
-                <button class="btn-save" (click)="onSave($event)">
-                  <i class="bx bx-bookmark-alt"></i> Save
-                </button>
+                <button class="btn-save" (click)="onSave($event)"><i class="bx bx-bookmark-alt"></i> Save</button>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="pagination-wrapper" *ngIf="totalElements > 0">
-        <button class="btn-pag" (click)="goToPreviousPage()" [disabled]="currentPage === 0">
-          <i class="bx bx-chevron-left"></i> Prev
-        </button>
+      <div class="pagination-wrapper" *ngIf="listings.length > 0 && totalElements > 0">
+        <button class="btn-pag" (click)="goToPreviousPage()" [disabled]="currentPage === 0"><i class="bx bx-chevron-left"></i> Prev</button>
         <span class="page-indicator">Page {{ currentPage + 1 }}</span>
-        <button class="btn-pag" (click)="goToNextPage()" [disabled]="isLast">
-          Next <i class="bx bx-chevron-right"></i>
-        </button>
+        <button class="btn-pag" (click)="goToNextPage()" [disabled]="isLast">Next <i class="bx bx-chevron-right"></i></button>
       </div>
+
+      <ng-template #noResults>
+        <div class="no-results-container" *ngIf="!isLoading">
+          <div class="no-results-content">
+            <i class="bi bi-search-heart" style="font-size: 4rem; opacity: 0.3;"></i>
+            <h2>No results found</h2>
+            <p>Try adjusting your search parameters or resetting the filters.</p>
+            <button class="btn-reset-search" (click)="isFiltersOpen = true">Modify Filters</button>
+          </div>
+        </div>
+        <div class="loading-state" *ngIf="isLoading" style="text-align: center; padding: 40px;">
+           <p>Searching for listings...</p>
+        </div>
+      </ng-template>
 
     </div>
   </main>
 
   <app-filter-panel 
     [isOpen]="isFiltersOpen" 
-    (close)="isFiltersOpen = false">
+    (close)="isFiltersOpen = false"
+    (onSearch)="handleSearch($event)"> 
   </app-filter-panel>
 </div>

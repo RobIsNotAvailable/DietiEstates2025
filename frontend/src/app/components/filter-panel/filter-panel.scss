@@ -143,6 +143,14 @@
             padding: 15px; 
             width: 100%;
         } 
+
+        .reset-btn 
+        {
+            @include form-button-white; 
+            font-size: $text-lg; 
+            padding: 15px; 
+            width: 100%;
+        }
     }
 }
 

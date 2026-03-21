@@ -41,4 +41,21 @@ export class ListingService
     
     return this.http.post(`${this.apiUrl}/photos/${id}`, formData);
   }
+
+  searchListings(request: any): Observable<SummaryListingResponse[]> 
+  {
+      let params = new HttpParams();
+
+      Object.keys(request).forEach(key => 
+      {
+        const value = request[key];
+        
+        if (value !== null && value !== undefined && value !== '') 
+        {
+          params = params.set(key, value.toString());
+        }
+      });
+
+      return this.http.get<SummaryListingResponse[]>(`${this.apiUrl}/search`, { params });
+  }
 }
