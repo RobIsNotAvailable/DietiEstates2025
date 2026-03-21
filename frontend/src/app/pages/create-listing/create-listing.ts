@@ -66,7 +66,10 @@ export class CreateListingComponent
           zipCode: new FormControl(''),
           latitude: new FormControl(null),
           longitude: new FormControl(null),
-          province: new FormControl('')
+          province: new FormControl(''),
+          nearSchools: new FormControl(false),
+          nearStops: new FormControl(false),
+          nearParks: new FormControl(false)
       }),
         extraDetails: new FormGroup({ 
         floor: new FormControl('', [Validators.required]),        

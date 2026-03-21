@@ -49,6 +49,12 @@ export class StepLocationComponent implements OnInit
       this.currentLon = existingLon;
     }
 
+    this.poiStatus = {
+        hasBus: this.locationGroup.get('nearStops')?.value || false,
+        hasPark: this.locationGroup.get('nearParks')?.value || false,
+        hasSchool: this.locationGroup.get('nearSchools')?.value || false,
+    };
+    
     this.locationGroup.get('address')?.valueChanges.pipe
     (
       tap(value => 
@@ -127,6 +133,11 @@ export class StepLocationComponent implements OnInit
       next: (res) => 
       {
         this.poiStatus = { hasBus: res.hasBus, hasPark: res.hasPark, hasSchool: res.hasSchool };
+        this.locationGroup.patchValue({
+            nearStops: res.hasBus,
+            nearParks: res.hasPark,
+            nearSchools: res.hasSchool
+        }, { emitEvent: false });
         this.isPoiLoading = false;
         this.cd.detectChanges();
       },

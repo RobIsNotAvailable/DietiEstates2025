@@ -22,7 +22,7 @@ interface FilterOptions
 export class FilterPanelComponent 
 {
   @Input() isOpen: boolean = false;
-  @Input() listingType!: 'SALE' | 'RENT' | null;
+  @Input() listingType: 'SALE' | 'RENT' | null = null;
 
   @Output() close = new EventEmitter<void>();
   @Output() onSearch = new EventEmitter<any>();
@@ -52,9 +52,9 @@ export class FilterPanelComponent
 
   get priceChips() 
   {
-      return this.filters.listingType === 'SALE' 
-        ? [100000, 200000, 300000, 500000] 
-        : [400, 700, 1000, 1500]; 
+      return this.filters.listingType === 'RENT' 
+        ? [400, 700, 1000, 1500]
+        : [100000, 200000, 300000, 500000]; 
   }
 
   filters: FilterOptions = 
@@ -66,11 +66,11 @@ export class FilterPanelComponent
       energyClass: ''
   };
 
-  ngOnChanges() 
+  ngOnInit() 
   {
-    if (this.isOpen) 
-      {
-        this.filters.listingType = this.listingType ?? null; 
+    if (this.listingType) 
+    {
+      this.filters.listingType = this.listingType;
     }
   }
 

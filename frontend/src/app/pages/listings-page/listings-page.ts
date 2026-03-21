@@ -47,7 +47,6 @@ export class ListingsPageComponent implements OnInit
     
     this.listings = []; 
     this.totalElements = 0;
-    this.cd.detectChanges();
     
     if (this.currentFilters) 
     {
@@ -55,11 +54,7 @@ export class ListingsPageComponent implements OnInit
       
       this.listingService.searchListings(searchRequest).subscribe
       ({
-        next: (data: any) => 
-        {
-          this.handleResponse(data)
-          this.cd.detectChanges();
-        },
+        next: (data: any) => this.handleResponse(data),
         error: () => this.handleError()
       });
     } 
@@ -143,5 +138,34 @@ export class ListingsPageComponent implements OnInit
   {
     alert("Something went wrong on our side, please reload the page and retry.");
     this.isLoading = false;
+  }
+
+  onSortChange(event: Event) 
+  {
+    const target = event.target as HTMLSelectElement;
+    const criteria = target.value;
+
+    if (!this.listings || this.listings.length === 0) return;
+
+    switch (criteria) 
+    {
+      case 'Newest':
+        this.listings.sort((a, b) => b.id - a.id);
+        break;
+        
+      case 'Price: Low to High':
+        this.listings.sort((a, b) => a.price - b.price);
+        break;
+        
+      case 'Price: High to Low':
+        this.listings.sort((a, b) => b.price - a.price);
+        break;
+        
+      case 'Surface: Largest': 
+        this.listings.sort((a, b) => b.squareMeters - a.squareMeters);
+        break;
+    }
+    
+    this.cd.detectChanges();
   }
 }

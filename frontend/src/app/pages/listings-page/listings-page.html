@@ -25,10 +25,10 @@
       <div class="results-toolbar" *ngIf="listings.length > 0">
         <div class="sort-controls">
           <label>Sort by:</label>
-          <select class="sort-select">
-            <option>Newest</option>
-            <option>Price: Low to High</option>
-            <option>Price: High to Low</option>
+          <select class="sort-select" (change)="onSortChange($event)">
+            <option value="Newest">Newest</option>
+            <option value="Price: Low to High">Price: Low to High</option>
+            <option value="Price: High to Low">Price: High to Low</option>
           </select>
         </div>
       </div>
@@ -46,12 +46,35 @@
             <p class="address"><i class="bx bx-map"></i> {{ item.formattedAddress }}</p>
             
             <div class="specs-container">
+
               <div class="poi-container">
                 <span class="poi-label">Near Services</span>
                 <div class="poi-badges">
-                  <div class="poi-item" [class.active]="item.nearSchools"><div class="poi-icon"><lucide-icon name="school" [size]="14"></lucide-icon></div></div>
-                  <div class="poi-item" [class.active]="item.nearStops"><div class="poi-icon"><i class="bi bi-bus-front-fill"></i></div></div>
-                  <div class="poi-item" [class.active]="item.nearParks"><div class="poi-icon"><i class="bi bi-tree"></i></div></div>
+                  
+                  <div class="poi-item" 
+                      [class.active]="item.nearSchools"
+                      [attr.data-tooltip]="'Schools'">
+                    <div class="poi-icon">
+                      <lucide-icon name="school" [size]="14"></lucide-icon>
+                    </div>
+                  </div>
+
+                  <div class="poi-item" 
+                      [class.active]="item.nearStops"
+                      [attr.data-tooltip]="'Public Transports'">
+                    <div class="poi-icon">
+                      <i class="bi bi-bus-front-fill"></i>
+                    </div>
+                  </div>
+
+                  <div class="poi-item" 
+                      [class.active]="item.nearParks"
+                      [attr.data-tooltip]="'Green Areas & Parks'">
+                    <div class="poi-icon">
+                      <i class="bi bi-tree"></i>
+                    </div>
+                  </div>
+
                 </div>
               </div>
               <div class="surface-container">
@@ -91,8 +114,15 @@
             <button class="btn-reset-search" (click)="isFiltersOpen = true">Modify Filters</button>
           </div>
         </div>
-        <div class="loading-state" *ngIf="isLoading" style="text-align: center; padding: 40px;">
-           <p>Searching for listings...</p>
+        <div class="loading-container" *ngIf="isLoading">
+          <div class="loading-content">
+            <div class="spinner"></div>
+            <h2>Searching for listings...</h2>
+            <p>Finding the best properties for you.</p>
+          </div>
+        </div>
+
+        <div class="no-results-container" *ngIf="!isLoading && listings.length === 0">
         </div>
       </ng-template>
 
