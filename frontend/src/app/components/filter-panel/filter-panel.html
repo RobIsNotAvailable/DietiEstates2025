@@ -1,6 +1,6 @@
 <div class="filter-container">
     <div class="filter-header">
-        <h3>Filtri Avanzati</h3>
+        <h3>Advanced Filters</h3>
         <button class="close-btn" (click)="onCloseClick()">
             <i class="bx bx-x"></i>
         </button>
@@ -19,7 +19,7 @@
                     <button class="chip" 
                             [class.active]="filters.listingType === t" 
                             (click)="setType(t)">
-                        {{ t === 'SALE' ? 'Vendita' : 'Affitto' }}
+                        {{ t === 'SALE' ? 'Sale' : 'Rent' }}
                     </button>
                 }
             </div>
@@ -28,7 +28,7 @@
         <div class="filter-section">
             <div class="form-field">
                 <input type="number" id="minPrice" [(ngModel)]="filters.minPrice" placeholder=" ">
-                <label for="minPrice">Minimum Price (€)</label>
+                <label for="minPrice">Minimum Price</label>
             </div>
             <div class="chips-container">
                 <button class="chip" [class.active]="filters.minPrice === null" (click)="selectMinPrice(null)">Any</button>
@@ -42,7 +42,7 @@
         <div class="filter-section">
             <div class="form-field">
                 <input type="number" id="maxPrice" [(ngModel)]="filters.maxPrice" placeholder=" ">
-                <label for="maxPrice">Maximum Price (€)</label>
+                <label for="maxPrice">Maximum Price</label>
             </div>
             <div class="chips-container">
                 <button class="chip" [class.active]="filters.maxPrice === null" (click)="selectMaxPrice(null)">Qualsiasi</button>
@@ -66,7 +66,7 @@
         <div class="filter-section">
             <span class="section-label">Energy Class</span>
             <div class="energy-chips">
-                <button class="chip" [class.active]="filters.energyClass === ''" (click)="filters.energyClass = ''">Qualsiasi</button>
+                <button class="chip" [class.active]="filters.energyClass === ''" (click)="filters.energyClass = ''">Any</button>
                 @for (cls of energyClasses; track cls) 
                 {
                     <button class="chip" [class.active]="filters.energyClass === cls" (click)="filters.energyClass = cls">{{ cls }}</button>
