@@ -47,7 +47,7 @@ export class FilterPanelComponent
 
   get typeChips(): ('SALE' | 'RENT')[] 
   {
-      return ['SALE', 'RENT']; 
+    return ['SALE', 'RENT']; 
   }
 
   get priceChips() 

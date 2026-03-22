@@ -8,11 +8,11 @@
 
     <div class="filter-body">
         <div class="filter-section">
-            <span class="section-label">Tipo Contratto</span>
+            <span class="section-label">Contract Type</span>
             <div class="chips-container">  
                 <button class="chip" 
                         [class.active]="filters.listingType === null" 
-                        (click)="setType(null)">Qualsiasi</button>
+                        (click)="setType(null)">Any</button>
                 
                 @for (t of typeChips; track t) 
                 {
@@ -28,10 +28,10 @@
         <div class="filter-section">
             <div class="form-field">
                 <input type="number" id="minPrice" [(ngModel)]="filters.minPrice" placeholder=" ">
-                <label for="minPrice">Prezzo Minimo (€)</label>
+                <label for="minPrice">Minimum Price (€)</label>
             </div>
             <div class="chips-container">
-                <button class="chip" [class.active]="filters.minPrice === null" (click)="selectMinPrice(null)">Qualsiasi</button>
+                <button class="chip" [class.active]="filters.minPrice === null" (click)="selectMinPrice(null)">Any</button>
                 @for (p of priceChips; track p) 
                 {
                     <button class="chip" [class.active]="filters.minPrice === p" (click)="selectMinPrice(p)">{{ p | number:'1.0-0' }}€</button>
@@ -42,7 +42,7 @@
         <div class="filter-section">
             <div class="form-field">
                 <input type="number" id="maxPrice" [(ngModel)]="filters.maxPrice" placeholder=" ">
-                <label for="maxPrice">Prezzo Massimo (€)</label>
+                <label for="maxPrice">Maximum Price (€)</label>
             </div>
             <div class="chips-container">
                 <button class="chip" [class.active]="filters.maxPrice === null" (click)="selectMaxPrice(null)">Qualsiasi</button>
@@ -54,7 +54,7 @@
         </div>
 
         <div class="filter-section">
-            <span class="section-label">Stanze (minimo)</span>
+            <span class="section-label">Rooms</span>
             <div class="options-row">
                 @for (n of [1, 2, 3, 4, 5]; track n) 
                 {
@@ -64,7 +64,7 @@
         </div>
 
         <div class="filter-section">
-            <span class="section-label">Classe Energetica</span>
+            <span class="section-label">Energy Class</span>
             <div class="energy-chips">
                 <button class="chip" [class.active]="filters.energyClass === ''" (click)="filters.energyClass = ''">Qualsiasi</button>
                 @for (cls of energyClasses; track cls) 

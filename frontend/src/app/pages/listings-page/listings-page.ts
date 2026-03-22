@@ -43,47 +43,23 @@ export class ListingsPageComponent implements OnInit
   loadListings(page: number = 0) 
   {
     this.isLoading = true;
-    
-    this.listingService.getActiveListings(page, this.pageSize).subscribe
-    ({
-      next: (data: Page<SummaryListingResponse>) => 
-      {
-        this.listings = data.content;
-        this.totalElements = data.totalElements;
-        this.currentPage = data.number;
-        this.isLast = data.last;
-        this.isLoading = false;
-        this.cd.detectChanges();
-      },
-      error: () => 
-      {
-        this.isLoading = false;
-      }
-    });
     this.currentPage = page;
-    
-    this.listings = []; 
+    this.listings = [];
     this.totalElements = 0;
-    
-    if (this.currentFilters) 
-    {
-      const searchRequest = { ...this.currentFilters, page, size: this.pageSize };
-      
-      this.listingService.searchListings(searchRequest).subscribe
-      ({
-        next: (data: any) => this.handleResponse(data),
-        error: () => this.handleError()
-      });
-    } 
-    else 
-    {
-      this.listingService.getActiveListings(page, this.pageSize).subscribe
-      ({
-        next: (data: Page<SummaryListingResponse>) => this.handleResponse(data),
-        error: () => this.handleError()
-      });
+
+    if (this.currentFilters) {
+        const searchRequest = { ...this.currentFilters, page, size: this.pageSize };
+        this.listingService.searchListings(searchRequest).subscribe({
+            next: (data: any) => this.handleResponse(data),
+            error: () => this.handleError()
+        });
+    } else {
+        this.listingService.getActiveListings(page, this.pageSize).subscribe({
+            next: (data: Page<SummaryListingResponse>) => this.handleResponse(data),
+            error: () => this.handleError()
+        });
     }
-  }
+}
 
   handleSearchBarClick() 
   {

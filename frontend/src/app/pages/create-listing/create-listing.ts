@@ -143,7 +143,7 @@ export class CreateListingComponent
         next: () => 
         {
           this.isSubmitting = false;
-          alert("Annuncio creato con successo!");
+          alert("Listing Created Successfully");
           this.router.navigate(['/home']); 
         },
         error: (err) => 

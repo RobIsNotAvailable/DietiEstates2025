@@ -4,6 +4,7 @@
         <input 
             type="text" 
             [(ngModel)]="searchCity" 
+            (input)="onInputChange($any($event.target).value)"
             placeholder="Search by city or area" 
             class="search-input"
         >
@@ -19,5 +20,15 @@
         <button class="btn-search-main" (click)="onSearch()">
             <i class="bi bi-geo-alt"></i> Search
         </button>
+    </div>
+
+    <div class="suggestions-panel" *ngIf="suggestions.length > 0">
+        <div class="suggestion-item" *ngFor="let s of suggestions" (click)="selectSuggestion(s)">
+            <i class='bx bxs-map'></i>
+            <div class="suggestion-text">
+                <span class="main-address">{{ s.main_text }}</span>
+                <span class="sub-address">{{ s.secondary_text }}</span>
+            </div>
+        </div>
     </div>
 </div>

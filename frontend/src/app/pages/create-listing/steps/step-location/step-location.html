@@ -7,12 +7,12 @@
       <div class="form-field address-field" [class.error-state]="locationGroup.get('address')?.invalid && (locationGroup.get('address')?.touched || showErrors)">
         <div class="input-wrapper">
           <input 
-  type="text" 
-  id="listingAddress" 
-  formControlName="address" 
-  (input)="onAddressInput()" 
-  placeholder=" " 
-  autocomplete="off"
+            type="text" 
+            id="listingAddress" 
+            formControlName="address" 
+            (input)="onAddressInput()" 
+            placeholder=" " 
+            autocomplete="off"
 >
           <label for="listingAddress">Complete Address</label>
           

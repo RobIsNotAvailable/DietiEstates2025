@@ -1,4 +1,5 @@
 <form class="extra-details-container" *ngIf="parentForm" [formGroup]="extraGroup">
+    <h2>Extra Details</h2>
     <div class="form-row">
         <div class="form-field">
             <input type="number" id="listingFloor" formControlName="floor" placeholder=" ">
@@ -25,10 +26,10 @@
         <div class="form-field">
             <select id="energyClass" formControlName="energyClass" [class.has-value]="extraGroup.get('energyClass')?.value !== ''">
                 <option value="" selected hidden></option>
-                <option value="A4">A4</option>
                 <option value="A">A</option>
                 <option value="B">B</option>
-                <option value="G">G</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
             </select>
             <label for="energyClass">Energy Class</label>
             <i class="bx bx-chevron-down select-icon"></i>
