@@ -45,7 +45,7 @@
                 <label for="maxPrice">Maximum Price</label>
             </div>
             <div class="chips-container">
-                <button class="chip" [class.active]="filters.maxPrice === null" (click)="selectMaxPrice(null)">Qualsiasi</button>
+                <button class="chip" [class.active]="filters.maxPrice === null" (click)="selectMaxPrice(null)">Any</button>
                 @for (p of priceChips; track p) 
                 {
                     <button class="chip" [class.active]="filters.maxPrice === p" (click)="selectMaxPrice(p)">{{ p | number:'1.0-0' }}€</button>
