@@ -1,11 +1,12 @@
 <div class="photo-upload-container" [formGroup]="photosGroup">
+  <h2 class="step-title">Photos</h2>
     <div class="photo-upload-section">
         <label class="section-label">Property Photos</label>
         
         <div class="slider-wrapper" *ngIf="imagePreviews.length > 0">
             <div class="loading-overlay" *ngIf="isUploading">
                 <div class="spinner"></div>
-                <p>Compressione immagini...</p>
+                <p>Compressing images...</p>
             </div>
 
             <app-listing-slider 
@@ -31,7 +32,7 @@
         <div class="empty-gallery" (click)="photoInput.click()" *ngIf="imagePreviews.length === 0">
             <div class="loading-overlay" *ngIf="isUploading">
                 <div class="spinner"></div>
-                <p>Caricamento...</p>
+                <p>Uploading...</p>
             </div>
             <ng-container *ngIf="!isUploading">
                 <i class='bx bx-image-add'></i>

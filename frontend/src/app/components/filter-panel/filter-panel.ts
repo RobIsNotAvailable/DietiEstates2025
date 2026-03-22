@@ -43,7 +43,7 @@ export class FilterPanelComponent
     return !this.isOpen && this.hasBeenOpened;
   }
 
-  energyClasses = ['A', 'B', 'C', 'D'];
+  energyClasses = ['A4', 'A3', 'A2', 'A1', 'B', 'C', 'D'];
 
   get typeChips(): ('SALE' | 'RENT')[] 
   {

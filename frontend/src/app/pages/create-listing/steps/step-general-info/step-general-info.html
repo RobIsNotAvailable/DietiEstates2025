@@ -1,10 +1,9 @@
 <form class="general-info-container" *ngIf="parentForm" [formGroup]="generalGroup">
-    <h2>General Info</h2>
-
+  <h2 class="step-title">General Informations</h2>
     <div class="form-row">
         <div class="form-field main-field">
             <input type="text" id="listingName" formControlName="name" placeholder=" ">
-            <label for="listingName">Listing Name</label>
+            <label for="listingName">Name</label>
         </div>
     </div>
 
@@ -15,7 +14,7 @@
                    [value]="formattedPrice" 
                    (input)="formatPrice($event)" 
                    placeholder=" ">
-            <label for="listingPrice">Price (€)</label>
+            <label for="listingPrice">Price</label>
         </div>
 
         <div class="form-field">
@@ -32,7 +31,7 @@
     <div class="form-row">
         <div class="form-field">
             <input type="number" id="listingSurface" formControlName="squareMeters" placeholder=" ">
-            <label for="listingSurface">Surface (m²)</label>
+            <label for="listingSurface">Surface</label>
         </div>
 
         <div class="form-field">
