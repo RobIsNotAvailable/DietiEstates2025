@@ -25,6 +25,14 @@ export class StepGeneralInfoComponent
     return this.parentForm.get('generalInfo') as FormGroup;
   }
 
+  ngOnInit() 
+  {
+    const existingPrice = this.generalGroup.get('price')?.value;
+    if (existingPrice != null) {
+        this.formattedPrice = new Intl.NumberFormat('de-DE').format(existingPrice);
+    }
+  }
+
   formatPrice(event: any) 
   {
     const input = event.target as HTMLInputElement;

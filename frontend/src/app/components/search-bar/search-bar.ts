@@ -28,39 +28,43 @@ export class SearchBarComponent implements OnInit {
   ngOnInit() 
   {
     this.input$.pipe(
-      tap(value => {
-        if (!value || value.length <= 2) {
-          this.suggestions = [];
-          this.isSearching = false;
-        }
-      }),
-      filter(value => typeof value === 'string' && value.length > 2),
-      debounceTime(400),
-      distinctUntilChanged(),
-      tap(() => { this.isSearching = true; this.suggestions = []; }),
-      switchMap(value => this.locationService.normalizeAddress(value).pipe(
-        catchError(() => of([]))
-      ))
+        tap(value => {
+            if (!value || value.length <= 2) {
+                this.suggestions = [];
+                this.isSearching = false;
+            }
+        }),
+        filter(value => typeof value === 'string' && value.length > 2),
+        debounceTime(400),
+        distinctUntilChanged(),
+        tap(() => { this.isSearching = true; this.suggestions = []; }),
+        switchMap(value => this.locationService.normalizeAddress(value).pipe(
+            catchError(() => of([]))
+        ))
     ).subscribe({
-      next: (results: any) => {
-        this.suggestions = results?.length > 0
-            ? results.map((res: any) => ({
-                ...res,
-                main_text: res.formattedAddress || (res.street || '') + (res.houseNumber ? ' ' + res.houseNumber : ''),
-                secondary_text: `${res.city || ''}, ${res.province || ''}`,
-                full_address: res.formattedAddress
-            }))
-            : [];
-        this.isSearching = false;
-        this.cd.detectChanges();
-      },
-      error: () => {
-        this.suggestions = [];
-        this.isSearching = false;
-        this.cd.detectChanges();
-      }
+        next: (results: any) => {
+            this.suggestions = results?.length > 0
+                ? results.map((res: any) => {
+                    const streetPart = (res.street || '') + (res.housenumber ? ' ' + res.housenumber : '');
+                    const full = [streetPart, res.postcode, res.city, res.state].filter(Boolean).join(', ');
+                    return {
+                        ...res,
+                        main_text: streetPart || res.city || '',
+                        secondary_text: `${res.city || ''}, ${res.state || ''}`,
+                        full_address: full
+                    };
+                })
+                : [];
+            this.isSearching = false;
+            this.cd.detectChanges();
+        },
+        error: () => {
+            this.suggestions = [];
+            this.isSearching = false;
+            this.cd.detectChanges();
+        }
     });
-  }
+}
 
   onInputChange(value: string) 
   {
