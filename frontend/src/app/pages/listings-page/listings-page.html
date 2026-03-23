@@ -44,6 +44,10 @@
           </div>
           
           <div class="card-content">
+              <div class="price-container">
+                <span class="price">{{ item.price | currency:'EUR':'symbol':'1.0-0' }}</span>
+                <span class="price-period" *ngIf="item.listingType.toUpperCase() === 'RENT'">/ monthly</span>
+              </div>
             <h3 class="title">{{ item.name }}</h3>
             <div class="flex-spacer"></div>
             <p class="address"><i class="bx bx-map"></i> {{ item.formattedAddress }}</p>
@@ -51,7 +55,6 @@
             <div class="specs-container">
 
               <div class="poi-container">
-                <span class="poi-label">Near Services</span>
                 <div class="poi-badges">
                   
                   <div class="poi-item" 
@@ -81,22 +84,14 @@
                 </div>
               </div>
               <div class="surface-container">
-                <span class="poi-label">Surface</span>
                 <div class="surface-box">
                   <lucide-icon name="ruler" [size]="14"></lucide-icon>
                   <span>{{ item.squareMeters }} sqm</span>
                 </div>
               </div>
-            </div>
 
-            <div class="card-footer">
-              <div class="price-container">
-                <span class="price">{{ item.price | currency:'EUR':'symbol':'1.0-0' }}</span>
-                <span class="price-period" *ngIf="item.listingType.toUpperCase() === 'RENT'">/ monthly</span>
-              </div>
-              <div class="card-actions">
-                <button class="btn-save" (click)="onSave($event)"><i class="bx bx-bookmark-alt"></i> Save</button>
-              </div>
+              <button class="btn-save" (click)="onSave($event)"><i class="bx bx-bookmark-alt"></i> Save</button>
+
             </div>
           </div>
         </div>

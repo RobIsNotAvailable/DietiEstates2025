@@ -93,7 +93,7 @@
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
                 grid-auto-rows: min-content;
-                gap: 25px;
+                gap: 10px;
                 flex: 1;         
                 min-height: 0;   
                 overflow-y: auto;
@@ -107,7 +107,7 @@
                     transition: all 0.3s ease;
                     display: flex;         
                     flex-direction: column;
-                    min-height: 400px;
+                    min-height: 200px;
 
                     &:hover 
                     {
@@ -118,20 +118,44 @@
                     .card-image 
                     {
                         position: relative;
-                        height: 300px;
+                        height: 200px;
                         img { width: 100%; height: 100%; object-fit: cover; }
                         .tag { position: absolute; top: 15px; left: 15px; background: rgba($white-pure, 0.9); padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; color: $black-pure; }
                     }
 
                     .card-content 
                     {
-                        padding: 16px;
+                        padding: 8px 10px;
                         display: flex;
                         flex-direction: column;
-                        gap: 4px;
+                        gap: 2px;
                         border-radius: 0 0 12px 12px;
                         background-color: #f8f8f8;
                         flex-grow: 1;
+
+                        .price-container 
+                        {
+                            display: flex;
+                            align-items: baseline; 
+                            gap: 6px;
+
+                            .price 
+                            {
+                                font-size: $text-xxl;
+                                font-weight: 850;
+                                color: $black-pure;
+                                letter-spacing: -0.5px;
+                                margin: 0; 
+                            }
+
+                            .price-period 
+                            {
+                                font-size: $text-md;
+                                font-weight: 500;
+                                color: #666;
+                                text-transform: lowercase; 
+                            }
+                        }
 
                         .flex-spacer 
                         {
@@ -144,8 +168,21 @@
                             flex-direction: row;
                             align-items: center;
                             justify-content: space-between;
-                            gap: 24px;
+                            gap: 12px;
                             padding: 0;
+                            margin-top: 4px;
+
+                            .btn-save 
+                            { 
+                                @include form-button-green; 
+                                padding: 6px 10px; 
+                                font-size: $text-md; 
+                                border: 1px solid #ddd;
+                                flex-shrink: 0;
+                                width: auto;        
+                                margin-left: auto;
+                            }
+
 
                             .surface-container
                             {
@@ -206,53 +243,9 @@
                             }
                         }
 
-                        .title { font-size: $text-lg; font-weight: 700; color: $black-pure; margin: 0; }
+                        .title { font-size: $text-md; font-weight: 700; color: $black-pure; margin: 0; }
                         .address { font-size: $text-md; color: #666; display: flex; align-items: center; gap: 5px; }
                         .features { display: flex; gap: 15px; font-size: $text-md; color: #555; i { color: $bg-main; } }
-
-                        .card-footer 
-                        {
-                            padding-top: 5px;
-                            border-top: 1px solid #f0f0f0;
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: flex-end;
-                            margin-top: auto;
-
-                            .price-container 
-                            {
-                                display: flex;
-                                align-items: baseline; 
-                                gap: 6px;
-
-                                .price 
-                                {
-                                    font-size: $text-xxxl;
-                                    font-weight: 850;
-                                    color: $black-pure;
-                                    letter-spacing: -0.5px;
-                                    margin: 0; 
-                                }
-
-                                .price-period 
-                                {
-                                    font-size: $text-md;
-                                    font-weight: 500;
-                                    color: #666;
-                                    text-transform: lowercase; 
-                                }
-                            }
-
-                            .card-actions 
-                            {
-                                display: flex;
-                                flex-direction: column;
-                                gap: 6px;
-                                width: 115px;
-
-                                .btn-save { @include form-button-green; padding: 8px; font-size: $text-md; border: 1px solid #ddd; }
-                            }
-                        }
                     }   
                 }
             }
@@ -301,20 +294,20 @@
         
         .no-results-icon 
         {
-            color: #94a3b8; 
+            color: $form-gray-muted; 
             margin-bottom: 20px;
         }
 
         h2 
         {
-            color: #1e293b;
+            color: $logo-color;
             margin-bottom: 12px;
             font-size: $text-lg;
         }
 
         p 
         {
-            color: #64748b;
+            color: $form-gray-muted;
             margin: 0;
             
             &.sub-text 
@@ -366,7 +359,8 @@
         align-items: center;
         gap: 20px;
 
-        .spinner {
+        .spinner 
+        {
             width: 60px;
             height: 60px;
             border: 5px solid rgba($green-primary, 0.1);
