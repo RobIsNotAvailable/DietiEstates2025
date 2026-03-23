@@ -81,7 +81,7 @@ export class SetupPasswordComponent implements OnInit
     {
       next: () => 
       {
-        alert('Account activated');
+        alert('Password set correctly');
         this.router.navigate(['/home']);
       },
       error: (err) => 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router'; 
+import { Router, RouterModule, ActivatedRoute } from '@angular/router'; 
 import { AuthService } from '../../services/auth';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -26,7 +26,7 @@ export class LoginComponent
   serverErrorMessage: string | null = null;
   isSubmitted = false;
              
-  constructor(private authService: AuthService, private router: Router, private cd: ChangeDetectorRef) 
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute, private cd: ChangeDetectorRef) 
   {
     this.loginForm = new FormGroup(
     {
@@ -65,7 +65,9 @@ export class LoginComponent
     {
       next: () => 
       {
-        this.router.navigate(['/home']); 
+        const to = this.route.snapshot.queryParams['to'] || '/home';
+
+        this.router.navigateByUrl(to);
       },
       error: (err) => 
       {

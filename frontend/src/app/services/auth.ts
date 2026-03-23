@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap} from 'rxjs';
 
-@Injectable(
-{
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService 
 {
   private apiUrl = '/api/auth';
@@ -78,4 +75,26 @@ export class AuthService
       return null;
     }
   }
+
+  hasAtLeastRole(requiredRoleName: string): boolean
+  {
+    const userRoleName = this.getUserRole();
+    if (!userRoleName) return false;
+
+
+    const permissions: Record<string, string[]> =
+    {
+      'AGENT': ['AGENT', 'SUPPORT', 'ADMIN'],
+      'SUPPORT': ['SUPPORT', 'ADMIN'],
+      'ADMIN': ['ADMIN'],
+      'CLIENT': ['CLIENT', 'AGENT', 'SUPPORT', 'ADMIN']
+    };
+
+    const authorizedRoles = permissions[requiredRoleName];
+
+    if (!authorizedRoles) return false;
+
+    return authorizedRoles.includes(userRoleName);
+  }
+
 }
