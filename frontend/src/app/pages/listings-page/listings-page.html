@@ -2,18 +2,11 @@
   
   <section class="top-bar-section">
     <div class="header-card">
-      <div class="header-top">
-        <a routerLink="/" class="logo-section">
-          <div class="logo-icon"><i class="bx bx-home"></i></div>
-          <span class="logo-text">DietiEstates</span>
-        </a>
-        <h1>Listing Search Results</h1>
-      </div>
-
       <div class="search-and-sort">
         <app-search-bar 
-          (toggleFilters)="isFiltersOpen = !isFiltersOpen"
-          (search)="handleSearchBarClick()">
+          (toggleFilters)="toggleFilterPanel()"
+          (locationSelected)="handleLocationChange($event)"
+          (search)="loadListings(0)">
         </app-search-bar>
       </div>
     </div>
@@ -132,6 +125,6 @@
   <app-filter-panel 
     [isOpen]="isFiltersOpen" 
     (close)="isFiltersOpen = false"
-    (onSearch)="handleSearch($event)"> 
+    (onSearch)="handleFilterChange($event)"> 
   </app-filter-panel>
 </div>

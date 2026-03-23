@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
+import { LucideAngularModule } from 'lucide-angular';
 
 interface FilterOptions 
 {
@@ -9,13 +10,16 @@ interface FilterOptions
   maxPrice: number | null;
   minRooms: number;
   energyClass: string;
+  nearStops: boolean;
+  nearParks: boolean;
+  nearSchools: boolean;
 }
 
 @Component
 ({
   selector: 'app-filter-panel',
   standalone: true,    
-  imports: [FormsModule, CommonModule], 
+  imports: [FormsModule, CommonModule, LucideAngularModule], 
   templateUrl: './filter-panel.html',
   styleUrls: ['./filter-panel.scss'],
 })
@@ -59,11 +63,14 @@ export class FilterPanelComponent
 
   filters: FilterOptions = 
   {
-      listingType: null,
-      minPrice: null, 
-      maxPrice: null,
-      minRooms: 1,
-      energyClass: ''
+    listingType: null,
+    minPrice: null, 
+    maxPrice: null,
+    minRooms: 1,
+    energyClass: '',
+    nearStops: false,
+    nearParks: false,
+    nearSchools: false
   };
 
   ngOnInit() 
@@ -111,7 +118,10 @@ export class FilterPanelComponent
       minPrice: null,
       maxPrice: null,
       minRooms: 1,
-      energyClass: ''
+      energyClass: '',
+      nearStops: false,
+      nearParks: false,
+      nearSchools: false
     };
     
     this.applyFilters();

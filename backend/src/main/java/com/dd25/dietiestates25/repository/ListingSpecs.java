@@ -13,20 +13,10 @@ import jakarta.persistence.criteria.Root;
 
 public class ListingSpecs 
 {
+    private static final double SEARCH_RADIUS_KM = 2.0;
 
     private ListingSpecs() {}
     
-    public static Specification<Listing> hasCity(String city) 
-    {
-        return (root, query, cb) -> 
-        {
-            if (city == null) 
-                return null;
-
-            return cb.equal(getCityPath(root), city);
-        };
-    }
-
     public static Specification<Listing> hasPriceRange(BigDecimal min, BigDecimal max) 
     {
         return (root, query, cb) -> 
@@ -40,11 +30,11 @@ public class ListingSpecs
         };
     }
 
-    public static Specification<Listing> hasMinRooms(int minRooms)
+    public static Specification<Listing> hasMinRooms(Integer minRooms)
     {
         return (root, query, cb) -> 
         {
-            if (minRooms <= 0) 
+            if (minRooms == null || minRooms <= 0) 
             {
                 return cb.conjunction();
             }
@@ -79,6 +69,52 @@ public class ListingSpecs
         };
     }
     
+    public static Specification<Listing> hasNearSchools(Boolean nearSchools) 
+    {
+        return (root, query, cb) -> 
+            (nearSchools == null || !nearSchools) ? null : cb.isTrue(root.get("surroundingInfo").get("nearSchools"));
+    }
+
+    public static Specification<Listing> hasNearStops(Boolean nearStops) 
+    {
+        return (root, query, cb) -> 
+            (nearStops == null || !nearStops) ? null : cb.isTrue(root.get("surroundingInfo").get("nearStops"));
+    }
+
+    public static Specification<Listing> hasNearParks(Boolean nearParks) 
+    {
+        return (root, query, cb) -> 
+            (nearParks == null || !nearParks) ? null : cb.isTrue(root.get("surroundingInfo").get("nearParks"));
+    }
+
+    public static Specification<Listing> hasLocation(String city, Double lat, Double lon) 
+    {
+        return (root, query, cb) -> 
+        {
+            if (lat != null && lon != null) 
+            {
+                double latThreshold = SEARCH_RADIUS_KM / 111.0;
+                double lonThreshold = SEARCH_RADIUS_KM / (111.0 * Math.cos(Math.toRadians(lat)));
+
+                Path<Double> latPath = root.get("houseInfo").get("buildingDetails").get("address").get("coordinates").get("latitude");
+                Path<Double> lonPath = root.get("houseInfo").get("buildingDetails").get("address").get("coordinates").get("longitude");
+
+                return cb.and(
+                    cb.between(latPath, lat - latThreshold, lat + latThreshold),
+                    cb.between(lonPath, lon - lonThreshold, lon + lonThreshold)
+                );
+            }
+
+            if (city != null && !city.isBlank()) 
+            {
+                return cb.equal(cb.lower(getCityPath(root)), city.toLowerCase());
+            }
+
+            return cb.conjunction(); 
+        };
+    }
+
+
     public static Specification<Listing> isActive() 
     {
         return (root, query, criteriaBuilder) -> 
@@ -90,6 +126,7 @@ public class ListingSpecs
         return root.get("houseInfo")
                 .get("buildingDetails")
                 .get("address")
+                .get("postalAddress")
                 .get("city");
     }
 

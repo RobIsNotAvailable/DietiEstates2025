@@ -13,78 +13,87 @@ import { LocationService } from '../../services/location';
   templateUrl: './search-bar.html',
   styleUrls: ['./search-bar.scss']
 })
-export class SearchBarComponent implements OnInit {
-  searchCity: string = '';
-  suggestions: any[] = [];
-  isSearching: boolean = false;
+export class SearchBarComponent implements OnInit 
+{
+    searchCity: string = '';
+    suggestions: any[] = [];
+    isSearching: boolean = false;
 
-  private input$ = new Subject<string>();
+    private input$ = new Subject<string>();
 
-  @Output() toggleFilters = new EventEmitter<void>();
-  @Output() search = new EventEmitter<string>();
+    @Output() toggleFilters = new EventEmitter<void>();
+    @Output() search = new EventEmitter<string>();
+    @Output() locationSelected = new EventEmitter<any>();
 
-  constructor(private locationService: LocationService, private cd: ChangeDetectorRef) {}
+    constructor(private locationService: LocationService, private cd: ChangeDetectorRef) {}
 
-  ngOnInit() 
-  {
-    this.input$.pipe(
-        tap(value => {
-            if (!value || value.length <= 2) {
+    ngOnInit() 
+    {
+        this.input$.pipe(
+            tap(value => {
+                if (!value || value.length <= 2) {
+                    this.suggestions = [];
+                    this.isSearching = false;
+                }
+            }),
+            filter(value => typeof value === 'string' && value.length > 2),
+            debounceTime(400),
+            distinctUntilChanged(),
+            tap(() => { this.isSearching = true; this.suggestions = []; }),
+            switchMap(value => this.locationService.normalizeAddress(value).pipe(
+                catchError(() => of([]))
+            ))
+        ).subscribe({
+            next: (results: any) => {
+                this.suggestions = results?.length > 0
+                    ? results.map((res: any) => {
+                        const streetPart = (res.street || '') + (res.housenumber ? ' ' + res.housenumber : '');
+                        const full = [streetPart, res.postcode, res.city, res.state].filter(Boolean).join(', ');
+                        return {
+                            ...res,
+                            main_text: streetPart || res.city || '',
+                            secondary_text: `${res.city || ''}, ${res.state || ''}`,
+                            full_address: full
+                        };
+                    })
+                    : [];
+                this.isSearching = false;
+                this.cd.detectChanges();
+            },
+            error: () => {
                 this.suggestions = [];
                 this.isSearching = false;
+                this.cd.detectChanges();
             }
-        }),
-        filter(value => typeof value === 'string' && value.length > 2),
-        debounceTime(400),
-        distinctUntilChanged(),
-        tap(() => { this.isSearching = true; this.suggestions = []; }),
-        switchMap(value => this.locationService.normalizeAddress(value).pipe(
-            catchError(() => of([]))
-        ))
-    ).subscribe({
-        next: (results: any) => {
-            this.suggestions = results?.length > 0
-                ? results.map((res: any) => {
-                    const streetPart = (res.street || '') + (res.housenumber ? ' ' + res.housenumber : '');
-                    const full = [streetPart, res.postcode, res.city, res.state].filter(Boolean).join(', ');
-                    return {
-                        ...res,
-                        main_text: streetPart || res.city || '',
-                        secondary_text: `${res.city || ''}, ${res.state || ''}`,
-                        full_address: full
-                    };
-                })
-                : [];
-            this.isSearching = false;
-            this.cd.detectChanges();
-        },
-        error: () => {
-            this.suggestions = [];
-            this.isSearching = false;
-            this.cd.detectChanges();
-        }
-    });
-}
+        });
+    }
 
-  onInputChange(value: string) 
-  {
-    this.searchCity = value;
-    this.input$.next(value);
-  }
+    onInputChange(value: string) 
+    {
+        this.searchCity = value;
+        this.input$.next(value);
+    }
 
-  selectSuggestion(s: any) 
-  {
-    this.searchCity = s.full_address || s.main_text;
-    this.suggestions = [];
-    this.cd.detectChanges();
-  }
+    selectSuggestion(s: any) 
+    {
+        this.searchCity = s.full_address || s.main_text;
+        this.suggestions = [];
 
-  onSearch(): void {
-    this.suggestions = [];
-    this.search.emit(this.searchCity);
-  }
+        const isStreet = !!s.street;
+        const locationData = isStreet
+            ? { city: null, lat: s.lat, lon: s.lon }
+            : { city: s.city, lat: null, lon: null };
 
-  onFilterClick() {
-    this.toggleFilters.emit();
-  }
+        this.locationSelected.emit(locationData);
+        this.cd.detectChanges();
+    }
+
+    onSearch(): void {
+        this.suggestions = [];
+        this.search.emit(this.searchCity);
+    }
+
+    onFilterClick() {
+        this.toggleFilters.emit();
+    }
 }

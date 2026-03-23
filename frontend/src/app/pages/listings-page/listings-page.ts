@@ -8,6 +8,7 @@ import { SummaryListingResponse } from '../../models/listing.model';
 import { Page } from '../../models/page.model';
 import { LucideAngularModule } from 'lucide-angular';
 import { Router } from '@angular/router';
+import { ListingSearchRequest } from '../../models/listingSearchRequest';
 
 @Component({
   selector: 'app-listings-page',
@@ -23,14 +24,14 @@ export class ListingsPageComponent implements OnInit
   listings: SummaryListingResponse[] = [];
   isLoading: boolean = false;
   isFiltersOpen: boolean = false;
-  currentCity: string = ''; 
 
   currentPage: number = 0;
   pageSize: number = 20;
   totalElements: number = 0;
   isLast: boolean = false;
 
-  currentFilters: any = null;
+  currentFilters: ListingSearchRequest = {};
+
   selectedListingType: 'SALE' | 'RENT' | null = null;
 
   constructor(private listingService: ListingService, private cd: ChangeDetectorRef, private router: Router) {}
@@ -44,22 +45,42 @@ export class ListingsPageComponent implements OnInit
   {
     this.isLoading = true;
     this.currentPage = page;
-    this.listings = [];
-    this.totalElements = 0;
 
-    if (this.currentFilters) {
-        const searchRequest = { ...this.currentFilters, page, size: this.pageSize };
-        this.listingService.searchListings(searchRequest).subscribe({
-            next: (data: any) => this.handleResponse(data),
-            error: () => this.handleError()
-        });
+    const hasFilters = Object.keys(this.currentFilters).length > 0;
+
+    if (hasFilters) {
+      const searchRequest = { ...this.currentFilters, page, size: this.pageSize };
+      console.log(searchRequest);
+      this.listingService.searchListings(searchRequest).subscribe({
+        next: (data: any) => this.handleResponse(data),
+        error: () => this.handleError()
+      });
     } else {
-        this.listingService.getActiveListings(page, this.pageSize).subscribe({
-            next: (data: Page<SummaryListingResponse>) => this.handleResponse(data),
-            error: () => this.handleError()
-        });
+      this.listingService.getActiveListings(page, this.pageSize).subscribe({
+        next: (data: Page<SummaryListingResponse>) => this.handleResponse(data),
+        error: () => this.handleError()
+      });
     }
-}
+  }
+
+  handleLocationChange(locationData: any) 
+  {
+    this.currentFilters = {
+      ...this.currentFilters,
+      city: locationData.city ?? null,
+      latitude: locationData.lat ?? null,
+      longitude: locationData.lon ?? null
+    };
+  }
+
+  handleFilterChange(filterOptions: any) 
+  {
+    this.currentFilters = {
+        ...this.currentFilters,
+        ...filterOptions 
+    };
+    this.loadListings(0);
+  }
 
   handleSearchBarClick() 
   {

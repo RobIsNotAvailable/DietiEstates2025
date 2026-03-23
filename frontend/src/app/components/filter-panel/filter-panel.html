@@ -73,6 +73,34 @@
                 }
             </div>
         </div>
+
+        <div class="filter-section">
+            <span class="section-label">Near Services</span>
+            <div class="poi-filter-container">
+                
+                <button class="poi-btn" 
+                        [class.active]="filters.nearSchools" 
+                        (click)="filters.nearSchools = !filters.nearSchools"
+                        [attr.data-tooltip]="'Schools'">
+                    <lucide-icon name="school" [size]="18"></lucide-icon>
+                </button>
+
+                <button class="poi-btn" 
+                        [class.active]="filters.nearStops" 
+                        (click)="filters.nearStops = !filters.nearStops"
+                        [attr.data-tooltip]="'Public Transports'">
+                    <i class="bi bi-bus-front-fill"></i>
+                </button>
+
+                <button class="poi-btn" 
+                        [class.active]="filters.nearParks" 
+                        (click)="filters.nearParks = !filters.nearParks"
+                        [attr.data-tooltip]="'Green Areas & Parks'">
+                    <i class="bi bi-tree"></i>
+                </button>
+
+            </div>
+        </div>
     </div>
 
     <div class="filter-footer">

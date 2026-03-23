@@ -64,6 +64,7 @@ public class ListingService
         Address normalizedAddress = geoapifyService.normalizeAddress(request.rawAddress());
 
         SurroundingInfoResponse resp = geoapifyService.fetchSurroundingInfo(normalizedAddress.getLatitude(), normalizedAddress.getLongitude());
+        
         SurroundingInfo surroundingInfo = new SurroundingInfo(resp.hasBus(), resp.hasPark(), resp.hasSchool());
 
         CommercialInfo commercialInfo = new CommercialInfo(request.price(), request.listingType());
@@ -98,16 +99,23 @@ public class ListingService
         Specification<Listing> spec = Specification.unrestricted();
 
         spec = spec.and(ListingSpecs.isActive());
-        spec = spec.and(ListingSpecs.hasCity(request.city()));
+        
+        spec = spec.and(ListingSpecs.hasLocation(request.city(), request.latitude(), request.longitude()));
+        
         spec = spec.and(ListingSpecs.hasPriceRange(request.minPrice(), request.maxPrice()));
         spec = spec.and(ListingSpecs.hasMinRooms(request.minRooms()));
         spec = spec.and(ListingSpecs.hasEnergyClass(request.energyClass()));
         spec = spec.and(ListingSpecs.hasListingType(request.listingType()));
+        
+        spec = spec.and(ListingSpecs.hasNearSchools(request.nearSchools()));
+        spec = spec.and(ListingSpecs.hasNearStops(request.nearStops()));
+        spec = spec.and(ListingSpecs.hasNearParks(request.nearParks()));
+
         List<Listing> results = repo.findAll(spec);
 
         return results.stream()
-                  .map(this::mapToSummary)
-                  .toList();
+                    .map(this::mapToSummary)
+                    .toList();
     }
     
     public Page<SummaryListingResponse> getAllActiveListings(int page, int size) 

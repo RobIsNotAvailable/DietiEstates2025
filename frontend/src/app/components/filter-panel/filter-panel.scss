@@ -1,5 +1,6 @@
 @use 'variables' as *;
 @use 'form-shared' as *;
+@use 'listings' as *;
 
 :host 
 {
@@ -26,6 +27,7 @@
 
     .filter-header 
     {
+
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -125,6 +127,63 @@
                 }
 
                 &:hover:not(.active) { border-color: $black-pure; }
+            }
+        }
+
+        .poi-filter-container 
+        {
+
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+
+            .poi-btn 
+            {
+                position: relative; 
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 1px solid #eee;
+                background: #f8f9fa;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &.active 
+                {
+                    background: $logo-color; 
+                    color: white;
+                    border-color: $logo-color;
+                }
+
+                &::after 
+                {
+                    content: attr(data-tooltip);
+                    position: absolute;
+                    bottom: 120%; 
+                    left: 80%;
+                    transform: translateX(-50%) translateY(10px);
+                    background: rgba(33, 33, 33, 0.95);
+                    color: white;
+                    padding: 6px 10px;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    white-space: nowrap;
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: all 0.2s ease;
+                    z-index: 100;
+                    pointer-events: none;
+                }
+
+                &:hover::after 
+                {
+                    opacity: 1;
+                    visibility: visible;
+                    transform: translateX(-50%) translateY(0);
+                }
             }
         }
     }

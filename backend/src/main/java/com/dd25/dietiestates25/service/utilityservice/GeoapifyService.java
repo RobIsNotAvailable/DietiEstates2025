@@ -39,7 +39,6 @@ public class GeoapifyService
                 .queryParam("apiKey", apiKey)
                 .queryParam("limit", 5)
                 .queryParam("filter", "countrycode:it") 
-                .queryParam("lang", "it")
                 .build()
                 .toUriString();
 
@@ -55,7 +54,6 @@ public class GeoapifyService
         }
     }
 
-    
     public Address normalizeAddress(String rawAddress) 
     {
         String url = UriComponentsBuilder
@@ -126,6 +124,28 @@ public class GeoapifyService
         return res.properties().stream()
                     .flatMap(prop -> prop.categories().stream())
                     .anyMatch(category -> category.toLowerCase().contains(lowerKeyword));
+    }
+
+    public Address resolveSearchCriteria(String rawAddress) 
+    {
+        String url = UriComponentsBuilder
+                .fromUriString("https://api.geoapify.com/v1/geocode/search")
+                .queryParam("text", rawAddress)
+                .queryParam("apiKey", apiKey)
+                .queryParam("limit", 1)
+                .build()
+                .toUriString();
+
+        GeoapifyResponse response = restTemplate.getForObject(url, GeoapifyResponse.class);
+
+        if (response == null || response.properties().isEmpty()) 
+        {
+            throw new IllegalArgumentException("Location not found");
+        }
+
+        GeoapifyProperties props = response.properties().get(0);
+
+        return mapToAddress(props);
     }
 }
 

@@ -94,7 +94,6 @@
             }
         }
 
-        // --- Tooltip (Pseudo-elementi) ---
         &::before 
         {
             content: attr(data-tooltip);

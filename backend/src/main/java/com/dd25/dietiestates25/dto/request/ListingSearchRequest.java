@@ -7,6 +7,10 @@ import com.dd25.dietiestates25.model.enums.ListingType;
 public record ListingSearchRequest
 (
     String city,
+
+    Double latitude,  
+    
+    Double longitude,
     
     BigDecimal minPrice,
     
@@ -16,6 +20,12 @@ public record ListingSearchRequest
 
     String energyClass,
 
-    ListingType listingType
+    ListingType listingType,
+
+    Boolean nearSchools,
+
+    Boolean nearStops,
+
+    Boolean nearParks
 ) 
 {}
