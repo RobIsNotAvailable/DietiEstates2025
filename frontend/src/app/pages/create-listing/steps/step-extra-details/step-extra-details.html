@@ -8,7 +8,7 @@
 
         <div class="form-field">
             <input type="text" id="listingInner" formControlName="intern" placeholder=" ">
-            <label for="listingInner">Internal (e.g. 15B)</label>
+            <label for="listingInner">Apartment number</label>
         </div>
     </div>
 
@@ -41,10 +41,14 @@
 
     <div class="form-field textarea-field">
         <textarea id="extraDetails" formControlName="extraDetails" rows="5" placeholder=" "></textarea>
-        <label for="extraDetails">Extra Details</label>
+        <label for="extraDetails">Features</label>
     </div>
 
     <p class="info-text" [class.error-active]="extraGroup.invalid && showErrors">
+<<<<<<< HEAD
         all fields are mandatory
+=======
+        Floor and energy class are mandatory
+>>>>>>> 30d3e9c (further UI polish and improved listing creation logic)
     </p>
 </form>

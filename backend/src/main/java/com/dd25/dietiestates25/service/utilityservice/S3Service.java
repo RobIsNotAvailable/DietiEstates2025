@@ -11,7 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
 import software.amazon.awssdk.core.sync.RequestBody;
 
 @Service
@@ -19,6 +22,7 @@ import software.amazon.awssdk.core.sync.RequestBody;
 public class S3Service
 {
     private final S3Client s3Client;
+    private final S3Presigner s3Presigner;
 
     @Value("${BUCKET_NAME}")
     private String bucketName;
@@ -44,6 +48,37 @@ public class S3Service
         } catch (IOException e)
         {
             throw new UncheckedIOException("S3 upload error", e);
+        }
+    }
+
+    public String generatePresignedUrl(String fullUrlOrKey) 
+    {
+        if (fullUrlOrKey == null || fullUrlOrKey.isEmpty()) 
+        {
+            return null;
+        }
+
+        String objectKey = fullUrlOrKey.contains("/") 
+                ? fullUrlOrKey.substring(fullUrlOrKey.lastIndexOf("/") + 1) 
+                : fullUrlOrKey;
+
+        try 
+        {
+            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                    .bucket(bucketName) 
+                    .key(objectKey)
+                    .build();
+
+            GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()
+                    .signatureDuration(java.time.Duration.ofMinutes(60)) 
+                    .getObjectRequest(getObjectRequest)
+                    .build();
+
+            return s3Presigner.presignGetObject(presignRequest).url().toString();
+        } 
+        catch (Exception e) 
+        {
+            return null;
         }
     }
 }

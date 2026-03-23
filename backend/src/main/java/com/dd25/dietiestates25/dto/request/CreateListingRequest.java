@@ -25,8 +25,6 @@ public record CreateListingRequest(
     @NotBlank(message = "Address is required")
     String rawAddress,
     
-    @NotNull(message = "Intern number is required")
-    @Min(value = 1, message = "Intern must be at least 1")
     Integer intern,
     
     @NotNull(message = "Floor is required")
