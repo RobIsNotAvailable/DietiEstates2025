@@ -60,7 +60,11 @@
                     <div class="hero-background"></div>
 
                     <div class="search-wrapper">
-                        <app-search-bar (toggleFilters)="isFiltersOpen = !isFiltersOpen"></app-search-bar>
+                        <app-search-bar 
+                            (toggleFilters)="isFiltersOpen = !isFiltersOpen"
+                            (locationSelected)="handleLocationChange($event)"
+                            (search)="handleSearchBarSearch()">
+                        </app-search-bar>
                     </div>
                 </section>
             </div>
@@ -103,6 +107,8 @@
 
     <app-filter-panel 
         [isOpen]="isFiltersOpen" 
-        (close)="isFiltersOpen = false">
+        (close)="isFiltersOpen = false"
+        (onSearch)="handleFilterChange($event)"
+        (onReset)="currentFilters = {}">
     </app-filter-panel>
 </div>

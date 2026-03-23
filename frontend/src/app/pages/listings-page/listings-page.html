@@ -26,108 +26,107 @@
 
   <main class="results-layout">
     <div class="main-results-card">
-      
-      <div class="results-toolbar" *ngIf="listings.length > 0">
-        <div class="sort-controls">
-          <label>Sort by:</label>
-          <select class="sort-select" (change)="onSortChange($event)">
-            <option value="Newest">Newest</option>
-            <option value="Price: Low to High">Price: Low to High</option>
-            <option value="Price: High to Low">Price: High to Low</option>
-          </select>
-        </div>
-        
-        <div class="search-context-info" *ngIf="searchLabel">
-          <p class="search-label">{{ searchLabel }}</p>
+
+      <div class="loading-container" *ngIf="isLoading">
+        <div class="loading-content">
+          <div class="spinner"></div>
+          <h2>Searching for listings...</h2>
+          <p>Finding the best properties for you.</p>
         </div>
       </div>
 
-      <div class="listings-grid" *ngIf="listings.length > 0; else noResults">
-        <div class="listing-card" *ngFor="let item of listings" (click)="goToDetail(item.id)" style="cursor: pointer;"> 
-          <div class="card-image">
-            <img [src]="item.imageUrl || 'assets/images/placeholder-house.jpg'" alt="Property image">
-            <div class="tag">{{ item.listingType }}</div>
+      <ng-container *ngIf="!isLoading">
+        
+        <div class="results-toolbar" *ngIf="listings.length > 0">
+          <div class="sort-controls">
+            <label>Sort by:</label>
+            <select class="sort-select" (change)="onSortChange($event)">
+              <option value="Newest">Newest</option>
+              <option value="Price: Low to High">Price: Low to High</option>
+              <option value="Price: High to Low">Price: High to Low</option>
+            </select>
           </div>
           
-          <div class="card-content">
+          <div class="search-context-info" *ngIf="searchLabel">
+            <p class="search-label">{{ searchLabel }}</p>
+          </div>
+        </div>
+
+        <div class="listings-grid" *ngIf="listings.length > 0; else noResults">
+          <div class="listing-card" *ngFor="let item of listings" (click)="goToDetail(item.id)" style="cursor: pointer;"> 
+            <div class="card-image">
+              <img [src]="item.imageUrl || 'assets/images/placeholder-house.jpg'" alt="Property image">
+              <div class="tag">{{ item.listingType }}</div>
+            </div>
+            
+            <div class="card-content">
               <div class="price-container">
                 <span class="price-symbol">€</span>
                 <span class="price">{{ item.price | number:'1.0-0' }}</span>
                 <span class="price-period" *ngIf="item.listingType.toUpperCase() === 'RENT'">/ monthly</span>
               </div>
-            <div class="flex-spacer"></div>
-            <h3 class="title">{{ item.name }}</h3>
-            <p class="address"><i class="bx bx-map"></i> {{ item.formattedAddress }}</p>
-            
-            <div class="specs-container">
+              <div class="flex-spacer"></div>
+              <h3 class="title">{{ item.name }}</h3>
+              <p class="address"><i class="bx bx-map"></i> {{ item.formattedAddress }}</p>
+              
+              <div class="specs-container">
+                <div class="poi-container">
+                  <div class="poi-badges">
+                    <div class="poi-item" [class.active]="item.nearSchools" [attr.data-tooltip]="'Schools'">
+                      <div class="poi-icon">
+                        <lucide-icon name="school" [size]="14"></lucide-icon>
+                      </div>
+                    </div>
 
-              <div class="poi-container">
-                <div class="poi-badges">
-                  
-                  <div class="poi-item" 
-                      [class.active]="item.nearSchools"
-                      [attr.data-tooltip]="'Schools'">
-                    <div class="poi-icon">
-                      <lucide-icon name="school" [size]="14"></lucide-icon>
+                    <div class="poi-item" [class.active]="item.nearStops" [attr.data-tooltip]="'Public Transports'">
+                      <div class="poi-icon">
+                        <i class="bi bi-bus-front-fill"></i>
+                      </div>
+                    </div>
+
+                    <div class="poi-item" [class.active]="item.nearParks" [attr.data-tooltip]="'Green Areas & Parks'">
+                      <div class="poi-icon">
+                        <i class="bi bi-tree"></i>
+                      </div>
                     </div>
                   </div>
-
-                  <div class="poi-item" 
-                      [class.active]="item.nearStops"
-                      [attr.data-tooltip]="'Public Transports'">
-                    <div class="poi-icon">
-                      <i class="bi bi-bus-front-fill"></i>
-                    </div>
-                  </div>
-
-                  <div class="poi-item" 
-                      [class.active]="item.nearParks"
-                      [attr.data-tooltip]="'Green Areas & Parks'">
-                    <div class="poi-icon">
-                      <i class="bi bi-tree"></i>
-                    </div>
-                  </div>
-
                 </div>
-              </div>
-              <div class="surface-container">
-                <div class="surface-box">
-                  <lucide-icon name="ruler" [size]="14"></lucide-icon>
-                  <span>{{ item.squareMeters }} m²</span>
+
+                <div class="surface-container">
+                  <div class="surface-box">
+                    <lucide-icon name="ruler" [size]="14"></lucide-icon>
+                    <span>{{ item.squareMeters }} m²</span>
+                  </div>
                 </div>
+
+                <button class="btn-save" (click)="onSave($event)">
+                  <i class="bx bx-bookmark-alt"></i> Save
+                </button>
               </div>
-
-              <button class="btn-save" (click)="onSave($event)"><i class="bx bx-bookmark-alt"></i> Save</button>
-
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="pagination-wrapper" *ngIf="listings.length > 0 && totalElements > 0">
-        <button class="btn-pag" (click)="goToPreviousPage()" [disabled]="currentPage === 0"><i class="bx bx-chevron-left"></i> Prev</button>
-        <span class="page-indicator">Page {{ currentPage + 1 }}</span>
-        <button class="btn-pag" (click)="goToNextPage()" [disabled]="isLast">Next <i class="bx bx-chevron-right"></i></button>
-      </div>
+        <div class="pagination-wrapper" *ngIf="listings.length > 0 && totalElements > 0">
+          <button class="btn-pag" (click)="goToPreviousPage()" [disabled]="currentPage === 0">
+            <i class="bx bx-chevron-left"></i> Prev
+          </button>
+          <span class="page-indicator">Page {{ currentPage + 1 }}</span>
+          <button class="btn-pag" (click)="goToNextPage()" [disabled]="isLast">
+            Next <i class="bx bx-chevron-right"></i>
+          </button>
+        </div>
+
+      </ng-container>
 
       <ng-template #noResults>
-        <div class="no-results-container" *ngIf="!isLoading">
+        <div class="no-results-container">
           <div class="no-results-content">
             <i class="bi bi-search-heart" style="font-size: 4rem; opacity: 0.3;"></i>
             <h2>No results found</h2>
             <p>Try adjusting your search parameters or resetting the filters.</p>
             <button class="btn-reset-search" (click)="isFiltersOpen = true">Modify Filters</button>
           </div>
-        </div>
-        <div class="loading-container" *ngIf="isLoading">
-          <div class="loading-content">
-            <div class="spinner"></div>
-            <h2>Searching for listings...</h2>
-            <p>Finding the best properties for you.</p>
-          </div>
-        </div>
-
-        <div class="no-results-container" *ngIf="!isLoading && listings.length === 0">
         </div>
       </ng-template>
 

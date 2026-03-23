@@ -9,6 +9,7 @@ import { Page } from '../../models/page.model';
 import { LucideAngularModule } from 'lucide-angular';
 import { Router } from '@angular/router';
 import { ListingSearchRequest } from '../../models/listingSearchRequest';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-listings-page',
@@ -38,18 +39,44 @@ export class ListingsPageComponent implements OnInit
 
   selectedListingType: 'SALE' | 'RENT' | null = null;
 
-  constructor(private listingService: ListingService, private cd: ChangeDetectorRef, private router: Router) {}
+  constructor(
+          private listingService: ListingService, 
+          private cd: ChangeDetectorRef, 
+          private router: Router,
+          private route: ActivatedRoute
+        ) {}
 
   ngOnInit() 
   {
-    this.loadListings();
+      this.route.queryParams.subscribe(params => 
+      {
+          if (Object.keys(params).length > 0) 
+          {
+              this.currentFilters = {
+                  city: params['city'] || null,
+                  latitude: params['latitude'] ? +params['latitude'] : null,
+                  longitude: params['longitude'] ? +params['longitude'] : null,
+                  listingType: params['listingType'] || null,
+                  minPrice: params['minPrice'] ? +params['minPrice'] : null,
+                  maxPrice: params['maxPrice'] ? +params['maxPrice'] : null,
+                  minRooms: params['minRooms'] ? +params['minRooms'] : 1,
+                  energyClass: params['energyClass'] || '',
+                  nearStops: params['nearStops'] === 'true',
+                  nearParks: params['nearParks'] === 'true',
+                  nearSchools: params['nearSchools'] === 'true',
+              };
+          }
+          this.loadListings();
+      });
   }
 
   loadListings(page: number = 0) 
   {
     this.isLoading = true;
+    this.listings = []; 
     this.currentPage = page;
-
+    this.cd.detectChanges();
+    
     if (this.searchBar && this.searchBar.searchCity) 
     {
       const text = this.searchBar.searchCity;
@@ -63,14 +90,16 @@ export class ListingsPageComponent implements OnInit
 
     const hasFilters = Object.keys(this.currentFilters).length > 0;
 
-    if (hasFilters) {
+    if (hasFilters) 
+    {
       const searchRequest = { ...this.currentFilters, page, size: this.pageSize };
-      console.log(searchRequest);
       this.listingService.searchListings(searchRequest).subscribe({
         next: (data: any) => this.handleResponse(data),
         error: () => this.handleError()
       });
-    } else {
+    } 
+    else 
+    {
       this.listingService.getActiveListings(page, this.pageSize).subscribe({
         next: (data: Page<SummaryListingResponse>) => this.handleResponse(data),
         error: () => this.handleError()
@@ -150,14 +179,16 @@ export class ListingsPageComponent implements OnInit
       this.totalElements = data.totalElements;
       this.isLast = data.last;
     }
+
     this.isLoading = false;
     this.cd.detectChanges();
   }
 
   private handleError() 
   {
-    alert("Something went wrong on our side, please reload the page and retry.");
     this.isLoading = false;
+    alert("Something went wrong on our side, please reload the page and retry.");
+    this.cd.detectChanges();
   }
 
   onSortChange(event: Event) 

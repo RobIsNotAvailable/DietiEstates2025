@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth';
 import { AccountService } from '../../services/account';
 import { CommonModule } from '@angular/common';
@@ -33,6 +33,9 @@ export class HomeComponent implements OnInit
   sectionTitle: string = '';
   isFiltersOpen: boolean = false;
   quickOptions: QuickOption[] = [];
+
+  @ViewChild(FilterPanelComponent) filterPanel!: FilterPanelComponent;
+  currentFilters: any = {};
 
   constructor(private authService: AuthService, private router: Router, private cd: ChangeDetectorRef, private accountService: AccountService) 
   {}
@@ -198,5 +201,35 @@ export class HomeComponent implements OnInit
   {
     this.isFiltersOpen = !this.isFiltersOpen;
   }
+
+  handleLocationChange(locationData: any) 
+  {
+      this.currentFilters = {
+          ...this.currentFilters,
+          city: locationData.city ?? null,
+          latitude: locationData.lat ?? null,
+          longitude: locationData.lon ?? null
+      };
+  }
+
+  handleSearchBarSearch() 
+  {
+      if (this.filterPanel) 
+      {
+          this.filterPanel.applyFilters();
+      } 
+      else 
+      {
+          this.router.navigate(['/listings'], { queryParams: this.currentFilters });
+      }
+  }
+
+  handleFilterChange(filterOptions: any) 
+  {
+      const { city, latitude, longitude } = this.currentFilters;
+      const params = { ...filterOptions, city, latitude, longitude };
+      this.router.navigate(['/listings'], { queryParams: params });
+  }
+  
 }
 
