@@ -88,21 +88,24 @@ export class StepLocationComponent implements OnInit
     .subscribe({
       next: (results: any) => 
       {
-        this.suggestions = results?.length > 0
-          ? results.map((res: any) => {
-              const streetPart = (res.street || '') + (res.housenumber ? ' ' + res.housenumber : '');
-              const full = [streetPart, res.postcode, res.city, res.state].filter(Boolean).join(', ');
-              return {
-                  ...res,
-                  main_text: streetPart || res.city || '',
-                  secondary_text: `${res.city || ''}, ${res.state || ''}`,
-                  full_address: full
-              };
-          })
-          : [];
-
-        this.isSearching = false;
-        this.cd.detectChanges(); 
+          setTimeout(() => 
+          {
+              this.suggestions = results?.length > 0 ? results.map((res: any) => 
+              {
+                  const streetPart = (res.street || '') + (res.housenumber ? ' ' + res.housenumber : '');
+                  const full = [streetPart, res.postcode, res.city, res.state].filter(Boolean).join(', ');
+                  return {
+                      ...res,
+                      main_text: streetPart || res.city || '',
+                      secondary_text: `${res.city || ''}, ${res.state || ''}`,
+                      full_address: full
+                  };
+              }) : [];
+              
+              this.isSearching = false;
+              this.cd.markForCheck(); 
+              this.cd.detectChanges();
+          }, 0);
       },
       error: () => 
       {

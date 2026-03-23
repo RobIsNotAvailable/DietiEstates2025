@@ -30,6 +30,7 @@ export class FilterPanelComponent
 
   @Output() close = new EventEmitter<void>();
   @Output() onSearch = new EventEmitter<any>();
+  @Output() onReset = new EventEmitter<void>();
 
   private hasBeenOpened = false;
 
@@ -124,6 +125,7 @@ export class FilterPanelComponent
       nearSchools: false
     };
     
+    this.onReset.emit();
     this.applyFilters();
   }
 }

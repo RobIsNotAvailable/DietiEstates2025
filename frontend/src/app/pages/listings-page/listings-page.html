@@ -16,8 +16,10 @@
         <app-search-bar 
           (toggleFilters)="toggleFilterPanel()"
           (locationSelected)="handleLocationChange($event)"
-          (search)="loadListings(0)">
+          (search)="handleSearchBarSearch()">
         </app-search-bar>
+
+
       </div>
     </div>
   </section>
@@ -34,6 +36,10 @@
             <option value="Price: High to Low">Price: High to Low</option>
           </select>
         </div>
+        
+        <div class="search-context-info" *ngIf="searchLabel">
+          <p class="search-label">{{ searchLabel }}</p>
+        </div>
       </div>
 
       <div class="listings-grid" *ngIf="listings.length > 0; else noResults">
@@ -45,11 +51,12 @@
           
           <div class="card-content">
               <div class="price-container">
-                <span class="price">{{ item.price | currency:'EUR':'symbol':'1.0-0' }}</span>
+                <span class="price-symbol">€</span>
+                <span class="price">{{ item.price | number:'1.0-0' }}</span>
                 <span class="price-period" *ngIf="item.listingType.toUpperCase() === 'RENT'">/ monthly</span>
               </div>
-            <h3 class="title">{{ item.name }}</h3>
             <div class="flex-spacer"></div>
+            <h3 class="title">{{ item.name }}</h3>
             <p class="address"><i class="bx bx-map"></i> {{ item.formattedAddress }}</p>
             
             <div class="specs-container">
@@ -130,6 +137,7 @@
   <app-filter-panel 
     [isOpen]="isFiltersOpen" 
     (close)="isFiltersOpen = false"
-    (onSearch)="handleFilterChange($event)"> 
+    (onSearch)="handleFilterChange($event)" 
+    (onReset)="handleFullReset()">
   </app-filter-panel>
 </div>

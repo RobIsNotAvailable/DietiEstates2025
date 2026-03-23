@@ -5,9 +5,9 @@
             type="text" 
             [(ngModel)]="searchCity" 
             (input)="onInputChange($any($event.target).value)"
-            placeholder="Search by city or area" 
-            class="search-input"
-        >
+            [placeholder]="inputError ? 'Please select a location from the list' : 'Search by city or area'" 
+            [class.input-error]="inputError"
+            class="search-input">
     </div>
 
     <div class="divider"></div>

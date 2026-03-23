@@ -20,6 +20,8 @@ import { ListingSearchRequest } from '../../models/listingSearchRequest';
 export class ListingsPageComponent implements OnInit 
 {
   @ViewChild(FilterPanelComponent) filterPanel!: FilterPanelComponent;
+  @ViewChild(SearchBarComponent) searchBar!: SearchBarComponent;
+
 
   listings: SummaryListingResponse[] = [];
   isLoading: boolean = false;
@@ -29,8 +31,10 @@ export class ListingsPageComponent implements OnInit
   pageSize: number = 20;
   totalElements: number = 0;
   isLast: boolean = false;
-
+  
+  searchLabel: string = ''; 
   currentFilters: ListingSearchRequest = {};
+  lastPanelFilters: any = {}; 
 
   selectedListingType: 'SALE' | 'RENT' | null = null;
 
@@ -45,6 +49,17 @@ export class ListingsPageComponent implements OnInit
   {
     this.isLoading = true;
     this.currentPage = page;
+
+    if (this.searchBar && this.searchBar.searchCity) 
+    {
+      const text = this.searchBar.searchCity;
+      const isStreet = /\d/.test(text) || text.includes(',');
+      this.searchLabel = isStreet ? `Searching listings near "${text}"` : `Searching in ${text}`;
+    } 
+    else 
+    {
+      this.searchLabel = '';
+    }
 
     const hasFilters = Object.keys(this.currentFilters).length > 0;
 
@@ -65,43 +80,34 @@ export class ListingsPageComponent implements OnInit
 
   handleLocationChange(locationData: any) 
   {
-    this.currentFilters = {
-      ...this.currentFilters,
-      city: locationData.city ?? null,
-      latitude: locationData.lat ?? null,
-      longitude: locationData.lon ?? null
+    this.currentFilters = 
+    {
+        ...this.currentFilters, 
+        city: locationData.city ?? null,
+        latitude: locationData.lat ?? null,
+        longitude: locationData.lon ?? null
     };
   }
 
   handleFilterChange(filterOptions: any) 
   {
-    this.currentFilters = {
-        ...this.currentFilters,
-        ...filterOptions 
+    setTimeout(() => 
+    {
+        this.currentFilters = {
+        ...this.currentFilters, 
+        ...filterOptions        
     };
+    
     this.loadListings(0);
+    }, 0);
   }
 
-  handleSearchBarClick() 
+  handleFullReset() 
   {
-
-    if (this.filterPanel) 
-    {
-      const filtersFromPanel = this.filterPanel.filters;
-      this.handleSearch(filtersFromPanel);
-    }
-    else 
-    {
-      this.loadListings(0);
-    }
-  }
-
-  handleSearch(filters: any) 
-  {
-    this.currentFilters = filters;
-    this.selectedListingType = filters?.listingType;
-    this.isFiltersOpen = false;
-    this.loadListings(0);
+    if (this.searchBar) this.searchBar.reset();
+    this.currentFilters = {};
+    this.lastPanelFilters = {};  
+    this.searchLabel = '';
   }
 
   toggleFilterPanel() 
@@ -181,5 +187,21 @@ export class ListingsPageComponent implements OnInit
     }
     
     this.cd.detectChanges();
+  }
+
+  handleSearchBarSearch() 
+  {
+    setTimeout(() => 
+    {
+        if (this.filterPanel) 
+        {
+            this.filterPanel.applyFilters();   
+        } 
+        else 
+        {
+            this.loadListings(0);   
+        }
+        this.cd.detectChanges();
+    }, 0);
   }
 }

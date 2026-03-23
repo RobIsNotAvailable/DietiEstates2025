@@ -30,6 +30,17 @@
       background: transparent;
       width: 100%;
       font-size: $text-md;
+
+      &.input-error::placeholder 
+      {
+        color: $error-red;
+        font-style: italic;
+      }
+
+      &.input-error 
+      {
+        animation: shake 0.3s ease;
+      }
     }
   }
 
@@ -98,5 +109,12 @@
   .suggestions-panel
   {
     @include suggestions-panel;
+  }
+
+  @keyframes shake 
+  {
+    0%, 100% { transform: translateX(0); }
+    25%       { transform: translateX(-4px); }
+    75%       { transform: translateX(4px); }
   }
 }

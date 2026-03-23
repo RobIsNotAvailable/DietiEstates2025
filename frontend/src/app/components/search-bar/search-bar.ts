@@ -6,6 +6,7 @@ import { debounceTime, distinctUntilChanged, filter, switchMap, catchError, tap 
 import { of } from 'rxjs';
 import { LocationService } from '../../services/location';
 
+
 @Component({
   selector: 'app-search-bar',
   standalone: true,
@@ -18,11 +19,13 @@ export class SearchBarComponent implements OnInit
     searchCity: string = '';
     suggestions: any[] = [];
     isSearching: boolean = false;
+    inputError: boolean = false;          
+    private suggestionSelected = false; 
 
     private input$ = new Subject<string>();
 
     @Output() toggleFilters = new EventEmitter<void>();
-    @Output() search = new EventEmitter<string>();
+    @Output() search = new EventEmitter<any>();
     @Output() locationSelected = new EventEmitter<any>();
 
     constructor(private locationService: LocationService, private cd: ChangeDetectorRef) {}
@@ -44,9 +47,12 @@ export class SearchBarComponent implements OnInit
                 catchError(() => of([]))
             ))
         ).subscribe({
-            next: (results: any) => {
-                this.suggestions = results?.length > 0
-                    ? results.map((res: any) => {
+            next: (results: any) => 
+            {
+                setTimeout(() => 
+                {
+                    this.suggestions = results?.length > 0 ? results.map((res: any) => 
+                    {
                         const streetPart = (res.street || '') + (res.housenumber ? ' ' + res.housenumber : '');
                         const full = [streetPart, res.postcode, res.city, res.state].filter(Boolean).join(', ');
                         return {
@@ -55,10 +61,12 @@ export class SearchBarComponent implements OnInit
                             secondary_text: `${res.city || ''}, ${res.state || ''}`,
                             full_address: full
                         };
-                    })
-                    : [];
-                this.isSearching = false;
-                this.cd.detectChanges();
+                    }) : [];
+                    
+                    this.isSearching = false;
+                    this.cd.markForCheck(); 
+                    this.cd.detectChanges();
+                }, 0);
             },
             error: () => {
                 this.suggestions = [];
@@ -71,11 +79,15 @@ export class SearchBarComponent implements OnInit
     onInputChange(value: string) 
     {
         this.searchCity = value;
+        this.suggestionSelected = false;  
+        this.inputError = false;          
         this.input$.next(value);
     }
 
     selectSuggestion(s: any) 
     {
+        this.suggestionSelected = true;   
+        this.inputError = false;          
         this.searchCity = s.full_address || s.main_text;
         this.suggestions = [];
 
@@ -88,12 +100,30 @@ export class SearchBarComponent implements OnInit
         this.cd.detectChanges();
     }
 
-    onSearch(): void {
+    onSearch(): void 
+    {
+        if (this.suggestions.length > 0 || (this.searchCity && !this.suggestionSelected)) {
+            this.searchCity = '';
+            this.suggestions = [];
+            this.inputError = true;
+            this.cd.detectChanges();
+            return;
+        }
         this.suggestions = [];
-        this.search.emit(this.searchCity);
+        this.search.emit();
     }
 
     onFilterClick() {
         this.toggleFilters.emit();
+    }
+
+    reset() 
+    {
+        this.searchCity = '';
+        this.suggestions = [];
+        this.isSearching = false;
+        this.inputError = false;          
+        this.suggestionSelected = false;  
+        this.cd.detectChanges();
     }
 }
