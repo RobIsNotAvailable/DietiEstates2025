@@ -2,6 +2,16 @@
   
   <section class="top-bar-section">
     <div class="header-card">
+      <div class="header-top">
+        <a routerLink="/" class="logo-section">
+            <div class="logo-icon">
+                <i class="bx bx-home"></i>
+            </div>
+            <span class="logo-text">DietiEstates</span>
+        </a>
+        <h1>Listing Search Results</h1>
+      </div>
+
       <div class="search-and-sort">
         <app-search-bar 
           (toggleFilters)="toggleFilterPanel()"
