@@ -11,15 +11,6 @@ export class ListingService
 
   constructor(private http: HttpClient) {}
 
-  getActiveListings(page: number, size: number): Observable<Page<SummaryListingResponse>> 
-  {
-    const params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString());
-
-    return this.http.get<Page<SummaryListingResponse>>(`${this.apiUrl}/active`, { params });
-  }
-
   createListing(data: any): Observable<number> 
   {
     return this.http.post<number>(`${this.apiUrl}/create`, data);

@@ -88,23 +88,12 @@ export class ListingsPageComponent implements OnInit
       this.searchLabel = '';
     }
 
-    const hasFilters = Object.keys(this.currentFilters).length > 0;
+    const searchRequest = { ...this.currentFilters, page, size: this.pageSize };
+    this.listingService.searchListings(searchRequest).subscribe({
+      next: (data: any) => this.handleResponse(data),
+      error: () => this.handleError()
+    });
 
-    if (hasFilters) 
-    {
-      const searchRequest = { ...this.currentFilters, page, size: this.pageSize };
-      this.listingService.searchListings(searchRequest).subscribe({
-        next: (data: any) => this.handleResponse(data),
-        error: () => this.handleError()
-      });
-    } 
-    else 
-    {
-      this.listingService.getActiveListings(page, this.pageSize).subscribe({
-        next: (data: Page<SummaryListingResponse>) => this.handleResponse(data),
-        error: () => this.handleError()
-      });
-    }
   }
 
   handleLocationChange(locationData: any) 

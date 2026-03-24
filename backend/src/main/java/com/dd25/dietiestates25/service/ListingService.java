@@ -2,10 +2,6 @@ package com.dd25.dietiestates25.service;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -110,15 +106,6 @@ public class ListingService
         return results.stream()
                     .map(this::mapToSummary)
                     .toList();
-    }
-    
-    public Page<SummaryListingResponse> getAllActiveListings(int page, int size) 
-    {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("lastModified").descending());
-
-        Page<Listing> entityPage = repo.findAllActiveWithDetails(pageable);
-
-        return entityPage.map(this::mapToSummary);
     }
 
     public List<ListingStatsResponse>getStats()
