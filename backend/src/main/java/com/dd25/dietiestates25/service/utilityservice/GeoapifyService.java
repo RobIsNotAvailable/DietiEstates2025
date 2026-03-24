@@ -78,7 +78,17 @@ public class GeoapifyService
         Address address = new Address();
 
         address.setCity(props.city());
-        address.setStreet(props.street());
+        
+        if (props.street() != null && !props.street().isBlank()) 
+        {
+            address.setStreet(props.street());
+        } 
+        else 
+        {
+            String fallbackStreet = props.formatted() != null ? props.formatted().split(",")[0] : "Unknown";
+            address.setStreet(fallbackStreet);
+        }
+
         address.setHouseNumber(props.houseNumber());
         address.setProvince(props.state());
         address.setZipCode(props.postcode());
