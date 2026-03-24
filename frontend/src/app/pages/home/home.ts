@@ -126,6 +126,7 @@ export class HomeComponent implements OnInit
         { title: 'Dashboard', subtitle: 'Overview of your statistics', icon: 'bx-line-chart', action: 'VIEW_STATS' },
         { title: 'Your Listings', subtitle: 'Manage your active listings', icon: 'bx-list-ul', action: 'VIEW_LISTINGS' },
         { title: 'Your Appointments', subtitle: 'Your appointment calendar', icon: 'bx-calendar', action: 'VIEW_APPOINTMENTS' },
+        { title: 'Your Offers', subtitle: 'recieved offers for your listings', icon: 'bx bx-edit', action: 'VIEW_OFFERS' },
         
       ];
 

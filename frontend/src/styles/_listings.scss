@@ -160,10 +160,10 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: white;
+    background: $search-bar-color;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    z-index: 999;
+    z-index: 2000;
     border: 1px solid #eee;
     overflow: hidden;
 

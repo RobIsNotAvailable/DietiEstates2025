@@ -3,6 +3,7 @@ import { AbstractControlOptions, FormGroup, ReactiveFormsModule, Validators, For
 import { CommonModule } from '@angular/common';
 import { Router,RouterModule } from '@angular/router';
 import { AccountService } from '../../services/account';
+import { AuthService } from '../../services/auth';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component(
@@ -21,7 +22,7 @@ export class ChangePasswordComponent
   isSubmitted = false;
   serverErrorMessage: string | null = null;
 
-  constructor(private accountService: AccountService, private router: Router, private cd: ChangeDetectorRef)
+  constructor(private accountService: AccountService, private authService: AuthService, private router: Router, private cd: ChangeDetectorRef)
   {
     this.setupForm = new FormGroup(
       {
@@ -78,7 +79,7 @@ export class ChangePasswordComponent
         next: () => 
         {
           alert('Password changed successfully');
-          localStorage.removeItem('setup_email');
+          this.authService.logout();
           this.router.navigate(['/login'], { queryParams: { setupSuccess: true } });
         },
         error: (err) => 

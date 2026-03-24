@@ -57,8 +57,12 @@ export class SearchBarComponent implements OnInit
                         const full = [streetPart, res.postcode, res.city, res.state].filter(Boolean).join(', ');
                         return {
                             ...res,
-                            main_text: streetPart || res.city || '',
-                            secondary_text: `${res.city || ''}, ${res.state || ''}`,
+                            main_text: streetPart || res.city || res.state || res.country || '',
+                            secondary_text: streetPart
+                                ? [res.city, res.state].filter(Boolean).join(', ')
+                                : res.city
+                                    ? res.state || ''
+                                    : res.country || '',
                             full_address: full
                         };
                     }) : [];

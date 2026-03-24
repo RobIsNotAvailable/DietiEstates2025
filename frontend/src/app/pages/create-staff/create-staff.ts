@@ -91,7 +91,7 @@ export class CreateStaffComponent implements OnInit
         this.isLoading = false;
         if (err.status === 500 || err.status === 0) 
         {
-          alert("Something went wrong on our side. Please try again or refresh the page.");
+          alert("Something went wrong on our side. Please try again or refresh the page");
         }
         else
         {

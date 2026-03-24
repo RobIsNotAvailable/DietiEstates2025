@@ -30,20 +30,21 @@ public class SecurityConfig
             .authorizeHttpRequests
             (
                 auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/accounts/forgot-password").permitAll()
-                .requestMatchers("/api/accounts/**").authenticated()
+                // .requestMatchers("/api/auth/**").permitAll()
+                // .requestMatchers("/api/accounts/forgot-password").permitAll()
+                // .requestMatchers("/api/accounts/**").authenticated()
 
-                .requestMatchers("/api/listings/search").permitAll()
-                .requestMatchers("/api/listings/active").permitAll()
-                .requestMatchers("/api/listings/view/**").permitAll()
-                .requestMatchers("/api/listings/**").hasRole("COMPANY")
+                // .requestMatchers("/api/listings/search").permitAll()
+                // .requestMatchers("/api/listings/view/**").permitAll()
+                // .requestMatchers("/api/listings/**").hasRole("COMPANY")
 
-                .requestMatchers("api/location/**").permitAll()
+                // .requestMatchers("api/location/**").permitAll()
 
-                .requestMatchers("/api/company/**").hasRole("COMPANY")
+                // .requestMatchers("/api/company/**").hasRole("COMPANY")
 
-                .anyRequest().authenticated()
+                // .anyRequest().authenticated()
+                 .anyRequest().permitAll()
+
             )
             .sessionManagement
             (

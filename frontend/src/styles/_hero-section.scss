@@ -10,7 +10,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 20px;
-    overflow: hidden; 
+    overflow: visible;
 
     .hero-background 
     {
@@ -20,24 +20,27 @@
         width: 100%; 
         height: 100%;
         background: url('/images/hero-villa.jpg') center/cover no-repeat;
-        
+        overflow: visible;
+
         filter: brightness(0.75) contrast(1.05); 
         image-rendering: -webkit-optimize-contrast; 
         
         z-index: 1;
 
         animation: heroReveal 1.2s ease-out forwards;
+        border-radius: 0 0 12px 12px;
     }
 
     .search-wrapper 
     {
         position: absolute;
-        z-index: 2; 
+        z-index: 3000; 
         width: 90%;      
         max-width: 1000px; 
         left: 50%;
         top: 55%;
         padding: 0;
+        overflow: visible;
 
         @include entrance-centered(0.5s);
     }

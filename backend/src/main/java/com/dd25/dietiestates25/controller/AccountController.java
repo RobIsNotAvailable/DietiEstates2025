@@ -28,6 +28,7 @@ public class AccountController
     @PatchMapping("/change-password")
     public ResponseEntity<AuthResponse> changePassword(@RequestBody @Valid ChangePasswordRequest request) 
     {
+        System.out.println("si balla la samba");
         accountService.changePassword(request);
         return ResponseEntity.ok(new AuthResponse("Password successfully updated"));
     }

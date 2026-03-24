@@ -29,7 +29,7 @@ export const routes: Routes =
     canActivate: [authGuard],
     children: [
       { path: 'change-password', component: ChangePasswordComponent },
-      { path: 'create-listing', component: CreateListingComponent },
+      { path: 'create-listing', component: CreateListingComponent ,data: { expectedRole: 'SUPPORT' } },
       { path: 'create-agent', component: CreateStaffComponent, data: { role: 'AGENT', expectedRole: 'SUPPORT' } },
       { path: 'create-support', component: CreateStaffComponent, data: { role: 'SUPPORT', expectedRole: 'ADMIN' } },
     ]

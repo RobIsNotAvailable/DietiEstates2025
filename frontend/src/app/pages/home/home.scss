@@ -12,11 +12,12 @@
     display: flex; 
     width: 100%;
     min-height: 100vh;
-    overflow-x: hidden;
 
     .main-content-column 
     {
         width: 100%;
+        overflow: visible;
+
     }
 }
 
@@ -35,20 +36,19 @@
 .top-section
 {
   @include entrance-animation(0.5s);
-
+  z-index: 2;  
   position: relative;
   max-width: 1300px;      
   border-radius: 12px;    
   margin: 30px auto;      
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); 
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  z-index: 999;
 
   .main-header 
   {
     @include main-header-styles;
+    border-radius: 12px 12px 0 0;
     margin-bottom: 0;
   }
 
@@ -56,6 +56,7 @@
   {
     @include hero-section;
     margin-top: 0;
+    overflow: visible;
   }
   
 }
@@ -65,6 +66,8 @@
     max-width: 1300px; 
     margin: 0 auto 40px auto;
     padding: 0 20px;
+    position: relative;
+    z-index: 1;
     
     @include entrance-animation(0.5s); 
 
@@ -74,13 +77,15 @@
         border-radius: 15px; 
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         min-height: $home-bottom-height; 
-        
+        z-index: 1;
+
         padding: 0px 40px 40px 40px; 
         border: 1px solid rgba(0, 0, 0, 0.03); 
 
         .section-header 
         {
             margin-bottom: 20px; 
+            z-index: 1;
 
             h2 
             {
@@ -89,6 +94,8 @@
                 color: $logo-color; 
                 margin-bottom: 8px;
                 padding-left: 5px; 
+                z-index: 1;
+
 
                 .unlock-text 
                 {

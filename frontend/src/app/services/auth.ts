@@ -87,7 +87,7 @@ export class AuthService
       'AGENT': ['AGENT', 'SUPPORT', 'ADMIN'],
       'SUPPORT': ['SUPPORT', 'ADMIN'],
       'ADMIN': ['ADMIN'],
-      'CLIENT': ['CLIENT', 'AGENT', 'SUPPORT', 'ADMIN']
+      'CLIENT': ['CLIENT']
     };
 
     const authorizedRoles = permissions[requiredRoleName];
