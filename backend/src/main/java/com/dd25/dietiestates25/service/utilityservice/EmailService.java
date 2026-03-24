@@ -18,7 +18,7 @@ public class EmailService
     
     public void sendOnboardingEmail(String to, String token)
     {
-        String link = "http://16.170.228.181" + token;
+        String link = "http://16.170.228.181/link-login/" + token;
         String title = "Welcome to DietiEstates";
         String body = "Your account was created successfully. To activate it, click the button below:";
         String buttonText = "Activate my account";
@@ -29,7 +29,7 @@ public class EmailService
     @Async
     public void sendPasswordResetEmail(String to, String token)
     {
-        String link = "http://16.170.228.181" + token;
+        String link = "http://16.170.228.181/link-login/" + token;
         String title = "Password Reset Request";
         String body = "We received a request to reset your password. Click the button below to proceed:";
         String buttonText = "Reset Password";
