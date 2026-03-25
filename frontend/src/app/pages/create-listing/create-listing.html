@@ -64,6 +64,13 @@
 
   <div class="content-container">
     <div class="step-wrapper">
+
+      <div class="error-container">
+        <p class="error-notice" *ngIf="hasVisibleErrors()">
+          <i class='bx bx-error-circle'></i> Some sections have errors. Please check the red marks.
+        </p>
+      </div>
+
       <app-step-general-info 
         *ngIf="currentStep === 1" 
         [parentForm]="listingForm"
@@ -87,12 +94,6 @@
         [parentForm]="listingForm"
         [showErrors]="stepsAttempted.has(4)">
       </app-photos>
-    </div>
-
-    <div class="error-container">
-      <p class="error-notice" *ngIf="hasVisibleErrors()">
-        <i class='bx bx-error-circle'></i> Some sections have errors. Please check the red marks.
-      </p>
     </div>
 
     <div class="form-actions">

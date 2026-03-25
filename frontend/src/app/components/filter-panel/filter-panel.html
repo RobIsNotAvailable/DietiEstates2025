@@ -27,7 +27,13 @@
 
         <div class="filter-section">
             <div class="form-field">
-                <input type="number" id="minPrice" [(ngModel)]="filters.minPrice" placeholder=" ">
+                <input 
+                    type="text" 
+                    [value]="filters.minPrice"
+                    (keydown)="blockInvalidChars($event)"
+                    (input)="validateNumericInput($event, 'minPrice')"
+                    inputmode="numeric"
+                    placeholder="0">
                 <label for="minPrice">Minimum Price</label>
             </div>
             <div class="chips-container">
@@ -41,7 +47,13 @@
 
         <div class="filter-section">
             <div class="form-field">
-                <input type="number" id="maxPrice" [(ngModel)]="filters.maxPrice" placeholder=" ">
+                <input 
+                    type="text" 
+                    [value]="filters.maxPrice"
+                    (keydown)="blockInvalidChars($event)"
+                    (input)="validateNumericInput($event, 'maxPrice')"
+                    inputmode="numeric"
+                    placeholder="0">
                 <label for="maxPrice">Maximum Price</label>
             </div>
             <div class="chips-container">

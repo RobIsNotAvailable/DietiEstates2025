@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef  } from '@angular/core';
 import { AuthService } from '../../services/auth';
 import { AccountService } from '../../services/account';
 import { CommonModule } from '@angular/common';
@@ -39,9 +39,26 @@ export class HomeComponent extends SearchBaseComponent implements OnInit
     private authService: AuthService,
     router: Router,  
     private cd: ChangeDetectorRef,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private eref: ElementRef
   ) 
   { super(router); }
+
+  @HostListener('document:mousedown', ['$event'])
+  onGlobalClick(event: MouseEvent): void 
+  {
+      if (!this.isDropdownOpen) return;
+
+      const target = event.target as HTMLElement;
+      
+      const menuWrapper = this.eref.nativeElement.querySelector('.user-menu-wrapper');
+
+      if (menuWrapper && !menuWrapper.contains(target)) 
+      {
+          this.isDropdownOpen = false;
+          this.cd.detectChanges();
+      }
+  }
 
   ngOnInit(): void 
   {
@@ -129,7 +146,7 @@ export class HomeComponent extends SearchBaseComponent implements OnInit
         { title: 'Dashboard', subtitle: 'Overview of your statistics', icon: 'bx-line-chart', action: 'VIEW_STATS' },
         { title: 'Your Listings', subtitle: 'Manage your active listings', icon: 'bx-list-ul', action: 'VIEW_LISTINGS' },
         { title: 'Your Appointments', subtitle: 'Your appointment calendar', icon: 'bx-calendar', action: 'VIEW_APPOINTMENTS' },
-        { title: 'Your Offers', subtitle: 'recieved offers for your listings', icon: 'bx bx-edit', action: 'VIEW_OFFERS' },
+        { title: 'Your Offers', subtitle: 'Recieved offers for your listings', icon: 'bx bx-edit', action: 'VIEW_OFFERS' },
         
       ];
 

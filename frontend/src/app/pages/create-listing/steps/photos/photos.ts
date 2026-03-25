@@ -30,6 +30,9 @@ export class PhotosComponent implements OnInit
   currentPlanimetryIndex: number = 0;
   isUploadingPlanimetry: boolean = false;
 
+  MAX_SIZE_MB = 5; 
+
+
   constructor(private cd: ChangeDetectorRef) {}
 
   ngOnInit() 
@@ -69,14 +72,19 @@ export class PhotosComponent implements OnInit
     const files: FileList = event.target.files;
     if (!files || files.length === 0) return;
 
-    const MAX_SIZE_MB = 5; 
     const fileArray = Array.from(files);
     
     const validFiles = fileArray.filter(file => 
     {
-      if (file.size > MAX_SIZE_MB * 1024 * 1024) 
+      if (!file.type.startsWith('image/')) 
       {
-        alert(`Il file è troppo grande! Massimo ${MAX_SIZE_MB}MB.`);
+        alert(`file: "${file.name}" is not a valid image`);
+        return false;
+      }
+
+      if (file.size > this.MAX_SIZE_MB * 1024 * 1024) 
+      {
+        alert(`file size exceeds the 5mb limit ${ this.MAX_SIZE_MB}MB.`);
         return false;
       }
       return true;
@@ -92,7 +100,7 @@ export class PhotosComponent implements OnInit
       this.compressImage(file).then((compressedBase64: string) => 
       {
         this.imagePreviews.push(compressedBase64);
-        this.imageDescriptions.push(''); // Aggiunge una descrizione vuota per la nuova immagine
+        this.imageDescriptions.push(''); 
         processed++;
         
         if (processed === validFiles.length) 
@@ -124,10 +132,39 @@ export class PhotosComponent implements OnInit
   onPlanimetrySelected(event: any) 
   {
       const files = event.target.files;
+
       if (!files || files.length === 0) return;
 
       this.isUploadingPlanimetry = true; 
       const fileArray = Array.from(files);
+
+      const validFiles = fileArray.filter((file: any) => 
+      {
+          const isImage = file.type.startsWith('image/');
+
+          if (!isImage)
+          { 
+            alert(`file: "${file.name}" is not a valid image`);
+            return false
+          }
+
+          if (file.size >  this.MAX_SIZE_MB * 1024 * 1024) 
+          {
+            alert(`file size exceeds the 5mb limit ${ this.MAX_SIZE_MB}MB.`);
+            return false;
+          }
+          return true;
+          
+          return true
+      });
+
+      if (validFiles.length === 0) 
+      {
+          this.isUploadingPlanimetry = false;
+          event.target.value = '';
+          return;
+      }
+
       let processed = 0;
 
       fileArray.forEach((file: any) => 
@@ -223,6 +260,5 @@ export class PhotosComponent implements OnInit
       this.cd.detectChanges(); 
     }, 200); 
   }
-
 
 }

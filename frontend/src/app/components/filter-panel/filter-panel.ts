@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding, HostListener, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
@@ -32,6 +32,19 @@ export class FilterPanelComponent
   @Output() close = new EventEmitter<void>();
   @Output() onSearch = new EventEmitter<any>();
   @Output() onReset = new EventEmitter<void>();
+
+  constructor(private eRef: ElementRef) {}
+
+  @HostListener('document:mousedown', ['$event'])
+  onGlobalClick(event: MouseEvent): void 
+  {
+    if (!this.isOpen) return;
+
+    if (!this.eRef.nativeElement.contains(event.target)) 
+    {
+      this.onCloseClick();
+    }
+  }
 
   private hasBeenOpened = false;
 
@@ -129,5 +142,26 @@ export class FilterPanelComponent
     
     this.onReset.emit();
     this.applyFilters();
+  }
+
+  blockInvalidChars(event: KeyboardEvent): void 
+  {
+    const invalidChars = ['e', 'E', '+', '-', ',', '.'];
+    if (invalidChars.includes(event.key)) 
+    {
+      event.preventDefault();
+    }
+  }
+
+  validateNumericInput(event: any, controlName: string): void 
+  {
+    const input = event.target as HTMLInputElement;
+    let value = input.value.replace(/\D/g, ''); 
+    
+    const numericValue = value ? parseInt(value, 10) : null;
+    
+    (this.filters as any)[controlName] = numericValue;
+    
+    input.value = value;
   }
 }

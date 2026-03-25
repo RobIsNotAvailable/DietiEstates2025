@@ -29,7 +29,7 @@
                             @else 
                             {
                                 <div class="user-menu-wrapper">
-                                    <div class="user-trigger" (click)="toggleDropdown()">
+                                    <div class="user-trigger" (click)="toggleDropdown(); $event.stopPropagation()">
                                         <div class="user-avatar">
                                             <i class='bx bxs-user'></i>
                                         </div>

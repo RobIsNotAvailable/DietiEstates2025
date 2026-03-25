@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location} from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
 @Component(
@@ -12,11 +12,11 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class NotImplementedComponent 
 {
-  constructor(private router: Router) 
+  constructor(private router: Router, private location: Location) 
   {}
 
-  goToHome() 
+  goBack() 
   {
-    this.router.navigate(['/home']);
+    this.location.back();
   }
 }

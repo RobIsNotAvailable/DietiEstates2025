@@ -2,12 +2,22 @@
   <h2 class="step-title">Extra Details</h2>
     <div class="form-row">
         <div class="form-field">
-            <input type="number" id="listingFloor" formControlName="floor" placeholder=" ">
+            <input type="number" 
+                id="listingFloor" 
+                formControlName="floor" 
+                placeholder=" "
+                (keydown)="blockInvalidChars($event)" 
+                (input)="validateNumericInput($event, 'squareMeters')">
             <label for="listingFloor">Floor</label>
         </div>
 
         <div class="form-field">
-            <input type="text" id="listingInner" formControlName="intern" placeholder=" ">
+            <input type="text" 
+                id="listingInner" 
+                formControlName="intern" 
+                placeholder=" "
+                (keydown)="blockSpecialChars($event)" 
+                (input)="validateAlphanumeric($event, 'squareMeters')">
             <label for="listingInner">Apartment number</label>
         </div>
     </div>
