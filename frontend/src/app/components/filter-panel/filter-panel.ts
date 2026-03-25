@@ -27,6 +27,7 @@ export class FilterPanelComponent
 {
   @Input() isOpen: boolean = false;
   @Input() listingType: 'SALE' | 'RENT' | null = null;
+  @Input() initialFilters: Partial<FilterOptions> | null = null;
 
   @Output() close = new EventEmitter<void>();
   @Output() onSearch = new EventEmitter<any>();
@@ -77,9 +78,10 @@ export class FilterPanelComponent
   ngOnInit() 
   {
     if (this.listingType) 
-    {
       this.filters.listingType = this.listingType;
-    }
+    
+    if (this.initialFilters) 
+        this.filters = { ...this.filters, ...this.initialFilters }; 
   }
 
   setType(t: 'SALE' | 'RENT' | null) 

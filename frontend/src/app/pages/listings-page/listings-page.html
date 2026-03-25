@@ -18,8 +18,6 @@
           (locationSelected)="handleLocationChange($event)"
           (search)="handleSearchBarSearch()">
         </app-search-bar>
-
-
       </div>
     </div>
   </section>
@@ -135,6 +133,7 @@
 
   <app-filter-panel 
     [isOpen]="isFiltersOpen" 
+    [initialFilters]="initialFilters"
     (close)="isFiltersOpen = false"
     (onSearch)="handleFilterChange($event)" 
     (onReset)="handleFullReset()">

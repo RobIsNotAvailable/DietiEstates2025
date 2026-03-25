@@ -1,5 +1,6 @@
 package com.dd25.dietiestates25.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
@@ -10,6 +11,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig 
 {
+    @Value("${FRONTEND_URL}")
+    private String frontendUrl;
+
     @Bean
     public RestTemplate restTemplate() 
     {
@@ -25,7 +29,7 @@ public class WebConfig
             public void addCorsMappings(@NonNull CorsRegistry registry)
             {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://16.170.228.181")
+                        .allowedOrigins(frontendUrl)
                         .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                         .allowedHeaders("*");
             }

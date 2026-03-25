@@ -44,6 +44,10 @@
             min-height: 120px;
             padding-top: 15px;
             
+            resize: none;             
+            font-family: inherit;     
+            overflow-y: auto;         
+            
             &:focus ~ label,
             &:not(:placeholder-shown) ~ label { top: 0;}
         }

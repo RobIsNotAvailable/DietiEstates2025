@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms'; 
+import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
+import { AuthService } from '../../services/auth';
 
 @Component(
 {
@@ -26,7 +26,10 @@ export class SetupPasswordComponent implements OnInit
   isSubmitted = false;
   hidePassword = true;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router, private cd: ChangeDetectorRef) 
+  constructor(private route: ActivatedRoute, 
+              private router: Router, 
+              private cd: ChangeDetectorRef,
+              private authService: AuthService) 
   {
     this.setupForm = new FormGroup(
     {
@@ -77,7 +80,7 @@ export class SetupPasswordComponent implements OnInit
 
     const payload = { newPassword: this.setupForm.value.newPassword };
 
-    this.http.post(`http://localhost:8080/api/auth/link-login/${this.token}`, payload).subscribe(
+    this.authService.setupPassword(this.token, payload).subscribe(
     {
       next: () => 
       {

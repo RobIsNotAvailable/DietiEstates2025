@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { SearchBarComponent } from '../../components/search-bar/search-bar';
 import { FilterPanelComponent } from '../../components/filter-panel/filter-panel';
+import { SearchBaseComponent } from '../../models/search-base';
 
 interface QuickOption
 {
@@ -23,7 +24,7 @@ interface QuickOption
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
-export class HomeComponent implements OnInit
+export class HomeComponent extends SearchBaseComponent implements OnInit
 {
   isUserLoggedIn: boolean = false;
   isDropdownOpen: boolean = false;
@@ -31,14 +32,16 @@ export class HomeComponent implements OnInit
   loadingMessage: string = '';
   userData: any = null;
   sectionTitle: string = '';
-  isFiltersOpen: boolean = false;
   quickOptions: QuickOption[] = [];
 
-  @ViewChild(FilterPanelComponent) filterPanel!: FilterPanelComponent;
-  currentFilters: any = {};
 
-  constructor(private authService: AuthService, private router: Router, private cd: ChangeDetectorRef, private accountService: AccountService) 
-  {}
+  constructor(
+    private authService: AuthService,
+    router: Router,  
+    private cd: ChangeDetectorRef,
+    private accountService: AccountService
+  ) 
+  { super(router); }
 
   ngOnInit(): void 
   {
@@ -197,37 +200,20 @@ export class HomeComponent implements OnInit
     this.router.navigate(['/change-password']);
   }
 
-  toggleFilterPanel() 
-  {
-    this.isFiltersOpen = !this.isFiltersOpen;
-  }
-
-  handleLocationChange(locationData: any) 
-  {
-      this.currentFilters = {
-          ...this.currentFilters,
-          city: locationData.city ?? null,
-          latitude: locationData.lat ?? null,
-          longitude: locationData.lon ?? null
-      };
-  }
 
   handleSearchBarSearch() 
   {
-      if (this.filterPanel) 
-      {
-          this.filterPanel.applyFilters();
-      } 
-      else 
-      {
-          this.router.navigate(['/listings'], { queryParams: this.currentFilters });
-      }
+    if (this.filterPanel) 
+      this.filterPanel.applyFilters(); 
+    else 
+      this.router.navigate(['/listings'], { queryParams: this.currentFilters }); 
+    
   }
 
   handleFilterChange(filterOptions: any) 
   {
-      const { city, latitude, longitude } = this.currentFilters;
-      const params = { ...filterOptions, city, latitude, longitude };
+      const { city, latitude, longitude, label } = this.currentFilters;
+      const params = { ...filterOptions, city, latitude, longitude, label };
       this.router.navigate(['/listings'], { queryParams: params });
   }
   

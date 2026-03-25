@@ -90,15 +90,16 @@ export class SearchBarComponent implements OnInit
 
     selectSuggestion(s: any) 
     {
-        this.suggestionSelected = true;   
-        this.inputError = false;          
+        this.suggestionSelected = true;
+        this.inputError = false;
         this.searchCity = s.full_address || s.main_text;
         this.suggestions = [];
 
         const isStreet = !!s.street;
+        
         const locationData = isStreet
-            ? { city: null, lat: s.lat, lon: s.lon }
-            : { city: s.city, lat: null, lon: null };
+            ? { city: null, lat: s.lat, lon: s.lon, label: s.full_address || s.main_text }
+            : { city: s.city, lat: null, lon: null, label: s.city };  
 
         this.locationSelected.emit(locationData);
         this.cd.detectChanges();

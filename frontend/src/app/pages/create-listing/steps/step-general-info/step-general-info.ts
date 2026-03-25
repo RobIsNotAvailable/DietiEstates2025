@@ -57,4 +57,24 @@ export class StepGeneralInfoComponent
 
     input.value = this.formattedPrice;
   }
+
+  blockInvalidChars(event: KeyboardEvent): void 
+  {
+    const invalidChars = ['e', 'E', '+', '-', ',', '.'];
+    if (invalidChars.includes(event.key)) 
+    {
+      event.preventDefault();
+    }
+  }
+
+  validateNumericInput(event: any, controlName: string): void {
+    const input = event.target as HTMLInputElement;
+    let value = input.value.replace(/\D/g, ''); 
+    
+    const numericValue = value ? parseInt(value, 10) : null;
+    
+    this.generalGroup.get(controlName)?.patchValue(numericValue, { emitEvent: true });
+    
+    input.value = value;
+  }
 }

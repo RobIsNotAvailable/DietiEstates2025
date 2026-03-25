@@ -1,5 +1,6 @@
 package com.dd25.dietiestates25.service.utilityservice;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -12,13 +13,17 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 @SuppressWarnings("null")
+
 public class EmailService 
 {
     private final JavaMailSender mailSender;
+
+    @Value("${FRONTEND_URL}")
+    private String frontendUrl;
     
     public void sendOnboardingEmail(String to, String token)
     {
-        String link = "http://16.170.228.181/link-login/" + token;
+        String link = frontendUrl+"/link-login/" + token;
         String title = "Welcome to DietiEstates";
         String body = "Your account was created successfully. To activate it, click the button below:";
         String buttonText = "Activate my account";

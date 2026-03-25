@@ -10,10 +10,11 @@
     <div class="form-row">
         <div class="form-field price-field">
             <input type="text" 
-                   id="listingPrice" 
-                   [value]="formattedPrice" 
-                   (input)="formatPrice($event)" 
-                   placeholder=" ">
+                id="listingPrice" 
+                [value]="formattedPrice" 
+                (input)="formatPrice($event)"
+                (keydown)="blockInvalidChars($event)" 
+                placeholder=" ">
             <label for="listingPrice">Price</label>
         </div>
 
@@ -30,12 +31,20 @@
 
     <div class="form-row">
         <div class="form-field">
-            <input type="number" id="listingSurface" formControlName="squareMeters" placeholder=" ">
+            <input type="number" 
+                id="listingSurface" 
+                formControlName="squareMeters" 
+                (keydown)="blockInvalidChars($event)" 
+                (input)="validateNumericInput($event, 'squareMeters')"
+                placeholder=" ">
             <label for="listingSurface">Surface</label>
         </div>
 
         <div class="form-field">
-            <input type="number" id="listingRooms" formControlName="numberOfRooms" placeholder=" ">
+            <input type="number" id="listingRooms" formControlName="numberOfRooms" 
+                (keydown)="blockInvalidChars($event)"
+                (input)="validateNumericInput($event, 'numberOfRooms')"
+                placeholder=" ">
             <label for="listingRooms">Number of Rooms</label>
         </div>
     </div>

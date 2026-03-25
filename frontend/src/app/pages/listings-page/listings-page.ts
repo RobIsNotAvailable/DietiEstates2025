@@ -1,15 +1,14 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchBarComponent } from '../../components/search-bar/search-bar';
 import { FilterPanelComponent } from '../../components/filter-panel/filter-panel';
 import { RouterModule } from '@angular/router';
 import { ListingService } from '../../services/listing';
 import { SummaryListingResponse } from '../../models/listing.model';
-import { Page } from '../../models/page.model';
 import { LucideAngularModule } from 'lucide-angular';
 import { Router } from '@angular/router';
-import { ListingSearchRequest } from '../../models/listingSearchRequest';
 import { ActivatedRoute } from '@angular/router';
+import { SearchBaseComponent } from '../../models/search-base';
 
 @Component({
   selector: 'app-listings-page',
@@ -18,44 +17,46 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './listings-page.html',
   styleUrls: ['./listings-page.scss']
 })
-export class ListingsPageComponent implements OnInit 
+
+export class ListingsPageComponent extends SearchBaseComponent implements OnInit 
 {
-  @ViewChild(FilterPanelComponent) filterPanel!: FilterPanelComponent;
   @ViewChild(SearchBarComponent) searchBar!: SearchBarComponent;
 
-
   listings: SummaryListingResponse[] = [];
-  isLoading: boolean = false;
-  isFiltersOpen: boolean = false;
-
+  isLoading: boolean = false; 
+  initialFilters: any = null;
   currentPage: number = 0;
   pageSize: number = 20;
   totalElements: number = 0;
   isLast: boolean = false;
+  pendingLabel: string | null = null;
   
   searchLabel: string = ''; 
-  currentFilters: ListingSearchRequest = {};
   lastPanelFilters: any = {}; 
 
   selectedListingType: 'SALE' | 'RENT' | null = null;
 
   constructor(
-          private listingService: ListingService, 
-          private cd: ChangeDetectorRef, 
-          private router: Router,
-          private route: ActivatedRoute
-        ) {}
+    private listingService: ListingService, 
+    private cd: ChangeDetectorRef, 
+    router: Router,  
+    private route: ActivatedRoute
+  ) {
+    super(router);
+  }
+
+
+
 
   ngOnInit() 
   {
-      this.route.queryParams.subscribe(params => 
-      {
-          if (Object.keys(params).length > 0) 
-          {
+      this.route.queryParams.subscribe(params => {
+          if (Object.keys(params).length > 0) {
               this.currentFilters = {
                   city: params['city'] || null,
                   latitude: params['latitude'] ? +params['latitude'] : null,
                   longitude: params['longitude'] ? +params['longitude'] : null,
+                  label: params['label'] || null,
                   listingType: params['listingType'] || null,
                   minPrice: params['minPrice'] ? +params['minPrice'] : null,
                   maxPrice: params['maxPrice'] ? +params['maxPrice'] : null,
@@ -65,6 +66,23 @@ export class ListingsPageComponent implements OnInit
                   nearParks: params['nearParks'] === 'true',
                   nearSchools: params['nearSchools'] === 'true',
               };
+
+              this.initialFilters = { ...this.currentFilters };
+
+              const label = params['label'] || params['city'] || null;
+              if (label) {
+                  const isStreet = /\d/.test(label) || label.includes(',');
+                  this.searchLabel = isStreet
+                      ? `Searching listings near "${label}"`
+                      : `Searching in ${label}`;
+
+                  setTimeout(() => {
+                      if (this.searchBar) {
+                          this.searchBar.searchCity = label;
+                          this.cd.detectChanges();
+                      }
+                  }, 0);
+              }
           }
           this.loadListings();
       });
@@ -73,38 +91,23 @@ export class ListingsPageComponent implements OnInit
   loadListings(page: number = 0) 
   {
     this.isLoading = true;
-    this.listings = []; 
+    this.listings = [];
     this.currentPage = page;
     this.cd.detectChanges();
-    
-    if (this.searchBar && this.searchBar.searchCity) 
-    {
-      const text = this.searchBar.searchCity;
-      const isStreet = /\d/.test(text) || text.includes(',');
-      this.searchLabel = isStreet ? `Searching listings near "${text}"` : `Searching in ${text}`;
-    } 
-    else 
-    {
-      this.searchLabel = '';
+
+    if (!this.searchLabel && this.searchBar && this.searchBar.searchCity) {
+        const text = this.searchBar.searchCity;
+        const isStreet = /\d/.test(text) || text.includes(',');
+        this.searchLabel = isStreet 
+            ? `Searching listings near "${text}"` 
+            : `Searching in ${text}`;
     }
 
     const searchRequest = { ...this.currentFilters, page, size: this.pageSize };
     this.listingService.searchListings(searchRequest).subscribe({
-      next: (data: any) => this.handleResponse(data),
-      error: () => this.handleError()
+        next: (data: any) => this.handleResponse(data),
+        error: () => this.handleError()
     });
-
-  }
-
-  handleLocationChange(locationData: any) 
-  {
-    this.currentFilters = 
-    {
-        ...this.currentFilters, 
-        city: locationData.city ?? null,
-        latitude: locationData.lat ?? null,
-        longitude: locationData.lon ?? null
-    };
   }
 
   handleFilterChange(filterOptions: any) 
@@ -126,11 +129,6 @@ export class ListingsPageComponent implements OnInit
     this.currentFilters = {};
     this.lastPanelFilters = {};  
     this.searchLabel = '';
-  }
-
-  toggleFilterPanel() 
-  {
-    this.isFiltersOpen = !this.isFiltersOpen;
   }
 
   goToNextPage() 

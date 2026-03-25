@@ -97,4 +97,8 @@ export class AuthService
     return authorizedRoles.includes(userRoleName);
   }
 
+  setupPassword(token: any, payload: any): Observable<any> 
+  {
+    return this.http.post(`${this.apiUrl}/link-login/${token}`, payload);
+  }
 }

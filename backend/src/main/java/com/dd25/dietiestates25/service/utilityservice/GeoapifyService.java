@@ -28,7 +28,6 @@ public class GeoapifyService
 
     private final RestTemplate restTemplate;
 
-
     public List<GeoapifyProperties> getPossibleAddresses(String rawAddress) 
     {
         try 
@@ -37,7 +36,7 @@ public class GeoapifyService
                 .fromUriString("https://api.geoapify.com/v1/geocode/autocomplete")
                 .queryParam("text", rawAddress)
                 .queryParam("apiKey", apiKey)
-                .queryParam("limit", 5)
+                .queryParam("limit", 10)
                 .queryParam("filter", "countrycode:it") 
                 .build()
                 .toUriString();
