@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import com.dd25.dietiestates25.dto.request.AgentStatsRequest;
 import com.dd25.dietiestates25.dto.request.CreateCompanyAccountRequest;
+import com.dd25.dietiestates25.dto.response.AgentMonthlyStatsResponse;
 import com.dd25.dietiestates25.dto.response.StringResponse;
 import com.dd25.dietiestates25.service.CompanyAccountService;
 
@@ -26,5 +28,13 @@ public class CompanyAccountController
     {
         companyService.createCompanyAccount(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(new StringResponse("Account created successfully"));
+    }
+
+    @PostMapping("/stats")
+    public ResponseEntity<AgentMonthlyStatsResponse> getMonthlyStats(@RequestBody @Valid AgentStatsRequest request) 
+    {   
+        AgentMonthlyStatsResponse stats = companyService.getStatsForSelectedMonth(request);
+        
+        return ResponseEntity.ok(stats);
     }
 }

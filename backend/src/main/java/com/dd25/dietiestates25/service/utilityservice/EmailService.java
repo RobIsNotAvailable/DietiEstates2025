@@ -34,7 +34,7 @@ public class EmailService
     @Async
     public void sendPasswordResetEmail(String to, String token)
     {
-        String link = "http://16.170.228.181/link-login/" + token;
+        String link = frontendUrl+ "/link-login/" + token;
         String title = "Password Reset Request";
         String body = "We received a request to reset your password. Click the button below to proceed:";
         String buttonText = "Reset Password";

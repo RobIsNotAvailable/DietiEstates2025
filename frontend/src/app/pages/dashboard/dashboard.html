@@ -1,0 +1,81 @@
+<div class="dashboard-wrapper">
+  
+
+  <div class="stats-container" *ngIf="stats">
+    
+    <div class="dashboard-top-box">
+      <div class="header-left">
+        <a routerLink="/" class="logo-section">
+          <div class="logo-icon">
+            <i class="bx bx-home"></i>
+          </div>
+          <span class="logo-text">DietiEstates</span>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <h2 class="agent-display-name">{{ agentName }}</h2>
+        <div class="performance-meta">
+          <span class="performance-label">Quarterly Performance</span>
+          <span class="dot">•</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="month-selector">
+          <i class="bi bi-calendar3"></i>
+          <select (change)="onMonthChange($event)">
+            <option *ngFor="let m of availableMonths" [value]="m.value + '-' + m.year">
+              {{ m.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-cards-grid">
+      <div class="stat-card" style="animation-delay: 0s">
+        <div class="stat-card-icon"><i class="bi bi-card-list"></i></div>
+        <div class="stat-card-body">
+          <span class="stat-label">Active Listings</span>
+          <span class="stat-value">{{ stats.activeListings }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card" style="animation-delay: 0.08s">
+        <div class="stat-card-icon"><i class="bi bi-eye"></i></div>
+        <div class="stat-card-body">
+          <span class="stat-label">Total Views</span>
+          <span class="stat-value">{{ stats.nViews >= 1000 ? (stats.nViews / 1000).toFixed(0) + 'K' : stats.nViews }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card" style="animation-delay: 0.16s">
+        <div class="stat-card-icon"><i class="bi bi-calendar-check"></i></div>
+        <div class="stat-card-body">
+          <span class="stat-label">Active Visits</span>
+          <span class="stat-value">{{ stats.activeVisits }}</span>
+          <span class="stat-sub">{{ stats.concludedVisits }} concluded</span>
+        </div>
+      </div>
+
+      <div class="stat-card" style="animation-delay: 0.24s">
+        <div class="stat-card-icon"><i class="bi bi-tag"></i></div>
+        <div class="stat-card-body">
+          <span class="stat-label">Total Offers</span>
+          <span class="stat-value">{{ stats.nOffers }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card" style="animation-delay: 0.32s">
+        <div class="stat-card-icon"><i class="bi bi-check2-circle"></i></div>
+        <div class="stat-card-body">
+          <span class="stat-label">Concluded</span>
+          <span class="stat-value">{{ stats.concludedListings }}</span>
+          <span class="stat-sub">listings closed</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
