@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dd25.dietiestates25.dto.GeoapifyProperties;
 import com.dd25.dietiestates25.dto.response.SurroundingInfoResponse;
-import com.dd25.dietiestates25.service.utilityservice.GeoapifyService;
+import com.dd25.dietiestates25.service.utilityservice.LocalizationService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/location") 
 @RequiredArgsConstructor
-public class GeoapifyController 
+public class LocalizationController 
 {
-    private final GeoapifyService geoapifyService;
+    private final LocalizationService geoapifyService;
 
     @GetMapping("/suggestions")
     public ResponseEntity<List<GeoapifyProperties>> getSuggestions(@RequestParam String rawAddress) 

@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service 
 @RequiredArgsConstructor
-public class GeoapifyService
+public class LocalizationService
 {
 
     @Value("${geoapify.api.key}")

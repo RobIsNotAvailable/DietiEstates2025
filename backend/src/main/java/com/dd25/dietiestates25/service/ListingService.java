@@ -23,7 +23,7 @@ import com.dd25.dietiestates25.model.SurroundingInfo;
 import com.dd25.dietiestates25.repository.CompanyAccountRepository;
 import com.dd25.dietiestates25.repository.ListingRepository;
 import com.dd25.dietiestates25.repository.ListingSpecs;
-import com.dd25.dietiestates25.service.utilityservice.GeoapifyService;
+import com.dd25.dietiestates25.service.utilityservice.LocalizationService;
 import com.dd25.dietiestates25.service.utilityservice.ListingStatsService;
 import com.dd25.dietiestates25.service.utilityservice.S3Service;
 import com.dd25.dietiestates25.util.SecurityUtil;
@@ -40,7 +40,7 @@ public class ListingService
 {
     private final ListingRepository repo;
     private final CompanyAccountRepository agentRepo;
-    private final GeoapifyService geoapifyService;
+    private final LocalizationService geoapifyService;
     private final SecurityUtil securityUtil;
     private final ListingStatsService statsService;
     private final S3Service s3Service;
