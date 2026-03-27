@@ -10,7 +10,7 @@ public class GeocodingDetails
     private String placeId;         
 
     @Column(name = "formatted_address", nullable = false)
-    private String formattedAddress; // A complete, human-readable address (given by geoapify and ready to use in UI)    
+    private String formattedAddress;
 
     public GeocodingDetails() {}
 

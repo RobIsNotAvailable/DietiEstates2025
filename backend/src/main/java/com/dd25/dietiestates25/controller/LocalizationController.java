@@ -20,19 +20,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LocalizationController 
 {
-    private final LocalizationService geoapifyService;
+    private final LocalizationService localizationService;
 
     @GetMapping("/suggestions")
     public ResponseEntity<List<GeoapifyProperties>> getSuggestions(@RequestParam String rawAddress) 
     {
-        List<GeoapifyProperties> response = geoapifyService.getPossibleAddresses(rawAddress);
+        List<GeoapifyProperties> response = localizationService.getPossibleAddresses(rawAddress);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/surroundings")
     public ResponseEntity<SurroundingInfoResponse> getSurroundings(@RequestParam double lat, @RequestParam double lon) 
     {
-        SurroundingInfoResponse response = geoapifyService.fetchSurroundingInfo(lat, lon);
+        SurroundingInfoResponse response = localizationService.fetchSurroundingInfo(lat, lon);
         return ResponseEntity.ok(response);
     }
 }

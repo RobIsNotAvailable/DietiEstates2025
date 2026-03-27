@@ -40,7 +40,7 @@ public class ListingService
 {
     private final ListingRepository repo;
     private final CompanyAccountRepository agentRepo;
-    private final LocalizationService geoapifyService;
+    private final LocalizationService localizationService;
     private final SecurityUtil securityUtil;
     private final ListingStatsService statsService;
     private final S3Service s3Service;
@@ -51,9 +51,9 @@ public class ListingService
         CompanyAccount agent = agentRepo.findById(securityUtil.getCurrentEmail()).orElseThrow(() -> 
             new IllegalArgumentException(StringConstants.ACCOUNT_NOT_FOUND_MESSAGE));
         
-        Address normalizedAddress = geoapifyService.normalizeAddress(request.rawAddress());
+        Address normalizedAddress = localizationService.normalizeAddress(request.rawAddress());
 
-        SurroundingInfoResponse resp = geoapifyService.fetchSurroundingInfo(normalizedAddress.getLatitude(), normalizedAddress.getLongitude());
+        SurroundingInfoResponse resp = localizationService.fetchSurroundingInfo(normalizedAddress.getLatitude(), normalizedAddress.getLongitude());
         
         SurroundingInfo surroundingInfo = new SurroundingInfo(resp.hasBus(), resp.hasPark(), resp.hasSchool());
 
