@@ -60,10 +60,6 @@ public class CompanyAccountService
 
     public AgentMonthlyStatsResponse getStatsForSelectedMonth(AgentStatsRequest request) 
     {
-        System.out.println("--- [DEBUG START] getStatsForSelectedMonth ---");
-        System.out.println("EMAIL RICEVUTA: [" + request.agentEmail() + "]");
-        System.out.println("MESE/ANNO: " + request.month() + "/" + request.year());
-
         YearMonth selectedMonth = YearMonth.of(request.year(), request.month());
 
         OffsetDateTime startOfMonth = selectedMonth.atDay(1)
@@ -75,31 +71,14 @@ public class CompanyAccountService
                                                     .atStartOfDay()
                                                     .atOffset(ZoneOffset.UTC);
 
-        System.out.println("RANGE DATE CALCOLATO: " + startOfMonth + " -> " + startOfNextMonth);
-
-        // Eseguiamo la query
         AgentMonthlyStatsResponse response = repo.getStatsForSelectedMonth(
                 request.agentEmail(), 
                 startOfMonth, 
                 startOfNextMonth
         );
-
-        // Logghiamo cosa ha sputato fuori il database tramite JPA
-        if (response != null) 
-        {
-            System.out.println("DATI DAL REPO:");
-            System.out.println(">> Active Listings: " + response.activeListings());
-            System.out.println(">> Total Views: " + response.nViews());
-            System.out.println(">> Active Visits: " + response.activeVisits());
-        } 
-        else 
-        {
-            System.out.println("ERRORE: Il repository ha restituito NULL!");
-        }
-        System.out.println("--- [DEBUG END] ---");
-
         return response;
     }
+    
     private void checkRolePermission(CompanyAccount requester, SecurityLevel targetLevel) 
     {
         SecurityLevel requesterLevel = requester.getSecurityLevel();

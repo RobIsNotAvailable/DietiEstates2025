@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Page } from '../models/page.model';
 import { SummaryListingResponse } from '../models/listing.model';
+import { ListingStatsResponse } from '../models/listingsStatsResponse.model';
+
 
 @Injectable({ providedIn: 'root' })
 export class ListingService 
@@ -48,5 +49,10 @@ export class ListingService
       });
 
       return this.http.get<SummaryListingResponse[]>(`${this.apiUrl}/search`, { params });
+  }
+
+  getAgentStats(): Observable<ListingStatsResponse[]> 
+  {
+      return this.http.get<ListingStatsResponse[]>(`${this.apiUrl}/stats`);
   }
 }

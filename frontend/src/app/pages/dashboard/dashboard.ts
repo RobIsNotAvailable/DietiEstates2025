@@ -1,23 +1,32 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { StatsService, AgentStatsRequest } from '../../services/stats';
+import { StatsService } from '../../services/stats';
+import { ListingService } from '../../services/listing';
 
-export interface AgentMonthlyStatsResponse 
-{
+export interface ListingStatsResponse {
+    id: number;
+    name: string;
+    price: number;
+    listingType: string;
+    formattedAddress: string;
+    imageUrl: string;
+    views: number;
+    visitsRecieved: number;
+    offersRecieved: number;
+    highestOfferedPrice: number;
+    lastModified: string;
+    status: string;
+    closurePrice: number | null;
+}
+
+export interface AgentMonthlyStatsResponse {
     activeListings: number;
     concludedListings: number;
     nViews: number;
     activeVisits: number;
     concludedVisits: number;
     nOffers: number;
-}
-
-export interface MonthOption 
-{
-    value: number;
-    year: number;
-    label: string;
 }
 
 @Component({
@@ -27,113 +36,92 @@ export interface MonthOption
     templateUrl: './dashboard.html',
     styleUrl: './dashboard.scss',
 })
-export class DashboardComponent implements OnInit 
-{
+export class DashboardComponent implements OnInit {
     agentName: string = '';
     agentEmail: string = '';
-    today: Date = new Date();
-    isLoading: boolean = false;
-    stats: AgentMonthlyStatsResponse | null = null;
+    userRole: string = '';
 
-    selectedMonth: number = new Date().getMonth() + 1;
-    selectedYear: number = new Date().getFullYear();
-    availableMonths: MonthOption[] = [];
+    isLoading: boolean = false;
+    isListLoading: boolean = false;
+    stats: AgentMonthlyStatsResponse | null = null;
+    agentListings: ListingStatsResponse[] = [];
+
+    currentMonthLabel: string = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
 
     constructor(
-        private statsService: StatsService, 
+        private statsService: StatsService,
+        private listingService: ListingService,
         private cd: ChangeDetectorRef,
         private router: Router
-    ) {} 
+    ) {}
 
-    ngOnInit(): void 
-    {
+    ngOnInit(): void {
         this.initializeUserData();
-        this.generateMonthOptions();
-        
-        // Carica le statistiche solo se abbiamo un'email valida
-        if (this.agentEmail) 
-        {
-            this.loadStats();
-        } 
-        else 
-        {
-            console.warn('No user data found, redirecting to login...');
+
+        if (this.agentEmail) {
+            this.loadDashboardData();
+        } else {
             this.router.navigate(['/login']);
         }
     }
 
-    /**
-     * Recupera i dati dell'utente dal localStorage salvati dalla HomeComponent
-     */
-    private initializeUserData(): void 
-    {
+    navigateToListing(id: number): void {
+        this.router.navigate(['/view', id]);
+    }
+
+    exportPdf(): void {
+        const previousTitle = document.title;
+        document.title = `DietiEstates_Report_${this.agentName}_${this.currentMonthLabel}`.replace(/\s+/g, '_');
+        window.print();
+        document.title = previousTitle;
+    }
+
+    private initializeUserData(): void {
         const savedUser = localStorage.getItem('user');
-        if (savedUser) 
-        {
-            try 
-            {
-                const userData = JSON.parse(savedUser);
-                this.agentEmail = userData.email;
-                this.agentName = `${userData.firstName} ${userData.lastName}`;
-                console.log('Dashboard initialized for:', this.agentEmail);
-            } 
-            catch (e) 
-            {
-                console.error('Error parsing user data from localStorage', e);
-            }
+        if (!savedUser) return;
+
+        try {
+            const userData = JSON.parse(savedUser);
+            this.agentEmail = userData.email;
+            this.agentName = `${userData.firstName} ${userData.lastName}`;
+            this.userRole = userData.role ?? '';
+        } catch (e) {
+            console.error('Error parsing user data', e);
         }
     }
 
-    generateMonthOptions(): void 
-    {
-        const monthsToGenerate = 6;
-        const now = new Date();
-        
-        for (let i = 0; i < monthsToGenerate; i++) 
-        {
-            const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-            this.availableMonths.push({
-                value: d.getMonth() + 1,
-                year: d.getFullYear(),
-                label: d.toLocaleString('en-US', { month: 'long', year: 'numeric' })
-            });
-        }
-    }
-
-    onMonthChange(event: Event): void 
-    {
-        const selectElement = event.target as HTMLSelectElement;
-        const parts = selectElement.value.split('-');
-        if (parts.length === 2) 
-        {
-            this.selectedMonth = Number(parts[0]);
-            this.selectedYear = Number(parts[1]);
-            this.loadStats();
-        }
-    }
-
-    loadStats(): void 
-    {
+    private loadDashboardData(): void {
         this.isLoading = true;
+        this.isListLoading = true;
 
-        const request: AgentStatsRequest = 
-        {
+        const now = new Date();
+        const statsRequest = {
             agentEmail: this.agentEmail,
-            year: this.selectedYear,
-            month: this.selectedMonth
+            year: now.getFullYear(),
+            month: now.getMonth() + 1
         };
 
-        this.statsService.getMonthlyStats(request).subscribe({
-            next: (data: AgentMonthlyStatsResponse) => 
-            {
+        this.statsService.getMonthlyStats(statsRequest).subscribe({
+            next: (data) => {
                 this.stats = data;
                 this.isLoading = false;
                 this.cd.detectChanges();
             },
-            error: (err: any) => 
-            {
-                console.error('Errore nel recupero statistiche:', err);
+            error: () => {
                 this.isLoading = false;
+                this.cd.detectChanges();
+            }
+        });
+
+        this.listingService.getAgentStats().subscribe({
+            next: (data: ListingStatsResponse[]) => {
+                this.agentListings = data;
+                this.isListLoading = false;
+                this.cd.detectChanges();
+            },
+            error: (err) => {
+                console.error('Error loading listings:', err);
+                this.isListLoading = false;
                 this.cd.detectChanges();
             }
         });

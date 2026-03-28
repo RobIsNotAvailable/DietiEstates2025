@@ -91,6 +91,7 @@ public class Listing
     public List<Photo> getPhotos() { return photos; }
     public String getCity() {return houseInfo.getCity(); }
     public BigDecimal getPrice() {return commercialInfo.getPrice(); }
+    public Address  getAddress() {return houseInfo.getBuildingDetails().getAddress(); }
 
 
     // Setters

@@ -163,8 +163,31 @@ public class ListingService
         );
     }
 
-    private ListingStatsResponse mapToStats(Listing l)
+   private ListingStatsResponse mapToStats(Listing l)
     {
-        return repo.getStatsByListing(l.getId());
+        ListingStatsResponse stats = repo.getStatsByListing(l.getId());
+        
+        if (stats != null && stats.imageUrl() != null) 
+        {
+            String signedUrl = s3Service.generatePresignedUrl(stats.imageUrl());
+            
+            return new ListingStatsResponse(
+                stats.id(),
+                stats.name(),
+                stats.price(),
+                stats.listingType(),
+                stats.formattedAddress(),
+                signedUrl, 
+                stats.views(),
+                stats.visitsRecieved(),
+                stats.offersRecieved(),
+                stats.highestOfferedPrice(),
+                stats.lastModified(),
+                stats.status(),
+                stats.closurePrice()
+            );
+        }
+        
+        return stats;
     }
 }

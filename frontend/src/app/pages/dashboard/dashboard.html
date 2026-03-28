@@ -1,5 +1,9 @@
 <div class="dashboard-wrapper">
   
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading performance data...</p>
+  </div>
 
   <div class="stats-container" *ngIf="stats">
     
@@ -16,19 +20,30 @@
       <div class="header-center">
         <h2 class="agent-display-name">{{ agentName }}</h2>
         <div class="performance-meta">
-          <span class="performance-label">Quarterly Performance</span>
+          <span class="performance-label">General Overview</span>
           <span class="dot">•</span>
+          <span class="agent-date">{{ currentMonthLabel }}</span>
         </div>
       </div>
 
       <div class="header-right">
-        <div class="month-selector">
-          <i class="bi bi-calendar3"></i>
-          <select (change)="onMonthChange($event)">
-            <option *ngFor="let m of availableMonths" [value]="m.value + '-' + m.year">
-              {{ m.label }}
-            </option>
-          </select>
+        <button class="btn-export-pdf" (click)="exportPdf()" title="Export as PDF">
+          <i class="bx bx-download"></i>
+        </button>
+
+        <div class="agent-badge">
+          <ng-container *ngIf="userRole === 'ADMIN'">
+            <i class="bx bx-shield-alt-2"></i>
+            <span>Admin Account</span>
+          </ng-container>
+          <ng-container *ngIf="userRole === 'SUPPORT'">
+            <i class="bx bx-headphone"></i>
+            <span>Support</span>
+          </ng-container>
+          <ng-container *ngIf="userRole === 'AGENT'">
+            <i class="bx bx-user-circle"></i>
+            <span>Agent</span>
+          </ng-container>
         </div>
       </div>
     </div>
@@ -77,5 +92,55 @@
       </div>
     </div>
 
-  </div>
+    <div class="listings-box">
+      <div class="listings-header">
+        <h3 class="section-title">Your Properties Performance</h3>
+      </div>
+
+      <div class="list-loader" *ngIf="isListLoading">
+        <div class="mini-spinner"></div>
+        <p>Updating listings...</p>
+      </div>
+
+      <div class="listings-list" *ngIf="!isListLoading">
+        <div class="no-data-msg" *ngIf="agentListings.length === 0">
+          <i class="bi bi-info-circle"></i>
+          <p>No listings associated with your account yet.</p>
+        </div>
+
+        <div class="listing-row" *ngFor="let item of agentListings" (click)="navigateToListing(item.id)">
+          <div class="listing-thumb">
+            <img *ngIf="item.imageUrl" [src]="item.imageUrl" alt="Listing preview" />
+            <i *ngIf="!item.imageUrl" class="bi bi-image"></i>
+          </div>
+          
+          <div class="listing-info">
+            <span class="listing-title">{{ item.name }}</span>
+            <span class="listing-address">
+              <i class="bi bi-geo-alt"></i> {{ item.formattedAddress }}
+            </span>
+            <span class="status-badge" [ngClass]="item.status.toLowerCase()">
+              {{ item.status }}
+            </span>
+          </div>
+
+          <div class="listing-price">
+            <span class="main-price">€ {{ item.price | number:'1.0-0' }}</span>
+            <span class="listing-visits">{{ item.views }} views • {{ item.visitsRecieved }} visits</span>
+          </div>
+
+          <div class="listing-offers">
+            <div class="offer-count">{{ item.offersRecieved }} Offers</div>
+            <div class="highest-offer" *ngIf="item.highestOfferedPrice">
+              Max: € {{ item.highestOfferedPrice | number:'1.0-0' }}
+            </div>
+          </div>
+
+          <div class="listing-actions">
+            <button class="btn-manage-offers" (click)="$event.stopPropagation()">Manage</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
 </div>
