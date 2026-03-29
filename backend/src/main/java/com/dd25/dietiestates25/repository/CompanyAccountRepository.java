@@ -33,8 +33,7 @@ public interface CompanyAccountRepository extends JpaRepository<CompanyAccount, 
             FROM VisitRequest v 
             WHERE v.agent.email = :email 
             AND v.status = 'ACTIVE' 
-            AND v.visitDate >= :startOfMonth 
-            AND v.visitDate < :endOfMonth),
+            AND v.visitDate >= :startOfMonth),
 
             /* 5. Concluded Visits */
             (SELECT CAST(COALESCE(COUNT(v.id), 0) AS int) 

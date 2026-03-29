@@ -87,7 +87,6 @@
         <div class="stat-card-body">
           <span class="stat-label">Concluded</span>
           <span class="stat-value">{{ stats.concludedListings }}</span>
-          <span class="stat-sub">listings closed</span>
         </div>
       </div>
     </div>
@@ -119,8 +118,8 @@
             <span class="listing-address">
               <i class="bi bi-geo-alt"></i> {{ item.formattedAddress }}
             </span>
-            <span class="status-badge" [ngClass]="item.status.toLowerCase()">
-              {{ item.status }}
+            <span class="status-badge">
+              {{ item.status === 'ENDED_SUCCESFULLY' ? 'concluded' : item.status.toLowerCase() }}
             </span>
           </div>
 

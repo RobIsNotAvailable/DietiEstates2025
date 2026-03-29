@@ -24,7 +24,6 @@
   gap: 32px;
 }
 
-// ─── Header ──────────────────────────────────────────────────────────────────
 
 .dashboard-top-box {
   display: grid;
@@ -136,7 +135,6 @@
   }
 }
 
-// ─── Stat cards ──────────────────────────────────────────────────────────────
 
 .stat-cards-grid {
   display: grid;
@@ -204,7 +202,6 @@
   }
 }
 
-// ─── Listings box ────────────────────────────────────────────────────────────
 
 .listings-box {
   background: $white-pure;
@@ -229,7 +226,6 @@
   gap: 12px;
 }
 
-// ─── Listing row ─────────────────────────────────────────────────────────────
 
 .listing-row {
   display: grid;
@@ -321,20 +317,23 @@
       padding: 8px 16px;
       border-radius: 8px;
       border: 1px solid rgba(0, 0, 0, 0.1);
-      background: $white-pure;
-      color: $logo-color;
+      background: $green-primary;
+      color: white;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: border-color 0.2s;
       white-space: nowrap;
+	    transition: all 0.3s ease;
 
-      &:hover { border-color: $logo-color; }
+      &:hover { 
+        background-color: $green-hover;
+		    transform: translateY(-3px);
+      }
     }
   }
 }
 
-// ─── Pagination ──────────────────────────────────────────────────────────────
 
 .listings-pagination {
   display: flex;
@@ -364,7 +363,6 @@
   }
 }
 
-// ─── Print / PDF styles ──────────────────────────────────────────────────────
 
 @media print {
   @page {
@@ -407,7 +405,6 @@
     grid-template-columns: repeat(5, 1fr) !important;
   }
 
-  // Make rows non-interactive and tight for print
   .listing-row {
     cursor: default;
     grid-template-columns: 80px 1fr auto auto;
