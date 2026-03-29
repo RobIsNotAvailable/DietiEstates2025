@@ -1,6 +1,7 @@
 package com.dd25.dietiestates25.service.utilityservice;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -86,7 +87,7 @@ public class EmailService
 
         } catch (MessagingException e)
         {
-            throw new RuntimeException("Failed to send email to " + to + " with subject: " + subject, e);
+            throw new MailSendException("Failed to send email to " + to + " with subject: " + subject, e);
         }
     }
 }

@@ -25,9 +25,10 @@ public class LocalizationService
 
     @Value("${geoapify.api.key}")
     private String apiKey;
+    private final static String key = "apiKey";
 
     private final RestTemplate restTemplate;
-
+    private static final String limit = "limit";
     public List<GeoapifyProperties> getPossibleAddresses(String rawAddress) 
     {
         try 
@@ -35,8 +36,8 @@ public class LocalizationService
             String url = UriComponentsBuilder
                 .fromUriString("https://api.geoapify.com/v1/geocode/autocomplete")
                 .queryParam("text", rawAddress)
-                .queryParam("apiKey", apiKey)
-                .queryParam("limit", 10)
+                .queryParam(key, apiKey)
+                .queryParam(limit, 10)
                 .queryParam("filter", "countrycode:it") 
                 .build()
                 .toUriString();
@@ -58,7 +59,7 @@ public class LocalizationService
         String url = UriComponentsBuilder
             .fromUriString("https://api.geoapify.com/v1/geocode/search")
             .queryParam("text", rawAddress)
-            .queryParam("apiKey", apiKey)
+            .queryParam(key, apiKey)
             .build()
             .toUriString();
 
@@ -114,15 +115,15 @@ public class LocalizationService
         return new SurroundingInfoResponse(nearStops, nearParks, nearSchools);
     }
 
-    private @NonNull String buildUrl(double lat, double lon, String categories, int limit) 
+    private @NonNull String buildUrl(double lat, double lon, String categories, int l) 
     {
         return UriComponentsBuilder
                 .fromUriString("https://api.geoapify.com/v2/places")
                 .queryParam("categories", categories)
                 .queryParam("filter", String.format("circle:%f,%f,500", lon, lat))
                 .queryParam("bias", String.format("proximity:%f,%f", lon, lat)) 
-                .queryParam("limit", limit)
-                .queryParam("apiKey", apiKey)
+                .queryParam(limit, l)
+                .queryParam(key, apiKey)
                 .build().toUriString();
     }
 
@@ -140,8 +141,8 @@ public class LocalizationService
         String url = UriComponentsBuilder
                 .fromUriString("https://api.geoapify.com/v1/geocode/search")
                 .queryParam("text", rawAddress)
-                .queryParam("apiKey", apiKey)
-                .queryParam("limit", 1)
+                .queryParam(key, apiKey)
+                .queryParam(limit, 1)
                 .build()
                 .toUriString();
 

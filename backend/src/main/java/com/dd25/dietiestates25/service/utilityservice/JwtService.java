@@ -32,8 +32,8 @@ public class JwtService
         
         String role = "CLIENT";
 
-        if(account instanceof CompanyAccount)
-            role = ((CompanyAccount) account).getSecurityLevel().toString();
+        if(account instanceof CompanyAccount companyAccount)
+            role = companyAccount.getSecurityLevel().toString();
 
         claims.put("role", role);
 

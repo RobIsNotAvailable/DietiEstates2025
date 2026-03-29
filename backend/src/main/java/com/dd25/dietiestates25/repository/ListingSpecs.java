@@ -14,6 +14,10 @@ import jakarta.persistence.criteria.Root;
 public class ListingSpecs 
 {
     private static final double SEARCH_RADIUS_KM = 2.0;
+    private static final String surroundingInfo = "surroundingInfo";
+    private static final String houseInfo = "houseInfo";
+    private static final String buildingDetails = "buildingDetails";
+    private static final String address = "address";
 
     private ListingSpecs() {}
     
@@ -72,19 +76,19 @@ public class ListingSpecs
     public static Specification<Listing> hasNearSchools(Boolean nearSchools) 
     {
         return (root, query, cb) -> 
-            (nearSchools == null || !nearSchools) ? null : cb.isTrue(root.get("surroundingInfo").get("nearSchools"));
+            (nearSchools == null || !nearSchools) ? null : cb.isTrue(root.get(surroundingInfo).get("nearSchools"));
     }
 
     public static Specification<Listing> hasNearStops(Boolean nearStops) 
     {
         return (root, query, cb) -> 
-            (nearStops == null || !nearStops) ? null : cb.isTrue(root.get("surroundingInfo").get("nearStops"));
+            (nearStops == null || !nearStops) ? null : cb.isTrue(root.get(surroundingInfo).get("nearStops"));
     }
 
     public static Specification<Listing> hasNearParks(Boolean nearParks) 
     {
         return (root, query, cb) -> 
-            (nearParks == null || !nearParks) ? null : cb.isTrue(root.get("surroundingInfo").get("nearParks"));
+            (nearParks == null || !nearParks) ? null : cb.isTrue(root.get(surroundingInfo).get("nearParks"));
     }
 
     public static Specification<Listing> hasLocation(String city, Double lat, Double lon) 
@@ -96,8 +100,8 @@ public class ListingSpecs
                 double latThreshold = SEARCH_RADIUS_KM / 111.0;
                 double lonThreshold = SEARCH_RADIUS_KM / (111.0 * Math.cos(Math.toRadians(lat)));
 
-                Path<Double> latPath = root.get("houseInfo").get("buildingDetails").get("address").get("coordinates").get("latitude");
-                Path<Double> lonPath = root.get("houseInfo").get("buildingDetails").get("address").get("coordinates").get("longitude");
+                Path<Double> latPath = root.get(houseInfo).get(buildingDetails).get(address).get("coordinates").get("latitude");
+                Path<Double> lonPath = root.get(houseInfo).get(buildingDetails).get(address).get("coordinates").get("longitude");
 
                 return cb.and(
                     cb.between(latPath, lat - latThreshold, lat + latThreshold),
@@ -123,9 +127,9 @@ public class ListingSpecs
 
     private static Path<String> getCityPath(Root<Listing> root) 
     {
-        return root.get("houseInfo")
-                .get("buildingDetails")
-                .get("address")
+        return root.get(houseInfo)
+                .get(buildingDetails)
+                .get(address)
                 .get("postalAddress")
                 .get("city");
     }
@@ -138,14 +142,14 @@ public class ListingSpecs
 
     private static Path<Integer> getRoomsPath(Root<Listing> root) 
     {
-        return root.get("houseInfo")
+        return root.get(houseInfo)
                 .get("houseDetails")
                 .get("numberOfRooms");
     }
 
     private static Path<String> getEnergyClassPath(Root<Listing> root)
     {
-        return root.get("houseInfo")
+        return root.get(houseInfo)
                 .get("houseDetails")
                 .get("energyClass");
     }

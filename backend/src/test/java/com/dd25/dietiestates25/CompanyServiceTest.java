@@ -8,7 +8,6 @@ import com.dd25.dietiestates25.repository.CompanyAccountRepository;
 import com.dd25.dietiestates25.repository.LoginTokenRepository;
 import com.dd25.dietiestates25.service.CompanyAccountService;
 import com.dd25.dietiestates25.service.utilityservice.EmailService;
-import com.dd25.dietiestates25.service.utilityservice.JwtService;
 import com.dd25.dietiestates25.util.SecurityUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("null")
 class CompanyServiceTest 
 {
     @Mock
@@ -41,9 +41,6 @@ class CompanyServiceTest
 
     @Mock
     private EmailService emailService;
-
-    @Mock
-    private JwtService jwtService;
 
     @Mock
     private SecurityUtil securityUtil;
@@ -64,30 +61,27 @@ class CompanyServiceTest
 
         // Requester
         String requesterEmail = "requester@example.com";
-        // String requesterFirstName = "John";
-        // String requesterLastName = "Requester";
-        // String requesterPassword = "notRelevant123";
-        // SecurityLevel requesterSecurityLevel = SecurityLevel.ADMIN;
-        // CompanyAccount requester = new CompanyAccount(requesterEmail, requesterFirstName, requesterLastName, requesterPassword, requesterSecurityLevel);
-
-        // Extra
-        LoginToken token = new LoginToken(email);
+        String requesterFirstName = "John";
+        String requesterLastName = "Requester";
+        String requesterPassword = "notRelevant123";
+        SecurityLevel requesterSecurityLevel = SecurityLevel.SUPPORT;
+        CompanyAccount requester = new CompanyAccount(requesterEmail, requesterFirstName, requesterLastName, requesterPassword, requesterSecurityLevel);
 
         Mockito.when(securityUtil.getCurrentEmail()).thenReturn(requesterEmail);
+        Mockito.when(repo.findById(requesterEmail)).thenReturn(Optional.of(requester));
         // checkRolePermission is okay
         Mockito.when(repo.findById(email)).thenReturn(Optional.empty());
-        Mockito.when(new LoginToken(email)).thenReturn(token);
 
         service.createCompanyAccount(request);
 
-        Mockito.verify(repo).findById(email);
-        Mockito.verify(emailService).sendOnboardingEmail(email, token.getToken());
-
         ArgumentCaptor<CompanyAccount> captor = ArgumentCaptor.forClass(CompanyAccount.class);
-        // ArgumentCaptor<LoginToken> tokenCaptor = ArgumentCaptor.forClass(LoginToken.class);
-        
-        // Mockito.verify(repo).save(captor.capture());
-        // Mockito.verify(tokenRepo).save(tokenCaptor.capture());
+        ArgumentCaptor<LoginToken> tokenCaptor = ArgumentCaptor.forClass(LoginToken.class);
+
+        Mockito.verify(repo).save(captor.capture());
+        Mockito.verify(tokenRepo).save(tokenCaptor.capture());
+
+        Mockito.verify(repo).findById(email);
+        Mockito.verify(emailService).sendOnboardingEmail(email, tokenCaptor.getValue().getToken());
 
         CompanyAccount savedAccount = captor.getValue(); 
         

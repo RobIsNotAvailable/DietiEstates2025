@@ -73,7 +73,6 @@ public class S3Service
                     .signatureDuration(java.time.Duration.ofMinutes(60)) 
                     .getObjectRequest(getObjectRequest)
                     .build();
-
             return s3Presigner.presignGetObject(presignRequest).url().toString();
         } 
         catch (Exception e) 

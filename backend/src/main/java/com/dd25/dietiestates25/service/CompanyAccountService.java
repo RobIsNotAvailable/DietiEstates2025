@@ -71,12 +71,11 @@ public class CompanyAccountService
                                                     .atStartOfDay()
                                                     .atOffset(ZoneOffset.UTC);
 
-        AgentStatsResponse response = repo.getStatsForSelectedMonth(
+        return repo.getStatsForSelectedMonth(
                 request.agentEmail(), 
                 startOfMonth, 
                 startOfNextMonth
         );
-        return response;
     }
     
     private void checkRolePermission(CompanyAccount requester, SecurityLevel targetLevel) 

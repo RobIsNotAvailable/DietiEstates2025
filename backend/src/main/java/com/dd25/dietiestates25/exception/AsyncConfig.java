@@ -7,12 +7,12 @@ import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.lang.reflect.Method;
+import java.util.logging.Logger;
 
 @Configuration
 @EnableAsync
 public class AsyncConfig implements AsyncConfigurer
 {
-
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler()
     {
@@ -21,21 +21,23 @@ public class AsyncConfig implements AsyncConfigurer
 
     private static class AsyncExceptionHandler implements AsyncUncaughtExceptionHandler
     {
+        private Logger logger = Logger.getLogger(getClass().getName());
+        
         @Override
         public void handleUncaughtException(@NonNull Throwable throwable, @NonNull Method method, @NonNull Object... obj) {
-            System.err.println("--------------------------------------------------");
-            System.err.println("ASYNC EXCEPTION");
-            System.err.println("In method: " + method.getName());
-            System.err.println("Error message: " + throwable.getMessage());
+            logger.info("--------------------------------------------------");
+            logger.info("ASYNC EXCEPTION");
+            logger.info("In method: " + method.getName());
+            logger.info("Error message: " + throwable.getMessage());
             
             for (Object param : obj)
             {
-                System.err.println("param: " + param);
+                logger.info("param: " + param);
             }
             
-            System.err.println("Stacktrace:");
+            logger.info("Stacktrace:");
             throwable.printStackTrace();
-            System.err.println("--------------------------------------------------");
+            logger.info("--------------------------------------------------");
         }
     }
 }
