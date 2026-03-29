@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.dd25.dietiestates25.dto.request.AgentStatsRequest;
 import com.dd25.dietiestates25.dto.request.CreateCompanyAccountRequest;
-import com.dd25.dietiestates25.dto.response.AgentMonthlyStatsResponse;
+import com.dd25.dietiestates25.dto.response.AgentStatsResponse;
 import com.dd25.dietiestates25.model.CompanyAccount;
 import com.dd25.dietiestates25.model.LoginToken;
 import com.dd25.dietiestates25.model.enums.SecurityLevel;
@@ -58,7 +58,7 @@ public class CompanyAccountService
         emailService.sendOnboardingEmail(request.email(), token.getToken());
     }
 
-    public AgentMonthlyStatsResponse getStatsForSelectedMonth(AgentStatsRequest request) 
+    public AgentStatsResponse getStatsForSelectedMonth(AgentStatsRequest request) 
     {
         YearMonth selectedMonth = YearMonth.of(request.year(), request.month());
 
@@ -71,7 +71,7 @@ public class CompanyAccountService
                                                     .atStartOfDay()
                                                     .atOffset(ZoneOffset.UTC);
 
-        AgentMonthlyStatsResponse response = repo.getStatsForSelectedMonth(
+        AgentStatsResponse response = repo.getStatsForSelectedMonth(
                 request.agentEmail(), 
                 startOfMonth, 
                 startOfNextMonth

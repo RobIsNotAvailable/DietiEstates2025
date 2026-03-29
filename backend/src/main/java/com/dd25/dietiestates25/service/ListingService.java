@@ -3,6 +3,7 @@ package com.dd25.dietiestates25.service;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.dd25.dietiestates25.dto.request.CreateListingRequest;
@@ -24,7 +25,6 @@ import com.dd25.dietiestates25.repository.CompanyAccountRepository;
 import com.dd25.dietiestates25.repository.ListingRepository;
 import com.dd25.dietiestates25.repository.ListingSpecs;
 import com.dd25.dietiestates25.service.utilityservice.LocalizationService;
-import com.dd25.dietiestates25.service.utilityservice.ListingStatsService;
 import com.dd25.dietiestates25.service.utilityservice.S3Service;
 import com.dd25.dietiestates25.util.SecurityUtil;
 import com.dd25.dietiestates25.util.StringConstants;
@@ -42,7 +42,6 @@ public class ListingService
     private final CompanyAccountRepository agentRepo;
     private final LocalizationService localizationService;
     private final SecurityUtil securityUtil;
-    private final ListingStatsService statsService;
     private final S3Service s3Service;
 
     @Transactional
@@ -80,8 +79,15 @@ public class ListingService
         Listing listing = repo.findById(id).orElseThrow(() -> 
             new EntityNotFoundException("Listing not found"));
         
-        statsService.incrementViews(id);
+        incrementViews(id);
         return mapToFull(listing);
+    }
+
+    @Async
+    @Transactional
+    public void incrementViews(Integer id) 
+    {
+        repo.incrementViews(id);
     }
 
     public List<SummaryListingResponse> searchListings(ListingSearchRequest request)

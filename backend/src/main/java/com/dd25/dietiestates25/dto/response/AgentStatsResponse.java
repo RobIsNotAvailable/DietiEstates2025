@@ -1,6 +1,6 @@
 package com.dd25.dietiestates25.dto.response;
 
-public record AgentMonthlyStatsResponse(
+public record AgentStatsResponse(
     Integer activeListings,
     Integer concludedListings,
     Integer nViews,

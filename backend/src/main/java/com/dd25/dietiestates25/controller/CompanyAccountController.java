@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 import com.dd25.dietiestates25.dto.request.AgentStatsRequest;
 import com.dd25.dietiestates25.dto.request.CreateCompanyAccountRequest;
-import com.dd25.dietiestates25.dto.response.AgentMonthlyStatsResponse;
+import com.dd25.dietiestates25.dto.response.AgentStatsResponse;
 import com.dd25.dietiestates25.dto.response.StringResponse;
 import com.dd25.dietiestates25.service.CompanyAccountService;
 
@@ -31,9 +31,9 @@ public class CompanyAccountController
     }
 
     @PostMapping("/stats")
-    public ResponseEntity<AgentMonthlyStatsResponse> getMonthlyStats(@RequestBody @Valid AgentStatsRequest request) 
+    public ResponseEntity<AgentStatsResponse> getMonthlyStats(@RequestBody @Valid AgentStatsRequest request) 
     {   
-        AgentMonthlyStatsResponse stats = companyService.getStatsForSelectedMonth(request);
+        AgentStatsResponse stats = companyService.getStatsForSelectedMonth(request);
         
         return ResponseEntity.ok(stats);
     }

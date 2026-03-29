@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-export interface AgentMonthlyStatsResponse 
+export interface AgentStatsResponse 
 {
   activeListings: number;
   concludedListings: number;
@@ -28,9 +28,8 @@ export class StatsService
 
   constructor(private http: HttpClient) {}
 
-  getMonthlyStats(request: AgentStatsRequest): Observable<AgentMonthlyStatsResponse> 
+  getMonthlyStats(request: AgentStatsRequest): Observable<AgentStatsResponse> 
   {
-
-    return this.http.post<AgentMonthlyStatsResponse>(this.apiUrl, request);
+    return this.http.post<AgentStatsResponse>(this.apiUrl, request);
   }
 }

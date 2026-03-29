@@ -6,13 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.dd25.dietiestates25.dto.response.AgentMonthlyStatsResponse;
+import com.dd25.dietiestates25.dto.response.AgentStatsResponse;
 import com.dd25.dietiestates25.model.CompanyAccount;
 
 public interface CompanyAccountRepository extends JpaRepository<CompanyAccount, String> 
 {
     @Query("""
-        SELECT new com.dd25.dietiestates25.dto.response.AgentMonthlyStatsResponse
+        SELECT new com.dd25.dietiestates25.dto.response.AgentStatsResponse
         (
             /* 1. Active Listings: Devono essere stati creati (lastModified) 
             ENTRO la fine del mese selezionato e avere status ACTIVE */
@@ -54,7 +54,7 @@ public interface CompanyAccountRepository extends JpaRepository<CompanyAccount, 
         FROM Listing l
         WHERE l.agent.email = :email
     """)
-    AgentMonthlyStatsResponse getStatsForSelectedMonth( 
+    AgentStatsResponse getStatsForSelectedMonth( 
         @Param("email") String email,
         @Param("startOfMonth") OffsetDateTime startOfMonth,
         @Param("endOfMonth") OffsetDateTime endOfMonth

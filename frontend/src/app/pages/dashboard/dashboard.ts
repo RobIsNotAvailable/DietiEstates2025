@@ -20,7 +20,7 @@ export interface ListingStatsResponse {
     closurePrice: number | null;
 }
 
-export interface AgentMonthlyStatsResponse {
+export interface AgentStatsResponse {
     activeListings: number;
     concludedListings: number;
     nViews: number;
@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit {
 
     isLoading: boolean = false;
     isListLoading: boolean = false;
-    stats: AgentMonthlyStatsResponse | null = null;
+    stats: AgentStatsResponse | null = null;
     agentListings: ListingStatsResponse[] = [];
 
     currentMonthLabel: string = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
