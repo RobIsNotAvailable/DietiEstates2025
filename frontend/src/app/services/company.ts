@@ -32,18 +32,17 @@ export interface CreateStaffRequest
 })
 export class StatsService 
 {
-  private statsUrl = '/api/company/stats';
-  private createUrl = '/api/company/create';
+  private apiUrl = '/api/company';
 
   constructor(private http: HttpClient) {}
 
   getMonthlyStats(request: AgentStatsRequest): Observable<AgentStatsResponse> 
   {
-    return this.http.post<AgentStatsResponse>(this.statsUrl, request);
+    return this.http.post<AgentStatsResponse>(`${this.apiUrl}/stats`, request);
   }
 
   createStaffMember(request: CreateStaffRequest): Observable<string>
   {
-    return this.http.post(this.createUrl, request, { responseType: 'text' });
+    return this.http.post(`${this.apiUrl}/create`, request, { responseType: 'text' });
   }
 }
