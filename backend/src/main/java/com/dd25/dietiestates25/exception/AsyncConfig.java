@@ -31,7 +31,6 @@ public class AsyncConfig implements AsyncConfigurer
             logger.info("--------------------------------------------------");
             logger.info("ASYNC EXCEPTION");
             
-            // Usa {} invece di +
             logger.log(Level.INFO, "In method: {0}", method.getName());
             logger.log(Level.INFO, "Error message: {0}", throwable.getMessage());
             
@@ -41,7 +40,6 @@ public class AsyncConfig implements AsyncConfigurer
             }
             
             logger.info("Stacktrace:");
-            // Nota: è meglio passare l'eccezione al logger invece di usare printStackTrace()
             logger.log(Level.SEVERE, "Exception details:", throwable);
             logger.info("--------------------------------------------------");
         }

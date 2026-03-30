@@ -18,7 +18,6 @@ public class DataInitializer implements CommandLineRunner
     private final PasswordEncoder encoder;
     
     private final CompanyAccountRepository accountRepo;
-    // e tutte le altre repo per popolare
 
     public DataInitializer(CompanyAccountRepository accountRepo, PasswordEncoder encoder)
     {

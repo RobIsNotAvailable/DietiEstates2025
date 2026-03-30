@@ -1,5 +1,4 @@
 package com.dd25.dietiestates25.repository;
-//the class might be moved to a dedicated package in future
 
 import java.math.BigDecimal;
 
