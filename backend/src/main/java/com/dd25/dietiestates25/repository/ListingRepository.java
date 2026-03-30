@@ -69,5 +69,5 @@ public interface ListingRepository extends JpaRepository<Listing, Integer>, JpaS
         AND l.status = 'ACTIVE'
         """
     )
-    boolean isAddressAvailable(@Param("placeId") String placeId, @Param("intern") Integer intern);
+    boolean isAddressAvailable(@Param("placeId") String placeId, @Param("intern") String intern);
 }

@@ -11,6 +11,7 @@ import com.dd25.dietiestates25.service.utilityservice.EmailService;
 import com.dd25.dietiestates25.util.SecurityUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Optional;
 
@@ -49,28 +50,26 @@ class CompanyServiceTest
     private CompanyAccountService service;
 
 
+    private String goodEmail = "john.new@example.com";
+    private String goodName = "John";
+    private String goodLastName = "New";
+    private SecurityLevel goodSecurityLevel = SecurityLevel.AGENT;
+
+    private String creatorEmail = "creator@example.com";
+    private String creatorFirstName = "John";
+    private String creatorLastName = "creator";
+    private String creatorPassword = "notRelevant123";
+    private SecurityLevel creatorSecurityLevel = SecurityLevel.SUPPORT;
+
     @Test
     void testCreateCompanySuccessTC1() 
     {
-        // New account
-        String email = "john.doe@example.com";
-        String firstName = "John";
-        String lastName = "Agent";
-        SecurityLevel securityLevel = SecurityLevel.AGENT;
-        CreateCompanyAccountRequest request = new CreateCompanyAccountRequest(email, firstName, lastName, securityLevel);
+        CreateCompanyAccountRequest request = new CreateCompanyAccountRequest(goodEmail, goodName, goodLastName, goodSecurityLevel);
+        CompanyAccount creator = new CompanyAccount(creatorEmail, creatorFirstName, creatorLastName, creatorPassword, creatorSecurityLevel);
 
-        // Requester
-        String requesterEmail = "requester@example.com";
-        String requesterFirstName = "John";
-        String requesterLastName = "Requester";
-        String requesterPassword = "notRelevant123";
-        SecurityLevel requesterSecurityLevel = SecurityLevel.SUPPORT;
-        CompanyAccount requester = new CompanyAccount(requesterEmail, requesterFirstName, requesterLastName, requesterPassword, requesterSecurityLevel);
-
-        Mockito.when(securityUtil.getCurrentEmail()).thenReturn(requesterEmail);
-        Mockito.when(repo.findById(requesterEmail)).thenReturn(Optional.of(requester));
-        // checkRolePermission is okay
-        Mockito.when(repo.findById(email)).thenReturn(Optional.empty());
+        Mockito.when(securityUtil.getCurrentEmail()).thenReturn(creator.getEmail());
+        Mockito.when(repo.findById(creator.getEmail())).thenReturn(Optional.of(creator));
+        Mockito.when(repo.findById(request.email())).thenReturn(Optional.empty());
 
         service.createCompanyAccount(request);
 
@@ -80,215 +79,69 @@ class CompanyServiceTest
         Mockito.verify(repo).save(captor.capture());
         Mockito.verify(tokenRepo).save(tokenCaptor.capture());
 
-        Mockito.verify(repo).findById(email);
-        Mockito.verify(emailService).sendOnboardingEmail(email, tokenCaptor.getValue().getToken());
+        Mockito.verify(repo).findById(request.email());
+        Mockito.verify(emailService).sendOnboardingEmail(request.email(), tokenCaptor.getValue().getToken());
 
         CompanyAccount savedAccount = captor.getValue(); 
         
-        assertEquals(email, savedAccount.getEmail());
-        assertEquals(firstName, savedAccount.getFirstName());
-        assertEquals(lastName, savedAccount.getLastName());
+        assertEquals(request.email(), savedAccount.getEmail());
+        assertEquals(request.firstName(), savedAccount.getFirstName());
+        assertEquals(request.lastName(), savedAccount.getLastName());
     }
 
+    @Test
+    void testCreateCompanyAlreadyRegisteredTC2() 
+    {
+        String registeredEmail = "already@registered.com";
+        CreateCompanyAccountRequest request = new CreateCompanyAccountRequest(registeredEmail, goodName, goodLastName, goodSecurityLevel);
 
-//     @Test  
-//     void testLoginSuccessTC1() 
-//     {
-//         String email = "john.doe@example.com";
-//         String password = "Password123!";
-//         String encodedPassword = "encoded_password_abc";
+        CompanyAccount existent = new CompanyAccount(registeredEmail, goodName, goodLastName, "Notrelevant123", goodSecurityLevel);
+        CompanyAccount creator = new CompanyAccount(creatorEmail, creatorFirstName, creatorLastName, creatorPassword, creatorSecurityLevel);
 
-//         Client client = new Client(email, "John", "Doe", encodedPassword);
+        Mockito.when(securityUtil.getCurrentEmail()).thenReturn(creator.getEmail());
+        Mockito.when(repo.findById(creator.getEmail())).thenReturn(Optional.of(creator));
+        Mockito.when(repo.findById(request.email())).thenReturn(Optional.of(existent));
 
-//         Mockito.when(repo.findById(email)).thenReturn(java.util.Optional.of(client));
-//         Mockito.when(encoder.matches(password, encodedPassword)).thenReturn(true);
+        assertThrows(IllegalStateException.class, () -> 
+        {
+            service.createCompanyAccount(request);
+        });
 
-//         LoginRequest request = new LoginRequest(email, password);
+        Mockito.verify(repo).findById(registeredEmail);
+    }
 
-//         accountService.login(request);
+    @Test
+    void testCreateCompanyCreatorNotFoundTC3() 
+    {
+        String nonAgentEmail = "impostor@wrong.sus";
+        CreateCompanyAccountRequest request = new CreateCompanyAccountRequest(goodEmail, goodName, goodLastName, goodSecurityLevel);
+        CompanyAccount creator = new CompanyAccount(nonAgentEmail, creatorFirstName, creatorLastName, creatorPassword, creatorSecurityLevel);
 
-//         Mockito.verify(repo).findById(email);
-//         Mockito.verify(encoder).matches(password, encodedPassword);
-//     }
+        Mockito.when(securityUtil.getCurrentEmail()).thenReturn(creator.getEmail());
+        Mockito.when(repo.findById(creator.getEmail())).thenReturn(Optional.empty());
 
-//     @Test
-//     void testLoginInvalidPasswordTC2()
-//     {
-//         String email = "john.doe@example.com";
-//         String wrongPassword = "WrongPassword123!";
-//         String correctEncodedPassword = "encoded_password_abc";
-        
-//         LoginRequest request = new LoginRequest(email, wrongPassword);
-        
-//         Client client = new Client(email, "John", "Doe", correctEncodedPassword);
+        assertThrows(IllegalArgumentException.class, () -> 
+        {
+            service.createCompanyAccount(request);
+        });
 
-//         Mockito.when(repo.findById(email)).thenReturn(java.util.Optional.of(client));
-//         Mockito.when(encoder.matches(wrongPassword, correctEncodedPassword)).thenReturn(false);
+        Mockito.verify(repo).findById(creator.getEmail());
+    }
 
-//         assertThrows(RuntimeException.class, () -> 
-//         {
-//             accountService.login(request);
-//         });
+    @Test
+    void testCreateCompanyCreatorTooWeakTC4() 
+    {
+        CreateCompanyAccountRequest request = new CreateCompanyAccountRequest(goodEmail, goodName, goodLastName, goodSecurityLevel);
+        CompanyAccount creator = new CompanyAccount(creatorEmail, creatorFirstName, creatorLastName, creatorPassword, SecurityLevel.AGENT);
 
-//         Mockito.verify(repo).findById(email);
-//         Mockito.verify(encoder).matches(wrongPassword, correctEncodedPassword);
-//     }
+        Mockito.when(securityUtil.getCurrentEmail()).thenReturn(creator.getEmail());
+        Mockito.when(repo.findById(creator.getEmail())).thenReturn(Optional.of(creator));
 
-//     @Test
-//     void testLoginEmailNotFoundTC3()
-//     {
-//         String email = "nonexistent@example.com";
-//         String password = "Password123!";
-        
-//         LoginRequest request = new LoginRequest(email, password);
-        
-//         Mockito.when(repo.findById(email)).thenReturn(java.util.Optional.empty());
+        assertThrows(SecurityException.class, () -> 
+        {
+            service.createCompanyAccount(request);
+        });
 
-//         assertThrows(RuntimeException.class, () -> 
-//         {
-//             accountService.login(request);
-//         });
-
-//         Mockito.verify(repo).findById(email);
-//     }
-
-//     @Test
-//     void testLoginInvalidEmailTC4()
-//     {
-//         String email = "nonexistent@example.com";
-//         String password = "Password123!";
-        
-//         LoginRequest request = new LoginRequest(email, password);
-        
-//         Mockito.when(repo.findById(email)).thenReturn(java.util.Optional.empty());
-
-//         assertThrows(RuntimeException.class, () -> 
-//         {
-//             accountService.login(request);
-//         });
-
-//         Mockito.verify(repo).findById(email);
-//     }
-
-//     @Test
-//     void testChangePasswordSuccessTC1()
-//     {
-//         String email = "john.doe@example.com";
-//         String oldPassword = "OldPassword123!";
-//         String newPassword = "NewPassword123!";
-//         String encodedOldPassword = "encoded_old_password";
-//         String encodedNewPassword = "encoded_new_password";
-
-//         ChangePasswordRequest request = new ChangePasswordRequest(oldPassword, newPassword);
-//         Client client = new Client(email, "John", "Doe", encodedOldPassword);
-
-//         Mockito.when(repo.findById(email)).thenReturn(java.util.Optional.of(client));
-//         Mockito.when(encoder.matches(oldPassword, encodedOldPassword)).thenReturn(true);
-//         Mockito.when(encoder.encode(newPassword)).thenReturn(encodedNewPassword);
-
-//         accountService.changePassword(request);
-
-//         Mockito.verify(repo).findById(email);
-//         Mockito.verify(encoder).matches(oldPassword, encodedOldPassword);
-//         Mockito.verify(encoder).encode(newPassword);
-
-//         assertEquals(encodedNewPassword, client.getHashPassword());
-//     }
-
-//     @Test
-//     void testChangePasswordIncorrectOldPasswordTC2()
-//     {
-//         String email = "john.doe@example.com";
-//         String oldPassword = "WrongOldPassword123!";
-//         String newPassword = "NewPassword123!";
-//         String encodedOldPassword = "encoded_old_password";
-
-//         ChangePasswordRequest request = new ChangePasswordRequest(oldPassword, newPassword);
-//         Client client = new Client(email, "John", "Doe", encodedOldPassword);
-
-//         Mockito.when(repo.findById(email)).thenReturn(java.util.Optional.of(client));
-//         Mockito.when(encoder.matches(oldPassword, encodedOldPassword)).thenReturn(false);
-
-//         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> 
-//         {
-//             accountService.changePassword(request);
-//         });
-
-//         assertEquals("Old password is incorrect", exception.getMessage());
-//         Mockito.verify(repo).findById(email);
-//         Mockito.verify(encoder).matches(oldPassword, encodedOldPassword);
-//         Mockito.verify(encoder, Mockito.never()).encode(Mockito.anyString());
-//     }
-
-//     @Test
-//     void testChangePasswordSameAsOldPasswordTC3()
-//     {
-//         String email = "john.doe@example.com";
-//         String oldPassword = "SamePassword123!";
-//         String newPassword = "SamePassword123!";
-//         String encodedOldPassword = "encoded_old_password";
-
-//         ChangePasswordRequest request = new ChangePasswordRequest(oldPassword, newPassword);
-//         Client client = new Client(email, "John", "Doe", encodedOldPassword);
-
-//         Mockito.when(repo.findById(email)).thenReturn(java.util.Optional.of(client));
-//         Mockito.when(encoder.matches(oldPassword, encodedOldPassword)).thenReturn(true);
-
-//         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> 
-//         {
-//             accountService.changePassword(request);
-//         });
-
-//         assertEquals("New password must be different from the old password", exception.getMessage());
-//         Mockito.verify(repo).findById(email);
-//         Mockito.verify(encoder).matches(oldPassword, encodedOldPassword);
-//         Mockito.verify(encoder, Mockito.never()).encode(Mockito.anyString());
-//     }
-
-//     @Test
-//     void testChangePasswordWeakNewPasswordTC4()
-//     {
-//         String email = "john.doe@example.com";
-//         String oldPassword = "OldPassword123!";
-//         String newPassword = "weak";
-//         String encodedOldPassword = "encoded_old_password";
-
-//         ChangePasswordRequest request = new ChangePasswordRequest(oldPassword, newPassword);
-//         Client client = new Client(email, "John", "Doe", encodedOldPassword);
-
-//         Mockito.when(repo.findById(email)).thenReturn(java.util.Optional.of(client));
-//         Mockito.when(encoder.matches(oldPassword, encodedOldPassword)).thenReturn(true);
-
-//         // Qui l'eccezione viene lanciata da validatePassword(newPassword)
-//         assertThrows(IllegalArgumentException.class, () -> 
-//         {
-//             accountService.changePassword(request);
-//         });
-
-//         Mockito.verify(repo).findById(email);
-//         Mockito.verify(encoder).matches(oldPassword, encodedOldPassword);
-//         Mockito.verify(encoder, Mockito.never()).encode(Mockito.anyString());
-//     }
-
-//     @Test
-//     void testChangePasswordAccountNotFoundTC5()
-//     {
-//         String email = "nonexistent@example.com";
-//         String oldPassword = "OldPassword123!";
-//         String newPassword = "NewPassword123!";
-
-//         ChangePasswordRequest request = new ChangePasswordRequest(oldPassword, newPassword);
-
-//         Mockito.when(repo.findById(email)).thenReturn(java.util.Optional.empty());
-
-//         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> 
-//         {
-//             accountService.changePassword(request);
-//         });
-
-//         assertEquals("Account not found", exception.getMessage());
-//         Mockito.verify(repo).findById(email);
-//         Mockito.verify(encoder, Mockito.never()).matches(Mockito.anyString(), Mockito.anyString());
-//         Mockito.verify(encoder, Mockito.never()).encode(Mockito.anyString());
-//     }
+        Mockito.verify(repo).findById(creator.getEmail());
+    }
 }

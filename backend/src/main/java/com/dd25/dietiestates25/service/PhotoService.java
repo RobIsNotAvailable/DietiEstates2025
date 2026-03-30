@@ -34,7 +34,7 @@ public class PhotoService
         if (listing.getStatus() != Status.ACTIVE)
             throw new IllegalStateException("The listing is not active");
 
-        if (securityUtil.getCurrentEmail() != listing.getAgent().getEmail())
+        if (!securityUtil.getCurrentEmail().equals(listing.getAgent().getEmail()))
             throw new SecurityException("You're not the creator of the listing");
 
         for (int i = 0; i < photos.size(); i++)

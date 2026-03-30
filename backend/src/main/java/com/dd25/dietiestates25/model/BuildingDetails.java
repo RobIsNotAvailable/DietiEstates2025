@@ -17,7 +17,7 @@ public class BuildingDetails
     private Address address;
 
     @Column(name = "intern", nullable = false)
-    private Integer intern;
+    private String intern;
 
     @Column(name = "floor", nullable = false)
     private Integer floor;
@@ -29,7 +29,7 @@ public class BuildingDetails
 
     protected BuildingDetails() {}
 
-    public BuildingDetails(Address address, Integer intern, Integer floor, Boolean elevator)
+    public BuildingDetails(Address address, String intern, Integer floor, Boolean elevator)
     {
         this.address = address;
         this.intern = intern;
@@ -40,14 +40,14 @@ public class BuildingDetails
 
     //getters
     public Address getAddress() { return address; }
-    public Integer getIntern() { return intern; }
+    public String getIntern() { return intern; }
     public Integer getFloor() { return floor; }
     public Boolean hasElevator() { return elevator; }
     public String getCity() {return address.getCity(); }
 
     //setters
     public void setAddress(Address address) { this.address = address; }
-    public void setIntern(Integer intern) { this.intern = intern; }
+    public void setIntern(String intern) { this.intern = intern; }
     public void setFloor(Integer floor) { this.floor = floor; }
     public void setElevator(Boolean elevator) { this.elevator = elevator; }
 }

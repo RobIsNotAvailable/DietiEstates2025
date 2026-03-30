@@ -25,7 +25,7 @@ public record CreateListingRequest(
     @NotBlank(message = "Address is required")
     String rawAddress,
     
-    Integer intern,
+    String intern,
     
     @NotNull(message = "Floor is required")
     Integer floor,

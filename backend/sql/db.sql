@@ -93,7 +93,7 @@ CREATE TABLE house_info
     listing_id INT REFERENCES listing(id) PRIMARY KEY,
     description TEXT NOT NULL,
     address_id INT REFERENCES address(id) NOT NULL,
-    intern INT,
+    intern VARCHAR(10),
     floor INT NOT NULL,
     elevator BOOLEAN NOT NULL,
     square_meters INT NOT NULL,

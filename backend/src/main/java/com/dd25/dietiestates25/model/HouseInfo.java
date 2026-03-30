@@ -50,7 +50,7 @@ public class HouseInfo
     public BuildingDetails getBuildingDetails() { return buildingDetails; }
     public HouseDetails getHouseDetails() { return houseDetails; }
     public String getCity() {return buildingDetails.getCity(); }
-    public Integer getIntern() { return buildingDetails.getIntern(); }
+    public String getIntern() { return buildingDetails.getIntern(); }
 
     // Setters
     public void setListing(Listing listing) { this.listing = listing; }
