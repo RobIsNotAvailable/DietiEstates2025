@@ -10,7 +10,7 @@ public record FullListingResponse(
     BigDecimal price,
     String listingType,
     String formattedAddress,
-    Integer intern,
+    String intern,
     Integer floor,
     Boolean elevator,
     Integer squareMeters,
