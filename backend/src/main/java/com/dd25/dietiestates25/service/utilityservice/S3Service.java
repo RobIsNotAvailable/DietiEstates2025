@@ -11,10 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
-import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
 import software.amazon.awssdk.core.sync.RequestBody;
 
 @Service
@@ -64,16 +62,12 @@ public class S3Service
 
         try 
         {
-            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-                    .bucket(bucketName) 
-                    .key(objectKey)
-                    .build();
-
-            GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()
-                    .signatureDuration(java.time.Duration.ofMinutes(60)) 
-                    .getObjectRequest(getObjectRequest)
-                    .build();
-            return s3Presigner.presignGetObject(presignRequest).url().toString();
+            return s3Presigner.presignGetObject(presignRequest -> presignRequest
+                        .signatureDuration(java.time.Duration.ofMinutes(60))
+                        .getObjectRequest(getRequest -> getRequest
+                                .bucket(bucketName)
+                                .key(objectKey))
+                ).url().toString();
         } 
         catch (Exception e) 
         {

@@ -25,10 +25,10 @@ public class LocalizationService
 
     @Value("${geoapify.api.key}")
     private String apiKey;
-    private final static String key = "apiKey";
+    private static final  String KEY = "apiKey";
 
     private final RestTemplate restTemplate;
-    private static final String limit = "limit";
+    private static final  String LIMIT = "limit";
     public List<GeoapifyProperties> getPossibleAddresses(String rawAddress) 
     {
         try 
@@ -36,8 +36,8 @@ public class LocalizationService
             String url = UriComponentsBuilder
                 .fromUriString("https://api.geoapify.com/v1/geocode/autocomplete")
                 .queryParam("text", rawAddress)
-                .queryParam(key, apiKey)
-                .queryParam(limit, 10)
+                .queryParam(KEY, apiKey)
+                .queryParam(LIMIT, 10)
                 .queryParam("filter", "countrycode:it") 
                 .build()
                 .toUriString();
@@ -59,7 +59,7 @@ public class LocalizationService
         String url = UriComponentsBuilder
             .fromUriString("https://api.geoapify.com/v1/geocode/search")
             .queryParam("text", rawAddress)
-            .queryParam(key, apiKey)
+            .queryParam(KEY, apiKey)
             .build()
             .toUriString();
 
@@ -122,8 +122,8 @@ public class LocalizationService
                 .queryParam("categories", categories)
                 .queryParam("filter", String.format("circle:%f,%f,500", lon, lat))
                 .queryParam("bias", String.format("proximity:%f,%f", lon, lat)) 
-                .queryParam(limit, l)
-                .queryParam(key, apiKey)
+                .queryParam(LIMIT, l)
+                .queryParam(KEY, apiKey)
                 .build().toUriString();
     }
 
@@ -141,8 +141,8 @@ public class LocalizationService
         String url = UriComponentsBuilder
                 .fromUriString("https://api.geoapify.com/v1/geocode/search")
                 .queryParam("text", rawAddress)
-                .queryParam(key, apiKey)
-                .queryParam(limit, 1)
+                .queryParam(KEY, apiKey)
+                .queryParam(LIMIT, 1)
                 .build()
                 .toUriString();
 
