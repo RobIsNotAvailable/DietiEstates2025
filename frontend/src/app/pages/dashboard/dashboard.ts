@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { StatsService } from '../../services/stats';
+import { StatsService } from '../../services/company';
 import { ListingService } from '../../services/listing';
 
 export interface ListingStatsResponse {

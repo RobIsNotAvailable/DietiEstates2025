@@ -12,7 +12,7 @@ public record ChangePasswordRequest(
     @NotBlank(message = StringConstants.NEW_PASSWORD_REQUIRED_MESSAGE)
     @Pattern
     (
-        regexp = StringConstants.PASSWORD_REGEX,
+        regexp = StringConstants.VALIDATION_PATTERN,
         message = StringConstants.PASSWORD_MESSAGE
     )
     String newPassword

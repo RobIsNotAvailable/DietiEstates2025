@@ -14,7 +14,7 @@ public final class StringConstants
     public static final String PASSWORD_REQUIRED_MESSAGE = "Password field is required";
     public static final String OLD_PASSWORD_REQUIRED_MESSAGE = "Old password field is required";
     public static final String NEW_PASSWORD_REQUIRED_MESSAGE = "New password field is required";
-    public static final String PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*\\d).{8,64}$";
+    public static final String VALIDATION_PATTERN= "^(?=.*[A-Za-z])(?=.*\\d).{8,64}$";
     public static final String PASSWORD_MESSAGE = "Password must be 8 characters or longer and contain both letters and numbers";
 
     /* Service errors */

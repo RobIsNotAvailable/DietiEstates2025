@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
+import { CreateStaffRequest, StatsService } from '../../services/company';
 
 
 @Component(
@@ -30,7 +31,8 @@ export class CreateStaffComponent implements OnInit
     private http: HttpClient, 
     private router: Router,
     private route: ActivatedRoute,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private statsService: StatsService
   ) 
   {}
 
@@ -67,7 +69,7 @@ export class CreateStaffComponent implements OnInit
       return;
     }
 
-    const payload = 
+    const payload: CreateStaffRequest = 
     {
       firstName: this.staffForm.value.firstName,
       lastName: this.staffForm.value.lastName,
@@ -75,9 +77,7 @@ export class CreateStaffComponent implements OnInit
       securityLevel: this.roleType 
     };
 
-    const url = '/api/company/create'; 
-
-    this.http.post(url, payload, { responseType: 'text' }).subscribe(
+    this.statsService.createStaffMember(payload).subscribe(
     {
       next: () => 
       {
@@ -100,8 +100,8 @@ export class CreateStaffComponent implements OnInit
 
         if (err.status !== 500) 
         {
-            this.staffForm.get('email')?.markAsTouched();
-            this.cd.detectChanges();
+          this.staffForm.get('email')?.markAsTouched();
+          this.cd.detectChanges();
         }
       }
     });

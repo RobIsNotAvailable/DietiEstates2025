@@ -26,7 +26,7 @@ public record AccountRegisterRequest(
     @NotBlank (message = StringConstants.PASSWORD_REQUIRED_MESSAGE)
     @Pattern
     (
-        regexp = StringConstants.PASSWORD_REGEX,
+        regexp = StringConstants.VALIDATION_PATTERN,
         message = StringConstants.PASSWORD_MESSAGE
     )
     String rawPassword

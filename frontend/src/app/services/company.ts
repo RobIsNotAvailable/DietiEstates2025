@@ -19,17 +19,31 @@ export interface AgentStatsRequest
   month: number;
 }
 
+export interface CreateStaffRequest
+{
+  firstName: string;
+  lastName: string;
+  email: string;
+  securityLevel: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class StatsService 
 {
-  private apiUrl = '/api/company/stats'; 
+  private statsUrl = '/api/company/stats';
+  private createUrl = '/api/company/create';
 
   constructor(private http: HttpClient) {}
 
   getMonthlyStats(request: AgentStatsRequest): Observable<AgentStatsResponse> 
   {
-    return this.http.post<AgentStatsResponse>(this.apiUrl, request);
+    return this.http.post<AgentStatsResponse>(this.statsUrl, request);
+  }
+
+  createStaffMember(request: CreateStaffRequest): Observable<string>
+  {
+    return this.http.post(this.createUrl, request, { responseType: 'text' });
   }
 }
