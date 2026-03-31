@@ -119,17 +119,16 @@
               <i class="bi bi-geo-alt"></i> {{ item.formattedAddress }}
             </span>
             <span class="status-badge">
-              {{ item.status === 'ENDED_SUCCESFULLY' ? 'concluded' : item.status.toLowerCase() }}
+              {{ item.status.replace('_', ' ') }}
             </span>
           </div>
 
           <div class="listing-price">
             <span class="main-price">€ {{ item.price | number:'1.0-0' }}</span>
-            <span class="listing-visits">{{ item.views }} views • {{ item.visitsRecieved }} visits</span>
+            <span class="listing-visits">{{ item.views }} views • {{ item.visitsRecieved }} visits • {{ item.offersRecieved }} offers</span>
           </div>
 
           <div class="listing-offers">
-            <div class="offer-count">{{ item.offersRecieved }} Offers</div>
             <div class="highest-offer" *ngIf="item.highestOfferedPrice">
               Max: € {{ item.highestOfferedPrice | number:'1.0-0' }}
             </div>

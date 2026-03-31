@@ -62,7 +62,7 @@
       justify-content: center;
       gap: 8px;
       font-size: 13px;
-      color: #777;
+      color: #555;
       font-weight: 500;
 
       .performance-label {
@@ -182,7 +182,7 @@
   .stat-label {
     font-size: $text-sm;
     font-weight: 600;
-    color: #888;
+    color: #555;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
@@ -195,7 +195,7 @@
   }
 
   .stat-sub {
-    font-size: 11px;
+    font-size: 16px;
     color: $green-primary;
     font-weight: 600;
     margin-top: 2px;
@@ -244,8 +244,8 @@
   }
 
   .listing-thumb {
-    width: 96px;
-    height: 64px;
+    width: 144px;
+    height: 96px;
     border-radius: 10px;
     background: #ddd;
     display: flex;
@@ -263,10 +263,11 @@
     flex-direction: column;
     gap: 4px;
     min-width: 0;
+    padding-left: 50px;
 
     .listing-title {
       font-weight: 700;
-      font-size: $text-md;
+      font-size: $text-lg;
       color: $logo-color;
       white-space: nowrap;
       overflow: hidden;
@@ -274,14 +275,25 @@
     }
 
     .listing-address {
-      font-size: 12px;
-      color: #888;
+      font-size: 20px;
+      color: #555;
       display: flex;
       align-items: center;
       gap: 4px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .status-badge
+    {
+      text-transform: lowercase;
+    }
+
+    .status-badge::first-letter
+    {
+      font-size: $text-md;
+      text-transform: uppercase;
     }
   }
 
@@ -292,21 +304,14 @@
     gap: 2px;
     font-weight: 700;
     color: $logo-color;
-    font-size: $text-sm;
+    font-size: $text-lg;
     white-space: nowrap;
 
     .listing-visits {
-      font-size: 11px;
-      color: #aaa;
-      font-weight: 500;
-    }
-  }
-
-  .listing-offers {
-    font-size: $text-sm;
-    font-weight: 600;
+      font-size: $text-md;
     color: #555;
-    white-space: nowrap;
+      font-weight: 600;
+    }
   }
 
   .listing-actions {
@@ -314,12 +319,12 @@
     gap: 8px;
 
     .btn-manage-offers {
-      padding: 8px 16px;
+      padding: 12px 24px;
       border-radius: 8px;
       border: 1px solid rgba(0, 0, 0, 0.1);
       background: $green-primary;
       color: white;
-      font-size: 13px;
+      font-size: 18px;
       font-weight: 600;
       cursor: pointer;
       transition: border-color 0.2s;
@@ -420,7 +425,7 @@
     content: 'DietiEstates — Performance Report';
     display: block;
     font-size: 11px;
-    color: #aaa;
+    color: #555;
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 8px;

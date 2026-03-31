@@ -29,7 +29,7 @@ export const routes: Routes =
     canActivateChild: [authGuard],
     children: [
       { path: 'change-password', component: ChangePasswordComponent },
-      { path: 'create-listing', component: CreateListingComponent ,data: { expectedRole: 'SUPPORT' } },
+      { path: 'create-listing', component: CreateListingComponent ,data: { expectedRole: 'AGENT' } },
       { path: 'create-agent', component: CreateStaffComponent, data: { role: 'AGENT', expectedRole: 'SUPPORT' } },
       { path: 'create-support', component: CreateStaffComponent, data: { role: 'SUPPORT', expectedRole: 'ADMIN' } },
       { path: 'dashboard', component: DashboardComponent, data: { expectedRole: 'AGENT' } },
@@ -37,5 +37,5 @@ export const routes: Routes =
   },
 
   { path: 'not-implemented', component: NotImplementedComponent },
-  { path: '**', redirectTo: '/home' }
+  { path: '**', redirectTo: '/not-implemented' }
 ];
