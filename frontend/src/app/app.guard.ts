@@ -16,7 +16,7 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   if (expectedMinimumRole && !authService.hasAtLeastRole(expectedMinimumRole))
   {
-    router.navigate(['/home']);
+    router.navigate(['/not-implemented']);
     return false;
   }
 
