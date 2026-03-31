@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { StatsService } from '../../services/company';
+import { CompanyService } from '../../services/company';
 import { ListingService } from '../../services/listing';
 
 export interface ListingStatsResponse {
@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit {
     currentMonthLabel: string = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
 
     constructor(
-        private statsService: StatsService,
+        private CompanyService: CompanyService,
         private listingService: ListingService,
         private cd: ChangeDetectorRef,
         private router: Router
@@ -101,7 +101,7 @@ export class DashboardComponent implements OnInit {
             month: now.getMonth() + 1
         };
 
-        this.statsService.getMonthlyStats(statsRequest).subscribe({
+        this.CompanyService.getMonthlyStats(statsRequest).subscribe({
             next: (data) => {
                 this.stats = data;
                 this.isLoading = false;

@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
-import { CreateStaffRequest, StatsService } from '../../services/company';
+import { CreateStaffRequest, CompanyService } from '../../services/company';
 
 
 @Component(
@@ -32,7 +32,7 @@ export class CreateStaffComponent implements OnInit
     private router: Router,
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
-    private statsService: StatsService
+    private CompanyService: CompanyService
   ) 
   {}
 
@@ -77,7 +77,7 @@ export class CreateStaffComponent implements OnInit
       securityLevel: this.roleType 
     };
 
-    this.statsService.createStaffMember(payload).subscribe(
+    this.CompanyService.createStaffMember(payload).subscribe(
     {
       next: () => 
       {
