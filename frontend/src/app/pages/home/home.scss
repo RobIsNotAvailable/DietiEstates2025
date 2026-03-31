@@ -6,12 +6,12 @@
 @use 'quick-options' as *;
 @use 'logo-section' as *;
 
-
 .home-layout-wrapper 
 {
     display: flex; 
     width: 100%;
     min-height: 100vh;
+    background: $bg-main;
 
     .main-content-column 
     {
@@ -73,7 +73,7 @@
 
     .main-content-card 
     {
-        background: #ffffff;
+        background: $snow-white;
         border-radius: 15px; 
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         min-height: $home-bottom-height; 

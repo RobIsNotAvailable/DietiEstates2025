@@ -52,8 +52,8 @@
 
             &:hover 
             { 
-                background: $black-pure; 
-                color: $white-pure;
+                background: $midnight-black; 
+                color: $snow-white;
             }
         }
     }
@@ -97,7 +97,7 @@
                 font-weight: 800;
                 font-size: $text-lg; 
                 margin-bottom: 15px; 
-                color: $black-pure;
+                color: $midnight-black;
             }
         }
 
@@ -121,12 +121,12 @@
 
                 &.active, &.selected 
                 {
-                    background: $black-pure;
-                    color: white;
-                    border-color: $black-pure;
+                    background: $midnight-black;
+                    color: $snow-white;
+                    border-color: $midnight-black;
                 }
 
-                &:hover:not(.active) { border-color: $black-pure; }
+                &:hover:not(.active) { border-color: $midnight-black; }
             }
         }
 
@@ -154,7 +154,7 @@
                 &.active 
                 {
                     background: $logo-color; 
-                    color: white;
+                    color: $snow-white;
                     border-color: $logo-color;
                 }
 
@@ -166,7 +166,7 @@
                     left: 80%;
                     transform: translateX(-50%) translateY(10px);
                     background: rgba(33, 33, 33, 0.95);
-                    color: white;
+                    color: $snow-white;
                     padding: 6px 10px;
                     border-radius: 6px;
                     font-size: 12px;

@@ -90,8 +90,8 @@
         border-radius: 50%;
         
         background: rgba(255, 255, 255, 0.85);
-        border: 1px solid #000;
-        color: #000;
+        border: 1px solid $midnight-black;
+        color: $midnight-black;
         
         display: flex;
         align-items: center;
@@ -106,8 +106,8 @@
 
         &:hover 
         {
-            background: $black-pure;
-            color: $white-pure;     
+            background: $midnight-black;
+            color: $snow-white;     
             transform: scale(1.1);
             border-color: transparent;
         }

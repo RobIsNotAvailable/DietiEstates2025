@@ -1,6 +1,8 @@
+@use 'variables' as *;
+
 body 
 {
-  background-color: #f3f3f3; 
+  background-color: $bg-main; 
   margin: 0;
   padding: 0;
 }

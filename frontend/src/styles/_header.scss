@@ -5,7 +5,7 @@
 @mixin main-header-styles
 {
     height: $header-height;
-    background: $white-pure;
+    background: $snow-white;
     display: flex;
     align-items: center;
     box-shadow: none;
@@ -116,7 +116,7 @@
             gap: 10px;
             font-size: $text-base;
             font-weight: 600;
-            color: #2c3e50;
+            color: $midnight-black;
             cursor: pointer;
             border-radius: 8px;
             transition: background 0.2s;
@@ -128,7 +128,7 @@
 
             &.logout-action 
             {
-              color: #d32f2f;
+              color: $error-red;
               border-top: 1px solid #eee;
               margin-top: 5px;
               border-radius: 0 0 8px 8px;
@@ -164,7 +164,7 @@
         @include form-button-white; 
         background-color: $bg-main; 
         border: 1px solid #e0e0e0; 
-        color: #2c3e50;
+        color: $midnight-black;
         
         &:hover 
         {

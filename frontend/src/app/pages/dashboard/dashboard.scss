@@ -29,7 +29,7 @@
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  background: $white-pure;
+  background: $snow-white;
   padding: 24px 40px;
   border-radius: 24px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
@@ -101,7 +101,7 @@
 
       &:hover {
         border-color: $logo-color;
-        background: $white-pure;
+        background: $snow-white;
       }
     }
 
@@ -146,7 +146,7 @@
 }
 
 .stat-card {
-  background: $white-pure;
+  background: $snow-white;
   border-radius: 20px;
   padding: 24px 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -204,7 +204,7 @@
 
 
 .listings-box {
-  background: $white-pure;
+  background: $snow-white;
   border-radius: 24px;
   padding: 28px 32px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
@@ -345,7 +345,7 @@
     padding: 7px 16px;
     border-radius: 8px;
     border: 1px solid rgba(0, 0, 0, 0.1);
-    background: $white-pure;
+    background: $snow-white;
     color: $logo-color;
     font-weight: 600;
     font-size: $text-sm;

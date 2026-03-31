@@ -9,7 +9,7 @@ $form-input-radius: 12px;
 
 @mixin form-card($width, $title-font) 
 {
-	background: white;
+	background: $snow-white;
 	padding: 40px 60px;
 	border-radius: 25px;
 	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
@@ -62,7 +62,7 @@ $form-input-radius: 12px;
 	width: 100%;
 	padding: 15px;
 	background: $form-black;
-	color: white;
+	color: $snow-white;
 	border: none;
 	border-radius: 10px;
 	font-weight: bold;
@@ -87,8 +87,8 @@ $form-input-radius: 12px;
 {
 	width: 100%;
 	padding: 15px;
-	background: $white-pure;
-	color: $black-pure;
+	background: $snow-white;
+	color: $midnight-black;
 	border: none;
 	border-radius: 10px;
 	font-weight: bold;
@@ -179,6 +179,7 @@ $form-input-radius: 12px;
 	margin-top: 35px;
 	margin-bottom: 30px;
 	width: 100%;
+	background: $snow-white;
 
 	label 
 	{
@@ -217,7 +218,7 @@ $form-input-radius: 12px;
 			left: 15px;
 			font-size: $text-md;
 			font-weight: 700;
-			background: $form-bg-light;
+			background: $snow-white;
 			padding: 0 5px;
 			color: $logo-color;
 		}
