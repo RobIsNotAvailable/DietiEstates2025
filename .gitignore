@@ -12,6 +12,7 @@
 **/.github/
 **/node_modules/
 **/.angular/cache
+**/dist/
 
 ## aws pem key ##
 DietiKey.pem

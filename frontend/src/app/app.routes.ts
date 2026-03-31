@@ -26,7 +26,7 @@ export const routes: Routes =
 
   {
     path: '',
-    canActivate: [authGuard],
+    canActivateChild: [authGuard],
     children: [
       { path: 'change-password', component: ChangePasswordComponent },
       { path: 'create-listing', component: CreateListingComponent ,data: { expectedRole: 'SUPPORT' } },
@@ -37,5 +37,5 @@ export const routes: Routes =
   },
 
   { path: 'not-implemented', component: NotImplementedComponent },
-  { path: '**', redirectTo: '/not-implemented' }
+  { path: '**', redirectTo: '/home' }
 ];

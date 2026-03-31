@@ -30,7 +30,7 @@ export interface CreateStaffRequest
 @Injectable({
   providedIn: 'root'
 })
-export class StatsService 
+export class CompanyService 
 {
   private apiUrl = '/api/company';
 
