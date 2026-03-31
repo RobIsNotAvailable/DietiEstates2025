@@ -182,7 +182,7 @@
   .stat-label {
     font-size: $text-sm;
     font-weight: 600;
-    color: #555;
+    color: $midnight-black;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
@@ -227,20 +227,24 @@
 }
 
 
-.listing-row {
+.listing-row 
+{
   display: grid;
   grid-template-columns: 96px 1fr auto auto auto;
   align-items: center;
   gap: 16px;
   padding: 16px;
   border-radius: 14px;
-  background: $bg-main;
+  background: white;
+  border: 1px solid $bg-hover;
   cursor: pointer;
-  transition: box-shadow 0.2s ease, background 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 
-  &:hover {
-    background: darken($bg-main, 1.5%);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  &:hover 
+  {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-color: darken($bg-hover, 5%);
   }
 
   .listing-thumb {
@@ -415,9 +419,13 @@
     grid-template-columns: 80px 1fr auto auto;
     break-inside: avoid;
 
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     &:hover {
       background: $bg-main !important;
-      box-shadow: none !important;
+      transform: translateY(-6px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      border-color: darken($bg-hover, 5%);
     }
   }
 
